@@ -1,0 +1,12 @@
+#import "./fragments/EventFragment.graphql"
+
+query GetAllEvents {
+	events: allEvents(orderBy: [title_ASC]) {
+		...EventFragment
+	}
+}
+query GetEvent($id:String!) {
+	event(filter: {id: {eq: $id}}) {
+		...EventFragment
+	}
+}

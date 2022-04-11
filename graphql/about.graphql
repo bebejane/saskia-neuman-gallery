@@ -1,0 +1,14 @@
+#import "./fragments/ImageFragment.graphql"
+
+query GetAbout {
+	about {
+		summary
+		address
+		hours
+		email
+		googleMapsUrl
+		image{
+			...ImageFragment
+		}
+	}
+}

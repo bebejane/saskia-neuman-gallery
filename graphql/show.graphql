@@ -1,0 +1,12 @@
+#import "./fragments/ShowFragment.graphql"
+
+query GetAllShows {
+	shows: allShows(orderBy: [startDate_ASC]) {
+		...ShowFragment
+	}
+}
+query GetShow($id:String!) {
+	show(filter: {id: {eq: $id}}) {
+		...ShowFragment
+	}
+}

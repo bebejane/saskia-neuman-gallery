@@ -1,0 +1,12 @@
+#import "./fragments/ArtistFragment.graphql"
+
+query GetAllArtists{
+	artists: allArtists(orderBy: [name_ASC]) {
+		...ArtistFragment
+	}
+}
+query GetArtist($id:String!) {
+	artist(filter: {id: {eq: $id}}) {
+		...ArtistFragment
+	}
+}

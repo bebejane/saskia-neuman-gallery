@@ -1,0 +1,27 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding:20px;
+  .logo{
+    flex: 0 0 auto;
+  }
+  .menu{
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: flex-end;
+    width: 100%;
+    ul{
+      display: flex;
+      flex-direction: row;
+      flex: 0 0;
+      li{
+        margin:0;
+        padding: 0;
+        margin-left:10px;
+        text-indent: 0;
+        list-style-type: none;
+      }
+    }
+  }
+}

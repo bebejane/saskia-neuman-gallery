@@ -1,0 +1,20 @@
+#import "./PressFragment.graphql"
+#import "./ImageFragment.graphql"
+#import "./ArtistFragment.graphql"
+
+
+fragment ShowFragment on ShowRecord {
+  title
+  description
+  artists{
+    ...ArtistFragment
+  }
+  images{
+    ...ImageFragment
+  }
+  startDate
+  endDate
+  press{
+    ...PressFragment
+  }
+}

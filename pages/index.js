@@ -1,20 +1,16 @@
 import styles from './index.module.scss'
 import { withGlobalProps } from "/lib/utils";
-import Markdown from '/lib/dato/components/Markdown';
-import StructuredContent from '/lib/dato/components/structured-content';
+import { GetAllArtists, GetAbout } from '/graphql';
 
 export default function Home(props){
 	return (
 		<div className={styles.container}>
-			NextJS + Dato
-			<br/>
-			rename "/.env.local.example" to "/.env.local"
+			home
 		</div>
 	)
 }
 
-export const getStaticProps = withGlobalProps( async ({props, revalidate }) => {
-	
+export const getStaticProps = withGlobalProps({queries:[GetAllArtists, GetAbout]}, async ({props, revalidate }) => {
 	return {
 		props,
 		revalidate
