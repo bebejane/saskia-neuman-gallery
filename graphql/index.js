@@ -4,6 +4,7 @@ import { GetAllArtists, GetArtist } from "./artist.graphql"
 import { GetAllShows, GetShow } from "./show.graphql"
 import { GetAllEvents, GetEvent } from "./event.graphql"
 import { GetAbout } from "./about.graphql"
+import { GetStart } from "./start.graphql"
 
 export {
   GetSiteSEO,
@@ -14,5 +15,6 @@ export {
   GetAllShows,
   GetAllEvents,
   GetEvent,
-  GetAbout
+  GetAbout,
+  GetStart
 }

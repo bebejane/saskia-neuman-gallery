@@ -2,21 +2,21 @@ import styles from './Artists.module.scss'
 import { withGlobalProps } from "/lib/utils";
 import { GetAllArtists } from '/graphql';
 import { Image } from 'react-datocms';
+import Markdown from '/lib/dato/components/Markdown';
 
 export default function Artists({artists}){
-	console.log(artists)
 	return (
-		<div className={styles.container}>
+		<main>
 			{artists.map(({name, biography, artwork}, idx) => 
 				<p key={idx}>
 					{name}<br/>
-					{biography}
+					<Markdown>{biography}</Markdown>
 					{artwork.map(image => 
 						<Image data={image.responsiveImage}/>
 					)}
 				</p>
 			)}
-		</div>
+		</main>
 	)
 }
 

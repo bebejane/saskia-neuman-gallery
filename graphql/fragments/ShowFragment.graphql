@@ -5,7 +5,7 @@
 
 fragment ShowFragment on ShowRecord {
   title
-  description
+  description(markdown: false)
   artists{
     ...ArtistFragment
   }

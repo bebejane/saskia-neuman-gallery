@@ -2,18 +2,18 @@ import styles from './Events.module.scss'
 import { withGlobalProps } from "/lib/utils";
 import { GetAllEvents} from '/graphql';
 import { Image } from 'react-datocms';
+import { format } from 'date-fns';
 
 export default function Events({events}){
-	console.log(events)
 	return (
-		<div className={styles.container}>
+		<main>
 			{events.map(({title, description, startDate, endDate}, idx) => 
 				<p key={idx}>
 					{title}<br/>
-					{startDate} - {endDate}
+					{format(new Date(startDate), 'yy-MM-dd HH:mm')} - {format(new Date(endDate), 'yy-MM-dd HH:mm')}
 				</p>
 			)}
-		</div>
+		</main>
 	)
 }
 

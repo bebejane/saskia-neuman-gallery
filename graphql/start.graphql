@@ -1,0 +1,17 @@
+#import "./fragments/ShowFragment.graphql"
+#import "./fragments/EventFragment.graphql"
+
+query GetStart {
+	start {
+    current {
+      ... on EventRecord {
+        ...EventFragment
+        _modelApiKey
+      }
+      ... on ShowRecord {
+        ...ShowFragment
+        _modelApiKey
+      }
+    }
+  }
+}

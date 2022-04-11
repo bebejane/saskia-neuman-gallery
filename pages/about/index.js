@@ -2,27 +2,24 @@ import styles from './About.module.scss'
 import { withGlobalProps } from "/lib/utils";
 import { GetAbout} from '/graphql';
 import { Image } from 'react-datocms';
+import Markdown from '/lib/dato/components/Markdown';
 
 export default function About({about}){
-	console.log(about)
 	const { summary, address, hours, email, googleMapsUrl, image} = about || {};
 	return (
-		<div className={styles.container}>	
+		<main>
 			<p>
-				{summary}
+				<Markdown>{summary}</Markdown>
+				<Markdown>{address}</Markdown>
+				<a href={`mailto:${email}`}>{email}</a>
 			</p>
 			<p>
-				{address}<br/>
-				{email}
-			</p>
-			<p>
-				{hours}
+				Opening hours: {hours}
 			</p>
 			<p>
 				<a href={googleMapsUrl}>Google maps</a>
 			</p>
-
-		</div>
+		</main>
 	)
 }
 

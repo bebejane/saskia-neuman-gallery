@@ -2,8 +2,8 @@
 
 query GetAbout {
 	about {
-		summary
-		address
+		summary(markdown: false)
+		address(markdown: false)
 		hours
 		email
 		googleMapsUrl
