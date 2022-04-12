@@ -68,7 +68,7 @@
       top:0;
       left:0;
       height:0vh;
-      animation: rollout 1s linear forwards;
+      animation: rollout 1.5s linear forwards;
       animation-delay: .5s ;
     }
     &.lower{
@@ -77,7 +77,7 @@
       left:0;
       height:100vh;
       background-color: #fff; 
-      animation: rolloutLower 1s linear forwards;
+      animation: rolloutLower 1.5s linear forwards;
       animation-delay: .5s ;
     }
   }

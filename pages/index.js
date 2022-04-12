@@ -19,11 +19,9 @@ export default function Start({start, image, color}){
 	const scrollPercentage = (scrollY/height);
 	const category = current._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
 	const title = `${current.title} ${current.artists ? current.artists[0].name : ''}`
-	const backgroundColor = `rgb(${image?.colors[0].red},${image?.colors[0].green},${image?.colors[0].blue})`
-	
-	const logoStyle = {background:`url(${image.url}?w=400)`}
+	const logoStyle = {background:`url(${image.url}?w=1440)`}
 	const colorStyle = {
-		backgroundColor, 
+		backgroundColor:color, 
 		maxHeight:`${100-(scrollPercentage*100)}vh`, 
 		top:`${(scrollPercentage*height)*2}px`, 
 	};
@@ -34,8 +32,9 @@ export default function Start({start, image, color}){
 	};
 
 	useEffect(()=>{
-		document.body.style.backgroundColor = backgroundColor;
-		return () => document.body.style.backgroundColor = 'unset';
+		const originalColor = document.body.style.backgroundColor;
+		document.body.style.backgroundColor = color;
+		return () => document.body.style.backgroundColor = originalColor;
 	},[])
 	
 	return (
@@ -48,8 +47,7 @@ export default function Start({start, image, color}){
 				<Link href={`/${current._modelApiKey}s/${current.slug}`}>
 					<a>
 						<div className={cn(styles.bubble)} style={{color}}>
-							<span className={styles.category}>{category}</span> 
-							<span className={styles.title}>{title}</span>
+							<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
 						</div>
 					</a>
 				</Link>
@@ -61,6 +59,7 @@ export default function Start({start, image, color}){
 export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'}, async ({props, revalidate }) => {
 	const { current } = props.start
 	const image = current?.image ? current.image : current?.images?.length ? current?.images[0] : null
+	const color = `rgb(${image?.colors[0].red},${image?.colors[0].green},${image?.colors[0].blue})`
 	//const palette = await Vibrant.from(image.url).getPalette()
 	//const dominantColor = palette.DarkMuted._rgb// Object.keys(palette).map(k => palette[k]).sort((a,b) => a._population < b._population ? 1 : -1)[0]._rgb
 	//const color = image ? `rgb(${dominantColor.join(',')})` : null;
@@ -68,8 +67,8 @@ export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'
 	return {
 		props:{
 			...props,
-			image
-			//color
+			image,
+			color
 		},
 		revalidate
 	};
