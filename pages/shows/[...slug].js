@@ -5,12 +5,19 @@ import { GetAllShows,  GetShow } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
 import { format } from "date-fns"
+import Link from 'next/link';
 
 export default function Show({show}){
   const { title, description, startDate, endDate, slug, artists} = show;
 	return (
 		<main>
-			{title} - {artists.map(a => a.name).join(', ')}<br/>
+			{title} - 
+			{artists.map(a => 
+				<Link href={`/artists/${a.slug}`}>
+					<a>{a.name}</a>
+				</Link>
+			)}
+			<br/>
       {format(new Date(startDate), 'yy-MM-dd HH:mm')} - {format(new Date(endDate), 'yy-MM-dd HH:mm')}
       <Markdown>{description}</Markdown>
 		</main>
