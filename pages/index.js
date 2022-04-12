@@ -8,9 +8,6 @@ import Link from 'next/link';
 import { useWindowSize, useWindowScrollPosition } from 'rooks';
 import * as Vibrant from 'node-vibrant'
 
-//const { getColorFromURL } = require('color-thief-node');
-//const ColorThief = require('color-thief');
-
 export default function Start({current, image, color}){
 	if(!current) return null;
 
@@ -60,9 +57,11 @@ export default function Start({current, image, color}){
 
 export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'}, async ({props, revalidate }) => {
 	const { current } = props.start
+
 	const image = current.image ? current.image : current.images?.length ? current.images[0] : null
 	const palette = await Vibrant.from(image.url).getPalette()
-	const color = image ? `rgb(${palette.Muted._rgb})` : null;
+	const dominantColor = Object.keys(palette).map(k => palette[k]).sort((a,b) => a._population > b._population ? 1 : -1)[0]._rgb
+	const color = image ? `rgb(${dominantColor.join(',')})` : null;
 
 	return {
 		props:{
