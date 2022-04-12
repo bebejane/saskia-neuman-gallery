@@ -6,8 +6,10 @@ import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useWindowSize, useWindowScrollPosition } from 'rooks';
+import * as Vibrant from 'node-vibrant'
 
-const { getColorFromURL } = require('color-thief-node');
+//const { getColorFromURL } = require('color-thief-node');
+//const ColorThief = require('color-thief');
 
 export default function Start({current, image, color}){
 	if(!current) return null;
@@ -59,7 +61,8 @@ export default function Start({current, image, color}){
 export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'}, async ({props, revalidate }) => {
 	const { current } = props.start
 	const image = current.image ? current.image : current.images?.length ? current.images[0] : null
-	const color = image ? `rgb(${(await getColorFromURL(image.url)).join(',')})` : null;
+	const palette = await Vibrant.from(image.url).getPalette()
+	const color = image ? `rgb(${palette.Muted._rgb})` : null;
 
 	return {
 		props:{
