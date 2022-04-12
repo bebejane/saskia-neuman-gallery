@@ -8,7 +8,8 @@ import Link from 'next/link';
 import { useWindowSize, useWindowScrollPosition } from 'rooks';
 import * as Vibrant from 'node-vibrant'
 
-export default function Start({current, image, color}){
+export default function Start({start, image, color}){
+	const { current } = start;
 	if(!current) return null;
 
 	const [animating, setAnimating] = useState(true)
@@ -65,7 +66,7 @@ export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'
 
 	return {
 		props:{
-			...props.start,
+			...props,
 			image, 
 			color
 		},
