@@ -6,9 +6,10 @@
   flex-direction: row;
   width: 100%;
   z-index: 100;
+  padding: 40px;
+  font-weight: 700;
   .logo{
     flex: 0 0 auto;
-    font-weight: 700;
   }
   .menu{
     display: flex;

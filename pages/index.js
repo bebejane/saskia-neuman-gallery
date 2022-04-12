@@ -20,38 +20,39 @@ export default function Start({start, image, color}){
 	const category = current._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
 	const title = `${current.title} ${current.artists ? current.artists[0].name : ''}`
 	const backgroundColor = color
-	const logoStyle = {background:`url(${image.url})`}
-	const colorStyle = {backgroundColor, top:`${(scrollPercentage*height)*2}px`, maxHeight:`${((1-(scrollPercentage))*100)}vh`};
 
-	useEffect(()=>{
-		
-		
-		//const {clientWidth} = document.querySelector(`.${styles.backgroundImage} > picture > img`)
-		//onsole.log(image)
-		//console.log(clientWidth)
-	}, [image, animating])
-	//console.log(size)
+	const logoStyle = {background:`url(${image.url}?w=400)`}
+	const colorStyle = {
+		backgroundColor, 
+		maxHeight:`${100-(scrollPercentage*100)}vh`, 
+		top:`${(scrollPercentage*height)*2}px`, 
+	};
+	const colorStyleLower = { 
+		height:`${100-(scrollPercentage*100)}vh`, 
+		top:`${(scrollPercentage*height)*2}px`, 
+		maxHeight:`${100-(scrollPercentage*100)}vh`,
+	};
+	
 	return (
 		<div className={styles.container}>
 			{image && !animating && 
-				<Image className={`${styles.backgroundImage} ${styles.show}`} data={image.responsiveImage}/>
+				<Image lazyLoad={false} className={`${styles.backgroundImage} ${styles.show}`} data={image.responsiveImage}/>
 			}
-			<div className={cn(styles.logo)} style={logoStyle} onAnimationEnd={()=>setAnimating(false)} >
-				{!animating && <h1>SASKIA NEUMAN GALLERY</h1>}
+			<div className={cn(styles.color, styles.lower)} style={colorStyleLower}></div>
+			<div className={cn(styles.logo)} style={logoStyle}><h1>SASKIA NEUMAN GALLERY</h1></div>
+			<div className={cn(styles.color, styles.upper)} style={colorStyle} onAnimationEnd={()=>setAnimating(false)}></div>
+			
+			
+			<div className={cn(styles.titleContainer)}>
+				<Link href={`/${current._modelApiKey}s/${current.slug}`}>
+					<a>
+						<div className={cn(styles.bubble)} style={{color}}>
+							<span className={styles.category}>{category}</span> 
+							<span className={styles.title}>{title}</span>
+						</div>
+					</a>
+				</Link>
 			</div>
-			<div className={cn(styles.color)} style={colorStyle}></div>
-			{!animating &&
-				<div className={cn(styles.titleContainer)}>
-					<Link href={`/${current._modelApiKey}s/${current.slug}`}>
-						<a>
-							<div className={cn(styles.bubble)} style={{color}}>
-								<span className={styles.category}>{category}</span> 
-								<span className={styles.title}>{title}</span>
-							</div>
-						</a>
-					</Link>
-				</div>
-			}
 		</div>
 	)
 }
