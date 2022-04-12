@@ -10,30 +10,28 @@
 		width: 100vw;
 		max-width: 100vw !important;
     visibility: hidden;
-    >img{
-      object-fit: cover;
+    > picture > img{
+      object-fit: cover !important;
     }
     &.show{
       visibility: visible;
     }
 	}
-	.logo,.color {
+	.logo, .color {
     position: absolute;
     z-index: 200;
     top:0;
     left:0;
     height: 0vh;
 		width: 100vw;
+    overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		
     color:#fff;
     font-size: 40px;
     font-weight: bold;
-    
-    
     @keyframes rollout {
       0% {
         height: 0vh;
@@ -48,9 +46,29 @@
     }
 	}
   .color{
+    position: absolute !important;
+    x:0;
+    y:0;
     z-index: 199;
     background: none;
-    
+  }
+  .logo{
+    position: fixed;
+    width: 100%;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent;
+    background-position: center !important;
+    pointer-events: none;
+    font-weight: bolder;
+    h1{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
   }
   .titleContainer{
     position: fixed;
