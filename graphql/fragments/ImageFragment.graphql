@@ -22,4 +22,9 @@ fragment ImageFragment on FileField {
     title
     width
   }
+  colors {
+    blue
+    green
+    red
+  }
 }
