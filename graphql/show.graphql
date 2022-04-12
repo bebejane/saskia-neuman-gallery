@@ -5,8 +5,8 @@ query GetAllShows {
 		...ShowFragment
 	}
 }
-query GetShow($id:String!) {
-	show(filter: {id: {eq: $id}}) {
+query GetShow($slug:String!) {
+	show(filter: {slug: {eq: $slug}}) {
 		...ShowFragment
 	}
 }

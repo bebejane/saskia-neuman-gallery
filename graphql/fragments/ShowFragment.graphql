@@ -2,7 +2,6 @@
 #import "./ImageFragment.graphql"
 #import "./ArtistFragment.graphql"
 
-
 fragment ShowFragment on ShowRecord {
   title
   description(markdown: false)
@@ -17,4 +16,5 @@ fragment ShowFragment on ShowRecord {
   press{
     ...PressFragment
   }
+  slug
 }

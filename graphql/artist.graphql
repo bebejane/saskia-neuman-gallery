@@ -5,8 +5,8 @@ query GetAllArtists{
 		...ArtistFragment
 	}
 }
-query GetArtist($id:String!) {
-	artist(filter: {id: {eq: $id}}) {
+query GetArtist($slug:String!) {
+	artist(filter: {slug: {eq: $slug}}) {
 		...ArtistFragment
 	}
 }

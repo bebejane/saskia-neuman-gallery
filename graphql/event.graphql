@@ -5,8 +5,8 @@ query GetAllEvents {
 		...EventFragment
 	}
 }
-query GetEvent($id:String!) {
-	event(filter: {id: {eq: $id}}) {
+query GetEvent($slug:String!) {
+	event(filter: {slug: {eq: $slug}}) {
 		...EventFragment
 	}
 }

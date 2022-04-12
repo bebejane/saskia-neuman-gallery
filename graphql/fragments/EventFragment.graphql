@@ -1,6 +1,12 @@
+#import "./ImageFragment.graphql"
+
 fragment EventFragment on EventRecord {
   title
   description(markdown: false)
   startDate
   endDate
+  slug
+  image{
+    ...ImageFragment
+  }
 }
