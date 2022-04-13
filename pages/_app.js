@@ -10,13 +10,13 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter()
   const { asPath : pathname } = router
-  const { site, seo } = pageProps;
+  const { site, seo, artists } = pageProps;
   
   return (
     <>
       <GoogleAnalytics />
       <DatoSEO seo={seo} site={site} pathname={pathname} key={pathname}/>
-      <Menu/>
+      <Menu artists={artists}/>
       <Component {...pageProps} />
     </>
   )

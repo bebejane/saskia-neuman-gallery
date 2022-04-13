@@ -24,7 +24,7 @@
     justify-content: flex-end;
     align-items: center;
     width: 100%;
-    
+    height: auto;
     ul{
       display: flex;
       flex-direction: row;
@@ -63,16 +63,18 @@
     }
   }
   &.open{
-    background-color: #fff;
-    z-index: 1000;
-    .menu{
+    @include mq($until: desktop) {
       background-color: #fff;
-      height: 100vh;
-      ul{
-        li{
-          display: block;
-        }
-      } 
+      z-index: 1000;
+      .menu{
+        background-color: #fff;
+        height: 100vh;
+        ul{
+          li{
+            display: block;
+          }
+        } 
+      }
     }
   }
 }
