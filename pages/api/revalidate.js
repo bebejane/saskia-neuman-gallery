@@ -11,7 +11,19 @@ export default async (req, res) => {
     const modelId = entity.relationships.item_type.data.id
     const model = models.filter(m => m.id === modelId)[0]
     const record = await Dato.items.all({filter: {id: entity.id }},{allPages: true})
-    const path = ['show', 'event', 'artist'].includes(model.apiKey) ? `/${model.apiKey}s/${record.slug}` : null
+    let path;
+    
+    switch (model.apiKey) {
+      case "show":
+        path = `/shows/${record.slug}`
+      case "event":
+        path = `/events/${record.slug}`
+      case "artist":
+        path = `/artists/${record.slug}`
+      default:
+        break;
+    }
+
     if(!path) throw new Error('Error revalidating! ' + model.apiKey);
 
     await res.unstable_revalidate(path)
