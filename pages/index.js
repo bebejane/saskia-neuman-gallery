@@ -6,7 +6,7 @@ import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useWindowSize, useWindowScrollPosition } from 'rooks';
-import * as Vibrant from 'node-vibrant'
+import { Dato } from "/lib/dato/api"
 
 export default function Start({start, image, color}){
 	const { current } = start;
@@ -64,6 +64,8 @@ export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'
 	//const dominantColor = palette.DarkMuted._rgb// Object.keys(palette).map(k => palette[k]).sort((a,b) => a._population < b._population ? 1 : -1)[0]._rgb
 	//const color = image ? `rgb(${dominantColor.join(',')})` : null;
 	//console.log(palette)
+	
+	
 	return {
 		props:{
 			...props,
