@@ -1,7 +1,19 @@
 import { Dato } from "/lib/dato/api"
 
+const basicAuth = (req) => {
+  const basicAuth = req.headers.authorization
+  if (!basicAuth) return true;
+
+  const auth = basicAuth.split(' ')[1]
+  const [user, pwd] = Buffer.from(auth, 'base64').toString().split(':')
+  return user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD
+} 
+
 export default async (req, res) => {
 
+  if(!basicAuth(req)) 
+    return res.status(401).send('Access denied')
+  
   let path;
 
   try{
