@@ -8,6 +8,7 @@ import Link from 'next/link';
 export default function Artists({artists}){
 	return (
 		<main>
+			<h3>Artists</h3>
 			{artists.map(({name, biography, artwork, slug}, idx) => 
 				<Link href={`/artists/${slug}`}>
 					<a>{name}</a>

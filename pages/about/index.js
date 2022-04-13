@@ -8,6 +8,7 @@ export default function About({about}){
 	const { summary, address, hours, email, googleMapsUrl, image} = about || {};
 	return (
 		<main>
+			<h3>About</h3>
 			<p>
 				<Markdown>{summary}</Markdown>
 				<Markdown>{address}</Markdown>

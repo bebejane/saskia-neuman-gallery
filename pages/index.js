@@ -23,11 +23,11 @@ export default function Start({start, image, color}){
 	const colorStyle = {
 		backgroundColor:color, 
 		maxHeight:`${100-(scrollPercentage*100)}vh`, 
-		top:`${(scrollPercentage*height)*2}px`, 
+		top:`${Math.min((scrollPercentage*height)*2, height*2)}px`, 
 	};
 	const colorStyleLower = { 
 		height:`${100-(scrollPercentage*100)}vh`, 
-		top:`${(scrollPercentage*height)*2}px`, 
+		top:`${Math.min((scrollPercentage*height)*2, height*2)}px`, 
 		maxHeight:`${100-(scrollPercentage*100)}vh`,
 	};
 

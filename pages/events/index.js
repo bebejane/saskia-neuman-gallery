@@ -8,6 +8,7 @@ import Link from 'next/link';
 export default function Events({events}){
 	return (
 		<main>
+			<h3>Events</h3>
 			{events.map(({title, description, startDate, endDate, slug}, idx) => 
 				<p key={idx}>
 					<Link href={`/events/${slug}`}>
