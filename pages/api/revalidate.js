@@ -1,8 +1,17 @@
+import { datoError } from "lib/dato/api"
+import { Dato } from "/lib/dato/api"
+
 export default async (req, res) => {
 
   const { entity } = req.body
-  console.log(entity)
+  const record = await Dato.items.all({
+    filter:{
+      fields :{
+        id:{eq:entity.id}
+      }
+    }
+  })
 
-  res.json({hej:'hej'})
+  res.json(record)
 
 }
