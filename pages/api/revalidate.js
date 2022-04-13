@@ -1,12 +1,12 @@
-import { datoError } from "lib/dato/api"
 import { Dato } from "/lib/dato/api"
 
 export default async (req, res) => {
 
   const { entity } = req.body
-  
+  let path;
+
   try{
-    let path;
+    
     const models = await Dato.itemTypes.all();
     const modelId = entity.relationships.item_type.data.id
     const model = models.filter(m => m.id === modelId)[0]
@@ -36,9 +36,9 @@ export default async (req, res) => {
     }
 
     if(!path) 
-      throw new Error(`Error revalidating! Path not found for model ${model.apiKey}`);
+      throw new Error(`Path not found for model ${model.apiKey}`);
 
-    console.log('revalidate path', path)
+    console.log('revalidate path:', path)
     await res.unstable_revalidate(path)
     res.json({ revalidated: true, path, model:model.apiKey })
   }catch(err){
