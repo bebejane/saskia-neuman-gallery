@@ -16,7 +16,7 @@ export default async (req, res) => {
       throw new Error(`Error revalidating! Record not found with id ${entity.id}`);
 
     switch (model.apiKey) {
-      case "":
+      case "start":
         path = `/`
       case "about":
         path = `/about`
@@ -26,8 +26,7 @@ export default async (req, res) => {
         path = `/events/${record.slug}`
       case "artist":
         path = `/artists/${record.slug}`
-      case "start":
-        path = `/`
+      
       default:
         break;
     }
@@ -36,7 +35,7 @@ export default async (req, res) => {
       throw new Error(`Error revalidating! Path not found for model ${model.apiKey}`);
 
     await res.unstable_revalidate(path)
-    res.json({ revalidated: true, path })
+    res.json({ revalidated: true, path, model:model.apiKey })
   }catch(err){
     console.log(err)
     res.status(500).send('Error revalidating! ' + err.message)
