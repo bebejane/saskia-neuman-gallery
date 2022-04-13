@@ -64,9 +64,6 @@ export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'
 	//const dominantColor = palette.DarkMuted._rgb// Object.keys(palette).map(k => palette[k]).sort((a,b) => a._population < b._population ? 1 : -1)[0]._rgb
 	//const color = image ? `rgb(${dominantColor.join(',')})` : null;
 	//console.log(palette)
-	const itemTypes = await Dato.itemTypes.all();
-	console.log(itemTypes)
-	
 	return {
 		props:{
 			...props,
