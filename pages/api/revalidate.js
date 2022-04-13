@@ -2,11 +2,14 @@ import { Dato } from "/lib/dato/api"
 
 export default async (req, res) => {
 
-  const { entity } = req.body
   let path;
 
   try{
     
+    const { entity } = req.body
+
+    if(!entity) throw new Error(`Record payload missing!`);
+
     const models = await Dato.itemTypes.all();
     const modelId = entity.relationships.item_type.data.id
     const model = models.filter(m => m.id === modelId)[0]
@@ -42,7 +45,7 @@ export default async (req, res) => {
     await res.unstable_revalidate(path)
     res.json({ revalidated: true, path, model:model.apiKey })
   }catch(err){
-    console.log(err)
+    console.error(err)
     res.status(500).send(`Error revalidating path ${path}! ${err.message}`)
   }
 }

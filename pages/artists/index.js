@@ -20,6 +20,6 @@ export default function Artists({artists}){
 export const getStaticProps = withGlobalProps({queries:[GetAllArtists]}, async ({props, revalidate }) => {
 	return {
 		props,
-		revalidate:200
+		revalidate
 	};
 });
