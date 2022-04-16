@@ -3,7 +3,7 @@
 fragment ArtistFragment on ArtistRecord {
   name
   biography(markdown: false)
-  artwork {
+  images {
     ...ImageFragment
   }
   slug

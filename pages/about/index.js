@@ -1,5 +1,5 @@
 import styles from './About.module.scss'
-import { withGlobalProps } from "/lib/utils";
+import { withGlobalProps } from "/lib/hoc";
 import { GetAbout} from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';

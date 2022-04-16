@@ -1,5 +1,5 @@
 import styles from './Events.module.scss'
-import { withGlobalProps } from "/lib/utils";
+import { withGlobalProps } from "/lib/hoc";
 import { GetAllEvents} from '/graphql';
 import { Image } from 'react-datocms';
 import { format } from 'date-fns';

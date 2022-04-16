@@ -1,5 +1,5 @@
 import styles from './Shows.module.scss'
-import { withGlobalProps } from "/lib/utils";
+import { withGlobalProps } from "/lib/hoc";
 import { GetAllShows } from '/graphql';
 import { format } from 'date-fns';
 import { Image } from 'react-datocms';

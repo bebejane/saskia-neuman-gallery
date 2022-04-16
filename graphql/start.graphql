@@ -3,7 +3,7 @@
 
 query GetStart {
 	start {
-    current {
+    links {
       ... on EventRecord {
         ...EventFragment
         _modelApiKey

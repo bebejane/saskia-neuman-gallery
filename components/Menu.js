@@ -5,17 +5,17 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router"
 import { Twirl as Hamburger } from 'hamburger-react'
 
-const menu = [
-  {path:'/artists', label:'Artists', sub:true}, 
-  {path:'/shows', label:'Shows'}, 
-  {path:'/events', label:'Events'}, 
-  {path:'/about', label:'About'}
-]
-
-export default function Menu({artists}){
+export default function Menu({artists, shows, events}){
   const router = useRouter()
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [subMenu, setSubMenu] = useState();
+
+  const menu = [
+    {type:'artist', path:'/artists', label:'Artists', sub:artists}, 
+    {type:'show', path:'/shows', label:'Shows', sub:shows}, 
+    {type:'event', path:'/events', label:'Events', sub:events}, 
+    {type:'about', path:'/about', label:'About'}
+  ]
 
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => setShowMobileMenu(false)
@@ -30,18 +30,25 @@ export default function Menu({artists}){
       </div>
       <div className={cn(styles.menu)}>
         <ul>
-          {menu.map(({path, label, sub}) => 
-            <li className={router.asPath === path && styles.selected}>
-              {!sub || !showMobileMenu ? 
+          {menu.map(({type, path, label, sub}) => 
+            <li className={router.asPath === path && styles.selected} onMouseOver={()=> setSubMenu(type)}>
+              {!sub  ? 
                 <Link href={path}><a>{label}</a></Link> 
               : 
-                <a onClick={()=> setSubMenu(subMenu ? null : label.toLowerCase())}>{label}</a>
-              }
-              
-              {path === '/artists' && subMenu === 'artists' &&
-                <ul className={cn(styles.subMenu, subMenu === 'artists' && subMenu)}>
-                  {artists.map(a => <li><Link href={`/artists/${a.slug}`}><a>{a.name}</a></Link></li>)}
-                </ul>
+                <>
+                  <a onClick={()=> setSubMenu(subMenu ? null : type)}>{label}</a>
+                  {subMenu === type && 
+                    <ul className={cn(styles.subMenu)}>
+                      {sub.map(a => 
+                        <li>
+                          <Link href={`${path}/${a.slug}`}>
+                            <a>{a.name || a.title}</a>
+                          </Link>
+                        </li>
+                      )}
+                    </ul>
+                  }
+                </>
               } 
             </li>
           )}

@@ -9,6 +9,7 @@
   z-index: 100;
   padding: 40px;
   font-weight: 700;
+  //background-color: #fff;
   @include mq($from: desktop) {
     [role=button]{
       display: none !important;

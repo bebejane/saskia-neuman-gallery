@@ -3,6 +3,7 @@ import DatoSEO from '/lib/dato/components/DatoSEO';
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
 import { useRouter } from 'next/router';
 import Menu from '/components/Menu';
+import Background from '/components/Background';
 
 function MyApp({ Component, pageProps }) {
 
@@ -10,13 +11,14 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter()
   const { asPath : pathname } = router
-  const { site, seo, artists } = pageProps;
-  
+  const { site, seo, artists, shows, events, image, images, color } = pageProps;
+  console.log(pageProps)
   return (
     <>
       <GoogleAnalytics />
       <DatoSEO seo={seo} site={site} pathname={pathname} key={pathname}/>
-      <Menu artists={artists}/>
+      <Menu {...{artists, shows, events}}/>
+      <Background image={image ? image : images ? images[0] : null} color={color}/>
       <Component {...pageProps} />
     </>
   )
