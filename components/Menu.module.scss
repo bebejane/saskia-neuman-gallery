@@ -20,7 +20,11 @@
   font-weight: 700;
   width: 60%;
   padding: $space/2;
-  
+  transition: top .5s ease;
+  &.hide{
+    top: -100%;
+    //max-height: 0vh !important;
+  }
   .line{
     position: absolute;
     display: none;

@@ -133,10 +133,21 @@ $slideSpeed: 1.5s;
       color:#000;
       box-shadow:  0px 0px 20px 20px #fff;
       .category{
-        font-size: .8em; 
+        font-size: 1em; 
       }
       .title{
-        
+        font-size: 1.2em; 
+      }
+      &:hover{
+        @keyframes hover {
+          0%{
+            box-shadow:  0px 0px 20px 20px #fff;
+          }
+          100%{
+            box-shadow:  0px 0px 20px 30px #fff;
+          }
+        }
+        //animation: hover 1s ease-in forwards;
       }
     }
   }

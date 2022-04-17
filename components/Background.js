@@ -20,7 +20,7 @@ export default function Background({image, color, pathname}){
 			<Image lazyLoad={false} className={styles.backgroundImage} data={image.responsiveImage}/>
 			{animating && 
 				<div className={cn(styles.color, styles.upper)} style={{backgroundColor}} onAnimationEnd={()=>setAnimating(false)}>
-					<div className={cn(styles.logo)} style={{background:`url(${image.url}?w=1440)`}}><h1>SASKIA NEUMAN GALLERY</h1></div>
+					<div className={cn(styles.logo)} style={{background:`url(${image.url}?w=400)`}}><h1>SASKIA NEUMAN GALLERY</h1></div>
 				</div>
 			}
 			<div className={cn(styles.color, styles.lower)}></div>

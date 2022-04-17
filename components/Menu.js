@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router"
 import { Twirl as Hamburger } from 'hamburger-react'
+import {useWindowScrollPosition } from 'rooks'
 
 export default function Menu({artists, shows, events}){
   
@@ -17,8 +18,11 @@ export default function Menu({artists, shows, events}){
   const router = useRouter()
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [subMenu, setSubMenu] = useState();
+  const [showMenu, setShowMenu] = useState(true);
   const [subMenuMargin, setSubMenuMargin] = useState(0);
-  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type && sub).length
+  const { scrollY } = useWindowScrollPosition()
+  console.log(scrollY)
+  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type ).length
 
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
@@ -42,7 +46,7 @@ export default function Menu({artists, shows, events}){
       <div className={styles.logo}>
         <Link href="/">SASKIA NEUMAN GALLERY</Link>
       </div>
-      <div id="menu" className={cn(styles.container, (subMenu || showMobileMenu) && showSeparator && styles.open)} onMouseLeave={()=>setSubMenu()}>
+      <div id="menu" className={cn(styles.container, (subMenu || showMobileMenu) && showSeparator && styles.open, scrollY > 100 && styles.hide)} onMouseLeave={()=>setSubMenu()}>
         <div className={cn(styles.menu)}>
           <ul>
             {menu.map(m => 
