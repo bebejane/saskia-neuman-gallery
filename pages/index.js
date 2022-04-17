@@ -12,7 +12,7 @@ export default function Start({start, image, color}){
 	if(!links) return null;
 
 	const category = links[0]._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
-	const title = `${links[0].title} ${links[0].artists ? links[0].artists[0].name : ''}`
+	const title = `${links[0].title} ${links[0].artists ? links[0].artists[0]?.name : ''}`
 	
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;
@@ -34,7 +34,7 @@ export default function Start({start, image, color}){
 			<div className={cn(styles.titleContainer)}>
 				<Link href={`/${links[0]._modelApiKey}s/${links[0].slug}`}>
 					<a>
-						<div className={cn(styles.bubble)} style={{color}}>
+						<div className={cn(styles.bubble)} style={{color:`rgb(${ color.join(',') })`}}>
 							<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
 						</div>
 					</a>
