@@ -6,7 +6,7 @@ fragment ArtistFragment on ArtistRecord {
   image {
     ...ImageFragment    
   }
-  images {
+  artwork {
     ...ImageFragment
   }
   slug

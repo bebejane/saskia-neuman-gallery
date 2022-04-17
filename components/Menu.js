@@ -22,8 +22,8 @@ export default function Menu({artists, shows, events}){
 
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
-      //setShowMobileMenu(false)
-      //setSubMenu(undefined)
+      setShowMobileMenu(false)
+      setSubMenu(undefined)
     }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => router.events.off('routeChangeStart', handleRouteChange)
@@ -83,6 +83,7 @@ export default function Menu({artists, shows, events}){
           label={'Menu'}
           size={20}
         />
+
       </div>
     </>
   )

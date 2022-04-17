@@ -6,16 +6,28 @@ import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
 import Link from 'next/link';
 import { imageColor } from 'lib/utils';
+import Gallery from '/components/Gallery'
+import { useState } from 'react';
 
-export default function Artist({artist:{ name, biography, images }}){
+export default function Artist({artist:{ name, biography, artwork }}){
+	const [showGallery, setShowGallery] = useState(false)
+
 	return (
-		<main>
-      {name}<br/>
-      <Markdown>{biography}</Markdown>
-      {images.map(image => 
-        <Image data={image.responsiveImage}/>
-      )}
-		</main>
+		<>
+			<main>
+				{name}<br/>
+				<Markdown>{biography}</Markdown>
+				<div className={styles.gallery}>
+					{artwork.map(image => 
+						<div className={styles.artwork}>
+							<Image data={image.responsiveImage} className={styles.artwork}/>
+						</div>
+					)}
+				</div>
+				<a onClick={()=>setShowGallery(true)}>[Gallery]</a>
+			</main>
+			{showGallery && <Gallery images={artwork} onClose={()=>setShowGallery(false)}/>}
+		</>
 	)
 }
 

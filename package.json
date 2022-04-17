@@ -32,7 +32,8 @@
     "react-responsive-carousel": "^3.2.22",
     "remark-gfm": "^3.0.1",
     "rooks": "^5.11.0",
-    "sass": "^1.43.5"
+    "sass": "^1.43.5",
+    "swiper": "^8.1.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",

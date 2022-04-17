@@ -11,13 +11,11 @@ const basicAuth = (req) => {
 
 export default async (req, res) => {
 
-  if(!basicAuth(req)) 
-    return res.status(401).send('Access denied')
-  
-  let path;
+  if(!basicAuth(req)) return res.status(401).send('Access denied')
 
   try{
-    
+  
+    let path;  
     const { entity } = req.body
 
     if(!entity) throw new Error(`Record payload missing!`);
@@ -53,8 +51,9 @@ export default async (req, res) => {
     if(!path) 
       throw new Error(`Path not found for model ${model.apiKey}`);
 
-    console.log('revalidate path:', path)
+    console.log('revalidate path ', path, '...')
     await res.unstable_revalidate(path)
+    console.log('done!')
     res.json({ revalidated: true, path, model:model.apiKey })
   }catch(err){
     console.error(err)

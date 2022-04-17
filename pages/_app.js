@@ -1,9 +1,11 @@
 import '/styles/index.scss'
+import 'swiper/css';
 import DatoSEO from '/lib/dato/components/DatoSEO';
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
 import { useRouter } from 'next/router';
 import Menu from '/components/Menu';
 import Background from '/components/Background';
+import Footer from '/components/Footer';
 
 function MyApp({ Component, pageProps }) {
 
@@ -20,6 +22,7 @@ function MyApp({ Component, pageProps }) {
       <Menu {...{artists, shows, events}}/>
       <Background image={image ? image : images ? images[0] : null} color={color} key={pathname}/>
       <Component {...pageProps} />
+      <Footer {...pageProps}/>
     </>
   )
 }

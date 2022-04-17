@@ -1,0 +1,8 @@
+.gallery{
+  display:flex;
+  flex-direction: row;
+  flew-wrap:wrap;
+  .artwork{
+    max-width: 100px;
+  }
+}

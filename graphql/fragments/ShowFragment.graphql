@@ -11,7 +11,7 @@ fragment ShowFragment on ShowRecord {
   image{
     ...ImageFragment
   }
-  images{
+  artwork{
     ...ImageFragment
   }
   startDate

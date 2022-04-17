@@ -1,0 +1,33 @@
+.show{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  .left, .right{
+    flex: 0 0 50%;
+  }
+  .left{
+    .exhibition{
+
+    }
+  }
+  .right{
+    display: flex;
+    flex-direction: column;
+    .artwork{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .press{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      .block{
+        flex: 1 1 50%;
+      }
+
+    }
+  }
+}
