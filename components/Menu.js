@@ -22,8 +22,8 @@ export default function Menu({artists, shows, events}){
 
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
-      setShowMobileMenu(false)
-      setSubMenu(undefined)
+      //setShowMobileMenu(false)
+      //setSubMenu(undefined)
     }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => router.events.off('routeChangeStart', handleRouteChange)
@@ -74,7 +74,7 @@ export default function Menu({artists, shows, events}){
           </div>
           <div className={cn(styles.line, showSeparator && styles.show)} style={{marginLeft:`${subMenuMargin-0}px`}}></div>
         </div>
-        
+
         <Hamburger
           toggled={showMobileMenu}
           duration={0.5}

@@ -68,7 +68,7 @@ $slideSpeed: 1.5s;
       z-index: 400;
       height: 0vh;
       animation: rollout $slideSpeed linear forwards;
-      animation-delay: .5s ;
+      //animation-delay: .5s ;
     }
     &.lower{
       background-color: $white;
@@ -76,7 +76,7 @@ $slideSpeed: 1.5s;
       z-index: 600;
       height: 100vh;
       animation: rolloutLower $slideSpeed linear forwards;
-      animation-delay: .5s ;
+      //animation-delay: .5s ;
     }
   } 
 }
