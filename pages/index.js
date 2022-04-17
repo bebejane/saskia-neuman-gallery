@@ -5,14 +5,11 @@ import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useWindowSize } from 'rooks';
+import { imageColor } from '/lib/utils';
 
 export default function Start({start, image, color}){
 	const { links } = start;
 	if(!links) return null;
-
-	const [animating, setAnimating] = useState(true)
-	const { innerHeight: height, innerWidth:width} = useWindowSize()
 
 	const category = links[0]._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
 	const title = `${links[0].title} ${links[0].artists ? links[0].artists[0].name : ''}`
@@ -23,9 +20,11 @@ export default function Start({start, image, color}){
 		return () => document.body.style.backgroundColor = originalColor;
 	},[])
 	
+	if(!links || !links.length) return null
+
 	return (
 		<div className={styles.container}>
-			{links.map((link)=>
+			{links.slice(1).map((link)=>
 				<Image 
 					data={(link.image || link.images[0])?.responsiveImage}
 					className={styles.linkImage} 
@@ -33,7 +32,7 @@ export default function Start({start, image, color}){
 				/>
 			)}
 			<div className={cn(styles.titleContainer)}>
-				<Link href={`/${links._modelApiKey}s/${links.slug}`}>
+				<Link href={`/${links[0]._modelApiKey}s/${links[0].slug}`}>
 					<a>
 						<div className={cn(styles.bubble)} style={{color}}>
 							<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
@@ -48,12 +47,12 @@ export default function Start({start, image, color}){
 export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'}, async ({props, revalidate }) => {
 	const { links } = props.start
 	const image = links[0]?.image ? links[0].image : links[0]?.images?.length ? links[0]?.images[0] : null
-	const color = `rgb(${image?.colors[0].red},${image?.colors[0].green},${image?.colors[0].blue})`
+	
 	return {
 		props:{
 			...props,
 			image,
-			color
+			color: imageColor(image)
 		},
 		revalidate
 	};

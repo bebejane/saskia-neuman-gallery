@@ -3,6 +3,9 @@
 fragment ArtistFragment on ArtistRecord {
   name
   biography(markdown: false)
+  image {
+    ...ImageFragment    
+  }
   images {
     ...ImageFragment
   }

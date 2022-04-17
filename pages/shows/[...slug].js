@@ -1,8 +1,8 @@
 import styles from './Shows.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
+import { imageColor } from '/lib/utils';
 import { GetAllShows,  GetShow } from '/graphql';
-import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
 import { format } from "date-fns"
 import Link from 'next/link';
@@ -35,11 +35,12 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps = withGlobalProps(async ({props, context, revalidate }) => {
   const { show } = await apiQuery(GetShow, {slug:context.params.slug[0]})
+	
   return {
 		props :{
       ...props,
-			image:show.images[0] || null,
-			color:show.images[0]?.colors[0] || null,
+			image: show.image || null,
+			color: imageColor(show.image),
       show
     },
 		revalidate

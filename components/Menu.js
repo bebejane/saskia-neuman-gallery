@@ -6,10 +6,7 @@ import { useRouter } from "next/router"
 import { Twirl as Hamburger } from 'hamburger-react'
 
 export default function Menu({artists, shows, events}){
-  const router = useRouter()
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [subMenu, setSubMenu] = useState();
-
+  
   const menu = [
     {type:'artist', path:'/artists', label:'Artists', sub:artists}, 
     {type:'show', path:'/shows', label:'Shows', sub:shows}, 
@@ -17,51 +14,76 @@ export default function Menu({artists, shows, events}){
     {type:'about', path:'/about', label:'About'}
   ]
 
+  const router = useRouter()
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [subMenu, setSubMenu] = useState();
+  const [subMenuMargin, setSubMenuMargin] = useState(0);
+  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type && sub).length
+
   useEffect(()=>{
-    const handleRouteChange = (url, { shallow }) => setShowMobileMenu(false)
+    const handleRouteChange = (url, { shallow }) => {
+      setShowMobileMenu(false)
+      setSubMenu(undefined)
+    }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => router.events.off('routeChangeStart', handleRouteChange)
   }, [router.asPath])
   
+  useEffect(()=>{
+    const el = document.getElementById(`menu-${subMenu?.type}`)
+    const menu = document.getElementById('menu')
+    if(!el) return
+    const padding = getComputedStyle(menu, null).getPropertyValue('padding-left')
+    setSubMenuMargin(el.offsetLeft-parseInt(padding));
+  }, [subMenu])
+
   return (
-    <div id="menu" className={cn(styles.container, showMobileMenu && styles.open)}>
+    <>
       <div className={styles.logo}>
         <Link href="/">SASKIA NEUMAN GALLERY</Link>
       </div>
-      <div className={cn(styles.menu)}>
-        <ul>
-          {menu.map(({type, path, label, sub}) => 
-            <li className={router.asPath === path && styles.selected} onMouseOver={()=> setSubMenu(type)}>
-              {!sub  ? 
-                <Link href={path}><a>{label}</a></Link> 
-              : 
-                <>
-                  <a onClick={()=> setSubMenu(subMenu ? null : type)}>{label}</a>
-                  {subMenu === type && 
-                    <ul className={cn(styles.subMenu)}>
-                      {sub.map(a => 
-                        <li>
-                          <Link href={`${path}/${a.slug}`}>
-                            <a>{a.name || a.title}</a>
-                          </Link>
-                        </li>
-                      )}
-                    </ul>
-                  }
-                </>
-              } 
-            </li>
-          )}
-        </ul>
+      <div id="menu" className={cn(styles.container, (subMenu || showMobileMenu) && showSeparator && styles.open)} onMouseLeave={()=>setSubMenu()}>
+        <div className={cn(styles.menu)}>
+          <ul>
+            {menu.map(m => 
+              <li id={`menu-${m.type}`} className={router.asPath === m.path && styles.selected} onMouseOver={()=> setSubMenu(m)}>
+                {m.sub  ? 
+                  <a onClick={()=> setSubMenu(subMenu ? null : m)}>{m.label}</a>
+                : 
+                  <Link href={m.path}><a>{m.label}</a></Link> 
+                }
+              </li>
+            )}
+          </ul>
+          <div className={cn(styles.subMenu)}>
+            {menu.map(({type, path, label, sub}) => 
+              <ul 
+                id={`sub-${type}`} 
+                className={cn(subMenu?.type === type && styles.open)} 
+                style={{marginLeft: `${subMenuMargin}px`}}
+              >
+                {sub?.map(a => 
+                  <li>
+                    <Link href={`${path}/${a.slug}`}>
+                      <a>{a.name || a.title}</a>
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            )}
+          </div>
+          <div className={cn(styles.line, showSeparator && styles.show)} style={{marginLeft:`${subMenuMargin-0}px`}}></div>
+        </div>
+        
+        <Hamburger
+          toggled={showMobileMenu}
+          duration={0.5}
+          onToggle={(toggle) => setShowMobileMenu(toggle)}
+          color={'#000'}
+          label={'Menu'}
+          size={20}
+        />
       </div>
-      <Hamburger
-        toggled={showMobileMenu}
-        duration={0.5}
-        onToggle={(toggle) => setShowMobileMenu(toggle)}
-        color={'#000'}
-        label={'Menu'}
-        size={20}
-      />
-    </div>
+    </>
   )
 }

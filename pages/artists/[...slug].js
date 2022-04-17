@@ -5,6 +5,7 @@ import { GetAllArtists,  GetArtist } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
 import Link from 'next/link';
+import { imageColor } from 'lib/utils';
 
 export default function Artist({artist:{ name, biography, images }}){
 	return (
@@ -29,14 +30,13 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps = withGlobalProps(async ({props, context, revalidate }) => {
   const { artist } = await apiQuery(GetArtist, {slug:context.params.slug[0]})
-	const image = artist.images[0]
   
 	return {
 		props :{
       ...props,
       artist,
-			image:artist.images[0] || null,
-			color:artist.images[0]?.colors[0] || null,
+			image: artist.image || null,
+			color: imageColor(artist.image)
     },
 		revalidate
 	};

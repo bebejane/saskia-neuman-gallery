@@ -8,6 +8,9 @@ fragment ShowFragment on ShowRecord {
   artists{
     ...ArtistFragment
   }
+  image{
+    ...ImageFragment
+  }
   images{
     ...ImageFragment
   }

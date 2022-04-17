@@ -3,6 +3,7 @@ import { withGlobalProps } from "/lib/hoc";
 import { GetAbout} from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
+import { imageColor } from 'lib/utils';
 
 export default function About({about}){
 	const { summary, address, hours, email, googleMapsUrl, image} = about || {};
@@ -25,8 +26,14 @@ export default function About({about}){
 }
 
 export const getStaticProps = withGlobalProps({queries:[GetAbout]}, async ({props, revalidate }) => {
+	const { image } = props.about;
+
 	return {
-		props,
+		props:{
+			...props,
+			image: image || null,
+			color: imageColor(image)
+		},
 		revalidate
 	};
 });

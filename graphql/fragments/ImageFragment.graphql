@@ -27,4 +27,5 @@ fragment ImageFragment on FileField {
     green
     red
   }
+  customData
 }

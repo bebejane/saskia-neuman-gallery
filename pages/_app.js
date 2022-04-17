@@ -12,13 +12,13 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const { asPath : pathname } = router
   const { site, seo, artists, shows, events, image, images, color } = pageProps;
-  console.log(pageProps)
+  
   return (
     <>
       <GoogleAnalytics />
       <DatoSEO seo={seo} site={site} pathname={pathname} key={pathname}/>
       <Menu {...{artists, shows, events}}/>
-      <Background image={image ? image : images ? images[0] : null} color={color}/>
+      <Background image={image ? image : images ? images[0] : null} color={color} key={pathname}/>
       <Component {...pageProps} />
     </>
   )
