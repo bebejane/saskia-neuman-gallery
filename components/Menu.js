@@ -123,7 +123,7 @@ export default function Menu({artists, shows, events, color}){
             <div 
               id="menu-separator"
               className={cn(styles.separator, showSeparator && styles.show)} 
-              style={{marginLeft:`${subMenuMargin}px`, backgroundColor:`rgb(${color.join(',')})`}}
+              style={{marginLeft:`${subMenuMargin}px`}}
             ></div>
           }
         </div>
