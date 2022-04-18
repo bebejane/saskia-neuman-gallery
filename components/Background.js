@@ -61,7 +61,6 @@ export default function Background({image, color, pathname, tempImage}){
 					</div>
 				</div>
 			</motion.div>
-			{/*<div key={'lower'} className={cn(styles.color, styles.lower)}></div>*/}
 		</div>
 	)
 }

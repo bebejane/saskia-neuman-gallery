@@ -1,3 +1,4 @@
+import { GetGlobal } from  "./global.graphql";
 import { GetSiteSEO } from  "./seo.graphql";
 import { GetIntl } from  "./intl.graphql";
 import { GetAllArtists, GetArtist } from "./artist.graphql"
@@ -7,6 +8,7 @@ import { GetAbout } from "./about.graphql"
 import { GetStart } from "./start.graphql"
 
 export {
+  GetGlobal,
   GetSiteSEO,
   GetIntl,
   GetAllArtists,

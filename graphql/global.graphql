@@ -1,0 +1,19 @@
+#import "./fragments/ArtistFragment.graphql"
+#import "./fragments/ShowFragment.graphql"
+#import "./fragments/EventFragment.graphql"
+#import "./fragments/SiteFragment.graphql"
+
+query GetGlobal {
+	artists: allArtists {
+    ...ArtistFragment
+  }
+  shows: allShows {
+    ...ShowFragment
+  }
+  events: allEvents {
+    ...EventFragment
+  }
+  site: _site {
+		...SiteFragment
+	} 
+}
