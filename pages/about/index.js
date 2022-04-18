@@ -34,7 +34,7 @@ export default function About({about}){
 	)
 }
 
-export const getStaticProps = withGlobalProps({queries:[GetAbout]}, async ({props, revalidate }) => {
+export const getStaticProps = withGlobalProps({queries:[GetAbout], model:'about'}, async ({props, revalidate }) => {
 	const { image } = props.about;
 
 	return {

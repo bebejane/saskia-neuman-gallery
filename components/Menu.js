@@ -7,7 +7,7 @@ import { useWindowScrollPosition } from 'rooks'
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from 'hamburger-react'
 
-export default function Menu({artists, shows, events}){
+export default function Menu({artists, shows, events, color}){
   
   const menu = [
     {type:'artist', path:'/artists', label:'Artists', sub:artists}, 
@@ -123,7 +123,7 @@ export default function Menu({artists, shows, events}){
             <div 
               id="menu-separator"
               className={cn(styles.separator, showSeparator && styles.show)} 
-              style={{marginLeft:`${subMenuMargin}px`}}
+              style={{marginLeft:`${subMenuMargin}px`, backgroundColor:`rgb(${color.join(',')})`}}
             ></div>
           }
         </div>

@@ -66,7 +66,7 @@ export async function getStaticPaths(context) {
 	}
 }
 
-export const getStaticProps = withGlobalProps(async ({props, context, revalidate }) => {
+export const getStaticProps = withGlobalProps({model:'show'}, async ({props, context, revalidate }) => {
   const { show } = await apiQuery(GetShow, {slug:context.params.slug[0]})
 	
   return {

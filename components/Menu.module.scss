@@ -47,12 +47,14 @@
   padding: $small-space*2;
   transition: height .3s ease, top .5s ease;
   height: 0vh;
+  
   &.hide{
     top: -100px;
   }
   &.open{
     background-color: #fff;
     height: 100vh;
+    border-bottom: 2px solid #000;
     @include mq($until: desktop) {
       z-index: 800;
       overflow: hidden;
@@ -97,12 +99,14 @@
     box-sizing: border-box;
     height: auto;
     width: 100%;
+    
     ul{
       display: flex;
       flex-direction: row;
       flex: 1 1 100%;
       width: 100%;
       justify-content: flex-end;
+      
       li{
         flex: 1 1 auto;
         margin:0;
@@ -164,10 +168,13 @@
         flex-direction: column;
         flex: 1 1 100%;
         li{
-          border-bottom: 2px solid $black;
+          border-bottom: 2px solid #000;
           display: none;
           width: 100%;
           margin-left:0rem;
+          &:last-child{
+            border-bottom: 0px;
+          }
          
         }
       }
