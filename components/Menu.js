@@ -3,9 +3,9 @@ import Link from "next/link"
 import cn from 'classnames'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router"
-import { Twirl as Hamburger } from 'hamburger-react'
 import { useWindowScrollPosition } from 'rooks'
 import { useScrollDirection } from "use-scroll-direction";
+import { Twirl as Hamburger } from 'hamburger-react'
 
 export default function Menu({artists, shows, events}){
   
@@ -56,8 +56,8 @@ export default function Menu({artists, shows, events}){
       <div id="menu" className={cn(styles.container, (subMenu || showMobileMenu) && showSeparator && styles.open, !showMenu && styles.hide)} onMouseLeave={()=>setSubMenu()}>
         <div className={cn(styles.menu)}>
           <ul>
-            {menu.map(m => 
-              <li id={`menu-${m.type}`} className={router.asPath === m.path && styles.selected} onMouseOver={()=> setSubMenu(m)}>
+            {menu.map((m, idx) => 
+              <li id={`menu-${m.type}`} key={idx} className={cn(router.asPath === m.path && styles.selected)} onMouseOver={()=> setSubMenu(m)}>
                 {m.sub  ? 
                   <a onClick={()=> setSubMenu(subMenu ? null : m)}>{m.label}</a>
                 : 
@@ -67,14 +67,15 @@ export default function Menu({artists, shows, events}){
             )}
           </ul>
           <div className={cn(styles.subMenu)}>
-            {menu.map(({type, path, label, sub}) => (sub) &&
+            {menu.map(({type, path, label, sub}, idx) => (sub) &&
               <ul 
+                key={idx}
                 id={`sub-${type}`} 
                 className={cn(subMenu?.type === type && styles.open)} 
                 style={{marginLeft: `${subMenuMargin}px`}}
               >
-                {sub.map(a => 
-                  <li>
+                {sub.map((a, idx) => 
+                  <li key={idx}>
                     <Link href={`${path}/${a.slug}`}>
                       <a>{a.name || a.title}</a>
                     </Link>
@@ -94,7 +95,6 @@ export default function Menu({artists, shows, events}){
           label={'Menu'}
           size={20}
         />
-
       </div>
     </>
   )

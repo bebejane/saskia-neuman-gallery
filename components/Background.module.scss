@@ -50,33 +50,41 @@ $slideSpeed: 2s;
     &.active{
       height:100vh;
     }
-    
-	}
-  .color{    
-    width: 100vw;
-    height: 100vh;
-    transform:height;
-    background: none;
-    position: fixed;
-    width: 100%;
-    left: 0px;
-    
-    
-  
-    &.upper{
-      top: 0px;
-      z-index: 400;
-      height: 0vh;
-      animation: rollout $slideSpeed linear forwards;
-      //animation-delay: .5s ;
+    &.hide{
+      display: none;
     }
-    &.lower{
-      background-color: transparent;
-      bottom: 0px;
-      z-index: 600;
+	}
+  .motionContainer{
+    position:fixed;
+		height: 100vh;
+		width:100vw;
+		height:100vh;
+		bottom:0;
+		left:0;
+		overflow: hidden;
+    z-index: 700;
+    .color{    
+      position: relative;
+      width: 100vw;
       height: 100vh;
-      animation: rolloutLower $slideSpeed linear forwards;
-      //animation-delay: .5s ;
+      background: none;
+      transform:height;
+      width: 100%;
+      left: 0px;
+      
+      &.upper{
+        top: 0px;
+        z-index: 400;
+        height: 100vh;
+        //animation: rollout $slideSpeed linear forwards;
+      }
+      &.lower{
+        background-color: transparent;
+        bottom: 0px;
+        z-index: 600;
+        height: 100vh;
+        //animation: rolloutLower $slideSpeed linear forwards;
+      }
     }
   } 
 }
@@ -84,15 +92,15 @@ $slideSpeed: 2s;
 
 @keyframes rollout {
   0% {
-    top:0px;
+    top: 0px;
     height: 0vh;
   }
   50% {
-    top:0px;
+    top: 0px;
     height: 100vh;
   }
   100% {
-    top:100vh;
+    top: 100vh;
     height: 0vh;
   } 
 }
@@ -104,6 +112,6 @@ $slideSpeed: 2s;
     height: 0vh;
   } 
   100%{
-    height:0vh;
+    height: 0vh;
   }  
 }

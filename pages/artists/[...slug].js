@@ -18,8 +18,8 @@ export default function Artist({artist:{ name, biography, artwork }}){
 				{name}<br/>
 				<Markdown>{biography}</Markdown>
 				<div className={styles.gallery}>
-					{artwork.map(image => 
-						<div className={styles.artwork}>
+					{artwork.map((image, idx) => 
+						<div key={idx} className={styles.artwork}>
 							<Image data={image.responsiveImage} className={styles.artwork}/>
 						</div>
 					)}
