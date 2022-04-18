@@ -45,15 +45,17 @@
   font-weight: 700;
   width: 60%;
   padding: $small-space*2;
-  transition: top .5s ease;
+  transition: height .3s ease, top .5s ease;
+  height: 0vh;
   &.hide{
-    top: -100%;
+    top: -100px;
   }
   &.open{
     background-color: #fff;
-    height: 100vh;  
+    height: 100vh;
     @include mq($until: desktop) {
       z-index: 800;
+      overflow: hidden;
       .menu{
         ul{
           li{

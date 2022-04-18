@@ -22,10 +22,7 @@ export default function Menu({artists, shows, events}){
   const [showMenu, setShowMenu] = useState(true);
   const [subMenuMargin, setSubMenuMargin] = useState(0);
   const { scrollY } = typeof window !== 'undefined' ? useWindowScrollPosition() : {scrollY:0}
-  const { scrollDirection, isScrolling, isScrollingUp, isScrollingDown} = useScrollDirection();
-
-  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
-  const menuStyles = cn(styles.container, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+  const { scrollDirection } = useScrollDirection();
 
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
@@ -49,9 +46,12 @@ export default function Menu({artists, shows, events}){
     setShowMenu(scrollY < 100 || scrollDirection === 'UP')
 	},[scrollY, scrollDirection])
 	
+  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
+  const menuStyles = cn(styles.container, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+
   return (
     <>
-      <div className={cn(styles.top, !showMenu && styles.hide)}>
+      <div className={cn(styles.top, !showMenu && !showMobileMenu && styles.hide)}>
         <Link href="/">SASKIA NEUMAN GALLERY</Link>
         <div className={styles.hamburger}>
           <Hamburger
@@ -119,13 +119,15 @@ export default function Menu({artists, shows, events}){
               </ul>
             )}
           </div>
-          <div 
-            className={cn(styles.separator, showSeparator && styles.show)} 
-            style={{marginLeft:`${subMenuMargin-0}px`}}
-          ></div>
+          {showMenu &&
+            <div 
+              id="menu-separator"
+              className={cn(styles.separator, showSeparator && styles.show)} 
+              style={{marginLeft:`${subMenuMargin}px`}}
+            ></div>
+          }
         </div>
       </div>
-      
     </>
   )
 }

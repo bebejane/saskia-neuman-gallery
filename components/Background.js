@@ -3,7 +3,6 @@ import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/router';
 
 const duration = 1;
 const pageTransition = {
@@ -29,10 +28,9 @@ const pageTransition = {
 	
 };
 
-export default function Background({image, color, pathname}){
+export default function Background({image, color, pathname, tempImage}){
   if(!image) return null;
-	
-	const router = useRouter()
+
 	const [animating, setAnimating] = useState(true)
 	const backgroundColor = `rgb(${color.join(',')})`;
 
@@ -63,7 +61,7 @@ export default function Background({image, color, pathname}){
 					</div>
 				</div>
 			</motion.div>
-			<div key={'lower'} className={cn(styles.color, styles.lower)}></div>
+			{/*<div key={'lower'} className={cn(styles.color, styles.lower)}></div>*/}
 		</div>
 	)
 }
