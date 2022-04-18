@@ -8,7 +8,9 @@ import Link from 'next/link';
 import { imageColor } from '/lib/utils';
 
 export default function Start({start, image, color}){
+	
 	const { links } = start;
+
 	if(!links) return null;
 
 	const category = links[0]._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
@@ -25,11 +27,15 @@ export default function Start({start, image, color}){
 	return (
 		<div className={styles.container}>
 			{links.slice(1).map((link)=>
-				<Image 
-					data={(link.image || link.images[0])?.responsiveImage}
-					className={styles.linkImage} 
-					prefetch={true}
-				/>
+				<Link href={`/${link._modelApiKey}s/${link.slug}`}>
+					<a>
+						<Image 
+							data={(link.image || link.images[0])?.responsiveImage}
+							className={styles.linkImage} 
+							prefetch={true}
+						/>
+					</a>
+				</Link>
 			)}
 			<div className={cn(styles.titleContainer)}>
 				<Link href={`/${links[0]._modelApiKey}s/${links[0].slug}`}>

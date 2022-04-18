@@ -21,7 +21,6 @@ export default function Menu({artists, shows, events}){
   const [showMenu, setShowMenu] = useState(true);
   const [subMenuMargin, setSubMenuMargin] = useState(0);
   const { scrollY } = useWindowScrollPosition()
-  console.log(scrollY)
   const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type ).length
 
   useEffect(()=>{
@@ -60,13 +59,13 @@ export default function Menu({artists, shows, events}){
             )}
           </ul>
           <div className={cn(styles.subMenu)}>
-            {menu.map(({type, path, label, sub}) => 
+            {menu.map(({type, path, label, sub}) => (sub) &&
               <ul 
                 id={`sub-${type}`} 
                 className={cn(subMenu?.type === type && styles.open)} 
                 style={{marginLeft: `${subMenuMargin}px`}}
               >
-                {sub?.map(a => 
+                {sub.map(a => 
                   <li>
                     <Link href={`${path}/${a.slug}`}>
                       <a>{a.name || a.title}</a>

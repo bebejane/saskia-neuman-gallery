@@ -1,0 +1,17 @@
+.about{
+  display: flex;
+  flex-direction: column;
+  .content{
+    display: flex;
+    flex-direction: row;
+    .contact, .description{
+      flex: 0 0 50%;
+    }
+    .description{
+  
+    }
+  }
+  .archive{
+    border-top:1px solid #000;
+  }
+}

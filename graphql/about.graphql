@@ -2,7 +2,7 @@
 
 query GetAbout {
 	about {
-		summary(markdown: false)
+		description(markdown: false)
 		address(markdown: false)
 		hours
 		email
