@@ -40,6 +40,7 @@ $slideSpeed: 2s;
     background-position: center !important;
     pointer-events: none;
     font-weight: bolder;
+    
     h1{
       display: flex;
       align-items: center;
@@ -73,7 +74,6 @@ $slideSpeed: 2s;
       width: 100vw;
       height: 100vh;
       background: none;
-      transform:height;
       width: 100%;
       left: 0px;
       
@@ -81,14 +81,12 @@ $slideSpeed: 2s;
         top: 0px;
         z-index: 400;
         height: 100vh;
-        //animation: rollout $slideSpeed linear forwards;
       }
       &.lower{
         background-color: transparent;
         bottom: 0px;
         z-index: 600;
         height: 100vh;
-        //animation: rolloutLower $slideSpeed linear forwards;
       }
     }
   } 
