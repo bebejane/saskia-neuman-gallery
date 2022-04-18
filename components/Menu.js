@@ -4,7 +4,8 @@ import cn from 'classnames'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router"
 import { Twirl as Hamburger } from 'hamburger-react'
-import {useWindowScrollPosition } from 'rooks'
+import { useWindowScrollPosition } from 'rooks'
+import { useScrollDirection } from "use-scroll-direction";
 
 export default function Menu({artists, shows, events}){
   
@@ -21,8 +22,10 @@ export default function Menu({artists, shows, events}){
   const [showMenu, setShowMenu] = useState(true);
   const [subMenuMargin, setSubMenuMargin] = useState(0);
   const { scrollY } = useWindowScrollPosition()
-  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type ).length
+  const { scrollDirection, isScrolling, isScrollingUp, isScrollingDown} = useScrollDirection();
 
+  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
+  
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
       setShowMobileMenu(false)
@@ -40,12 +43,17 @@ export default function Menu({artists, shows, events}){
     setSubMenuMargin(el.offsetLeft-parseInt(padding));
   }, [subMenu])
 
+  useEffect(()=>{
+    if(scrollDirection === 'NONE') return
+    setShowMenu(scrollY < 100 || scrollDirection === 'UP')
+	},[scrollY, scrollDirection])
+	
   return (
     <>
       <div className={styles.logo}>
         <Link href="/">SASKIA NEUMAN GALLERY</Link>
       </div>
-      <div id="menu" className={cn(styles.container, (subMenu || showMobileMenu) && showSeparator && styles.open, scrollY > 100 && styles.hide)} onMouseLeave={()=>setSubMenu()}>
+      <div id="menu" className={cn(styles.container, (subMenu || showMobileMenu) && showSeparator && styles.open, !showMenu && styles.hide)} onMouseLeave={()=>setSubMenu()}>
         <div className={cn(styles.menu)}>
           <ul>
             {menu.map(m => 
