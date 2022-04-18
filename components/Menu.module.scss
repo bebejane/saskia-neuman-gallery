@@ -1,11 +1,36 @@
-.logo{
+.top{
   position: fixed;
-  z-index: 400;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  z-index: 800;
   top:0;
   left:0;
-  padding: $space/2;
+  padding: $small-space*2;
   white-space: pre;
   font-weight: bold;
+  
+  @include mq($until: desktop) {
+    padding:0;
+    padding-left: 10px;
+    background-color: #fff;
+    z-index: 900;
+    .hamburger{
+      display: flex !important;
+    }
+  }
+  &.hide{
+    transition: top .5s ease;
+    &.hide{
+      top: -100%;
+    } 
+  }
+  .hamburger{
+    display: none;
+    justify-content: flex-end;
+    flex: 1 1;
+  }
 }
 
 .container{
@@ -16,10 +41,10 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-end;
-  z-index: 400;
+  z-index: 800;
   font-weight: 700;
   width: 60%;
-  padding: $space/2;
+  padding: $small-space*2;
   transition: top .5s ease;
   &.hide{
     top: -100%;
@@ -28,9 +53,8 @@
     background-color: #fff;
     height: 100vh;  
     @include mq($until: desktop) {
-      z-index: 1000;
+      z-index: 800;
       .menu{
-        height: 100vh;
         ul{
           li{
             display: block;
@@ -39,7 +63,7 @@
       }
     }
   }
-  .line{
+  .separator{
     position: absolute;
     display: none;
     top:0;
@@ -71,7 +95,6 @@
     box-sizing: border-box;
     height: auto;
     width: 100%;
-    
     ul{
       display: flex;
       flex-direction: row;
@@ -89,6 +112,13 @@
         }
         &:last-child{
           margin-right:0; 
+        }
+        // Sub menu
+        ul{ 
+          margin-left: $small-space/2;
+          li{
+            border-bottom: 0px solid #000;
+          }
         }
       }
     }
@@ -119,12 +149,15 @@
      // Mobile Menu
     @include mq($until: desktop) {
       position: absolute;
-      top:100px;
+      top:$space;
       left:0px;
       width: 100% !important;
       align-items: flex-start;
       justify-content: flex-start;
       background-color: #fff;
+      z-index: 700;
+      padding-left: $small-space;
+      padding-right: $small-space;
       ul{
         flex-direction: column;
         flex: 1 1 100%;
@@ -133,7 +166,7 @@
           display: none;
           width: 100%;
           margin-left:0rem;
-          line-height: 3rem;
+         
         }
       }
     }
