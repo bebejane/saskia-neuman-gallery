@@ -13,7 +13,6 @@ const routeChange = () => {const allStyleElems = document.querySelectorAll('styl
 Router.events.on("routeChangeComplete", routeChange);
 Router.events.on("routeChangeStart", routeChange);
 
-
 function MyApp({ Component, pageProps }) {
 
   if(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
@@ -28,8 +27,8 @@ function MyApp({ Component, pageProps }) {
       <DatoSEO seo={seo} site={site} pathname={pathname} key={pathname}/>
       <Menu {...{artists, shows, events}}/>
       <AnimatePresence 
-        exitBeforeEnter 
-        initial={false}
+        exitBeforeEnter
+        initial={true}
         onExitComplete={() => typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
       >
         <Background image={image ? image : images ? images[0] : null} color={color} key={pathname}/>

@@ -21,7 +21,7 @@ export default function Menu({artists, shows, events}){
   const [subMenu, setSubMenu] = useState();
   const [showMenu, setShowMenu] = useState(true);
   const [subMenuMargin, setSubMenuMargin] = useState(0);
-  const { scrollY } = useWindowScrollPosition()
+  const { scrollY } = typeof window !== 'undefined' ? useWindowScrollPosition() : {scrollY:0}
   const { scrollDirection, isScrolling, isScrollingUp, isScrollingDown} = useScrollDirection();
 
   const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
@@ -38,7 +38,7 @@ export default function Menu({artists, shows, events}){
   useEffect(()=>{
     const el = document.getElementById(`menu-${subMenu?.type}`)
     const menu = document.getElementById('menu')
-    if(!el) return
+    if(!el || !menu) return
     const padding = getComputedStyle(menu, null).getPropertyValue('padding-left')
     setSubMenuMargin(el.offsetLeft-parseInt(padding));
   }, [subMenu])
