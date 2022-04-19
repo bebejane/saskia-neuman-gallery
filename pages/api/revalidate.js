@@ -13,9 +13,8 @@ export default async (req, res) => {
 
   if(!basicAuth(req)) return res.status(401).send('Access denied')
   let path;
-  
+
   try{
-  
     
     const { entity } = req.body
 
