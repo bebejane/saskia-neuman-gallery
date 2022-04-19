@@ -19,21 +19,21 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter()
   const { asPath : pathname } = router
-  const { site, seo, artists, shows, events, show, event, artist, about, image, images, color } = pageProps;
+  const { site, seo, artists, shows, events, show, event, artist, about, image, images, color, brightness } = pageProps;
   
   const title = show?.title || event?.title || artist?.name || (about ? 'About' : null )
 
   return (
     <>
       <GoogleAnalytics />
-      <DatoSEO seo={seo} site={site} title={`Saskia Neumann Gallery${title ? ` - ${title}` : ''}`} pathname={pathname} key={pathname}/>
-      <Menu {...{artists, shows, events, color}}/>
+      <DatoSEO seo={seo} site={site} title={`Saskia Neumann Gallery${title ? ` · ${title}` : ''}`} pathname={pathname} key={pathname}/>
+      <Menu {...{artists, shows, events, color, brightness}}/>
       <AnimatePresence 
         exitBeforeEnter
         initial={true}
         onExitComplete={() => typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
       >
-        <Background image={image ? image : images ? images[0] : null} color={color} key={pathname}/>
+        <Background image={image ? image : images ? images[0] : null} color={color} key={pathname} title={title} brightness={brightness}/>
       </AnimatePresence>
       <Component {...pageProps} />
       <Footer {...pageProps}/>

@@ -7,7 +7,7 @@ import { useWindowScrollPosition } from 'rooks'
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from 'hamburger-react'
 
-export default function Menu({artists, shows, events, color}){
+export default function Menu({artists, shows, events, color, brightness}){
   
   const menu = [
     {type:'artist', path:'/artists', label:'Artists', sub:artists}, 
@@ -47,8 +47,8 @@ export default function Menu({artists, shows, events, color}){
 	},[scrollY, scrollDirection])
 	
   const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
-  const menuStyles = cn(styles.container, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
-
+  const menuStyles = cn(styles.container,(subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+  
   return (
     <>
       <div className={cn(styles.top, !showMenu && !showMobileMenu && styles.hide)}>
@@ -69,7 +69,7 @@ export default function Menu({artists, shows, events, color}){
         className={menuStyles} 
         onMouseLeave={()=>setSubMenu()}
       >
-        <div className={cn(styles.menu)}>
+        <div className={cn(styles.menu, brightness > 50 ? styles.dark : styles.light)}>
           <ul>
             {menu.map((m, idx) => 
               <li 

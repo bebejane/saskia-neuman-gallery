@@ -3,6 +3,7 @@ import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 const duration = 1;
 const pageTransition = {
@@ -28,11 +29,13 @@ const pageTransition = {
 	
 };
 
-export default function Background({image, color, pathname, tempImage}){
+export default function Background({image, color, title, brightness}){
   if(!image) return null;
 
+	const router = useRouter()
 	const [animating, setAnimating] = useState(true)
 	const backgroundColor = `rgb(${color.join(',')})`;
+	const showLogo = (animating && router.asPath !== '/')
 
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;
@@ -54,7 +57,7 @@ export default function Background({image, color, pathname, tempImage}){
 			>
 				<div key={'upper'} className={cn(styles.color, styles.upper)} style={{backgroundColor}}>
 					<div 
-						className={cn(styles.logo, !animating && styles.hide)} 
+						className={cn(styles.logo, !showLogo && styles.hide)} 
 						style={{background:`url(${image.url}?w=400)`}}
 					>
 						<h1>SASKIA NEUMAN GALLERY</h1>

@@ -5,7 +5,7 @@ import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { imageColor } from '/lib/utils';
+import { imageColor, imageBrightness } from '/lib/utils';
 
 export default function Start({start, image, color}){
 	
@@ -51,15 +51,17 @@ export default function Start({start, image, color}){
 	)
 }
 
+
 export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'}, async ({props, revalidate }) => {
 	const { links } = props.start
 	const image = links[0]?.image ? links[0].image : links[0]?.images?.length ? links[0]?.images[0] : null
-	
+
 	return {
 		props:{
 			...props,
 			image,
-			color: imageColor(image)
+			color: imageColor(image),
+			brightness : await imageBrightness(image)
 		},
 		revalidate
 	};

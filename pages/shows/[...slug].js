@@ -1,7 +1,7 @@
 import styles from './Shows.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor } from '/lib/utils';
+import { imageColor, imageBrightness } from '/lib/utils';
 import { GetAllShows,  GetShow } from '/graphql';
 import Markdown from '/lib/dato/components/Markdown';
 import { format } from "date-fns"
@@ -74,6 +74,7 @@ export const getStaticProps = withGlobalProps({model:'show'}, async ({props, con
       ...props,
 			image: show.image || null,
 			color: imageColor(show.image),
+			brightness: await imageBrightness(show.image),
       show
     },
 		revalidate
