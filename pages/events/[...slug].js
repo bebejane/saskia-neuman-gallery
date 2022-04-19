@@ -1,7 +1,7 @@
 import styles from './Events.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor } from '/lib/utils';
+import { imageColor, imageBrightness } from '/lib/utils';
 import { GetAllEvents,  GetEvent } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
@@ -32,6 +32,7 @@ export const getStaticProps = withGlobalProps({model:'event'}, async ({props, co
       event,
 			image: event.image || null,
 			color: imageColor(event.image),
+			brightness : await imageBrightness(event.image)
     },
 		revalidate
 	};

@@ -9,6 +9,7 @@ import { Image } from 'react-datocms';
 import { useState } from 'react';
 import Gallery from '/components/Gallery'
 
+
 export default function Show({ show :{ title, description, startDate, endDate, slug, artwork, artists, press}}){
   
 	const [showGallery, setShowGallery] = useState(false)
@@ -74,8 +75,8 @@ export const getStaticProps = withGlobalProps({model:'show'}, async ({props, con
       ...props,
 			image: show.image || null,
 			color: imageColor(show.image),
-			brightness: await imageBrightness(show.image),
-      show
+			brightness : await imageBrightness(show.image),
+			show
     },
 		revalidate
 	};

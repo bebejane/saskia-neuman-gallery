@@ -1,6 +1,7 @@
 import styles from './index.module.scss'
 import { withGlobalProps } from "/lib/hoc";
 import { GetStart } from '/graphql';
+import { imageColor, imageBrightness } from "/lib/utils";
 import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';

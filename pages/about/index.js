@@ -3,7 +3,7 @@ import { withGlobalProps } from "/lib/hoc";
 import { GetAbout} from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
-import { imageColor } from 'lib/utils';
+import { imageColor, imageBrightness } from '/lib/utils';
 
 export default function About({about}){
 	
@@ -40,7 +40,8 @@ export const getStaticProps = withGlobalProps({queries:[GetAbout], model:'about'
 		props:{
 			...props,
 			image: image || null,
-			color: imageColor(image)
+			color: imageColor(image),
+			brightness : await imageBrightness(image)
 		},
 		revalidate
 	};

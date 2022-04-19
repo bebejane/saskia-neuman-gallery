@@ -1,4 +1,4 @@
-.top{
+.navbar{
   position: fixed;
   display: flex;
   flex-direction: row;
@@ -21,10 +21,13 @@
     }
   }
   &.hide{
-    transition: top .5s ease;
-    &.hide{
-      top: -100%;
-    } 
+    @include mq($until: desktop) {
+      transition: top .5s ease;
+      &.hide{
+        top: -100%;
+      } 
+    }
+    
   }
   .hamburger{
     display: none;

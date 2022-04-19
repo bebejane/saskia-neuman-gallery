@@ -1,11 +1,11 @@
 import styles from './Artists.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
+import { imageColor, imageBrightness } from '/lib/utils';
 import { GetAllArtists,  GetArtist } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
 import Link from 'next/link';
-import { imageColor } from 'lib/utils';
 import Gallery from '/components/Gallery'
 import { useState } from 'react';
 
@@ -48,7 +48,8 @@ export const getStaticProps = withGlobalProps({model:'artist'}, async ({props, c
       ...props,
       artist,
 			image: artist.image || null,
-			color: imageColor(artist.image)
+			color: imageColor(artist.image),
+			brightness : await imageBrightness(artist.image),
     },
 		revalidate
 	};
