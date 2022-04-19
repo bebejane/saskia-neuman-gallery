@@ -67,7 +67,12 @@
       }
     }
   }
-  
+  &.dark{
+
+  }
+  &.light{
+
+  }
   .separator{
     position: absolute;
     display: none;
@@ -100,17 +105,7 @@
     box-sizing: border-box;
     height: auto;
     width: 100%;
-    &.dark{
-      ul > li > a{
-        color:#000 ;
-      }
-      
-    }
-    &.light{
-      ul > li > a {
-        color:#fff ;
-      }
-    }
+    
     ul{
       display: flex;
       flex-direction: row;

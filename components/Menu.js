@@ -47,7 +47,7 @@ export default function Menu({artists, shows, events, color, brightness}){
 	},[scrollY, scrollDirection])
 	
   const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
-  const menuStyles = cn(styles.container,(subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+  const menuStyles = cn(styles.container, brightness > 50 ? styles.dark : styles.light, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
   
   return (
     <>
@@ -69,7 +69,7 @@ export default function Menu({artists, shows, events, color, brightness}){
         className={menuStyles} 
         onMouseLeave={()=>setSubMenu()}
       >
-        <div className={cn(styles.menu, brightness > 50 ? styles.dark : styles.light)}>
+        <div className={cn(styles.menu)}>
           <ul>
             {menu.map((m, idx) => 
               <li 
