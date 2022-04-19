@@ -12,10 +12,11 @@ const basicAuth = (req) => {
 export default async (req, res) => {
 
   if(!basicAuth(req)) return res.status(401).send('Access denied')
-
+  let path;
+  
   try{
   
-    let path;  
+    
     const { entity } = req.body
 
     if(!entity) throw new Error(`Record payload missing!`);
