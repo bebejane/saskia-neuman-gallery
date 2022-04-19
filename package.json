@@ -21,7 +21,7 @@
     "graphql-tag": "^2.12.6",
     "hamburger-react": "^2.5.0",
     "markdown-truncate": "^1.0.4",
-    "next": "^12.1.6-canary.3",
+    "next": "^12.1.5",
     "next-compose-plugins": "^2.2.1",
     "next-plugin-graphql": "^0.0.2",
     "next-seo": "^4.28.1",
