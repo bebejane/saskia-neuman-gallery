@@ -6,7 +6,6 @@ import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { imageColor, imageBrightness } from '/lib/utils';
 
 export default function Start({start, image, color}){
 	
