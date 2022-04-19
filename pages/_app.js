@@ -19,10 +19,11 @@ function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, e
   if(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
 
   const router = useRouter()
-  const { asPath : pathname } = router
-  const title = show?.title || event?.title || artist?.name || (about ? 'About' : null )
   const [backgroundColor, setBackgroundColor] = useState(color)
-  console.log(brightness)
+  
+  const { asPath : pathname } = router  
+  const title = show?.title || event?.title || artist?.name || (about ? 'About' : null )
+
   return (
     <>
       <GoogleAnalytics />
