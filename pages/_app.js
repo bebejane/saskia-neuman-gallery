@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, e
     <>
       <GoogleAnalytics />
       <DatoSEO seo={seo} site={site} title={`Saskia Neumann Gallery${title ? ` · ${title}` : ''}`} pathname={pathname} key={pathname}/>
-      <Menu {...{menu, artists, shows, events, color, brightness}} onColorChange={(c)=>setBackgroundColor(c)}/>
+      <Menu {...{menu: menu || [], artists, shows, events, color, brightness}} onColorChange={(c)=>setBackgroundColor(c)}/>
       <AnimatePresence 
         exitBeforeEnter
         initial={true}
