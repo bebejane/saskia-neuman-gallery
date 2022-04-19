@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, e
   const { asPath : pathname } = router
   const title = show?.title || event?.title || artist?.name || (about ? 'About' : null )
   const [backgroundColor, setBackgroundColor] = useState(color)
+  console.log(brightness)
   return (
     <>
       <GoogleAnalytics />
