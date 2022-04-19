@@ -27,9 +27,9 @@ export default function Start({start, image, color}){
 
 	return (
 		<div className={styles.container}>
-			{links.slice(1).map((link)=>
+			{links.slice(1).map((link, idx)=>
 				<Link href={`/${link._modelApiKey}s/${link.slug}`}>
-					<a>
+					<a key={idx}>
 						<Image 
 							data={(link.image || link.images[0])?.responsiveImage}
 							className={styles.linkImage} 

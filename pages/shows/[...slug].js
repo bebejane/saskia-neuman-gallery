@@ -32,8 +32,8 @@ export default function Show({ show :{ title, description, startDate, endDate, s
 						<div className={styles.artworks}>
 							<h3>ARTWORKS</h3>
 							<div className={styles.gallery}>
-								{artwork.map((image)=>
-									<Image data={image.responsiveImage}/>
+								{artwork.map((image, idx)=>
+									<Image key={idx} data={image.responsiveImage}/>
 								)}
 							</div>
 							<a onClick={()=>setShowGallery(true)}>[Gallery]</a>
@@ -41,8 +41,8 @@ export default function Show({ show :{ title, description, startDate, endDate, s
 						<div className={styles.press}>
 							<h3>PRESS</h3>
 							<div className={styles.press}>
-								{press.map(({date, source, author,url})=>
-									<div className={styles.block}>
+								{press.map(({date, source, author,url}, idx)=>
+									<div key={idx} className={styles.block}>
 										{format(new Date(date), 'dd.MM.yyyy')}<br/>
 										{source} <a href={url}>-></a><br/>
 										{author}

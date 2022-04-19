@@ -7,15 +7,8 @@ import { useWindowScrollPosition } from 'rooks'
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from 'hamburger-react'
 
-export default function Menu({artists, shows, events, color, brightness}){
+export default function Menu({menu, artists, shows, events, color, brightness, onColorChange}){
   
-  const menu = [
-    {type:'artist', path:'/artists', label:'Artists', sub:artists}, 
-    {type:'show', path:'/shows', label:'Shows', sub:shows}, 
-    {type:'event', path:'/events', label:'Events', sub:events}, 
-    {type:'about', path:'/about', label:'About'}
-  ]
-
   const router = useRouter()
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [subMenu, setSubMenu] = useState();
@@ -26,6 +19,12 @@ export default function Menu({artists, shows, events, color, brightness}){
 
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
+      const subs = []
+      menu.filter(({sub}) => sub).forEach(({sub}) => subs.push.apply(subs, sub))
+      const next = subs.filter(({slug}) => `/${slug}` === url)[0]
+      
+      if(next) onColorChange(next.color)
+
       setShowMobileMenu(false)
       setSubMenu(undefined)
     }
@@ -46,8 +45,9 @@ export default function Menu({artists, shows, events, color, brightness}){
     setShowMenu(scrollY < 100 || scrollDirection === 'UP')
 	},[scrollY, scrollDirection])
 	
+  const isDarkTheme = brightness < 0.5;
   const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
-  const menuStyles = cn(styles.container, brightness > 50 ? styles.dark : styles.light, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+  const menuStyles = cn(styles.container, isDarkTheme ? styles.dark : styles.light, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
   
   return (
     <>
@@ -90,7 +90,7 @@ export default function Menu({artists, shows, events, color, brightness}){
                     className={cn(subMenu?.type === m.type && styles.open)} 
                   >
                     {m.sub?.map((a, idx) => 
-                      <Link href={`${m.path}/${a.slug}`}>
+                      <Link href={`/${a.slug}`}>
                         <li key={idx}>
                           <a>{a.name || a.title}</a>
                         </li>
@@ -111,7 +111,7 @@ export default function Menu({artists, shows, events, color, brightness}){
               >
                 {sub.map((a, idx) => 
                   <li key={idx}>
-                    <Link href={`${path}/${a.slug}`}>
+                    <Link href={`/${a.slug}`}>
                       <a>{a.name || a.title}</a>
                     </Link>
                   </li>

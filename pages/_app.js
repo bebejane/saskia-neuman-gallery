@@ -7,35 +7,40 @@ import Menu from '/components/Menu';
 import Background from '/components/Background';
 import Footer from '/components/Footer';
 import { AnimatePresence } from "framer-motion";
+import { useState }from 'react'
 
 // Bugfix for framer-motion page transition - https://github.com/vercel/next.js/issues/17464
 const routeChange = () => {const allStyleElems = document.querySelectorAll('style[media="x"]'); allStyleElems.forEach((elem) => elem.removeAttribute("media"))};
 Router.events.on("routeChangeComplete", routeChange);
 Router.events.on("routeChangeStart", routeChange);
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, events, show, event, artist, about, image, images, color, brightness, menu }}) {
 
   if(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
 
   const router = useRouter()
   const { asPath : pathname } = router
-  const { site, seo, artists, shows, events, show, event, artist, about, image, images, color, brightness } = pageProps;
-  
   const title = show?.title || event?.title || artist?.name || (about ? 'About' : null )
-
+  const [backgroundColor, setBackgroundColor] = useState(color)
   return (
     <>
       <GoogleAnalytics />
       <DatoSEO seo={seo} site={site} title={`Saskia Neumann Gallery${title ? ` · ${title}` : ''}`} pathname={pathname} key={pathname}/>
-      <Menu {...{artists, shows, events, color, brightness}}/>
+      <Menu {...{menu, artists, shows, events, color, brightness}} onColorChange={(c)=>setBackgroundColor(c)}/>
       <AnimatePresence 
         exitBeforeEnter
         initial={true}
         onExitComplete={() => typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
       >
-        <Background image={image ? image : images ? images[0] : null} color={color} key={pathname} title={title} brightness={brightness}/>
+        <Background 
+          image={image} 
+          color={backgroundColor} 
+          key={pathname} 
+          title={title} 
+          brightness={brightness} 
+        />
       </AnimatePresence>
-      <Component {...pageProps} />
+      <Component {...pageProps}/>
       <Footer {...pageProps}/>
     </>
   )
