@@ -35,7 +35,7 @@ export default function Background({image, color, title, brightness}){
 	const router = useRouter()
 	const [animating, setAnimating] = useState(true)
 	const backgroundColor = `rgb(${color.join(',')})`;
-	const showLogo = (animating && router.asPath !== '/')
+	const showLogo = (animating && router.asPath === '/')
 
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;
