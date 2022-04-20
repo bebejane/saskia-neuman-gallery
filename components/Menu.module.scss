@@ -34,6 +34,12 @@
     justify-content: flex-end;
     flex: 1 1;
   }
+  &.dark{
+    *{
+      color: #fff !important;
+    }
+    
+  }
 }
 
 .container{
@@ -71,7 +77,15 @@
     }
   }
   &.dark{
-
+    *{
+      color: #fff !important;
+    }
+    .separator{
+      border-color: #fff !important;
+    }
+    &.open{
+      background-color: #000;
+    }
   }
   &.light{
 

@@ -54,7 +54,7 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
   
   return (
     <>
-      <div className={cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide)}>
+      <div className={cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, isDarkTheme && styles.dark)}>
         <Link href="/">SASKIA NEUMAN GALLERY</Link>
         <div className={styles.hamburger}>
           <Hamburger
