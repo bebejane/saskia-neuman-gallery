@@ -14,13 +14,14 @@ const routeChange = () => {const allStyleElems = document.querySelectorAll('styl
 Router.events.on("routeChangeComplete", routeChange);
 Router.events.on("routeChangeStart", routeChange);
 
-function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, events, show, event, artist, about, image, images, color, brightness, menu }}) {
+function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, events, show, event, artist, about, image, color, brightness, menu }}) {
 
   if(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
 
   const router = useRouter()
   const [backgroundColor, setBackgroundColor] = useState(color)
-  
+  const [backgroundImage, setBackgroundImage] = useState(image)
+
   const { asPath : pathname } = router  
   const title = show?.title || event?.title || artist?.name || (about ? 'About' : null )
 
@@ -28,15 +29,19 @@ function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, e
     <>
       <GoogleAnalytics />
       <DatoSEO seo={seo} site={site} title={`Saskia Neumann Gallery${title ? ` · ${title}` : ''}`} pathname={pathname} key={pathname}/>
-      <Menu {...{menu: menu || [], artists, shows, events, color, brightness}} onColorChange={(c)=>setBackgroundColor(c)}/>
+      <Menu 
+        {...{menu: menu || [], artists, shows, events, color, brightness}} 
+        onColorChange={(c)=>setBackgroundColor(c)}
+        onHover={(item, hovering) => hovering ? setBackgroundImage(item.image) : setBackgroundImage(image)}
+      />
       <AnimatePresence 
         exitBeforeEnter
         initial={true}
         onExitComplete={() => typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
       >
         <Background 
-          image={image} 
-          color={backgroundColor} 
+          image={backgroundImage}
+          color={backgroundColor}
           key={pathname} 
           title={title} 
           brightness={brightness} 

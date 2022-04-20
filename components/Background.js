@@ -31,10 +31,10 @@ const pageTransition = {
 
 export default function Background({image, color, title, brightness}){
   if(!image) return null;
-
+	
 	const router = useRouter()
 	const [animating, setAnimating] = useState(true)
-	const backgroundColor = `rgb(${color.join(',')})`;
+	const backgroundColor = `rgb(${color?.join(',')})`;
 	const showLogo = (animating && router.asPath === '/')
 
 	useEffect(()=>{

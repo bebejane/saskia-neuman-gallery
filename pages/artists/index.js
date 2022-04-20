@@ -1,4 +1,5 @@
 import styles from './Artists.module.scss'
+import { imageColor, imageBrightness } from '/lib/utils';
 import { withGlobalProps } from "/lib/hoc";
 import { GetAllArtists } from '/graphql';
 import { Image } from 'react-datocms';
@@ -19,8 +20,14 @@ export default function Artists({artists}){
 }
 
 export const getStaticProps = withGlobalProps({queries:[GetAllArtists]}, async ({props, revalidate }) => {
+	
 	return {
-		props,
+		props:{
+			...props,
+			image:props.artists[0]?.image,
+			color: imageColor(props.artists[0]?.image),
+			brightness : await imageBrightness(props.artists[0]?.image)
+		},
 		revalidate
-	};
+	}
 });

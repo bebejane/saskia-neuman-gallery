@@ -1,5 +1,6 @@
 import styles from './Events.module.scss'
 import { withGlobalProps } from "/lib/hoc";
+import { imageColor, imageBrightness } from '/lib/utils';
 import { GetAllEvents} from '/graphql';
 import { Image } from 'react-datocms';
 import { format } from 'date-fns';
@@ -24,7 +25,12 @@ export default function Events({events}){
 
 export const getStaticProps = withGlobalProps({queries:[GetAllEvents]}, async ({props, revalidate }) => {
 	return {
-		props,
+		props:{
+			...props,
+			image: props.events[0]?.image,
+			color: imageColor(props.events[0]?.image),
+			brightness : await imageBrightness(props.events[0]?.image)
+		},
 		revalidate
-	};
+	}
 });

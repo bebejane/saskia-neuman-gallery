@@ -2,6 +2,7 @@
 #import "./fragments/ShowFragment.graphql"
 #import "./fragments/EventFragment.graphql"
 #import "./fragments/SiteFragment.graphql"
+#import "./fragments/AboutFragment.graphql"
 
 query GetGlobal {
 	artists: allArtists {
@@ -12,6 +13,9 @@ query GetGlobal {
   }
   events: allEvents {
     ...EventFragment
+  }
+  about {
+    ...AboutFragment
   }
   site: _site {
 		...SiteFragment

@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import { withGlobalProps } from "/lib/hoc";
+import { imageColor, imageBrightness } from '/lib/utils';
 import { GetStart } from '/graphql';
-import { imageColor, imageBrightness } from "/lib/utils";
 import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
@@ -14,7 +14,7 @@ export default function Start({start, image, color}){
 	if(!links) return null;
 
 	const category = links[0]._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
-	const title = `${links[0].title} ${links[0].artists ? links[0].artists[0]?.name : ''}`
+	const title = `${links[0].title} ${links[0].artists.length ? links[0].artists[0]?.name : ''}`
 	
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;

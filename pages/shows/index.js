@@ -1,5 +1,6 @@
 import styles from './Shows.module.scss'
 import { withGlobalProps } from "/lib/hoc";
+import { imageColor, imageBrightness } from '/lib/utils';
 import { GetAllShows } from '/graphql';
 import { format } from 'date-fns';
 import { Image } from 'react-datocms';
@@ -23,8 +24,14 @@ export default function Shows({shows}){
 }
 
 export const getStaticProps = withGlobalProps({queries:[GetAllShows]}, async ({props, revalidate }) => {
+
 	return {
-		props,
+		props:{
+			...props,
+			image : props.shows[0]?.image,
+			color: imageColor(props.shows[0]?.image),
+			brightness : await imageBrightness(props.shows[0]?.image)
+		},
 		revalidate
 	};
 });

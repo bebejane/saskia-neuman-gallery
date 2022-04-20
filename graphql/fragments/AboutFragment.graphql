@@ -1,0 +1,10 @@
+fragment AboutFragment on AboutRecord {
+  description(markdown: false)
+  address(markdown: false)
+  hours
+  email
+  googleMapsUrl
+  image{
+    ...ImageFragment
+  }
+}
