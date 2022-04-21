@@ -84,7 +84,7 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
                 {m.sub  ? 
                   <a onClick={()=> setSubMenu(m)}>{m.label}</a>
                 : 
-                  <Link href={m.path}><a>{m.label}</a></Link> 
+                  <Link href={m.path}><a onMouseEnter={()=>onHover(m, true)} onMouseLeave={()=>onHover(m, false)}>{m.label}</a></Link> 
                 }
                 {showMobileMenu && m.type === subMenu?.type &&
                   <ul 

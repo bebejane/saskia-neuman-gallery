@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, e
       <Menu 
         {...{menu: menu || [], artists, shows, events, color, brightness}} 
         onColorChange={(c)=>setBackgroundColor(c)}
-        onHover={(item, hovering) => hovering ? setBackgroundImage(item.image) : setBackgroundImage(image)}
+        onHover={(item, hovering) => image && hovering ? setBackgroundImage(item.image) : setBackgroundImage(image)}
       />
       <AnimatePresence 
         exitBeforeEnter
