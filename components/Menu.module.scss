@@ -7,6 +7,7 @@
   z-index: 800;
   top:0;
   left:0;
+  height: 50px;
   padding: $small-space*2;
   white-space: pre;
   font-weight: bold;
@@ -18,7 +19,7 @@
   @include mq($until: desktop) {
     padding:0;
     padding-left: 10px;
-    //background-color: #fff;
+    background-color: #fff;
     z-index: 900;
     .hamburger{
       display: flex !important;
@@ -28,18 +29,19 @@
   &.hide{
     @include mq($until: desktop) {
       transition: top .5s ease;
-      &.hide{
+      
         top: -100vh;
-      } 
+       
     }
-    
   }
   
   &.dark{
+    @include mq($until: desktop) {
+      background-color: #000;
+    }
     *{
       color: #fff !important;
     }
-    
   }
 }
 
@@ -63,11 +65,11 @@
   }
   &.open{
     height: 100vh;
-    //border-bottom: 2px solid #000;
     @include mq($until: desktop) {
       z-index: 800;
       overflow: hidden;
       .menu{
+        height: 100vh !important;
         ul{
           li{
             display: block;
@@ -83,8 +85,21 @@
     .separator{
       border-color: #fff !important;
     }
+    @include mq($until: desktop) {
+      .menu{
+        background-color: #000;
+        ul > li{
+          border-bottom: 2px solid #fff;
+        }
+      }
+      
+    }
     &.open{
-      //background-color: #000;
+      @include mq($until: desktop) {
+        .menu{
+          background-color: #000;
+        }        
+      }
     }
   }
   &.light{
@@ -180,18 +195,22 @@
      // Mobile Menu
     @include mq($until: desktop) {
       position: absolute;
-      top:$space;
+      display: none;
+      top: 50px;
       left:0px;
-      width: 100% !important;
+      width: 100%;
       align-items: flex-start;
       justify-content: flex-start;
       background-color: #fff;
       z-index: 700;
       padding-left: $small-space;
       padding-right: $small-space;
+      &.show{
+        display: flex;
+      }
       ul{
         flex-direction: column;
-        flex: 1 1 100%;
+        flex: 0 1;
         li{
           border-bottom: 2px solid #000;
           display: none;

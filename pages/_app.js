@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, e
 
   const { asPath : pathname } = router  
   const title = show?.title || event?.title || artist?.name || (about ? 'About' : null )
-
+  
   return (
     <>
       <GoogleAnalytics />
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps, pageProps: { site, seo, artists, shows, e
       <Menu 
         {...{menu: menu || [], artists, shows, events, color, brightness}} 
         onColorChange={(c)=>setBackgroundColor(c)}
-        onHover={(item, hovering) => image && hovering ? setBackgroundImage(item.image) : setBackgroundImage(image)}
+        onHover={(item, hovering) => hovering ? setBackgroundImage(item.image) : setBackgroundImage(image) }
       />
       <AnimatePresence 
         exitBeforeEnter

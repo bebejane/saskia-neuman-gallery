@@ -21,7 +21,7 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
     const handleRouteChange = (url, { shallow }) => {
       const subs = []
       menu.filter(({sub}) => sub).forEach(({sub}) => subs.push.apply(subs, sub))
-      const next = subs.filter(({slug}) => `/${slug}` === url)[0] || menu.filter(({path}) => path === url)[0]
+      const next = subs.filter(({slug}) => `/${slug}` === url)[0] || menu.filter(({path}) => path === url)[0] || menu.filter(({path}) => path === url)[0]
       
       if(next) {
         onColorChange(next.color)
@@ -72,7 +72,7 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
         className={menuStyles} 
         onMouseLeave={()=>setSubMenu()}
       >
-        <div className={cn(styles.menu)}>
+        <div className={cn(styles.menu, showMobileMenu && styles.show)}>
           <ul>
             {menu.map((m, idx) => 
               <li 
@@ -84,7 +84,9 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
                 {m.sub  ? 
                   <a onClick={()=> setSubMenu(m)}>{m.label}</a>
                 : 
-                  <Link href={m.path}><a onMouseEnter={()=>onHover(m, true)} onMouseLeave={()=>onHover(m, false)}>{m.label}</a></Link> 
+                  <Link href={m.path}>
+                    <a onMouseEnter={()=>onHover(m, true)} onMouseLeave={()=>onHover(m, false)}>{m.label}</a>
+                  </Link> 
                 }
                 {showMobileMenu && m.type === subMenu?.type &&
                   <ul 
@@ -119,11 +121,6 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
                     </Link>
                   </li>
                 )}
-                <li key={idx}>
-                  <Link href={`/${type}s`}>
-                    <a>{'More...'}</a>
-                  </Link>
-                </li>
               </ul>
             )}
           </div>

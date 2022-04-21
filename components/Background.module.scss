@@ -21,7 +21,7 @@ $slideSpeed: 2s;
 	.logo {
     position: fixed;
     min-width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     bottom:0;
     left:0;
     display: flex;
@@ -35,7 +35,7 @@ $slideSpeed: 2s;
     background-size: cover !important;
     background-repeat: no-repeat !important;
     -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent !important;
     background-position: center !important;
     pointer-events: none;
     font-weight: bolder;
@@ -75,6 +75,7 @@ $slideSpeed: 2s;
 	}
   .motionContainer{
     position:fixed;
+    display: flex;
 		height: 100vh;
 		width:100vw;
 		height:100vh;
