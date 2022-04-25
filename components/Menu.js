@@ -14,8 +14,15 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
   const [subMenu, setSubMenu] = useState();
   const [showMenu, setShowMenu] = useState(true);
   const [subMenuMargin, setSubMenuMargin] = useState(0);
+  const [separatorMargin, setSeparatorMargin] = useState(0);
   const { scrollY } = typeof window !== 'undefined' ? useWindowScrollPosition() : {scrollY:0}
   const { scrollDirection } = useScrollDirection();
+  
+  const isDarkTheme = brightness < 0.5;
+  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
+  const menuStyles = cn(styles.menuWrapper, isDarkTheme ? styles.dark : styles.light, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+  const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, isDarkTheme && styles.dark)
+  
 
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
@@ -29,7 +36,6 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
       }
       setShowMobileMenu(false)
       setSubMenu(undefined)
-
     }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => router.events.off('routeChangeStart', handleRouteChange)
@@ -37,42 +43,32 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
   
   useEffect(()=>{
     const el = document.getElementById(`menu-${subMenu?.type}`)
-    const menu = document.getElementById('menu')
+    const menuWrapper = document.getElementById('menu-wrapper')
     if(!el || !menu) return
-    const padding = getComputedStyle(menu, null).getPropertyValue('padding-left')
-    setSubMenuMargin(el.offsetLeft-parseInt(padding));
+    const padding = getComputedStyle(menuWrapper, null).getPropertyValue('padding-left')
+    setSeparatorMargin(el.offsetParent.offsetLeft+el.offsetLeft-parseInt(padding));
+    setSubMenuMargin(el.offsetLeft)
   }, [subMenu])
 
-  useEffect(()=>{
-    if(scrollDirection === 'NONE') return
-    setShowMenu(scrollY < 100 || scrollDirection === 'UP')
-	},[scrollY, scrollDirection])
-	
-  const isDarkTheme = brightness < 0.5;
-  const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
-  const menuStyles = cn(styles.container, isDarkTheme ? styles.dark : styles.light, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+  useEffect(()=> scrollDirection !== 'NONE' && setShowMenu(scrollY < 100 || scrollDirection === 'UP'),[scrollY, scrollDirection])
   
   return (
     <>
-      <div className={cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, isDarkTheme && styles.dark)}>
+      <div className={navbarStyles}>
         <Link href="/">SASKIA NEUMAN GALLERY</Link>
         <div className={styles.hamburger}>
           <Hamburger
             toggled={showMobileMenu}
             duration={0.5}
             onToggle={(toggle) => setShowMobileMenu(toggle)}
-            color={'#000'}
+            color={isDarkTheme ? '#fff' : '#000'}
             label={'Menu'}
             size={20}
           />
         </div>
       </div>
-      <div 
-        id="menu" 
-        className={menuStyles} 
-        onMouseLeave={()=>setSubMenu()}
-      >
-        <div className={cn(styles.menu, showMobileMenu && styles.show)}>
+      <div id="menu-wrapper" className={menuStyles}>
+        <div className={cn(styles.menu, showMobileMenu && styles.show)} onMouseLeave={()=>setSubMenu()}>
           <ul>
             {menu.map((m, idx) => 
               <li 
@@ -95,8 +91,8 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
                     className={cn(subMenu?.type === m.type && styles.open)} 
                   >
                     {m.sub?.map((a, idx) => 
-                      <Link href={`/${a.slug}`}>
-                        <li key={idx}>
+                      <Link key={idx} href={`/${a.slug}`}>
+                        <li>
                           <a>{a.name || a.title}</a>
                         </li>
                       </Link>
@@ -106,7 +102,7 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
               </li>
             )}
           </ul>
-          <div className={cn(styles.subMenu)}>
+          <div className={styles.subMenu}>
             {menu.map(({type, path, label, sub}, idx) => sub && !showMobileMenu &&
               <ul 
                 key={idx}
@@ -124,14 +120,14 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
               </ul>
             )}
           </div>
-          {showMenu &&
+        </div>
+        
             <div 
               id="menu-separator"
-              className={cn(styles.separator, showSeparator && styles.show)} 
-              style={{marginLeft:`${subMenuMargin}px`}}
+              className={cn(styles.separator, showSeparator && showMenu && styles.show)} 
+              style={{marginLeft:`${separatorMargin}px`}}
             ></div>
-          }
-        </div>
+        
       </div>
     </>
   )

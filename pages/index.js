@@ -12,9 +12,6 @@ export default function Start({start, image, color}){
 	const { links } = start;
 
 	if(!links) return null;
-
-	const category = links[0]._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
-	const title = `${links[0].title} ${links[0].artists.length ? links[0].artists[0]?.name : ''}`
 	
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;
@@ -22,35 +19,37 @@ export default function Start({start, image, color}){
 		return () => document.body.style.backgroundColor = originalColor;
 	},[])
 	
-	
 	if(!links || !links.length) return null
 
 	return (
 		<div className={styles.container}>
-			{links.slice(1).map((link, idx)=>
-				<Link href={`/${link._modelApiKey}s/${link.slug}`}>
-					<a key={idx}>
-						<Image 
-							data={(link.image || link.images[0])?.responsiveImage}
-							className={styles.linkImage} 
-							prefetch={true}
-						/>
-					</a>
-				</Link>
-			)}
-			<div className={cn(styles.titleContainer)}>
-				<Link href={`/${links[0]._modelApiKey}s/${links[0].slug}`}>
-					<a>
-						<div className={cn(styles.bubble)} style={{color:`rgb(${ color.join(',') })`}}>
-							<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
-						</div>
-					</a>
-				</Link>
-			</div>
+			
+			{links.map((link, idx) => {
+
+				const category = link._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
+				const title = `${link.title} ${link.artists?.length ? link.artists[0]?.name : ''}`
+				
+				return (
+					<Link key={idx} href={`/${link._modelApiKey}s/${link.slug}`}>
+						<a className={styles.card}>
+							{idx > 0 && <Image 
+								className={styles.linkImage} 
+								data={(link.image || link.images[0])?.responsiveImage}
+								prefetch={true}
+							/>
+							}
+							<div className={styles.headline}>
+								<div className={styles.bubble} style={{color:`rgb(${ color.join(',') })`}}>
+									<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
+								</div>
+							</div>
+						</a>
+					</Link>
+				)}
+			)}			
 		</div>
 	)
 }
-
 
 export const getStaticProps = withGlobalProps({queries:[GetStart], model:'start'}, async ({props, revalidate }) => {
 	const { links } = props.start

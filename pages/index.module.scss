@@ -14,16 +14,25 @@ $slideSpeed: 1.5s;
       object-fit: cover !important;
     }
 	}
-  .linkImage{
-    display: block;
-    width: 100vw !important;
-    min-width: 100vw;    
-    picture{
-      img {
-        min-width: 100vw !important;
-      }
-    }    
+  .card{
+    position: sticky;
+    top:0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .linkImage{
+      display: block;
+      width: 100vw;
+      min-width: 100vw;
+      height: 100vh !important;    
+      picture{
+        img {
+          object-fit: cover !important;
+        }
+      }    
+    }
   }
+  
 	.logo {
     position: absolute;
     top:0;
@@ -112,43 +121,33 @@ $slideSpeed: 1.5s;
       animation-delay: .5s ;
     }
   }
-  .titleContainer{
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index:101;
-    bottom:0;
-    left:0;
-    width: 100%;
-    text-align: center;
-    background-color: transparent;
-    color:#fff;
-    .bubble{
-      text-transform: uppercase;
-      margin:60px;
-      border-radius: 70px;
-      background-color: #fff;
-      padding: 0px 100px 0px 100px;
-      color:#000;
-      box-shadow:  0px 0px 20px 20px #fff;
-      .category{
-        font-size: 1em; 
-      }
-      .title{
-        font-size: 1.2em; 
-      }
-      &:hover{
-        @keyframes hover {
-          0%{
-            box-shadow:  0px 0px 20px 20px #fff;
-          }
-          100%{
-            box-shadow:  0px 0px 20px 30px #fff;
-          }
-        }
-        //animation: hover 1s ease-in forwards;
-      }
+}
+
+.headline{
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index:200;
+  bottom:0;
+  left:0;
+  width: 100vw;
+  text-align: center;
+  background-color: transparent;
+  color:#fff;
+  .bubble{
+    text-transform: uppercase;
+    margin-bottom:80px;
+    border-radius: 70px;
+    background-color: #fff;
+    padding: 0px 100px 0px 100px;
+    color:#000;
+    box-shadow:  0px 0px 20px 20px #fff;
+    .category{
+      font-size: 1em; 
+    }
+    .title{
+      font-size: 1.2em; 
     }
   }
 }
