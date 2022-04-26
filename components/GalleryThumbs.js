@@ -8,24 +8,23 @@ export default function GalleryThumbs({ artwork }) {
   
   const maxRows = 4
   const artworkRows = splitArray(artwork, maxRows)
-  const [galleryIndex, setGalleryIndex] = useState()
+  const [galleryIndex, setGalleryIndex] = useState(-1)
   
   return (
     <>
       <div className={styles.galleryThumbs}>
-        {artworkRows.map((artwork, ridx) =>
-          <div className={styles.row} style={{flex: `0 0 ${100/artworkRows.length}%`} }>
-            {artwork.map((image, idx) =>
-              <figure onClick={() => setGalleryIndex(idx)}>
+        {artworkRows.map((artworks, ridx) =>
+          <div key={ridx} className={styles.row} style={{flex: `0 0 ${100/artworkRows.length}%`}}>
+            {artworks.map((image, idx) =>
+              <figure key={idx} onClick={() => setGalleryIndex(artwork.findIndex(a => a.id === image.id))}>
                 <Image key={idx} data={image.responsiveImage} pictureClassName={styles.thumb}/>
               </figure>
             )}
           </div>
         )}
       </div>
-      {galleryIndex !== undefined && 
-				<Gallery images={artwork} index={galleryIndex} onClose={()=>setGalleryIndex(undefined)}/>
-			}
+      {galleryIndex > -1 && <Gallery images={artwork} index={galleryIndex} onClose={()=>setGalleryIndex(-1)}/>}
+			
     </>
   )
 }
