@@ -6,13 +6,9 @@
   }
 
   .gallery {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    figure {
-      width: 25%;
-      padding-right: 3%;
-    }
+    display: inline-grid;
+    grid-template-columns: 23% 23% 23% 23%;
+    grid-column-gap: 2.6667%;
   }
 }
 
