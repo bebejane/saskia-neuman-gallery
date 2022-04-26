@@ -3,9 +3,8 @@ import { Image } from "react-datocms"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useRef } from 'react';
 
-export default function Gallery({images, onClose}){
+export default function Gallery({images, onClose, index = 0}){
   if(!images) return null;
-  
   const swiperRef = useRef()
 
   return (
@@ -16,6 +15,7 @@ export default function Gallery({images, onClose}){
           spaceBetween={50}
           slidesPerView={1}
           effect={'cube'}
+          initialSlide={index}
           onSwiper={(swiper) => swiperRef.current = swiper}
         >
         {images.map((image, idx) => 

@@ -10,7 +10,7 @@ import Gallery from '/components/Gallery'
 import { useState } from 'react';
 
 export default function Artist({artist:{ name, biography, artwork }}){
-	const [showGallery, setShowGallery] = useState(false)
+	const [galleryIndex, setGalleryIndex] = useState()
 
 	return (
 		<>
@@ -19,14 +19,16 @@ export default function Artist({artist:{ name, biography, artwork }}){
 				<Markdown>{biography}</Markdown>
 				<div className={styles.gallery}>
 					{artwork.map((image, idx) => 
-						<div key={idx} className={styles.artwork}>
-							<Image data={image.responsiveImage} className={styles.artwork}/>
+						<div key={idx} className={styles.artwork} onClick={()=>setGalleryIndex(idx)}>
+							<Image data={image.responsiveImage} className={styles.artwork} />
 						</div>
 					)}
 				</div>
 				<a onClick={()=>setShowGallery(true)}>[Gallery]</a>
 			</main>
-			{showGallery && <Gallery images={artwork} onClose={()=>setShowGallery(false)}/>}
+			{galleryIndex !== undefined && 
+				<Gallery images={artwork} index={galleryIndex} onClose={()=>setGalleryIndex(undefined)}/>
+			}
 		</>
 	)
 }
