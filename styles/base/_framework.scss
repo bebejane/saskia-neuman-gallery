@@ -1,1 +1,13 @@
 @use "sass:math";
+
+$margin: 15px;
+
+:root {
+  --margin-left: #{$margin};
+  --margin-right: #{$margin};
+
+  @include mq($from: tablet) {
+    --margin-left: calc(#{$margin} * 2);
+    --margin-right: calc(#{$margin} * 2);
+  }
+}

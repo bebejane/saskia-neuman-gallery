@@ -5,32 +5,33 @@ import { GetAllShows } from '/graphql';
 import { format } from 'date-fns';
 import { Image } from 'react-datocms';
 import Link from 'next/link';
+import Layout from 'components/Layout';
 
-export default function Shows({shows}){
+export default function Shows({ shows }) {
 	return (
-		<main>
-			<h3>Shows</h3>
-			{shows.map(({title, startDate, endDate, slug}, idx) => 
+		<Layout>
+			<h3>Shows!</h3>
+			{shows.map(({ title, startDate, endDate, slug }, idx) =>
 				<p key={idx}>
 					<Link href={`/shows/${slug}`}>
 						<a>{title}</a>
 					</Link>
-					<br/>
+					<br />
 					{format(new Date(startDate), 'yy-MM-dd HH:mm')} - {format(new Date(endDate), 'yy-MM-dd HH:mm')}
 				</p>
 			)}
-		</main>
+		</Layout>
 	)
 }
 
-export const getStaticProps = withGlobalProps({queries:[GetAllShows]}, async ({props, revalidate }) => {
+export const getStaticProps = withGlobalProps({ queries: [GetAllShows] }, async ({ props, revalidate }) => {
 
 	return {
-		props:{
+		props: {
 			...props,
-			image : props.shows[0]?.image,
+			image: props.shows[0]?.image,
 			color: imageColor(props.shows[0]?.image),
-			brightness : await imageBrightness(props.shows[0]?.image)
+			brightness: await imageBrightness(props.shows[0]?.image)
 		},
 		revalidate
 	};

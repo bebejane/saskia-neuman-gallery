@@ -1,0 +1,22 @@
+.main {
+  @include mq($from: tablet) {
+    display: flex;
+    align-items: flex-start;
+  }
+  margin-left: var(--margin-left);
+  margin-right: var(--margin-right);
+}
+
+.meta {
+  @include mq($from: tablet) {
+    position: sticky;
+    top: 100px; // Temp;
+    width: 50%;
+  }
+}
+
+.content {
+  @include mq($from: tablet) {
+    width: 50%;
+  }
+}
