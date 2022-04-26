@@ -1,0 +1,14 @@
+.galleryThumbs {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 48% 48%;
+  grid-template-rows: auto auto;
+  grid-column-gap: 4%;
+  grid-row-gap: 4%;
+
+  @include mq($from: tablet) {
+    grid-template-columns: 23% 23% 23% 23%;
+    grid-column-gap: 2.6667%;
+    grid-row-gap: 2.6667%;
+  }
+}

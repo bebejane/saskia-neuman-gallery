@@ -10,6 +10,7 @@ import { useState } from 'react';
 import Gallery from '/components/Gallery'
 import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
+import GalleryThumbs from 'components/GalleryThumbs';
 
 export default function Show({ show: { title, description, startDate, endDate, slug, artwork, artists, press } }) {
 
@@ -33,14 +34,10 @@ export default function Show({ show: { title, description, startDate, endDate, s
 						<h1><i>{title}</i></h1>
 					</HeaderBar>
 					<Markdown>{description}</Markdown>
+
 					<section className={styles.artworks}>
 						<h2>ARTWORKS</h2>
-						<div className={styles.gallery}>
-							{artwork.map((image, idx) =>
-								<figure><Image key={idx} data={image.responsiveImage} /></figure>
-							)}
-						</div>
-						<a onClick={() => setShowGallery(true)}>[Gallery]</a>
+						<GalleryThumbs artwork={artwork} />
 					</section>
 
 					<section className={styles.press}>
