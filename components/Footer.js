@@ -3,6 +3,7 @@ import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { HeaderBar } from 'components/HeaderBar';
 
 export default function Footer(props) {
 
@@ -20,12 +21,16 @@ export default function Footer(props) {
   return (
     <footer className={styles.footer}>
       <div className={styles.next}>
-        <h3> next {type} </h3>
+        <HeaderBar>
+          <h3>next {type} </h3>
+        </HeaderBar>
       </div>
       <div className={styles.label}>
-        <Link href={slug}>
-          <a>{label}</a>
-        </Link>
+        <HeaderBar>
+          <Link href={slug}>
+            <a>{label}</a>
+          </Link>
+        </HeaderBar>
       </div>
     </footer>
   )

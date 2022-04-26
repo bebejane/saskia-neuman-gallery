@@ -1,33 +1,25 @@
-.show{
-  display: flex;
-  flex-direction: row;
+.artworks {
   width: 100%;
-  .left, .right{
-    flex: 0 0 50%;
-  }
-  .left{
-    .exhibition{
 
-    }
+  h2 {
+    width: 100%;
   }
-  .right{
+
+  .gallery {
     display: flex;
-    flex-direction: column;
-    .artwork{
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    figure {
+      width: 25%;
+      padding-right: 3%;
     }
-    .press{
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 100%;
-      .block{
-        flex: 1 1 50%;
-      }
+  }
+}
 
-    }
+.pressLinks {
+  display: flex;
+
+  div {
+    width: 50%;
   }
 }

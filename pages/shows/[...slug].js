@@ -9,7 +9,7 @@ import { Image } from 'react-datocms';
 import { useState } from 'react';
 import Gallery from '/components/Gallery'
 import { Layout, Meta, Content } from '/components/Layout'
-
+import { HeaderBar } from 'components/HeaderBar';
 
 export default function Show({ show: { title, description, startDate, endDate, slug, artwork, artists, press } }) {
 
@@ -19,38 +19,42 @@ export default function Show({ show: { title, description, startDate, endDate, s
 		<>
 			<Layout>
 				<Meta>
-					<h3>EXHIBITIONS</h3>
-					<p>
-						{artists.map(a => a.name).join(', ')}<br />
+					<HeaderBar>
+						<h3>EXHIBITIONS</h3>
+					</HeaderBar>
+					<p>{artists.map(a => a.name).join(', ')}<br />
 						{title}<br />
 						{format(new Date(startDate), 'dd.MM')} - {format(new Date(endDate), 'dd.MM.yyyy')}
 					</p>
 				</Meta>
 
 				<Content>
-					<h1>{title}</h1>
+					<HeaderBar>
+						<h1><i>{title}</i></h1>
+					</HeaderBar>
 					<Markdown>{description}</Markdown>
 					<section className={styles.artworks}>
 						<h2>ARTWORKS</h2>
 						<div className={styles.gallery}>
 							{artwork.map((image, idx) =>
-								<Image key={idx} data={image.responsiveImage} />
+								<figure><Image key={idx} data={image.responsiveImage} /></figure>
 							)}
 						</div>
 						<a onClick={() => setShowGallery(true)}>[Gallery]</a>
 					</section>
-					<div className={styles.press}>
+
+					<section className={styles.press}>
 						<h2>PRESS</h2>
-						<div className={styles.press}>
+						<div className={styles.pressLinks}>
 							{press.map(({ date, source, author, url }, idx) =>
 								<div key={idx} className={styles.block}>
-									{format(new Date(date), 'dd.MM.yyyy')}<br />
+									<h3>{format(new Date(date), 'dd.MM.yyyy')}</h3>
 									{source} <a href={url}>-></a><br />
 									{author}
 								</div>
 							)}
 						</div>
-					</div>
+					</section>
 				</Content>
 			</Layout>
 			{showGallery && <Gallery images={artwork} onClose={() => setShowGallery(false)} />}

@@ -2,34 +2,35 @@ $slideSpeed: 2s;
 
 .container {
   position: relative;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-	.backgroundImage {
-		position:relative;
-    top:0;
-    left:0;
+  z-index: -1;
+  .backgroundImage {
+    position: relative;
+    top: 0;
+    left: 0;
     z-index: 0;
-		height: 100vh;
-		width: 100vw;
-		max-width: 100vw !important;
-    > picture > img{
+    height: 100vh;
+    width: 100vw;
+    max-width: 100vw !important;
+    > picture > img {
       object-fit: cover !important;
     }
-	}
-	.logo {
+  }
+  .logo {
     position: fixed;
     min-width: 100vw;
     min-height: 100vh;
-    bottom:0;
-    left:0;
+    bottom: 0;
+    left: 0;
     display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-		color:#fff;
+    color: #fff;
     font-size: 40px;
     z-index: 500;
     background-size: cover !important;
@@ -39,8 +40,8 @@ $slideSpeed: 2s;
     background-position: center !important;
     pointer-events: none;
     font-weight: bolder;
-    
-    h1{
+
+    h1 {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -51,10 +52,10 @@ $slideSpeed: 2s;
         font-size: 20px;
       }
     }
-    .title{
+    .title {
       position: absolute;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -66,46 +67,45 @@ $slideSpeed: 2s;
         font-size: 20px;
       }
     }
-    &.active{
-      height:100vh;
+    &.active {
+      height: 100vh;
     }
-    &.hide{
+    &.hide {
       display: none !important;
     }
-	}
-  .motionContainer{
-    position:fixed;
+  }
+  .motionContainer {
+    position: fixed;
     display: flex;
-		height: 100vh;
-		width:100vw;
-		height:100vh;
-		bottom:0;
-		left:0;
-		overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
     z-index: 2000;
-    .color{    
+    .color {
       position: relative;
       width: 100vw;
       height: 100vh;
       background: none;
       width: 100%;
       left: 0px;
-      
-      &.upper{
+
+      &.upper {
         top: 0px;
         z-index: 400;
         height: 100vh;
       }
-      &.lower{
+      &.lower {
         background-color: transparent;
         bottom: 0px;
         z-index: 600;
         height: 100vh;
       }
     }
-  } 
+  }
 }
-
 
 @keyframes rollout {
   0% {
@@ -119,7 +119,7 @@ $slideSpeed: 2s;
   100% {
     top: 100vh;
     height: 0vh;
-  } 
+  }
 }
 @keyframes rolloutLower {
   0% {
@@ -127,8 +127,8 @@ $slideSpeed: 2s;
   }
   50% {
     height: 0vh;
-  } 
-  100%{
+  }
+  100% {
     height: 0vh;
-  }  
+  }
 }
