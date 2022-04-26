@@ -140,11 +140,12 @@ $navbarHeight: 50px;
     display: flex;
     flex: 0 0 50%;
     max-width: 50%;
+    
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
     box-sizing: border-box;
-    height: auto;
+    height: 100vh;
     a {
       cursor: pointer;
     }
@@ -210,6 +211,7 @@ $navbarHeight: 50px;
       top: $navbarHeight;
       left: 0px;
       width: 100%;
+      height: auto;
       flex: 0 0 100%;
       max-width: 100%;
       align-items: flex-start;
