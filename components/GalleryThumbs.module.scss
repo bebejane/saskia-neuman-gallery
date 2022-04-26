@@ -1,4 +1,4 @@
-.galleryThumbs {
+.galleryThumbs2 {
   display: grid;
   height: 100%;
   grid-template-columns: 48% 48%;
@@ -15,4 +15,23 @@
   figure {
     cursor: pointer;
   }
+}
+
+.galleryThumbs {
+  display: flex;
+  flex-direction: row;
+  .row{
+    padding: 0px 10px 0px 0px;
+    &:last-child{
+      padding: 0px;
+    }
+    figure{
+      width: 100%;
+      margin-bottom: 10px;
+      .thumb{
+      }
+      
+    }
+  }
+  
 }
