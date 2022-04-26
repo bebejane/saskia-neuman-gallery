@@ -81,6 +81,9 @@ $navbarHeight: 50px;
         }
       }
     }
+    .menu {
+      height: 100vh;
+    }
   }
   &.dark {
     * {
@@ -140,12 +143,11 @@ $navbarHeight: 50px;
     display: flex;
     flex: 0 0 50%;
     max-width: 50%;
-    
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
     box-sizing: border-box;
-    height: 100vh;
+    height: auto;
     a {
       cursor: pointer;
     }
