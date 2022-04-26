@@ -8,7 +8,6 @@ body {
 	@include mq($from: tablet) {
 		font-size: 20px;
 	}
-
 	line-height: 1.4em;
 	color: $black;
 	background-color: $white;
@@ -18,6 +17,7 @@ body {
 	font-feature-settings: "liga", "kern";
 	overflow-x: hidden;
 	overscroll-behavior-y: none;
+	font-family: "Protokoll Trial";
 }
 
 html {
