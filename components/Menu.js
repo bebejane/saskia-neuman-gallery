@@ -7,7 +7,7 @@ import { useWindowScrollPosition } from 'rooks'
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from 'hamburger-react'
 
-export default function Menu({menu, artists, shows, events, color, brightness, onColorChange, onHover, isHovering}){
+export default function Menu({menu, brightness, onColorChange, onHover, isHovering}){
   
   const router = useRouter()
   const [showMobileMenu, setShowMobileMenu] = useState(false);

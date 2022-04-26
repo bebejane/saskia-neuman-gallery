@@ -80,6 +80,9 @@ $navbarHeight: 50px;
         }
       }
     }
+    .menu {
+      height: 100vh;
+    }
   }
   &.dark {
     * {
@@ -209,6 +212,7 @@ $navbarHeight: 50px;
       top: $navbarHeight;
       left: 0px;
       width: 100%;
+      height: auto;
       flex: 0 0 100%;
       max-width: 100%;
       align-items: flex-start;
