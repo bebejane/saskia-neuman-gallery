@@ -7,7 +7,7 @@ import { useWindowScrollPosition } from 'rooks'
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from 'hamburger-react'
 
-export default function Menu({menu, artists, shows, events, color, brightness, onColorChange, onHover}){
+export default function Menu({menu, artists, shows, events, color, brightness, onColorChange, onHover, isHovering}){
   
   const router = useRouter()
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -20,10 +20,9 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
   
   const isDarkTheme = brightness < 0.5;
   const showSeparator = subMenu && menu.filter(({sub, type}) => type === subMenu?.type).length
-  const menuStyles = cn(styles.menuWrapper, isDarkTheme ? styles.dark : styles.light, (subMenu || showMobileMenu) && styles.open, (!showMenu && ! showMobileMenu) && styles.hide)
+  const menuStyles = cn(styles.menuWrapper, isDarkTheme ? styles.dark : styles.light, (subMenu || showMobileMenu) && styles.open, (!showMenu && !showMobileMenu) && styles.hide, isHovering && styles.transparent)
   const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, isDarkTheme && styles.dark)
   
-
   useEffect(()=>{
     const handleRouteChange = (url, { shallow }) => {
       const subs = []
@@ -55,7 +54,7 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
   return (
     <>
       <div className={navbarStyles}>
-        <Link href="/">SASKIA NEUMAN GALLERY</Link>
+        <Link href="/"><a>SASKIA NEUMAN GALLERY</a></Link>
         <div className={styles.hamburger}>
           <Hamburger
             toggled={showMobileMenu}
@@ -121,13 +120,11 @@ export default function Menu({menu, artists, shows, events, color, brightness, o
             )}
           </div>
         </div>
-        
-            <div 
-              id="menu-separator"
-              className={cn(styles.separator, showSeparator && showMenu && styles.show)} 
-              style={{marginLeft:`${separatorMargin}px`}}
-            ></div>
-        
+          <div 
+            id="menu-separator"
+            className={cn(styles.separator, showSeparator && showMenu && styles.show)} 
+            style={{marginLeft:`${separatorMargin}px`}}
+          ></div>
       </div>
     </>
   )

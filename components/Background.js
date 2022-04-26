@@ -14,11 +14,11 @@ const pageTransition = {
 		transition:{ duration }
 	},
 	animate: {
-		height:'0vh',
+		height:'00vh',
 		transitionEnd: {
 			bottom:'unset', 
 			top:0,
-			height:'0vh'
+			height:'00vh'
 		},
 		transition:{ duration }
 	},
@@ -30,13 +30,15 @@ const pageTransition = {
 };
 
 export default function Background({image, color, title, brightness}){
-  if(!image) return null;
-	
+  
+	if(!image) return null;
+
 	const router = useRouter()
 	const [animating, setAnimating] = useState(true)
 	const backgroundColor = `rgb(${color?.join(',')})`;
-	const showLogo = (animating && router.asPath === '/')
-
+	const isHome = router.asPath === '/';
+	const showLogo = (animating && isHome)
+	
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;
 		document.body.style.backgroundColor = color;
@@ -44,8 +46,7 @@ export default function Background({image, color, title, brightness}){
 	},[])
 	
 	return (
-		<div className={styles.container}>
-			<Image lazyLoad={false} className={styles.backgroundImage} data={image.responsiveImage}/>
+		<>
 			<motion.div 
 				initial="initial" 
 				animate="animate"
@@ -55,15 +56,15 @@ export default function Background({image, color, title, brightness}){
 				onAnimationComplete={()=>setAnimating(false)} 
 				onAnimationStart={()=>setAnimating(true)}
 			>
-				<div key={'upper'} className={cn(styles.color, styles.upper)} style={{backgroundColor}}>
-					<div 
-						className={cn(styles.logo, !showLogo && styles.hide)} 
-						style={{background:`url(${image.url}?w=400)`}}
-					>
+				<div className={cn(styles.color)} style={{backgroundColor}}>
+					<div className={cn(styles.logo, !showLogo && styles.hide)} style={{background:`url(${image.url}?w=400)`}}>
 						<h1>SASKIA NEUMAN GALLERY</h1>
 					</div>
 				</div>
 			</motion.div>
-		</div>
+			<div className={cn(styles.container, isHome && styles.sticky)}>
+				<Image lazyLoad={false} className={styles.backgroundImage} data={image.responsiveImage}/>
+			</div>
+		</>
 	)
 }
