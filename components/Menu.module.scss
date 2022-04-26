@@ -94,7 +94,8 @@ $navbarHeight: 50px;
         }
       }
     }
-    &.open {
+    &.open{
+      background-color: #000;
       @include mq($until: desktop) {
         .menu {
           background-color: #000;
@@ -107,7 +108,10 @@ $navbarHeight: 50px;
       background-color: #fff;
     }
   }
-  .separator {
+  &.transparent{
+    background-color: transparent !important;
+  }
+  .separator{
     position: absolute;
     display: none;
     top: 0;
@@ -118,6 +122,7 @@ $navbarHeight: 50px;
     transition: margin ease;
     transition-duration: 0.5s;
     &.show {
+    &.show{
       display: block;
     }
   }

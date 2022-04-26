@@ -1,7 +1,7 @@
 $slideSpeed: 1.5s;
 
 .container {
-	width: 100vw;
+  width: 100vw;
 	.backgroundImage {
 		position: fixed !important;
     top:0;
@@ -71,11 +71,12 @@ $slideSpeed: 1.5s;
     }
 	}
   .color{    
+    position: fixed;
     width: 100vw;
     height: 100vh;
     transform:height;
     background: none;
-    position: fixed;
+    
     width: 100%;
     left: 0px;
     
