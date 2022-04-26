@@ -13,7 +13,7 @@
 .meta {
   @include mq($from: tablet) {
     position: sticky;
-    top: 100px; // Temp;
+    top: 50px; // Temp;
     width: 50%;
   }
 }

@@ -27,13 +27,12 @@ export default function Artist({ artist: { name, biography, artwork } }) {
 				<Content>
 					<HeaderBar><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
-					<div className={styles.gallery}>
-						{artwork.map((image, idx) =>
-							<div key={idx} className={styles.artwork} onClick={() => setGalleryIndex(idx)}>
-								<Image data={image.responsiveImage} className={styles.artwork} />
-							</div>
-						)}
-					</div>
+
+					<h2>EXHIBITIONS</h2>
+					<p>Björn todo - Get all shows by current artist</p>
+
+					<h2>ARTWORKS</h2>
+					<GalleryThumbs artwork={artwork} />
 				</Content>
 			</Layout>
 			{galleryIndex !== undefined &&
