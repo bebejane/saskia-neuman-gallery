@@ -54,6 +54,7 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 export async function getStaticPaths(context) {
 	const { artists } = await apiQuery(GetAllArtists)
 	const paths = artists.map(({ slug }) => ({ params: { slug: [slug] } }))
+
 	return {
 		paths,
 		fallback: 'blocking'
@@ -62,12 +63,15 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps = withGlobalProps({ model: 'artist' }, async ({ props, context, revalidate }) => {
 	const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] })
-	artist.shows = props.shows.filter((show) => show.artists.filter(a => a.id === artist.id).length > 0)
-
+	const shows = props.shows?.filter((show) => show.artists.filter(a => a.id === artist.id).length > 0)
+	
 	return {
 		props: {
 			...props,
-			artist,
+			artist:{
+				...artist,
+				shows
+			},
 			image: artist.image || null,
 			color: imageColor(artist.image),
 			brightness: await imageBrightness(artist.image),

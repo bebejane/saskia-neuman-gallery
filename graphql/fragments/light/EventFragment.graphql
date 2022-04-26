@@ -1,0 +1,6 @@
+fragment EventFragment on EventRecord {
+  title
+  startDate
+  endDate
+  slug
+}

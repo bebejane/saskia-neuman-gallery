@@ -1,0 +1,11 @@
+#import "./ArtistFragment.graphql"
+
+fragment ShowFragment on ShowRecord {
+  title
+  artists{
+    ...ArtistFragment
+  }
+  startDate
+  endDate
+  slug
+}

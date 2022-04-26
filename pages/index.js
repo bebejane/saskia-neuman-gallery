@@ -7,7 +7,7 @@ import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-export default function Start({start, image, color}){
+export default function Start({start, image, color, isHovering}){
 	
 	const { links } = start;
 
@@ -32,13 +32,14 @@ export default function Start({start, image, color}){
 				return (
 					<Link key={idx} href={`/${link._modelApiKey}s/${link.slug}`}>
 						<a className={styles.card}>
-							{idx > 0 && <Image 
-								className={styles.linkImage} 
-								data={(link.image || link.images[0])?.responsiveImage}
-								prefetch={true}
-							/>
+							{idx > 0 && 
+								<Image 
+									className={styles.linkImage} 
+									data={(link.image || link.images[0])?.responsiveImage}
+									prefetch={true}
+								/>
 							}
-							<div className={styles.headline}>
+							<div className={cn(styles.headline, isHovering && styles.hide)}>
 								<div className={styles.bubble} style={{color:`rgb(${ color.join(',') })`}}>
 									<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
 								</div>

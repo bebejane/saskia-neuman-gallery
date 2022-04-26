@@ -68,7 +68,7 @@ function MyApp({
 			<AnimatePresence
 				exitBeforeEnter
 				initial={true}
-				onExitComplete={() => typeof window !== "undefined" && window.scrollTo({ top: 0 })}
+				//onExitComplete={() => typeof window !== "undefined" && window.scrollTo({ top: 0 })}
 			>
 				<Background
 					image={backgroundImage}
@@ -78,7 +78,7 @@ function MyApp({
 					brightness={brightness}
 				/>
 			</AnimatePresence>
-			<Component {...pageProps} />
+			<Component {...{...pageProps, isHovering}}/>
 			<Footer {...pageProps} />
 		</>
 	);
