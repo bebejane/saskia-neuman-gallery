@@ -56,7 +56,7 @@ export default function Background({image, color, title, brightness}){
 				onAnimationComplete={()=>setAnimating(false)} 
 				onAnimationStart={()=>setAnimating(true)}
 			>
-				<div className={cn(styles.color)} style={{backgroundColor}}>
+				<div className={styles.color} style={{backgroundColor}}>
 					<div className={cn(styles.logo, !showLogo && styles.hide)} style={{background:`url(${image.url}?w=400)`}}>
 						<h1>SASKIA NEUMAN GALLERY</h1>
 					</div>
