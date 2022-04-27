@@ -53,7 +53,7 @@ function MyApp({
 				key={pathname}
 			/>
 			<Menu
-				{...{ menu: generateMenu(pageProps), artists, shows, events, color, brightness }}
+				{...{artists, shows, events, about, color, brightness }}
 				onColorChange={(c) => setBackgroundColor(c)}
 				isHovering={isHovering}
 				onHover={(item, hovering) =>{
