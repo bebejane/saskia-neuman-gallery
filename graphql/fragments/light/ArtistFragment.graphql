@@ -1,4 +1,0 @@
-fragment ArtistFragment on ArtistRecord {
-  name
-  slug
-}

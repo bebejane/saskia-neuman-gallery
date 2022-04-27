@@ -1,8 +1,8 @@
 #import "./fragments/ImageFragment.graphql"
 
 query GetAbout {
-	about {
-		description(markdown: false)
+	about{
+		description(markdown: false) 
 		address(markdown: false)
 		hours
 		email

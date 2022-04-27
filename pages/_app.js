@@ -10,6 +10,7 @@ import Background from "/components/Background";
 import Footer from "/components/Footer";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { generateMenu } from '/lib/utils'
 
 function MyApp({
 	Component,
@@ -27,9 +28,9 @@ function MyApp({
 		image,
 		color,
 		brightness,
-		menu,
 	},
 }) {
+	
 	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
 
 	const router = useRouter();
@@ -52,7 +53,7 @@ function MyApp({
 				key={pathname}
 			/>
 			<Menu
-				{...{ menu: menu || [], artists, shows, events, color, brightness }}
+				{...{ menu: generateMenu(pageProps), artists, shows, events, color, brightness }}
 				onColorChange={(c) => setBackgroundColor(c)}
 				isHovering={isHovering}
 				onHover={(item, hovering) =>{

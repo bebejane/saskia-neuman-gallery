@@ -1,6 +1,6 @@
 #import "./ImageFragment.graphql"
 
-fragment ArtistFragment on ArtistRecord {
+fragment ArtistFragment on ArtistRecord{
   name
   biography(markdown: false)
   image {

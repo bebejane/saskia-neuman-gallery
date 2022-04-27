@@ -1,10 +1,10 @@
-#import "./fragments/ArtistFragment.graphql"
 #import "./fragments/ShowFragment.graphql"
 #import "./fragments/EventFragment.graphql"
 #import "./fragments/SiteFragment.graphql"
 #import "./fragments/AboutFragment.graphql"
+#import "./fragments/ArtistFragment.graphql"
 
-query GetGlobal {
+query GetGlobal{
 	artists: allArtists {
     ...ArtistFragment
   }
