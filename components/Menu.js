@@ -9,18 +9,21 @@ import { Twirl as Hamburger } from 'hamburger-react'
 import { imageColor } from "lib/utils"
 
 const generateMenu = ({artists, events, shows, about}) => {
-
-  const menu = [
-    {type:'artist', path:'/artists', label:'Artists', sub:artists.map(a => ({...a, slug:`artists/${a.slug}`, color:imageColor(a.image)}))}, 
-    {type:'show', path:'/shows', label:'Shows', sub:shows.map(s => ({...s, slug:`shows/${s.slug}`, color:imageColor(s.image)}))}, 
-    {type:'event', path:'/events', label:'Events', sub:events.map(e => ({...e, slug:`events/${e.slug}`, color:imageColor(e.image)}))},
-    {type:'about', path:'/about', label:'About', image:about.image}
-  ].map( m => ({
-    ...m, 
-    image: (m.sub ? m.sub[0]?.image : m.image), 
-    color: imageColor( m.sub ? m.sub[0]?.image : m.image)
-  }))
-  return menu
+  try{
+    const menu = [
+      {type:'artist', path:'/artists', label:'Artists', sub:artists.map(a => ({...a, slug:`artists/${a.slug}`, color:imageColor(a.image)}))}, 
+      {type:'show', path:'/shows', label:'Shows', sub:shows.map(s => ({...s, slug:`shows/${s.slug}`, color:imageColor(s.image)}))}, 
+      {type:'event', path:'/events', label:'Events', sub:events.map(e => ({...e, slug:`events/${e.slug}`, color:imageColor(e.image)}))},
+      {type:'about', path:'/about', label:'About', image:about.image}
+    ].map( m => ({
+      ...m, 
+      image: (m.sub ? m.sub[0]?.image : m.image), 
+      color: imageColor( m.sub ? m.sub[0]?.image : m.image)
+    }))
+    return menu
+  }catch(err){
+    return []
+  }
 }
 
 export default function Menu(props){
