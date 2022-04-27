@@ -20,22 +20,19 @@ export default function Gallery({ images, onClose, index = 0 }) {
         <Swiper
           loop={true}
           centerSlides={true}
-          spaceBetween={50}
+          spaceBetween={500}
           slidesPerView={1}
           initialSlide={index}
           onSlideChange={({realIndex})=>setRealIndex(realIndex)}
           onSwiper={(swiper) => swiperRef.current = swiper}
         >
           {images.map((image, idx) =>
-            <SwiperSlide key={idx} className={styles.slide}>
-              <div className={styles.imageWrap}>
-                {/*<Image 
-                  className={styles.image}
-                  pictureClassName={styles.picture}
-                  data={image.responsiveImage}  
-                />*/}
-                <img src={image.url} className={styles.image}/>
-              </div>
+            <SwiperSlide key={idx} className={styles.slide}>              
+              {<Image 
+                className={styles.image}
+                pictureClassName={styles.picture}
+                data={image.responsiveImage}  
+              />}
             </SwiperSlide>
           )}
         </Swiper>
