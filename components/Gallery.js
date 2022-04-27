@@ -19,7 +19,6 @@ export default function Gallery({ images, onClose, index = 0 }) {
       <div className={styles.images} onClick={() => swiperRef?.current?.slideNext()}>
         <Swiper
           loop={true}
-          centerSlides={true}
           spaceBetween={500}
           slidesPerView={1}
           initialSlide={index}

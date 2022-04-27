@@ -26,11 +26,11 @@ export default function Start({start, image, color, isHovering}){
 			
 			{links.map((link, idx) => {
 
-				const category = link._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
+				const type = link._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
 				const title = `${link.title} ${link.artists?.length ? link.artists[0]?.name : ''}`
-				
+				const bubbleStyle = {color:`rgb(${ imageColor(link.image).join(',') })`}
 				return (
-					<Link key={idx} href={`/${link._modelApiKey}s/${link.slug}`}>
+					<Link key={idx} href={`/${link._modelApiKey}s/${link.slug}`} scroll={false}>
 						<a className={styles.card}>
 							{idx > 0 && 
 								<Image 
@@ -39,9 +39,10 @@ export default function Start({start, image, color, isHovering}){
 									prefetch={true}
 								/>
 							}
-							<div className={cn(styles.headline, isHovering && styles.hide)}>
-								<div className={styles.bubble} style={{color:`rgb(${ imageColor(link.image).join(',') })`}}>
-									<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
+							<div className={cn(styles.headline)}>
+								<div className={styles.bubble} style={bubbleStyle}>
+									<span className={styles.type}>{type}</span> 
+									<span className={styles.title}>{title}</span>
 								</div>
 							</div>
 						</a>

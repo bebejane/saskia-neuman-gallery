@@ -1,13 +1,13 @@
-import styles from './Background.module.scss'
+import styles from './PageTransition.module.scss'
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
-const duration = 1.5;
+const duration = 0.7;
 const pageTransition = {
 	initial: {
-		height: '0vh',
+		height: '100vh',
 		top:'0%'
 	},
 	animate: {
@@ -28,10 +28,9 @@ const pageTransition = {
 	}
 }
 
-export default function PageTransition({backgroundImage, color}){
-  
-	//if(!image) return null;
-
+export default function PageTransition(props){
+	
+	const {backgroundImage, color} = props;
 	const router = useRouter()
 	const [animating, setAnimating] = useState(false)
 	const backgroundColor = `rgb(${color?.join(',')})`;
@@ -43,22 +42,22 @@ export default function PageTransition({backgroundImage, color}){
 		document.body.style.backgroundColor = color;
 		return () => document.body.style.backgroundColor = originalColor;
 	},[])
-	//console.log(backgroundImage, backgroundColor)
+
 	return (
-    <motion.div 
-      //initial="initial" 
-      animate={isHome && "animate"}
-      exit={!isHome && "animate"}
+    <motion.div
+			className={styles.container} 
+			initial="initial" 
+      animate={"animate"}
+      exit={"exit"}
       variants={pageTransition} 
-      className={styles.motionContainer} 
       onAnimationComplete={()=>setAnimating(false)} 
       onAnimationStart={()=>setAnimating(true)}
     >
       <div className={styles.color} style={{backgroundColor}}>
-        <div className={cn(styles.logo, !showLogo && styles.hide)} style={{background:`url(${backgroundImage.url}?w=400)`}}>
+        <div className={cn(styles.logo, !showLogo && styles.hide)} style={{background:`url(${backgroundImage?.url}?w=400)`}}>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
-      </div>
+      </div>	
     </motion.div>
 	)
 }

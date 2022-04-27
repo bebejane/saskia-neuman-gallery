@@ -79,7 +79,7 @@ export default function Menu({menu, brightness, onColorChange, onHover, isHoveri
                 {m.sub  ? 
                   <a onClick={()=> setSubMenu(m)}>{m.label}</a>
                 : 
-                  <Link href={m.path}>
+                  <Link href={m.path} scroll={false}>
                     <a onMouseEnter={()=>onHover(m, true)} onMouseLeave={()=>onHover(m, false)}>{m.label}</a>
                   </Link> 
                 }
@@ -90,7 +90,7 @@ export default function Menu({menu, brightness, onColorChange, onHover, isHoveri
                     className={cn(subMenu?.type === m.type && styles.open)} 
                   >
                     {m.sub?.map((a, idx) => 
-                      <Link key={idx} href={`/${a.slug}`}>
+                      <Link key={idx} href={`/${a.slug}`} scroll={false}>
                         <li>
                           <a>{a.name || a.title}</a>
                         </li>
@@ -111,7 +111,7 @@ export default function Menu({menu, brightness, onColorChange, onHover, isHoveri
               >
                 {sub.map((a, idx) => 
                   <li key={idx} onMouseEnter={()=>onHover(a, true)} onMouseLeave={()=>onHover(a, false)}>
-                    <Link href={`/${a.slug}`}>
+                    <Link href={`/${a.slug}`} scroll={false}>
                       <a>{a.name || a.title}</a>
                     </Link>
                   </li>

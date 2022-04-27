@@ -30,14 +30,10 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 
 					<h2>EXHIBITIONS</h2>
 					<p>
-						{shows.map(({title, description, image, startDate, endDate, slug}) => 
-							<>
-								<Link href={`/shows/${slug}`}>
-									<a>{title}</a> 
-								</Link>
-								<br/>
-								{format(new Date(startDate), 'dd.MM')} - {format(new Date(endDate), 'dd.MM.yyyy')}
-							</>
+						{shows.map(({title, description, image, startDate, endDate, slug}, idx) => 
+							<Link key={idx}href={`/shows/${slug}`} scroll={false}>
+								<a>{title}</a>
+							</Link>
 						)}
 					</p>
 					<h2>ARTWORKS</h2>

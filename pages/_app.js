@@ -4,7 +4,7 @@ import DatoSEO from "/lib/dato/components/DatoSEO";
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
 import { useRouter } from "next/router";
 import { useTransitionFix } from "/lib/hoc/useTransitionFix";
-
+import PageTransition from "/components/PageTransition";
 import Menu from "/components/Menu";
 import Background from "/components/Background";
 import Footer from "/components/Footer";
@@ -62,19 +62,22 @@ function MyApp({
 			/>
 			<AnimatePresence
 				exitBeforeEnter
-				//initial={true}	
-				onExitComplete={() => typeof window !== "undefined" && window.scrollTo({ top: 0 })}
+				initial={true}
+				onExitComplete={() =>  typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
 			>
-			<Background
-				image={backgroundImage}
-				color={backgroundColor}
-				key={pathname}
-				title={title}
-				brightness={brightness}
-			/>
-		</AnimatePresence>
-			<Component {...{...pageProps, isHovering}}/>
-			<Footer {...pageProps} />	
+				<div key={router.asPath}>
+					<PageTransition backgroundImage={backgroundImage} color={color}/>
+					<Background
+						image={backgroundImage}
+						color={backgroundColor}
+						key={pathname}
+						title={title}
+						brightness={brightness}
+					/>
+					<Component {...{...pageProps, isHovering}}/>
+					<Footer {...pageProps} />
+				</div>
+			</AnimatePresence>
 		</>
 	);
 }
