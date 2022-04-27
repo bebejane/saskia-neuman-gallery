@@ -7,7 +7,7 @@ import { HeaderBar } from 'components/HeaderBar';
 
 export default function Footer(props) {
 
-  const { shows, events, artists, show, event, artist } = props
+  const { show, event, artist } = props
   const type = show ? 'show' : event ? 'event' : artist ? 'artist' : null
   if (!type) return null
 
@@ -22,12 +22,12 @@ export default function Footer(props) {
     <footer className={styles.footer}>
       <div className={styles.next}>
         <HeaderBar>
-          <h3>next {type} </h3>
+          <h3>Next {type} </h3>
         </HeaderBar>
       </div>
       <div className={styles.label}>
         <HeaderBar>
-          <Link href={slug}>
+          <Link href={slug} scroll={false}>
             <a>{label}</a>
           </Link>
         </HeaderBar>

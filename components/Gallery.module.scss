@@ -38,19 +38,23 @@
       align-items: center;
       width: 100%;
       height: 80vh;
-      img{
-        width: auto !important;
-        height: 100% !important;
-      }
-      .image{
+      .imageWrap{
         display: flex;
-        flex-direction: column;
+        flex: 1 1 100%;
         justify-content: center;
+        align-items: center;
+        background-color: red;
+        .image{
+          
+        }
+        .picture{
+          width: aauto !important;
+          height: 100% !important;
+          object-fit: contain;
+          
+        }
       }
-      .picture{
-        width: auto !important;
-        height: 100% !important;
-      }
+      
       .label {
         display: flex;
         flex: 1 1 100%;

@@ -1,10 +1,8 @@
 import styles from './Background.module.scss'
-import { Image } from "react-datocms"
 import cn from "classnames"
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import PageTransition from "/components/PageTransition";
 
 const duration = 1.5;
 const pageTransition = {
@@ -13,8 +11,8 @@ const pageTransition = {
 		top:'0%'
 	},
 	animate: {
-		height: ['0vh', '100vh', '0vh'],
-		top:['0%', '0%', '100%'],
+		height: ['100vh', '0vh'],
+		top:['0%', '100%'],
 		transition:{ duration },
 		transitionEnd:{
 			top:'0%',
@@ -30,12 +28,12 @@ const pageTransition = {
 	}
 }
 
-export default function Background({image, color, title, brightness}){
+export default function PageTransition({backgroundImage, color}){
   
-	if(!image) return null;
+	//if(!image) return null;
 
 	const router = useRouter()
-	const [animating, setAnimating] = useState(true)
+	const [animating, setAnimating] = useState(false)
 	const backgroundColor = `rgb(${color?.join(',')})`;
 	const isHome = router.asPath === '/';
 	const showLogo = (animating && isHome)
@@ -45,13 +43,22 @@ export default function Background({image, color, title, brightness}){
 		document.body.style.backgroundColor = color;
 		return () => document.body.style.backgroundColor = originalColor;
 	},[])
-	
+	//console.log(backgroundImage, backgroundColor)
 	return (
-		<>
-			<PageTransition backgroundImage={image} color={color}/>
-			<div className={cn(styles.container, isHome && styles.sticky)}>
-				<Image lazyLoad={false} className={styles.backgroundImage} data={image.responsiveImage}/>
-			</div>
-		</>
+    <motion.div 
+      //initial="initial" 
+      animate={isHome && "animate"}
+      exit={!isHome && "animate"}
+      variants={pageTransition} 
+      className={styles.motionContainer} 
+      onAnimationComplete={()=>setAnimating(false)} 
+      onAnimationStart={()=>setAnimating(true)}
+    >
+      <div className={styles.color} style={{backgroundColor}}>
+        <div className={cn(styles.logo, !showLogo && styles.hide)} style={{background:`url(${backgroundImage.url}?w=400)`}}>
+          <h1>SASKIA NEUMAN GALLERY</h1>
+        </div>
+      </div>
+    </motion.div>
 	)
 }

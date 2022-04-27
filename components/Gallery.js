@@ -28,11 +28,13 @@ export default function Gallery({ images, onClose, index = 0 }) {
         >
           {images.map((image, idx) =>
             <SwiperSlide key={idx} className={styles.slide}>
-              <Image 
-                data={image.responsiveImage} 
-                className={styles.image} 
-                pictureClassName={styles.picture}
-              />
+              <div className={styles.imageWrap}>
+                <Image 
+                  data={image.responsiveImage} 
+                  className={styles.image} 
+                  pictureClassName={styles.picture}
+                />
+              </div>
             </SwiperSlide>
           )}
         </Swiper>

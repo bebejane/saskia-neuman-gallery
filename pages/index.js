@@ -40,7 +40,7 @@ export default function Start({start, image, color, isHovering}){
 								/>
 							}
 							<div className={cn(styles.headline, isHovering && styles.hide)}>
-								<div className={styles.bubble} style={{color:`rgb(${ color.join(',') })`}}>
+								<div className={styles.bubble} style={{color:`rgb(${ imageColor(link.image).join(',') })`}}>
 									<span className={styles.category}>{category}</span> <span className={styles.title}>{title}</span>
 								</div>
 							</div>

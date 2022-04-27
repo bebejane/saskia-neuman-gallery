@@ -49,7 +49,7 @@ export default function Menu({menu, brightness, onColorChange, onHover, isHoveri
     setSubMenuMargin(el.offsetLeft)
   }, [subMenu])
 
-  useEffect(()=> scrollDirection !== 'NONE' && setShowMenu(scrollY < 100 || scrollDirection === 'UP'),[scrollY, scrollDirection])
+  useEffect(()=> scrollDirection !== 'NONE' && setShowMenu(scrollY < 50 || scrollDirection === 'UP'),[scrollY, scrollDirection])
   
   return (
     <>

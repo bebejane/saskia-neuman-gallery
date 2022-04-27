@@ -2,20 +2,14 @@ import "/styles/index.scss";
 import "swiper/css";
 import DatoSEO from "/lib/dato/components/DatoSEO";
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
+import { useTransitionFix } from "/lib/hoc/useTransitionFix";
+
 import Menu from "/components/Menu";
 import Background from "/components/Background";
 import Footer from "/components/Footer";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-
-// Bugfix for framer-motion page transition - https://github.com/vercel/next.js/issues/17464
-const routeChange = () => {
-	const allStyleElems = document.querySelectorAll('style[media="x"]');
-	allStyleElems.forEach((elem) => elem.removeAttribute("media"));
-};
-Router.events.on("routeChangeComplete", routeChange);
-Router.events.on("routeChangeStart", routeChange);
 
 function MyApp({
 	Component,
@@ -39,6 +33,7 @@ function MyApp({
 	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
 
 	const router = useRouter();
+	const transitionFix = useTransitionFix()
 	const [backgroundColor, setBackgroundColor] = useState(color);
 	const [backgroundImage, setBackgroundImage] = useState(image);
 	const [isHovering, setIsHovering] = useState(false);
@@ -52,7 +47,7 @@ function MyApp({
 			<DatoSEO
 				seo={seo}
 				site={site}
-				title={`Saskia Neumann Gallery${title ? ` · ${title}` : ""}`}
+				title={`Saskia Neumann Gallery${title ? ` · ${title}` : ''}`}
 				pathname={pathname}
 				key={pathname}
 			/>
@@ -67,19 +62,19 @@ function MyApp({
 			/>
 			<AnimatePresence
 				exitBeforeEnter
-				initial={true}
-				//onExitComplete={() => typeof window !== "undefined" && window.scrollTo({ top: 0 })}
+				//initial={true}	
+				onExitComplete={() => typeof window !== "undefined" && window.scrollTo({ top: 0 })}
 			>
-				<Background
-					image={backgroundImage}
-					color={backgroundColor}
-					key={pathname}
-					title={title}
-					brightness={brightness}
-				/>
-			</AnimatePresence>
+			<Background
+				image={backgroundImage}
+				color={backgroundColor}
+				key={pathname}
+				title={title}
+				brightness={brightness}
+			/>
+		</AnimatePresence>
 			<Component {...{...pageProps, isHovering}}/>
-			<Footer {...pageProps} />
+			<Footer {...pageProps} />	
 		</>
 	);
 }
