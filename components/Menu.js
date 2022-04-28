@@ -43,7 +43,7 @@ const generateMenu = ({ artists, events, shows, about }) => {
 };
 
 export default function Menu(props) {
-
+	
 	const { image, brightness } = props;
 	const menu = generateMenu(props);
 	const router = useRouter();
@@ -85,13 +85,11 @@ export default function Menu(props) {
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
-			const next =
-				subs.filter(({ slug }) => `/${slug}` === url)[0] ||
-				menu.filter(({ path }) => path === url)[0] ||
-				menu.filter(({ path }) => path === url)[0];
+			const next = subs.filter(({ slug }) => `/${slug}` === url)[0] || menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0];
 
-			if (next)
+			if (next){
 				handleMouseOver(next, true);
+			}
 
 			setShowMobileMenu(false);
 			setSubMenu(undefined);
@@ -113,18 +111,21 @@ export default function Menu(props) {
 	useEffect(() => (scrollDirection !== "NONE" || scrollY < 50) && setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
 
 	useEffect(() => {
-
+		
 		const logo = document.getElementById('logo')
 		const main = document.getElementById('main')
+		
 		if(!main || !logo) return 
+		
 		const threshold = main.offsetTop - logo.clientHeight;
 		
-		if(scrollY > threshold && darkTheme)
+		if(scrollY > threshold && darkTheme && brightness < 0.35)
 			setDarkTheme(false)
-		else if(scrollY < threshold && !darkTheme)
+		else if(scrollY < threshold && !darkTheme && brightness < 0.35)
 			setDarkTheme(true)
-	}, [scrollY, darkTheme]);
-	
+
+	}, [scrollY, darkTheme, brightness]);
+
 	return (
 		<>
 			<div className={navbarStyles}>
