@@ -9,4 +9,7 @@ fragment EventFragment on EventRecord {
   image{
     ...ImageFragment
   }
+  gallery{
+   ...ImageFragment
+  }
 }

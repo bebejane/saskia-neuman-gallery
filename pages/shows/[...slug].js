@@ -11,6 +11,7 @@ import Gallery from '/components/Gallery'
 import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
+import PressLinks from 'components/PressLinks';
 
 export default function Show({ show: { title, description, startDate, endDate, slug, artwork, artists, press } }) {
 
@@ -20,12 +21,13 @@ export default function Show({ show: { title, description, startDate, endDate, s
 		<>
 			<Layout>
 				<Meta>
-					<HeaderBar>
-						<h3>EXHIBITIONS</h3>
+					<HeaderBar mobile={true}>
+						<h3>Shows</h3>
+						<h1>{title}</h1>
 					</HeaderBar>
-					<p>{artists.map(a => a.name).join(', ')}
+					<p>
 						<b>
-							Konstnärsnamn (skrivs inte ut)<br />
+							{artists.map(a => a.name).join(', ')}<br />
 							<i>{title}</i><br />
 							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
 						</b>
@@ -45,17 +47,9 @@ export default function Show({ show: { title, description, startDate, endDate, s
 
 					<section className={styles.press}>
 						<h2>PRESS</h2>
-						<div className={styles.pressLinks}>
-							{press.map(({ date, source, author, url }, idx) =>
-								<div key={idx} className={styles.block}>
-									<h3>{format(new Date(date), 'dd.MM.yyyy')}</h3>
-									<a href={url}>
-										<b>{source} -></b><br />
-										{author}</a>
-								</div>
-							)}
-						</div>
+						<PressLinks press={press} />
 					</section>
+
 				</Content>
 			</Layout>
 			{showGallery && <Gallery images={artwork} onClose={() => setShowGallery(false)} />}

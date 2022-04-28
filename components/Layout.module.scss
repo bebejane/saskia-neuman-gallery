@@ -2,6 +2,7 @@
   @include mq($from: tablet) {
     display: flex;
     align-items: flex-start;
+    flex-wrap: wrap;
   }
   padding-left: var(--margin-left);
   padding-right: var(--margin-right);
@@ -11,6 +12,13 @@
 }
 
 .meta {
+  @include mq($until: tablet) {
+    p {
+      padding-left: 25%;
+    }
+    padding-bottom: 1em;
+  }
+
   @include mq($from: tablet) {
     position: sticky;
     top: 3rem;
@@ -28,5 +36,11 @@
   }
   p:first-of-type {
     margin-top: -0.2em;
+  }
+
+  @include mq($until: tablet) {
+    header {
+      display: none;
+    }
   }
 }
