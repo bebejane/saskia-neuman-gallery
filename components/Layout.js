@@ -1,8 +1,7 @@
 import styles from './Layout.module.scss'
-import cn from "classnames"
 
 export function Layout(props) {
-
+	console.log('render')
 	return (
 		<main className={styles.main}>
 			{props.children}

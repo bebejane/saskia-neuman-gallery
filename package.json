@@ -33,7 +33,8 @@
     "rooks": "^5.11.0",
     "sass": "^1.43.5",
     "swiper": "^8.1.1",
-    "use-scroll-direction": "^1.1.4"
+    "use-scroll-direction": "^1.1.4",
+    "zustand": "^4.0.0-rc.0"
   },
   "devDependencies": {
     "eslint": "7.32.0",

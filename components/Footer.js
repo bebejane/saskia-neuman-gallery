@@ -1,14 +1,14 @@
 import styles from './Footer.module.scss'
-import { Image } from "react-datocms"
-import cn from "classnames"
-import { useEffect, useState } from 'react';
+import useStore from '/store';
 import Link from 'next/link';
 import { HeaderBar } from 'components/HeaderBar';
 
 export default function Footer(props) {
 
-  const { show, event, artist } = props
+  const { image, show, event, artist } = props
+  const setBackgroundImage = useStore((state) => state.setBackgroundImage);
   const type = show ? 'show' : event ? 'event' : artist ? 'artist' : null
+  
   if (!type) return null
 
   let nextIndex = 0; // Get the next index
@@ -28,7 +28,10 @@ export default function Footer(props) {
       <div className={styles.label}>
         <HeaderBar>
           <Link href={slug} scroll={false}>
-            <a>{label}</a>
+            <a
+              onMouseEnter={()=>setBackgroundImage(next.image)} 
+              onMouseLeave={()=>setBackgroundImage(image)}
+            >{label}</a>
           </Link>
         </HeaderBar>
       </div>

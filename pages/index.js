@@ -1,4 +1,5 @@
 import styles from './index.module.scss'
+import useStore from "/store";
 import { withGlobalProps } from "/lib/hoc";
 import { imageColor, imageBrightness } from '/lib/utils';
 import { GetStart } from '/graphql';
@@ -7,12 +8,14 @@ import cn from "classnames"
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-export default function Start({start, image, color, isHovering}){
+export default function Start({start, image, color}){
 	
 	const { links } = start;
 
 	if(!links) return null;
 	
+	const { isHoveringMenuItem } = useStore((state) => state);
+
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;
 		document.body.style.backgroundColor = color;
@@ -23,12 +26,12 @@ export default function Start({start, image, color, isHovering}){
 
 	return (
 		<div className={styles.container}>
-			
 			{links.map((link, idx) => {
-
+				
 				const type = link._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
 				const title = `${link.title} ${link.artists?.length ? link.artists[0]?.name : ''}`
 				const bubbleStyle = {color:`rgb(${ imageColor(link.image).join(',') })`}
+
 				return (
 					<Link key={idx} href={`/${link._modelApiKey}s/${link.slug}`} scroll={false}>
 						<a className={styles.card}>

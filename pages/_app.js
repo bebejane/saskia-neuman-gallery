@@ -1,5 +1,6 @@
 import "/styles/index.scss";
 import "swiper/css";
+import useStore from "/store";
 import DatoSEO from "/lib/dato/components/DatoSEO";
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
 import { useRouter } from "next/router";
@@ -10,9 +11,8 @@ import Background from "/components/Background";
 import Footer from "/components/Footer";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { generateMenu } from '/lib/utils'
 
-function MyApp({
+function SaskiaNeumanGallery({
 	Component,
 	pageProps,
 	pageProps: {
@@ -35,13 +35,14 @@ function MyApp({
 
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
-	const [backgroundColor, setBackgroundColor] = useState(color);
-	const [backgroundImage, setBackgroundImage] = useState(image);
-	const [isHovering, setIsHovering] = useState(false);
-
+	const { backgroundImage, setBackgroundImage, backgroundColor, setBackgroundColor} = useStore((state) => state);
 	const { asPath: pathname } = router;
 	const title = show?.title || event?.title || artist?.name || (about ? "About" : null);
-
+	
+	useState(()=>{ setBackgroundImage(image); setBackgroundColor(color);}, [image, color])
+	useState(()=> setBackgroundImage(backgroundImage || image), [backgroundImage, image])
+	useState(()=> setBackgroundColor(backgroundColor || color), [backgroundColor, color])
+	
 	return (
 		<>
 			<GoogleAnalytics />
@@ -52,30 +53,20 @@ function MyApp({
 				pathname={pathname}
 				key={pathname}
 			/>
-			<Menu
-				{...{artists, shows, events, about, color, brightness }}
-				onColorChange={(c) => setBackgroundColor(c)}
-				isHovering={isHovering}
-				onHover={(item, hovering) =>{
-          hovering ? setBackgroundImage(item.image) : setBackgroundImage(image)
-          setIsHovering(hovering)
-        }}
-			/>
+			<Menu {...{artists, shows, events, about, color, brightness, image }}/>
 			<AnimatePresence
 				exitBeforeEnter
 				initial={true}
 				onExitComplete={() =>  typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
 			>
 				<div key={router.asPath}>
-					<PageTransition backgroundImage={backgroundImage} color={color}/>
+					<PageTransition/>
 					<Background
-						image={backgroundImage}
-						color={backgroundColor}
 						key={pathname}
 						title={title}
 						brightness={brightness}
 					/>
-					<Component {...{...pageProps, isHovering}}/>
+					<Component {...{...pageProps}}/>
 					<Footer {...pageProps} />
 				</div>
 			</AnimatePresence>
@@ -83,4 +74,4 @@ function MyApp({
 	);
 }
 
-export default MyApp;
+export default SaskiaNeumanGallery;

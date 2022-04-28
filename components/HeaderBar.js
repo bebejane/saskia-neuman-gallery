@@ -1,5 +1,4 @@
 import styles from './HeaderBar.module.scss'
-import cn from "classnames"
 
 export function HeaderBar(props) {
 
