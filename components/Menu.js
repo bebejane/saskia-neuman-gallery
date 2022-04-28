@@ -51,7 +51,7 @@ export default function Menu(props) {
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
-	
+
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [subMenu, setSubMenu] = useState();
 	const [showMenu, setShowMenu] = useState(true);
@@ -89,9 +89,9 @@ export default function Menu(props) {
 				menu.filter(({ path }) => path === url)[0] ||
 				menu.filter(({ path }) => path === url)[0];
 
-			if (next) 
-        handleMouseOver(next, true);
-      
+			if (next)
+				handleMouseOver(next, true);
+
 			setShowMobileMenu(false);
 			setSubMenu(undefined);
 		};
@@ -109,13 +109,13 @@ export default function Menu(props) {
 		setSubMenuMargin(el.offsetLeft);
 	}, [subMenu]);
 
-	useEffect(() => setShowMenu(scrollY < 50 || scrollDirection === "UP"),[scrollY, scrollDirection]);
+	useEffect(() => setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
 
 	return (
 		<>
 			<div className={navbarStyles}>
 				<Link href="/">
-					<a>SASKIA NEUMAN GALLERY</a>
+					<a className={styles.logo}>SASKIA NEUMAN GALLERY</a>
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger

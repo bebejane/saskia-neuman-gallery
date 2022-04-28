@@ -14,7 +14,7 @@ import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
 export default function Artist({ artist: { name, biography, artwork, shows } }) {
-	const [galleryIndex, setGalleryIndex] = useState()	
+	const [galleryIndex, setGalleryIndex] = useState()
 	return (
 		<>
 			<Layout>
@@ -23,15 +23,13 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 						<h3>ARTISTS</h3>
 					</HeaderBar>
 				</Meta>
-
 				<Content>
 					<HeaderBar><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
-
 					<h2>EXHIBITIONS</h2>
 					<p>
-						{shows.map(({title, description, image, startDate, endDate, slug}, idx) => 
-							<Link key={idx}href={`/shows/${slug}`} scroll={false}>
+						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
+							<Link key={idx} href={`/shows/${slug}`} scroll={false}>
 								<a>{title}</a>
 							</Link>
 						)}
@@ -60,11 +58,11 @@ export async function getStaticPaths(context) {
 export const getStaticProps = withGlobalProps({ model: 'artist' }, async ({ props, context, revalidate }) => {
 	const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] })
 	const shows = props.shows?.filter((show) => show.artists.filter(a => a.id === artist.id).length > 0)
-	
+
 	return {
 		props: {
 			...props,
-			artist:{
+			artist: {
 				...artist,
 				shows
 			},

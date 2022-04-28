@@ -6,20 +6,27 @@
   padding-left: var(--margin-left);
   padding-right: var(--margin-right);
   background: $white;
-  margin-top: -100px;
+  margin-top: -$header-bar-height;
   z-index: 1000;
 }
 
 .meta {
   @include mq($from: tablet) {
     position: sticky;
-    top: 50px; // Temp;
+    top: 3rem;
     width: 50%;
+  }
+
+  p:first-of-type {
+    margin-top: -0.2em;
   }
 }
 
 .content {
   @include mq($from: tablet) {
     width: 50%;
+  }
+  p:first-of-type {
+    margin-top: -0.2em;
   }
 }

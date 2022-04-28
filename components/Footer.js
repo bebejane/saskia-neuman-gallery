@@ -8,7 +8,7 @@ export default function Footer(props) {
   const { image, show, event, artist } = props
   const setBackgroundImage = useStore((state) => state.setBackgroundImage);
   const type = show ? 'show' : event ? 'event' : artist ? 'artist' : null
-  
+
   if (!type) return null
 
   let nextIndex = 0; // Get the next index
@@ -27,12 +27,14 @@ export default function Footer(props) {
       </div>
       <div className={styles.label}>
         <HeaderBar>
-          <Link href={slug} scroll={false}>
-            <a
-              onMouseEnter={()=>setBackgroundImage(next.image)} 
-              onMouseLeave={()=>setBackgroundImage(image)}
-            >{label}</a>
-          </Link>
+          <b>
+            <Link href={slug} scroll={false}>
+              <a
+                onMouseEnter={() => setBackgroundImage(next.image)}
+                onMouseLeave={() => setBackgroundImage(image)}
+              >{label}</a>
+            </Link>
+          </b>
         </HeaderBar>
       </div>
     </footer>

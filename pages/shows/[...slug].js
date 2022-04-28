@@ -23,9 +23,12 @@ export default function Show({ show: { title, description, startDate, endDate, s
 					<HeaderBar>
 						<h3>EXHIBITIONS</h3>
 					</HeaderBar>
-					<p>{artists.map(a => a.name).join(', ')}<br />
-						{title}<br />
-						{format(new Date(startDate), 'dd.MM')} - {format(new Date(endDate), 'dd.MM.yyyy')}
+					<p>{artists.map(a => a.name).join(', ')}
+						<b>
+							Konstnärsnamn (skrivs inte ut)<br />
+							<i>{title}</i><br />
+							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
+						</b>
 					</p>
 				</Meta>
 
@@ -46,8 +49,9 @@ export default function Show({ show: { title, description, startDate, endDate, s
 							{press.map(({ date, source, author, url }, idx) =>
 								<div key={idx} className={styles.block}>
 									<h3>{format(new Date(date), 'dd.MM.yyyy')}</h3>
-									{source} <a href={url}>-></a><br />
-									{author}
+									<a href={url}>
+										<b>{source} -></b><br />
+										{author}</a>
 								</div>
 							)}
 						</div>

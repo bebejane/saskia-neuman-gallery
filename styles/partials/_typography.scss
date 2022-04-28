@@ -1,7 +1,7 @@
 body,
 html {
   font-size: 16px;
-  line-height: 1.2em;
+  line-height: 1.25em;
   color: $black;
 
   @include mq($from: tablet) {
@@ -12,6 +12,13 @@ html {
   }
 }
 
+h1,
+h2,
+h3,
+h4 {
+  font-weight: bold;
+}
+
 h1 {
   font-size: 1rem;
 }
@@ -19,7 +26,7 @@ h1 {
 h2 {
   border-top: 1px solid black;
   padding-top: 1rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   padding-bottom: 1rem;
 }
 
