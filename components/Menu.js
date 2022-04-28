@@ -4,7 +4,7 @@ import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useWindowScrollPosition } from "rooks";
+import { useWindowScrollPosition, useWindowSize } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor } from "/lib/utils";
@@ -53,32 +53,33 @@ export default function Menu(props) {
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
 
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
+	const [darkTheme, setDarkTheme] = useState(brightness < 0.35);
 	const [subMenu, setSubMenu] = useState();
 	const [showMenu, setShowMenu] = useState(true);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
-
-	const handleMouseOver = (item, hovering) => {
-		setBackgroundImage(hovering ? item.image : image);
-		setIsHoveringMenuItem(hovering);
-	};
-
-	const isDarkTheme = brightness < 0.5;
+	
 	const showSeparator = subMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
 	const menuStyles = cn(
 		styles.menuWrapper,
-		isDarkTheme ? styles.dark : styles.light,
+		darkTheme ? styles.dark : styles.light,
 		(subMenu || showMobileMenu) && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
+
 	const navbarStyles = cn(
 		styles.navbar,
 		!showMenu && !showMobileMenu && styles.hide,
-		isDarkTheme && styles.dark
+		darkTheme && styles.dark
 	);
+	
+	const handleMouseOver = (item, hovering) => {
+		setBackgroundImage(hovering ? item.image : image);
+		setIsHoveringMenuItem(hovering);
+	};
 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -109,20 +110,32 @@ export default function Menu(props) {
 		setSubMenuMargin(el.offsetLeft);
 	}, [subMenu]);
 
-	useEffect(() => setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
+	useEffect(() => (scrollDirection !== "NONE" || scrollY < 50) && setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
 
+	useEffect(() => {
+
+		const logo = document.getElementById('logo')
+		const main = document.getElementById('main')
+		const threshold = main.offsetTop - logo.clientHeight;
+		
+		if(scrollY > threshold && darkTheme)
+			setDarkTheme(false)
+		else if(scrollY < threshold && !darkTheme)
+			setDarkTheme(true)
+	}, [scrollY, darkTheme]);
+	
 	return (
 		<>
 			<div className={navbarStyles}>
 				<Link href="/">
-					<a className={styles.logo}>SASKIA NEUMAN GALLERY</a>
+					<a id="logo" className={cn(styles.logo)}>SASKIA NEUMAN GALLERY</a>
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
 						toggled={showMobileMenu}
 						duration={0.5}
 						onToggle={(toggle) => setShowMobileMenu(toggle)}
-						color={isDarkTheme ? "#fff" : "#000"}
+						color={darkTheme ? "#fff" : "#000"}
 						label={"Menu"}
 						size={20}
 					/>
