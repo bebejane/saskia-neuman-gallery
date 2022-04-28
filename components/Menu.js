@@ -77,26 +77,27 @@ export default function Menu(props) {
 	);
 	
 	const handleMouseOver = (item, hovering) => {
-		setBackgroundImage(hovering ? item.image : image);
 		setIsHoveringMenuItem(hovering);
+		setBackgroundImage(hovering ? item.image : image);
 	};
 
 	useEffect(() => {
+
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
 			const next = subs.filter(({ slug }) => `/${slug}` === url)[0] || menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0];
 
-			if (next){
-				handleMouseOver(next, true);
-			}
+			if(next)
+				setBackgroundImage(next.image);
 
 			setShowMobileMenu(false);
 			setSubMenu(undefined);
 		};
-		router.events.on("routeChangeStart", handleRouteChange);
-		return () => router.events.off("routeChangeStart", handleRouteChange);
-	}, [router.asPath]);
+		
+		router.events.on("routeChangeComplete", handleRouteChange);
+		return () => router.events.off("routeChangeComplete", handleRouteChange);
+	}, []);
 
 	useEffect(() => {
 		const el = document.getElementById(`menu-${subMenu?.type}`);
@@ -125,7 +126,7 @@ export default function Menu(props) {
 			setDarkTheme(true)
 
 	}, [scrollY, darkTheme, brightness]);
-
+	
 	return (
 		<>
 			<div className={navbarStyles}>
