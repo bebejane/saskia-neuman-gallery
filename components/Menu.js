@@ -60,7 +60,7 @@ export default function Menu(props) {
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
-	
+
 	const showSeparator = subMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
 	const menuStyles = cn(
 		styles.menuWrapper,
@@ -116,6 +116,7 @@ export default function Menu(props) {
 
 		const logo = document.getElementById('logo')
 		const main = document.getElementById('main')
+		if(!main || !logo) return 
 		const threshold = main.offsetTop - logo.clientHeight;
 		
 		if(scrollY > threshold && darkTheme)
