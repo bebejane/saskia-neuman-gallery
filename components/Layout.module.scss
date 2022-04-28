@@ -7,7 +7,9 @@
   padding-left: var(--margin-left);
   padding-right: var(--margin-right);
   background: $white;
-  margin-top: -$header-bar-height;
+  @include mq($from: tablet) {
+    margin-top: -$header-bar-height;
+  }
   z-index: 1000;
 }
 

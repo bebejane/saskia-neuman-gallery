@@ -6,11 +6,21 @@
   margin-left: var(--margin-left);
   margin-right: var(--margin-right);
   margin-top: 4rem;
+  text-overflow: hidden;
   .next,
   .label {
     flex: 0 0 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .next {
     text-transform: uppercase;
+  }
+  a,
+  b {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

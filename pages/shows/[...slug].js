@@ -21,7 +21,7 @@ export default function Show({ show: { title, description, startDate, endDate, s
 		<>
 			<Layout>
 				<Meta>
-					<HeaderBar mobile={true}>
+					<HeaderBar mobile='true'>
 						<h3>Shows</h3>
 						<h1>{title}</h1>
 					</HeaderBar>

@@ -3,7 +3,9 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  @include mq($from: tablet) {
+    height: 100vh;
+  }
 
   &.sticky {
     position: sticky;
@@ -15,7 +17,9 @@
     top: 0;
     left: 0;
     z-index: -1;
-    height: 100vh;
+    @include mq($from: tablet) {
+      height: 100vh;
+    }
     width: 100vw;
     max-width: 100vw !important;
     > picture > img {

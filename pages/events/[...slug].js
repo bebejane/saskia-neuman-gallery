@@ -14,7 +14,7 @@ export default function Event({ event }) {
 	return (
 		<Layout>
 			<Meta>
-				<HeaderBar mobile={true}>
+				<HeaderBar mobile='true'>
 					<h3>EVENTS</h3>
 					<h1>{event.title}</h1>
 				</HeaderBar>
