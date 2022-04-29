@@ -4,13 +4,10 @@ import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useWindowScrollPosition, useWindowSize } from "rooks";
+import { useWindowScrollPosition } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor } from "/lib/utils";
-import { sub } from "date-fns";
-import { rgbToHex } from "lib/utils";
-import { color } from "jimp";
 
 const brightnessThreshold = 0.35
 
@@ -66,7 +63,6 @@ export default function Menu(props) {
 
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [darkTheme, setDarkTheme] = useState(false);
-	//const [is, setSubMenu] = useState(false);
 	const [subMenu, setSubMenu] = useState();
 	const [showMenu, setShowMenu] = useState(true);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
@@ -80,7 +76,12 @@ export default function Menu(props) {
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
-	useEffect(() => (scrollDirection !== "NONE" || scrollY < 50) && setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
+	useEffect(() => {
+		if(scrollDirection !== "NONE" || scrollY < 50){
+			const show = scrollY < 50 || scrollDirection === "UP"
+			setShowMenu(show)
+		}
+	}, [scrollY, scrollDirection]);
 	useEffect(() => {
 
 		const handleRouteChange = (url, { shallow }) => {
@@ -130,7 +131,7 @@ export default function Menu(props) {
 	const menuStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && styles.open,
+		(subMenu || showMobileMenu) && showMenu && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
@@ -206,7 +207,7 @@ export default function Menu(props) {
 												onMouseEnter={() => handleMouseOver(a, true)}
 												onMouseLeave={() => handleMouseOver(a, false)}
 											>
-												<Link href={`/${a.slug}`} color={a.color} style={a.isSelected ? {color:'pink !important'} : {}}>
+												<Link href={`/${a.slug}`} color={a.color}>
 													{a.name || a.title}
 												</Link>
 											</li>
