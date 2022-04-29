@@ -1,5 +1,4 @@
 import styles from './index.module.scss'
-import useStore from "/store";
 import { withGlobalProps } from "/lib/hoc";
 import { imageColor, imageBrightness } from '/lib/utils';
 import { GetStart } from '/graphql';
@@ -11,11 +10,7 @@ import Link from 'next/link';
 export default function Start({start, image, color}){
 	
 	const { links } = start;
-
-	if(!links) return null;
 	
-	const { isHoveringMenuItem } = useStore((state) => state);
-
 	useEffect(()=>{
 		const originalColor = document.body.style.backgroundColor;
 		document.body.style.backgroundColor = color;
