@@ -1,5 +1,5 @@
 import styles from "./Menu.module.scss";
-import Link from "next/link";
+import Link from "/components/Link";
 import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
@@ -9,6 +9,8 @@ import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor } from "/lib/utils";
 import { sub } from "date-fns";
+import { rgbToHex } from "lib/utils";
+import { color } from "jimp";
 
 const brightnessThreshold = 0.35
 
@@ -132,8 +134,8 @@ export default function Menu(props) {
 	return (
 		<>
 			<div className={navbarStyles}>
-				<Link href="/">
-					<a id="logo" className={cn(styles.logo)}>SASKIA NEUMAN GALLERY</a>
+				<Link href="/" id="logo" className={cn(styles.logo)}>
+					SASKIA NEUMAN GALLERY
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
@@ -162,13 +164,8 @@ export default function Menu(props) {
 								{m.sub ? (
 									<a onClick={() => setSubMenu(m)}>{m.label}</a>
 								) : (
-									<Link href={m.path} scroll={false}>
-										<a
-											onMouseEnter={() => handleMouseOver(m, true)}
-											onMouseLeave={() => handleMouseOver(m, false)}
-										>
-											{m.label}
-										</a>
+									<Link href={m.path} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
+										{m.label}
 									</Link>
 								)}
 								{showMobileMenu && m.type === subMenu?.type && (
@@ -178,9 +175,9 @@ export default function Menu(props) {
 										className={cn(subMenu?.type === m.type && styles.open)}
 									>
 										{m.sub?.map((a, idx) => (
-											<Link key={idx} href={`/${a.slug}`} scroll={false}>
+											<Link key={idx} href={`/${a.slug}`} color={a.color} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
 												<li className={a.isSelected && styles.selected}>
-													<a>{a.name || a.title}</a>
+													{a.name || a.title}
 												</li>
 											</Link>
 										))}
@@ -202,12 +199,12 @@ export default function Menu(props) {
 										{sub.map((a, idx) => (
 											<li
 												key={idx}
-												className={a.isSelected && styles.selected}
+												
 												onMouseEnter={() => handleMouseOver(a, true)}
 												onMouseLeave={() => handleMouseOver(a, false)}
 											>
-												<Link href={`/${a.slug}`} scroll={false}>
-													<a>{a.name || a.title}</a>
+												<Link href={`/${a.slug}`} color={a.color} style={a.isSelected ? {color:'pink !important'} : {}}>
+													{a.name || a.title}
 												</Link>
 											</li>
 										))}
