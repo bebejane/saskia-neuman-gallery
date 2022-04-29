@@ -55,7 +55,7 @@ export default function Menu(props) {
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
 
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
-	const [darkTheme, setDarkTheme] = useState(brightness < brightnessThreshold);
+	const [darkTheme, setDarkTheme] = useState(false);
 	const [subMenu, setSubMenu] = useState();
 	const [showMenu, setShowMenu] = useState(true);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
@@ -83,6 +83,7 @@ export default function Menu(props) {
 		setBackgroundImage(hovering ? item.image : image);
 	};
 
+	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
 	useEffect(() => {
 
 		const handleRouteChange = (url, { shallow }) => {
