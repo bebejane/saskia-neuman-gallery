@@ -1,22 +1,19 @@
 import styles from './Background.module.scss'
+import cn from "classnames"
 import useStore from "/store";
 import { Image } from "react-datocms"
-import cn from "classnames"
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 export default function Background({image, color, title, brightness}){
   
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const backgroundImage = useStore((state) => state.backgroundImage);
-	const router = useRouter()
-	
-	
+
 	useEffect(()=>{  
 		setBackgroundImage(null)
 		setBackgroundColor(color)
-	}, [router.asPath])	
+	}, [])	
 	
 	if(!image) return null
 	

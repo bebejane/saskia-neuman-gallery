@@ -59,13 +59,14 @@ export default function Menu(props) {
 	const router = useRouter();
 	const menu = generateMenu(props, router.asPath);
 	
-
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
+	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
 
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [darkTheme, setDarkTheme] = useState(false);
+	//const [is, setSubMenu] = useState(false);
 	const [subMenu, setSubMenu] = useState();
 	const [showMenu, setShowMenu] = useState(true);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
@@ -86,16 +87,15 @@ export default function Menu(props) {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
 			const next = subs.filter(({ slug }) => `/${slug}` === url)[0] || menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0];
-
-			//if(next)
-				//setBackgroundImage(next.image);
-
+			if(next)
+				setBackgroundColor(next.color)
+			
 			setShowMobileMenu(false);
 			setSubMenu(undefined);
 		};
 		
-		router.events.on("routeChangeComplete", handleRouteChange);
-		return () => router.events.off("routeChangeComplete", handleRouteChange);
+		router.events.on("routeChangeStart", handleRouteChange);
+		return () => router.events.off("routeChangeStart", handleRouteChange);
 	}, []);
 
 	useEffect(() => {
@@ -117,18 +117,19 @@ export default function Menu(props) {
 		
 		const threshold = main.offsetTop - (logo.clientHeight*2);
 		
-		if(scrollY > threshold && darkTheme && brightness < brightnessThreshold)
+		if(scrollY > threshold && darkTheme && brightness < brightnessThreshold){
 			setDarkTheme(false)
+		}
 		else if(scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(true)
 
 	}, [scrollY, darkTheme, brightness]);
 	
 	const showSeparator = subMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
-	const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide,darkTheme && styles.dark);
+	const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
 	const menuStyles = cn(
 		styles.menuWrapper,
-		darkTheme ? styles.dark : styles.light,
+		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
 		(subMenu || showMobileMenu) && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent

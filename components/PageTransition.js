@@ -39,7 +39,7 @@ export default function PageTransition(props){
 	const isHome = router.asPath === '/';
 	const showLogo = (animating && isHome)
 	const color = `rgb(${backgroundColor?.join(',')})`;
-	
+
 	return (
     <motion.div
 			className={styles.container} 

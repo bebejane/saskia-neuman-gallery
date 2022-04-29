@@ -15,7 +15,6 @@ $navbarHeight: 50px;
   font-weight: bold;
 
   .logo {
-    transition: color 0.3s;
     font-size: 1.1em;
     letter-spacing: 0.01em;
   }
@@ -65,10 +64,10 @@ $navbarHeight: 50px;
   font-weight: 700;
   width: 100%;
   padding: $small-space * 2;
-  height: 0vh;
-
+  opacity: 1;
+  transition: opacity ease .2s;
   &.hide {
-    top: -100vh;
+    opacity: 0;
   }
   &.open {
     height: 100vh;
@@ -91,7 +90,7 @@ $navbarHeight: 50px;
   }
   &.dark {
     * {
-      color: #fff ;
+      color: #fff;
     }
     .separator {
       border-color: #fff !important;
@@ -105,7 +104,8 @@ $navbarHeight: 50px;
       }
     }
     &.open {
-      background-color: $black;
+      background-color: #fff;
+      
       @include mq($until: desktop) {
         .menu {
           background-color: $black;
