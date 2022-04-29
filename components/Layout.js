@@ -1,9 +1,8 @@
 import styles from './Layout.module.scss'
 
 export function Layout(props) {
-	console.log('render')
 	return (
-		<main className={styles.main}>
+		<main id="main" className={styles.main}>
 			{props.children}
 		</main>
 	);

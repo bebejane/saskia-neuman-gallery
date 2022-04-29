@@ -1,5 +1,6 @@
 import "/styles/index.scss";
 import "swiper/css";
+import shallow from 'zustand/shallow'
 import useStore from "/store";
 import DatoSEO from "/lib/dato/components/DatoSEO";
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
@@ -31,18 +32,15 @@ function SaskiaNeumanGallery({
 	},
 }) {
 	
-	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
+	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) 
+		usePagesViews(); // Google Analytics page view tracker
 
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
-	const { backgroundImage, setBackgroundImage, backgroundColor, setBackgroundColor} = useStore((state) => state);
+
 	const { asPath: pathname } = router;
 	const title = show?.title || event?.title || artist?.name || (about ? "About" : null);
-	
-	useState(()=>{ setBackgroundImage(image); setBackgroundColor(color);}, [image, color])
-	useState(()=> setBackgroundImage(backgroundImage || image), [backgroundImage, image])
-	useState(()=> setBackgroundColor(backgroundColor || color), [backgroundColor, color])
-	
+		
 	return (
 		<>
 			<GoogleAnalytics />
@@ -62,6 +60,8 @@ function SaskiaNeumanGallery({
 				<div key={router.asPath}>
 					<PageTransition/>
 					<Background
+						image={image}
+						color={color}
 						key={pathname}
 						title={title}
 						brightness={brightness}
