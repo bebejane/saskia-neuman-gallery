@@ -13,7 +13,7 @@ const useStore = create((set) => ({
   ),
   setBackgroundImage: (image) =>  
     set((state) => ({
-      backgroundImage: (image || state.backgroundImage),
+      backgroundImage: image,
       backgroundColor: (image || state.backgroundImage)?.customData?.color?.split(',') || defaultColor,
     })
   ),

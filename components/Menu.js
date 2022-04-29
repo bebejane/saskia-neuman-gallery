@@ -72,7 +72,7 @@ export default function Menu(props) {
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
-		setBackgroundImage(hovering ? item.image : image);
+		setBackgroundImage(hovering ? item.image : null);
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
@@ -84,8 +84,8 @@ export default function Menu(props) {
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
 			const next = subs.filter(({ slug }) => `/${slug}` === url)[0] || menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0];
 
-			if(next)
-				setBackgroundImage(next.image);
+			//if(next)
+				//setBackgroundImage(next.image);
 
 			setShowMobileMenu(false);
 			setSubMenu(undefined);
@@ -199,7 +199,6 @@ export default function Menu(props) {
 										{sub.map((a, idx) => (
 											<li
 												key={idx}
-												
 												onMouseEnter={() => handleMouseOver(a, true)}
 												onMouseLeave={() => handleMouseOver(a, false)}
 											>

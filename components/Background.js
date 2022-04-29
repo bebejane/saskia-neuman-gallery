@@ -11,22 +11,29 @@ export default function Background({image, color, title, brightness}){
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const backgroundImage = useStore((state) => state.backgroundImage);
 	const router = useRouter()
-	const isHome = router.asPath === '/';
 	
-	useEffect(()=>{ 
-		setBackgroundImage(image); 
+	
+	useEffect(()=>{  
+		setBackgroundImage(null)
 		setBackgroundColor(color)
-	}, [router.asPath])
+	}, [router.asPath])	
 	
-	if(!backgroundImage) return null
-
 	return (
-		<div className={cn(styles.container, isHome && styles.sticky)}>
-			<Image 
-				className={styles.backgroundImage} 
-				lazyLoad={false}
-				data={backgroundImage?.responsiveImage}
-			/>
-		</div>
+		<>
+			<div className={cn(styles.container)}>
+				<Image 
+					className={styles.backgroundImage} 
+					lazyLoad={false}
+					data={image?.responsiveImage}
+				/>
+			</div>	
+			<div className={cn(styles.hoverImage, !backgroundImage && styles.hide)}>
+				{backgroundImage && <Image 
+					className={styles.image} 
+					lazyLoad={false}
+					data={backgroundImage?.responsiveImage}
+				/>}
+			</div>	
+		</>
 	)
 }
