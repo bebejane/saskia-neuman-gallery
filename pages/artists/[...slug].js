@@ -30,10 +30,20 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 					<p>
 						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
 							<Link key={idx} href={`/shows/${slug}`} scroll={false}>
-								<div>
-									{startDate}
-									<a>{title}</a>
-								</div>
+								<a className={styles.exhibition}>
+									<figure>
+										<Image
+											className={styles.image}
+											data={image.responsiveImage}
+										/>
+									</figure>
+									<p>
+										<b>
+											<i>{title}</i><br />
+											{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
+										</b>
+									</p>
+								</a>
 							</Link>
 						)}
 					</p>
@@ -41,7 +51,8 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 					<GalleryThumbs artwork={artwork} />
 				</Content>
 			</Layout>
-			{galleryIndex !== undefined &&
+			{
+				galleryIndex !== undefined &&
 				<Gallery images={artwork} index={galleryIndex} onClose={() => setGalleryIndex(undefined)} />
 			}
 		</>
