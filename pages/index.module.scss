@@ -15,7 +15,7 @@ $slideSpeed: 1.5s;
 		}
 	}
 	.card {
-		position: sticky;
+		position: relative;
 		top: 0px;
 		display: flex;
 		align-items: center;
@@ -136,29 +136,22 @@ $slideSpeed: 1.5s;
 	text-align: center;
 	background-color: transparent;
 	color: #fff;
-	&.hide {
-		display: none;
-	}
+  &.hide{
+    display: none;
+  }
 	.bubble {
-		margin-bottom: 4rem;
+		text-transform: uppercase;
+		margin-bottom: 60px;
 		border-radius: 80px;
 		background-color: #fff;
-		padding-left: 2rem;
-		padding-right: 2rem;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
+		padding: 20px;
 		color: #000;
-		max-width: 80%;
-		display: flex;
-		align-items: center;
-
-		h1,
-		h3 {
-			display: inline;
-			line-height: 1;
+    max-width: 80%;
+		.category {
+			font-size: 1em;
 		}
-		h3 {
-			padding-right: 1em;
+		.title {
+			font-size: 1.2em;
 		}
 	}
 }

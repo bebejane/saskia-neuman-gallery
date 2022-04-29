@@ -9,6 +9,8 @@ import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor } from "/lib/utils";
 
+const brightnessThreshold = 0.35
+
 const generateMenu = ({ artists, events, shows, about }) => {
 	try {
 		const menu = [
@@ -53,7 +55,7 @@ export default function Menu(props) {
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
 
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
-	const [darkTheme, setDarkTheme] = useState(brightness < 0.35);
+	const [darkTheme, setDarkTheme] = useState(brightness < brightnessThreshold);
 	const [subMenu, setSubMenu] = useState();
 	const [showMenu, setShowMenu] = useState(true);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
@@ -118,11 +120,11 @@ export default function Menu(props) {
 		
 		if(!main || !logo) return 
 		
-		const threshold = main.offsetTop - logo.clientHeight;
+		const threshold = main.offsetTop - (logo.clientHeight*2);
 		
-		if(scrollY > threshold && darkTheme && brightness < 0.35)
+		if(scrollY > threshold && darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(false)
-		else if(scrollY < threshold && !darkTheme && brightness < 0.35)
+		else if(scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(true)
 
 	}, [scrollY, darkTheme, brightness]);
@@ -190,8 +192,7 @@ export default function Menu(props) {
 					<div className={styles.subMenu}>
 						{menu.map(
 							({ type, path, label, sub }, idx) =>
-								sub &&
-								!showMobileMenu && (
+								sub &&!showMobileMenu && (
 									<ul
 										key={idx}
 										id={`sub-${type}`}
