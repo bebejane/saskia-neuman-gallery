@@ -180,6 +180,9 @@ $navbarHeight: 50px;
           margin-left: $small-space/2;
           li {
             border-bottom: 0px solid $black;
+            &.selected{
+              text-decoration: underline;
+            }
           }
         }
       }

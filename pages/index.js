@@ -1,4 +1,5 @@
 import styles from './index.module.scss'
+import useStore from '/store';
 import { withGlobalProps } from "/lib/hoc";
 import { imageColor, imageBrightness } from '/lib/utils';
 import { GetStart } from '/graphql';
@@ -10,6 +11,8 @@ import Link from 'next/link';
 export default function Start({ start, image, color }) {
 
 	const { links } = start;
+
+	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem)
 
 	useEffect(() => {
 		const originalColor = document.body.style.backgroundColor;
@@ -37,7 +40,7 @@ export default function Start({ start, image, color }) {
 									prefetch={true}
 								/>
 							}
-							<div className={cn(styles.headline)}>
+							<div className={cn(styles.headline, isHoveringMenuItem && styles.hide)}>
 								<div className={styles.bubble} style={bubbleStyle}>
 									<h3>{type}</h3>
 									<h1>{title}</h1>

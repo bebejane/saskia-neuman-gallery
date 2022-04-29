@@ -8,10 +8,11 @@ import { useWindowScrollPosition, useWindowSize } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor } from "/lib/utils";
+import { sub } from "date-fns";
 
 const brightnessThreshold = 0.35
 
-const generateMenu = ({ artists, events, shows, about }) => {
+const generateMenu = ({ artists, events, shows, about }, path) => {
 	try {
 		const menu = [
 			{
@@ -37,9 +38,12 @@ const generateMenu = ({ artists, events, shows, about }) => {
 			...m,
 			image: m.sub ? m.sub[0]?.image : m.image,
 			color: imageColor(m.sub ? m.sub[0]?.image : m.image),
+			isSelected: !m.sub && m.path === path,
+			sub: m.sub?.map((s)=> ({...s, isSelected:`/${s.slug}` === path}))
 		}));
 		return menu;
 	} catch (err) {
+		console.error(err)
 		return [];
 	}
 };
@@ -47,8 +51,9 @@ const generateMenu = ({ artists, events, shows, about }) => {
 export default function Menu(props) {
 	
 	const { image, brightness } = props;
-	const menu = generateMenu(props);
 	const router = useRouter();
+	const menu = generateMenu(props, router.asPath);
+	
 
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
@@ -63,27 +68,13 @@ export default function Menu(props) {
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
 
-	const showSeparator = subMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
-	const menuStyles = cn(
-		styles.menuWrapper,
-		darkTheme ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && styles.open,
-		!showMenu && !showMobileMenu && styles.hide,
-		isHoveringMenuItem && styles.transparent
-	);
-
-	const navbarStyles = cn(
-		styles.navbar,
-		!showMenu && !showMobileMenu && styles.hide,
-		darkTheme && styles.dark
-	);
-	
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
 		setBackgroundImage(hovering ? item.image : image);
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
+	useEffect(() => (scrollDirection !== "NONE" || scrollY < 50) && setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
 	useEffect(() => {
 
 		const handleRouteChange = (url, { shallow }) => {
@@ -112,8 +103,6 @@ export default function Menu(props) {
 		setSubMenuMargin(el.offsetLeft);
 	}, [subMenu]);
 
-	useEffect(() => (scrollDirection !== "NONE" || scrollY < 50) && setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
-
 	useEffect(() => {
 		
 		const logo = document.getElementById('logo')
@@ -129,6 +118,16 @@ export default function Menu(props) {
 			setDarkTheme(true)
 
 	}, [scrollY, darkTheme, brightness]);
+	
+	const showSeparator = subMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
+	const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide,darkTheme && styles.dark);
+	const menuStyles = cn(
+		styles.menuWrapper,
+		darkTheme ? styles.dark : styles.light,
+		(subMenu || showMobileMenu) && styles.open,
+		!showMenu && !showMobileMenu && styles.hide,
+		isHoveringMenuItem && styles.transparent
+	);
 	
 	return (
 		<>
@@ -180,7 +179,7 @@ export default function Menu(props) {
 									>
 										{m.sub?.map((a, idx) => (
 											<Link key={idx} href={`/${a.slug}`} scroll={false}>
-												<li>
+												<li className={a.isSelected && styles.selected}>
 													<a>{a.name || a.title}</a>
 												</li>
 											</Link>
@@ -203,6 +202,7 @@ export default function Menu(props) {
 										{sub.map((a, idx) => (
 											<li
 												key={idx}
+												className={a.isSelected && styles.selected}
 												onMouseEnter={() => handleMouseOver(a, true)}
 												onMouseLeave={() => handleMouseOver(a, false)}
 											>
