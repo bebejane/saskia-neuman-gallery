@@ -34,6 +34,7 @@ export default function Background({image, color, title, brightness}){
 					<Image 
 						className={styles.image} 
 						lazyLoad={true}
+						usePlaceholder={false}
 						data={backgroundImage?.responsiveImage}
 					/>
 				</div>

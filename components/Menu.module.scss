@@ -45,10 +45,10 @@ $navbarHeight: 50px;
 
   &.dark {
     @include mq($until: desktop) {
-      background-color: #000;
+      background-color: $black;
     }
     * {
-      color: #fff !important;
+      color: #fff;
     }
   }
 }
@@ -65,7 +65,6 @@ $navbarHeight: 50px;
   font-weight: 700;
   width: 100%;
   padding: $small-space * 2;
-  transition: height 0.1s ease, top 0.3s ease;
   height: 0vh;
 
   &.hide {
@@ -92,7 +91,7 @@ $navbarHeight: 50px;
   }
   &.dark {
     * {
-      color: #fff !important;
+      color: #fff ;
     }
     .separator {
       border-color: #fff !important;
