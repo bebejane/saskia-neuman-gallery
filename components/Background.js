@@ -18,8 +18,10 @@ export default function Background({image, color, title, brightness}){
 		setBackgroundColor(color)
 	}, [router.asPath])	
 	
+	if(!image) return null
+	
 	return (
-		<>
+		<>			
 			<div className={cn(styles.container)}>
 				<Image 
 					className={styles.backgroundImage} 
@@ -27,13 +29,15 @@ export default function Background({image, color, title, brightness}){
 					data={image?.responsiveImage}
 				/>
 			</div>	
-			<div className={cn(styles.hoverImage, !backgroundImage && styles.hide)}>
-				{backgroundImage && <Image 
-					className={styles.image} 
-					lazyLoad={false}
-					data={backgroundImage?.responsiveImage}
-				/>}
-			</div>	
+			{backgroundImage &&
+				<div className={cn(styles.hoverImage)}>
+					<Image 
+						className={styles.image} 
+						lazyLoad={true}
+						data={backgroundImage?.responsiveImage}
+					/>
+				</div>
+			}
 		</>
 	)
 }

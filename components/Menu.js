@@ -15,6 +15,9 @@ import { color } from "jimp";
 const brightnessThreshold = 0.35
 
 const generateMenu = ({ artists, events, shows, about }, path) => {
+	
+	if(!artists || !events || !shows || !about) return []
+
 	try {
 		const menu = [
 			{

@@ -54,7 +54,7 @@ function SaskiaNeumanGallery({
 				initial={true}
 				onExitComplete={() =>  typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
 			>
-				<div key={router.asPath}>
+				<div id="app" key={router.asPath}>
 					<PageTransition/>
 					<Background
 						image={image}

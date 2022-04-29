@@ -20,12 +20,6 @@
 	@import "partials/print";
 }
 
-
-
-:root {
-	--blu: #1e90ff;
-}
-
 #error-404,
 #error-505 {
 	display: flex;
@@ -34,4 +28,7 @@
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
+}
+#app{
+	position: relative;
 }

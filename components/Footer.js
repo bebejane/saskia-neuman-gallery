@@ -3,11 +3,13 @@ import useStore from '/store';
 import Link from '/components/Link';
 import { HeaderBar } from 'components/HeaderBar';
 import { imageColor } from '/lib/utils'
+import cn from 'classnames'
 
 export default function Footer(props) {
 
   const { image, show, event, artist } = props
   const setBackgroundImage = useStore((state) => state.setBackgroundImage);
+  const backgroundImage = useStore((state) => state.backgroundImage)
   const type = show ? 'show' : event ? 'event' : artist ? 'artist' : null
 
   if (!type) return null
@@ -32,7 +34,7 @@ export default function Footer(props) {
             <Link href={slug} scroll={false} color={imageColor(next.image)}>
               <span
                 onMouseEnter={() => setBackgroundImage(next.image)}
-                onMouseLeave={() => setBackgroundImage(image)}
+                onMouseLeave={() => setBackgroundImage(null)}
               >{label}</span>
             </Link>
           </b>

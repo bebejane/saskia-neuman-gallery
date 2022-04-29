@@ -33,7 +33,7 @@ export default function Start({ start, image, color }) {
 				return (
 					<Link key={idx} href={`/${link._modelApiKey}s/${link.slug}`} scroll={false}>
 						<a className={styles.card}>
-							{idx > 0 &&
+							{idx > 0 && link.image &&
 								<Image
 									className={styles.linkImage}
 									data={(link.image || link.images[0])?.responsiveImage}
@@ -58,7 +58,7 @@ export default function Start({ start, image, color }) {
 export const getStaticProps = withGlobalProps({ queries: [GetStart], model: 'start' }, async ({ props, revalidate }) => {
 	const { links } = props.start
 	const image = links[0]?.image ? links[0].image : links[0]?.images?.length ? links[0]?.images[0] : null
-
+	
 	return {
 		props: {
 			...props,
