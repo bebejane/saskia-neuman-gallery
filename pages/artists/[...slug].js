@@ -5,7 +5,7 @@ import { imageColor, imageBrightness } from '/lib/utils';
 import { GetAllArtists, GetArtist } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
-import Link from 'next/link';
+import Link from '/components/Link';
 import Gallery from '/components/Gallery'
 import { useState } from 'react';
 import { Layout, Meta, Content } from '/components/Layout'
@@ -13,8 +13,9 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
-export default function Artist({ artist: { name, biography, artwork, shows } }) {
+export default function Artist({ artist: { name, biography, artwork, shows }}) {
 	const [galleryIndex, setGalleryIndex] = useState()
+	
 	return (
 		<>
 			<Layout>
@@ -29,21 +30,19 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 					<h2>EXHIBITIONS</h2>
 					<p>
 						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
-							<Link key={idx} href={`/shows/${slug}`} scroll={false}>
-								<a className={styles.exhibition}>
-									<figure>
-										<Image
-											className={styles.image}
-											data={image.responsiveImage}
-										/>
-									</figure>
-									<p>
-										<b>
-											<i>{title}</i><br />
-											{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
-										</b>
-									</p>
-								</a>
+							<Link key={idx} href={`/shows/${slug}`} color={imageColor(image)} className={styles.exhibition}>
+								<figure>
+									<Image
+										className={styles.image}
+										data={image.responsiveImage}
+									/>
+								</figure>
+								<p>
+									<b>
+										<i>{title}</i><br />
+										{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
+									</b>
+								</p>
 							</Link>
 						)}
 					</p>
@@ -71,14 +70,13 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps = withGlobalProps({ model: 'artist' }, async ({ props, context, revalidate }) => {
 	const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] })
-	const shows = props.shows?.filter((show) => show.artists.filter(a => a.id === artist.id).length > 0)
-
+	
 	return {
 		props: {
 			...props,
 			artist: {
 				...artist,
-				shows
+				shows: props.shows?.filter(({artists}) => artists.filter(a => a.id === artist.id).length > 0)
 			},
 			image: artist.image || null,
 			color: imageColor(artist.image),

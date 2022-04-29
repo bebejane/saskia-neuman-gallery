@@ -1,7 +1,5 @@
 import "/styles/index.scss";
 import "swiper/css";
-import shallow from 'zustand/shallow'
-import useStore from "/store";
 import DatoSEO from "/lib/dato/components/DatoSEO";
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
 import { useRouter } from "next/router";
@@ -11,7 +9,6 @@ import Menu from "/components/Menu";
 import Background from "/components/Background";
 import Footer from "/components/Footer";
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
 
 function SaskiaNeumanGallery({
 	Component,

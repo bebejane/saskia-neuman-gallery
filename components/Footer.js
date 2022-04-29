@@ -1,7 +1,8 @@
 import styles from './Footer.module.scss'
 import useStore from '/store';
-import Link from 'next/link';
+import Link from '/components/Link';
 import { HeaderBar } from 'components/HeaderBar';
+import { imageColor } from '/lib/utils'
 
 export default function Footer(props) {
 
@@ -28,11 +29,11 @@ export default function Footer(props) {
       <div className={styles.label}>
         <HeaderBar>
           <b>
-            <Link href={slug} scroll={false}>
-              <a
+            <Link href={slug} scroll={false} color={imageColor(next.image)}>
+              <span
                 onMouseEnter={() => setBackgroundImage(next.image)}
                 onMouseLeave={() => setBackgroundImage(image)}
-              >{label}</a>
+              >{label}</span>
             </Link>
           </b>
         </HeaderBar>
