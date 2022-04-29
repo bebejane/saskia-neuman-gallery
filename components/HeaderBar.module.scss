@@ -4,6 +4,12 @@
   height: $header-bar-height;
 
   &.mobile {
+    @include mq($from: tablet) {
+      h1 {
+        display: none;
+      }
+    }
+
     h3 {
       width: 25%;
     }
