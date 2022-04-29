@@ -136,22 +136,29 @@ $slideSpeed: 1.5s;
 	text-align: center;
 	background-color: transparent;
 	color: #fff;
-  &.hide{
-    display: none;
-  }
+	&.hide {
+		display: none;
+	}
 	.bubble {
-		text-transform: uppercase;
-		margin-bottom: 60px;
+		margin-bottom: 4rem;
 		border-radius: 80px;
 		background-color: #fff;
-		padding: 20px;
+		padding-left: 2rem;
+		padding-right: 2rem;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
 		color: #000;
-    max-width: 80%;
-		.category {
-			font-size: 1em;
+		max-width: 80%;
+		display: flex;
+		align-items: center;
+
+		h1,
+		h3 {
+			display: inline;
+			line-height: 1;
 		}
-		.title {
-			font-size: 1.2em;
+		h3 {
+			padding-right: 1em;
 		}
 	}
 }

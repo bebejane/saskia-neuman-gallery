@@ -30,7 +30,10 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 					<p>
 						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
 							<Link key={idx} href={`/shows/${slug}`} scroll={false}>
-								<a>{title}</a>
+								<div>
+									{startDate}
+									<a>{title}</a>
+								</div>
 							</Link>
 						)}
 					</p>
