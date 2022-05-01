@@ -11,12 +11,18 @@ import { imageColor } from "/lib/utils";
 
 const brightnessThreshold = 0.35
 
-const generateMenu = ({ artists, events, shows, about }, path) => {
+const generateMenu = ({ start, artists, events, shows, about }, path) => {
 	
-	if(!artists || !events || !shows || !about) return []
-
+	if(!artists || !events || !shows || !about || !start) return []
+	
 	try {
 		const menu = [
+			{
+				type: "start",
+				path: "/",
+				label: "SASKIA NEUMAN GALLERY",
+				image: start.links[0].image,
+			},
 			{
 				type: "artist",
 				path: "/artists",
@@ -35,7 +41,7 @@ const generateMenu = ({ artists, events, shows, about }, path) => {
 				label: "Events",
 				sub: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
 			},
-			{ type: "about", path: "/about", label: "About", image: about.image },
+			{ type: "about", path: "/about", label: "About", image: about.image, color: imageColor(about.image)},
 		].map((m) => ({
 			...m,
 			image: m.sub ? m.sub[0]?.image : m.image,
@@ -52,9 +58,9 @@ const generateMenu = ({ artists, events, shows, about }, path) => {
 
 export default function Menu(props) {
 	
-	const { image, brightness } = props;
+	const { brightness, start } = props;
 	const router = useRouter();
-	const menu = generateMenu(props, router.asPath);
+	const menu = generateMenu(props, router.asPath)
 	
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
@@ -82,16 +88,20 @@ export default function Menu(props) {
 			setShowMenu(show)
 		}
 	}, [scrollY, scrollDirection]);
-	useEffect(() => {
 
+	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
-			const next = subs.filter(({ slug }) => `/${slug}` === url)[0] || menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0];
+
+			const next = 
+				subs.filter(({ slug }) => `/${slug}` === url)[0] || 
+				menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0]
+
 			if(next)
 				setBackgroundColor(next.color)
-			
-			setShowMobileMenu(false);
+
+				setShowMobileMenu(false);
 			setSubMenu(undefined);
 		};
 		
@@ -135,12 +145,13 @@ export default function Menu(props) {
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
-	
+	if(!menu || menu.length === 0) return null
+
 	return (
 		<>
 			<div className={navbarStyles}>
-				<Link href="/" id="logo" className={cn(styles.logo)}>
-					SASKIA NEUMAN GALLERY
+				<Link href={menu[0].path} id="logo" className={styles.logo}>
+					{menu[0].label}
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
@@ -159,7 +170,7 @@ export default function Menu(props) {
 					onMouseLeave={() => setSubMenu()}
 				>
 					<ul>
-						{menu.map((m, idx) => (
+						{menu.slice(1).map((m, idx) => (
 							<li
 								id={`menu-${m.type}`}
 								key={idx}
@@ -167,7 +178,7 @@ export default function Menu(props) {
 								onMouseOver={() => setSubMenu(m)}
 							>
 								{m.sub ? (
-									<a onClick={() => setSubMenu(m)}>{m.label}</a>
+									<span onClick={() => setSubMenu(m)}>{m.label}</span>
 								) : (
 									<Link href={m.path} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
 										{m.label}
@@ -192,7 +203,7 @@ export default function Menu(props) {
 						))}
 					</ul>
 					<div className={styles.subMenu}>
-						{menu.map(
+						{menu.slice(1).map(
 							({ type, path, label, sub }, idx) =>
 								sub &&!showMobileMenu && (
 									<ul

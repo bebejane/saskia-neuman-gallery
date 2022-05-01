@@ -69,7 +69,6 @@ $navbarHeight: 50px;
   transition: opacity ease .2s, height ease 0s;
   &.hide {
     opacity: 0;
-    
   }
   &.open {
     height: 100vh;

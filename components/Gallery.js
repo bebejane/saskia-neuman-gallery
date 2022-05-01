@@ -1,3 +1,4 @@
+import "swiper/css";
 import styles from './Gallery.module.scss'
 import { Image } from "react-datocms"
 import { Swiper, SwiperSlide } from 'swiper/react';

@@ -5,6 +5,18 @@
 #import "./fragments/ArtistFragment.graphql"
 
 query GetGlobal{
+  start {
+    links {
+      ... on EventRecord {
+        ...EventFragment
+        _modelApiKey
+      }
+      ... on ShowRecord {
+        ...ShowFragment
+        _modelApiKey
+      }
+    }
+  }
 	artists: allArtists {
     ...ArtistFragment
   }
