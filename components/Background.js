@@ -28,16 +28,12 @@ export default function Background({image, color, title, brightness}){
 				/>
 			</div>	
 			
-			<AnimatePresence
-				//exitBeforeEnter
-				//initial={true}	
-			>
+			<AnimatePresence>
 				{backgroundImage &&
 					<div className={styles.hoverContainer} key={backgroundImage.id}>
 						<motion.div 
 							initial={{opacity:0}}
-							animate={{opacity:1, transition:{duration:0.5}}}
-							//exit={{opacity:0.5, transition:{duration:0.2}}}
+							animate={{opacity:1, transition:{duration:0.35}}}
 							className={styles.hoverImage}
 						>
 							<Image 

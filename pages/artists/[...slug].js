@@ -15,7 +15,7 @@ import { format } from 'date-fns'
 
 export default function Artist({ artist: { name, biography, artwork, shows }}) {
 	const [galleryIndex, setGalleryIndex] = useState()
-	
+	console.log(shows)
 	return (
 		<>
 			<Layout>

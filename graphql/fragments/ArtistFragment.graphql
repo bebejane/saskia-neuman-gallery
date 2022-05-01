@@ -1,6 +1,7 @@
 #import "./ImageFragment.graphql"
 
 fragment ArtistFragment on ArtistRecord{
+  id
   name
   biography(markdown: false)
   image {
