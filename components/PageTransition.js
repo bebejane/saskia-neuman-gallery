@@ -30,7 +30,7 @@ const pageTransition = {
 		top:['0%', '0%'],
 		transitionEnd :{
 		},
-		transition:{ duration }
+		transition:{ duration}
 	},
 	exitHome: {
 		transition:{ duration:0 }

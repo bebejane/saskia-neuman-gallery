@@ -1,0 +1,14 @@
+#import "./ImageFragment.graphql"
+
+fragment ArtistFragmentFull on ArtistRecord{
+  id
+  name
+  biography(markdown: false)
+  image {
+    ...ImageFragment    
+  }
+  artwork {
+    ...ImageFragment
+  }
+  slug
+}

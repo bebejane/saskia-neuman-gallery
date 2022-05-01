@@ -3,12 +3,8 @@
 fragment ArtistFragment on ArtistRecord{
   id
   name
-  biography(markdown: false)
   image {
     ...ImageFragment    
-  }
-  artwork {
-    ...ImageFragment
   }
   slug
 }

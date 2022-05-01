@@ -1,4 +1,5 @@
 #import "./fragments/EventFragment.graphql"
+#import "./fragments/EventFragmentFull.graphql"
 
 query GetAllEvents {
 	events: allEvents(orderBy: [title_ASC]) {
@@ -7,6 +8,6 @@ query GetAllEvents {
 }
 query GetEvent($slug:String!) {
 	event(filter: {slug: {eq: $slug}}) {
-		...EventFragment
+		...EventFragmentFull
 	}
 }

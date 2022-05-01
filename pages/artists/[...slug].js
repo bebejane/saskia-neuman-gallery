@@ -15,7 +15,7 @@ import { format } from 'date-fns'
 
 export default function Artist({ artist: { name, biography, artwork, shows }}) {
 	const [galleryIndex, setGalleryIndex] = useState()
-	console.log(shows)
+	
 	return (
 		<>
 			<Layout>
@@ -30,22 +30,20 @@ export default function Artist({ artist: { name, biography, artwork, shows }}) {
 					<h2>EXHIBITIONS</h2>
 					<p>
 						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
-							<>
-								<figure>
+							<Link key={idx} href={`/shows/${slug}`} color={imageColor(image)} style={{display:'flex', marginBottom: '1rem', flexDirection: 'row'}}>
+								<figure style={{flex: '0 0 50%', paddingRight:'20px'}}>
 									<Image
 										className={styles.image}
 										data={image.responsiveImage}
 									/>
 								</figure>
 								<p>
-									<Link key={idx} href={`/shows/${slug}`} color={imageColor(image)} className={styles.exhibition}>
 									<b>
 										<i>{title}</i><br />
 										{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
 									</b>
-									</Link>
 								</p>
-							</>
+							</Link>
 						)}
 					</p>
 					<h2>ARTWORKS</h2>
