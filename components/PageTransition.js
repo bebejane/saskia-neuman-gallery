@@ -20,6 +20,11 @@ const pageTransition = {
 			height:'0vh'
 		}
 	},
+	home:{
+		height: ['0vh', '100vh', '0vh'],
+		top:['0%', '0%', '100%'],
+		transition:{ duration: duration*2 },
+	},
 	exit: {
 		height: ['0vh', '100vh'],
 		top:['0%', '0%'],
@@ -35,22 +40,22 @@ export default function PageTransition(props){
 	const router = useRouter()
 	const [animating, setAnimating] = useState(true)
 	const isHome = router.asPath === '/';
-	const showLogo = (animating && isHome)
+	const hideLogo = (!animating || !isHome)
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
 	return (
     <motion.div
 			className={styles.container} 
 			initial="initial" 
-      animate={"animate"}
-      exit={"exit"}
+      animate={isHome ? "home" : "animate"}
+      exit={!isHome ? "exit" : undefined}
       variants={pageTransition} 
       onAnimationComplete={()=>setAnimating(false)} 
       onAnimationStart={()=>setAnimating(true)}
     >
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
-					className={cn(styles.logo, !showLogo && styles.hide)} 
+					className={cn(styles.logo, hideLogo && styles.hide)} 
 					style={{background:`url(${image?.url}?w=400)`}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>
