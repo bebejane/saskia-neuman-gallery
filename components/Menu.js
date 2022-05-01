@@ -8,6 +8,7 @@ import { useWindowScrollPosition } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor } from "/lib/utils";
+import { format } from 'date-fns'
 
 const brightnessThreshold = 0.35
 
@@ -33,6 +34,9 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				type: "show",
 				path: "/shows",
 				label: "Shows",
+				current: shows.find(({startDate, endDate}) => new Date() >= new Date(startDate) && new Date() <= new Date(endDate)),
+				upcoming: shows.filter(({startDate, endDate}) => new Date(startDate) > new Date() &&  new Date(endDate) > new Date())[0],
+				past: shows.filter(({startDate, endDate}) => new Date(startDate) < new Date() && new Date(endDate) < new Date())[0],
 				sub: shows.map((s) => ({ ...s, slug: `shows/${s.slug}`, color: imageColor(s.image) })),
 			},
 			{
@@ -145,6 +149,7 @@ export default function Menu(props) {
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
+
 	if(!menu || menu.length === 0) return null
 
 	return (
@@ -204,15 +209,15 @@ export default function Menu(props) {
 					</ul>
 					<div className={styles.subMenu}>
 						{menu.slice(1).map(
-							({ type, path, label, sub }, idx) =>
-								sub &&!showMobileMenu && (
+							({ type, path, label, sub, past, upcoming, current }, idx) =>
+								(sub && !showMobileMenu) &&  
 									<ul
 										key={idx}
 										id={`sub-${type}`}
 										className={cn(subMenu?.type === type && styles.open)}
 										style={{ marginLeft: `${subMenuMargin}px` }}
 									>
-										{sub.map((a, idx) => (
+										{type !== 'show' ? sub.map((a, idx) => (
 											<li
 												key={idx}
 												onMouseEnter={() => handleMouseOver(a, true)}
@@ -222,9 +227,25 @@ export default function Menu(props) {
 													{a.name || a.title}
 												</Link>
 											</li>
-										))}
-									</ul>
-								)
+										))
+										: (
+											[current, upcoming, past].map((show, idx) => show &&
+												<li
+													key={idx}
+													onMouseEnter={() => handleMouseOver(show, true)}
+													onMouseLeave={() => handleMouseOver(show, false)}
+												>
+													<Link href={`/shows/${show.slug}`} color={imageColor(show.image)}>
+														<h3>{idx === 0 ? 'Current' : idx === 1 ? 'Upcoming' : 'Past'}</h3>
+														{show.artists.map((a) => a.name).join(', ')}<br/>
+														{show.title}<br/>
+														{format(new Date(show.startDate), 'dd.MM')}—{format(new Date(show.endDate), 'dd.MM.yyyy')}
+													</Link>
+												</li>
+											)
+										)
+									}
+								</ul>
 						)}
 					</div>
 				</div>
