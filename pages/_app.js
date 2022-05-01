@@ -33,7 +33,7 @@ function SaskiaNeumanGallery({
 		usePagesViews(); // Google Analytics page view tracker
 
 	const router = useRouter();
-	const transitionFix = useTransitionFix()
+	//const transitionFix = useTransitionFix()
 
 	const { asPath: pathname } = router;
 	const title = show?.title || event?.title || artist?.name || (about ? "About" : null);
