@@ -1,0 +1,5 @@
+fragment AboutFragmentFull on AboutRecord {
+  image{
+    ...ImageFragment
+  }
+}

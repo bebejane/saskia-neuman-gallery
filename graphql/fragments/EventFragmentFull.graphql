@@ -1,0 +1,15 @@
+#import "./ImageFragment.graphql"
+
+fragment EventFragmentFull on EventRecord {
+  title
+  description(markdown: false)
+  startDate
+  endDate
+  slug
+  image{
+    ...ImageFragment
+  }
+  gallery{
+   ...ImageFragment
+  }
+}

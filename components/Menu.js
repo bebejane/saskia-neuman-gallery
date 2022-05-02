@@ -4,22 +4,26 @@ import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useWindowScrollPosition, useWindowSize } from "rooks";
+import { useWindowScrollPosition } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor } from "/lib/utils";
-import { sub } from "date-fns";
-import { rgbToHex } from "lib/utils";
-import { color } from "jimp";
+import { format } from 'date-fns'
 
 const brightnessThreshold = 0.35
 
-const generateMenu = ({ artists, events, shows, about }, path) => {
+const generateMenu = ({ start, artists, events, shows, about }, path) => {
 	
-	if(!artists || !events || !shows || !about) return []
-
+	if(!artists || !events || !shows || !about || !start) return []
+	
 	try {
 		const menu = [
+			{
+				type: "start",
+				path: "/",
+				label: "SASKIA NEUMAN GALLERY",
+				image: start.links[0].image,
+			},
 			{
 				type: "artist",
 				path: "/artists",
@@ -30,6 +34,9 @@ const generateMenu = ({ artists, events, shows, about }, path) => {
 				type: "show",
 				path: "/shows",
 				label: "Shows",
+				current: shows.find(({startDate, endDate}) => new Date() >= new Date(startDate) && new Date() <= new Date(endDate)),
+				upcoming: shows.filter(({startDate, endDate}) => new Date(startDate) > new Date() &&  new Date(endDate) > new Date())[0],
+				past: shows.filter(({startDate, endDate}) => new Date(startDate) < new Date() && new Date(endDate) < new Date())[0],
 				sub: shows.map((s) => ({ ...s, slug: `shows/${s.slug}`, color: imageColor(s.image) })),
 			},
 			{
@@ -38,7 +45,7 @@ const generateMenu = ({ artists, events, shows, about }, path) => {
 				label: "Events",
 				sub: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
 			},
-			{ type: "about", path: "/about", label: "About", image: about.image },
+			{ type: "about", path: "/about", label: "About", image: about.image, color: imageColor(about.image)},
 		].map((m) => ({
 			...m,
 			image: m.sub ? m.sub[0]?.image : m.image,
@@ -55,12 +62,12 @@ const generateMenu = ({ artists, events, shows, about }, path) => {
 
 export default function Menu(props) {
 	
-	const { image, brightness } = props;
+	const { brightness, start } = props;
 	const router = useRouter();
-	const menu = generateMenu(props, router.asPath);
+	const menu = generateMenu(props, router.asPath)
 	
-
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
+	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
 
@@ -79,23 +86,31 @@ export default function Menu(props) {
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
-	useEffect(() => (scrollDirection !== "NONE" || scrollY < 50) && setShowMenu(scrollY < 50 || scrollDirection === "UP"), [scrollY, scrollDirection]);
 	useEffect(() => {
+		if(scrollDirection !== "NONE" || scrollY < 50){
+			const show = scrollY < 50 || scrollDirection === "UP"
+			setShowMenu(show)
+		}
+	}, [scrollY, scrollDirection]);
 
+	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
-			const next = subs.filter(({ slug }) => `/${slug}` === url)[0] || menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0];
 
-			//if(next)
-				//setBackgroundImage(next.image);
+			const next = 
+				subs.filter(({ slug }) => `/${slug}` === url)[0] || 
+				menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0]
 
-			setShowMobileMenu(false);
+			if(next)
+				setBackgroundColor(next.color)
+
+				setShowMobileMenu(false);
 			setSubMenu(undefined);
 		};
 		
-		router.events.on("routeChangeComplete", handleRouteChange);
-		return () => router.events.off("routeChangeComplete", handleRouteChange);
+		router.events.on("routeChangeStart", handleRouteChange);
+		return () => router.events.off("routeChangeStart", handleRouteChange);
 	}, []);
 
 	useEffect(() => {
@@ -117,28 +132,31 @@ export default function Menu(props) {
 		
 		const threshold = main.offsetTop - (logo.clientHeight*2);
 		
-		if(scrollY > threshold && darkTheme && brightness < brightnessThreshold)
+		if(scrollY > threshold && darkTheme && brightness < brightnessThreshold){
 			setDarkTheme(false)
+		}
 		else if(scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(true)
 
 	}, [scrollY, darkTheme, brightness]);
 	
 	const showSeparator = subMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
-	const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide,darkTheme && styles.dark);
+	const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
 	const menuStyles = cn(
 		styles.menuWrapper,
-		darkTheme ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && styles.open,
+		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
+		(subMenu || showMobileMenu) && showMenu && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
-	
+
+	if(!menu || menu.length === 0) return null
+
 	return (
 		<>
 			<div className={navbarStyles}>
-				<Link href="/" id="logo" className={cn(styles.logo)}>
-					SASKIA NEUMAN GALLERY
+				<Link href={menu[0].path} id="logo" className={styles.logo}>
+					{menu[0].label}
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
@@ -157,7 +175,7 @@ export default function Menu(props) {
 					onMouseLeave={() => setSubMenu()}
 				>
 					<ul>
-						{menu.map((m, idx) => (
+						{menu.slice(1).map((m, idx) => (
 							<li
 								id={`menu-${m.type}`}
 								key={idx}
@@ -165,7 +183,7 @@ export default function Menu(props) {
 								onMouseOver={() => setSubMenu(m)}
 							>
 								{m.sub ? (
-									<a onClick={() => setSubMenu(m)}>{m.label}</a>
+									<span onClick={() => setSubMenu(m)}>{m.label}</span>
 								) : (
 									<Link href={m.path} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
 										{m.label}
@@ -190,28 +208,44 @@ export default function Menu(props) {
 						))}
 					</ul>
 					<div className={styles.subMenu}>
-						{menu.map(
-							({ type, path, label, sub }, idx) =>
-								sub &&!showMobileMenu && (
+						{menu.slice(1).map(
+							({ type, path, label, sub, past, upcoming, current }, idx) =>
+								(sub && !showMobileMenu) &&  
 									<ul
 										key={idx}
 										id={`sub-${type}`}
 										className={cn(subMenu?.type === type && styles.open)}
 										style={{ marginLeft: `${subMenuMargin}px` }}
 									>
-										{sub.map((a, idx) => (
+										{type !== 'show' ? sub.map((a, idx) => (
 											<li
 												key={idx}
 												onMouseEnter={() => handleMouseOver(a, true)}
 												onMouseLeave={() => handleMouseOver(a, false)}
 											>
-												<Link href={`/${a.slug}`} color={a.color} style={a.isSelected ? {color:'pink !important'} : {}}>
+												<Link href={`/${a.slug}`} color={a.color}>
 													{a.name || a.title}
 												</Link>
 											</li>
-										))}
-									</ul>
-								)
+										))
+										: (
+											[current, upcoming, past].map((show, idx) => show &&
+												<li
+													key={idx}
+													onMouseEnter={() => handleMouseOver(show, true)}
+													onMouseLeave={() => handleMouseOver(show, false)}
+												>
+													<Link href={`/shows/${show.slug}`} color={imageColor(show.image)}>
+														<h3>{idx === 0 ? 'Current' : idx === 1 ? 'Upcoming' : 'Past'}</h3>
+														{show.artists.map((a) => a.name).join(', ')}<br/>
+														{show.title}<br/>
+														{format(new Date(show.startDate), 'dd.MM')}—{format(new Date(show.endDate), 'dd.MM.yyyy')}
+													</Link>
+												</li>
+											)
+										)
+									}
+								</ul>
 						)}
 					</div>
 				</div>

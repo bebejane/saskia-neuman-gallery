@@ -1,22 +1,20 @@
 import styles from './Background.module.scss'
+import cn from "classnames"
 import useStore from "/store";
 import { Image } from "react-datocms"
-import cn from "classnames"
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { AnimatePresence, motion } from 'framer-motion'
 
 export default function Background({image, color, title, brightness}){
   
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const backgroundImage = useStore((state) => state.backgroundImage);
-	const router = useRouter()
-	
-	
+
 	useEffect(()=>{  
 		setBackgroundImage(null)
 		setBackgroundColor(color)
-	}, [router.asPath])	
+	}, [])	
 	
 	if(!image) return null
 	
@@ -29,15 +27,25 @@ export default function Background({image, color, title, brightness}){
 					data={image?.responsiveImage}
 				/>
 			</div>	
-			{backgroundImage &&
-				<div className={cn(styles.hoverImage)}>
-					<Image 
-						className={styles.image} 
-						lazyLoad={true}
-						data={backgroundImage?.responsiveImage}
-					/>
-				</div>
-			}
+			
+			<AnimatePresence>
+				{backgroundImage &&
+					<div className={styles.hoverContainer} key={backgroundImage.id}>
+						<motion.div 
+							initial={{opacity:0}}
+							animate={{opacity:1, transition:{duration:0.35}}}
+							className={styles.hoverImage}
+						>
+							<Image 
+								className={styles.image} 
+								lazyLoad={true}
+								usePlaceholder={false}
+								data={backgroundImage?.responsiveImage}
+							/>
+						</motion.div>
+					</div>
+				}
+			</AnimatePresence>
 		</>
 	)
 }

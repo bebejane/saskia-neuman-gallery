@@ -1,4 +1,5 @@
 #import "./fragments/ShowFragment.graphql"
+#import "./fragments/ShowFragmentFull.graphql"
 
 query GetAllShows {
 	shows: allShows(orderBy: [startDate_ASC]) {
@@ -7,6 +8,6 @@ query GetAllShows {
 }
 query GetShow($slug:String!) {
 	show(filter: {slug: {eq: $slug}}) {
-		...ShowFragment
+		...ShowFragmentFull
 	}
 }

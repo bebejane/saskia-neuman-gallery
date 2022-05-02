@@ -20,41 +20,44 @@ const pageTransition = {
 			height:'0vh'
 		}
 	},
+	home:{
+		height: ['0vh', '100vh', '0vh'],
+		top:['0%', '0%', '100%'],
+		transition:{ duration: duration*2 },
+	},
 	exit: {
 		height: ['0vh', '100vh'],
 		top:['0%', '0%'],
 		transitionEnd :{
 		},
-		transition:{ duration }
+		transition:{ duration}
+	},
+	exitHome: {
+		transition:{ duration:0 }
 	}
 }
 
-export default function PageTransition(props){
+export default function PageTransition({image}){
 	
 	const backgroundColor = useStore((state) => state.backgroundColor);
-	const backgroundImage = useStore((state) => state.backgroundImage);
-	
 	const router = useRouter()
-	const [animating, setAnimating] = useState(false)
+	const [animating, setAnimating] = useState(true)
 	const isHome = router.asPath === '/';
-	const showLogo = (animating && isHome)
+	const hideLogo = (isHome && !animating) || !isHome
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
 	return (
     <motion.div
-			className={styles.container} 
+			className={styles.pageTransition} 
 			initial="initial" 
-      animate={"animate"}
-      exit={"exit"}
+      animate={isHome ? "home" : "animate"}
+      exit={!isHome ? "exit" :undefined}
       variants={pageTransition} 
       onAnimationComplete={()=>setAnimating(false)} 
       onAnimationStart={()=>setAnimating(true)}
     >
       <div className={styles.color} style={{backgroundColor: color}}>
-        <div 
-					className={cn(styles.logo, !showLogo && styles.hide)} 
-					style={{background:`url(${backgroundImage?.url}?w=400)`}}
-				>
+        <div className={cn(styles.logo, hideLogo && styles.hide)} style={{background:`url(${image?.url}?w=400)`}}>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
       </div>	

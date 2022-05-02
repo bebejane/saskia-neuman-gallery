@@ -1,9 +1,8 @@
 import "/styles/index.scss";
-import "swiper/css";
 import DatoSEO from "/lib/dato/components/DatoSEO";
 import { GoogleAnalytics, usePagesViews } from "nextjs-google-analytics";
 import { useRouter } from "next/router";
-import { useTransitionFix } from "/lib/hoc/useTransitionFix";
+import { useTransitionFix } from "/lib/hooks";
 import PageTransition from "/components/PageTransition";
 import Menu from "/components/Menu";
 import Background from "/components/Background";
@@ -16,6 +15,7 @@ function SaskiaNeumanGallery({
 	pageProps: {
 		site,
 		seo,
+		start,
 		artists,
 		shows,
 		events,
@@ -44,18 +44,18 @@ function SaskiaNeumanGallery({
 			<DatoSEO
 				seo={seo}
 				site={site}
-				title={`Saskia Neumann Gallery${title ? ` · ${title}` : ''}`}
+				title={`Saskia Neumann Gallery${title ? ` — ${title}` : ''}`}
 				pathname={pathname}
 				key={pathname}
 			/>
-			<Menu {...{artists, shows, events, about, color, brightness, image }}/>
+			<Menu {...{start, artists, shows, events, about, color, brightness, image }}/>
 			<AnimatePresence
 				exitBeforeEnter
 				initial={true}
 				onExitComplete={() =>  typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
 			>
 				<div id="app" key={router.asPath}>
-					<PageTransition/>
+					<PageTransition image={image}/>
 					<Background
 						image={image}
 						color={color}

@@ -12,6 +12,7 @@ import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import PressLinks from 'components/PressLinks';
+import Link from '/components/Link'
 
 export default function Show({ show: { title, description, startDate, endDate, slug, artwork, artists, press } }) {
 
@@ -27,7 +28,12 @@ export default function Show({ show: { title, description, startDate, endDate, s
 					</HeaderBar>
 					<p>
 						<b>
-							{artists.map(a => a.name).join(', ')}<br />
+							{artists.map((a) => 
+								<Link href={`/artists/${a.slug}`} color={imageColor(a.image)}>
+									{a.name}
+								</Link>
+							)}
+							<br/>
 							<i>{title}</i><br />
 							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
 						</b>
@@ -70,6 +76,8 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps = withGlobalProps({ model: 'show' }, async ({ props, context, revalidate }) => {
 	const { show } = await apiQuery(GetShow, { slug: context.params.slug[0] })
+	
+	if(!show) return { notFound:true}
 
 	return {
 		props: {

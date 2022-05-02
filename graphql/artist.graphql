@@ -1,4 +1,5 @@
 #import "./fragments/ArtistFragment.graphql"
+#import "./fragments/ArtistFragmentFull.graphql"
 
 query GetAllArtists{
 	artists: allArtists(orderBy: [name_ASC]) {
@@ -7,6 +8,6 @@ query GetAllArtists{
 }
 query GetArtist($slug:String!) {
 	artist(filter: {slug: {eq: $slug}}) {
-		...ArtistFragment
+		...ArtistFragmentFull
 	}
 }

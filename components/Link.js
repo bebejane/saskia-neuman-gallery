@@ -1,5 +1,6 @@
 import * as NextLink from 'next/link';
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export function Link({
   id, 
@@ -14,7 +15,7 @@ export function Link({
 }) {
   
   const [hover, setHover] = useState(false)
-  const linkStyle = hover && color ? {color: Array.isArray(color) ? `rgb(${color.join(',')})` : color} : {}
+  const linkStyle = hover && color ? {color:`rgb(${color.join(',')})`, textShadow: '0 0 1px #fff'} : {}
 
   const handleMouse = (e) => {
     if(e.type === 'mouseleave'){
