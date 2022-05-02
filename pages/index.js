@@ -29,9 +29,10 @@ export default function Start({ start, image, color }) {
 				const type = link._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
 				const title = `${link.title} by ${link.artists?.length ? link.artists[0]?.name : ''}`
 				const bubbleStyle = { color: `rgb(${imageColor(link.image).join(',')})` }
-
+				const href= link._modelApiKey === 'external_link' ? link.url : `/${link._modelApiKey}s/${link.slug}`
+				
 				return (
-					<Link key={idx} href={`/${link._modelApiKey}s/${link.slug}`} scroll={false}>
+					<Link key={idx} href={href} scroll={false}>
 						<a className={styles.card}>
 							{idx > 0 && link.image &&
 								<Image

@@ -1,0 +1,9 @@
+#import "./ImageFragment.graphql"
+
+fragment ExternalLinkFragment on ExternalLinkRecord {
+  title
+  url
+  image{
+    ...ImageFragment
+  }
+}
