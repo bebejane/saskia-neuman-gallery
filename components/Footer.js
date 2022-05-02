@@ -23,22 +23,24 @@ export default function Footer(props) {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.next}>
-        <HeaderBar>
-          <h3>Next {type} </h3>
-        </HeaderBar>
+      <div className={styles.wrapper}>
+        <div className={styles.next}>
+          <HeaderBar>
+            <h3>Next {type} </h3>
+          </HeaderBar>
+        </div>
+        <div className={styles.label}>
+          <HeaderBar>
+            <b>
+              <Link href={slug} scroll={false} color={imageColor(next.image)}>
+                <span onMouseEnter={() => setBackgroundImage(next.image)} onMouseLeave={() => setBackgroundImage(null)}>
+                  {label}
+                </span>
+              </Link>
+            </b>
+          </HeaderBar>
+        </div>
       </div>
-      <div className={styles.label}>
-        <HeaderBar>
-          <b>
-            <Link href={slug} scroll={false} color={imageColor(next.image)}>
-              <span onMouseEnter={() => setBackgroundImage(next.image)} onMouseLeave={() => setBackgroundImage(null)}>
-                {label}
-              </span>
-            </Link>
-          </b>
-        </HeaderBar>
-      </div>
-    </footer>
+    </footer >
   )
 }

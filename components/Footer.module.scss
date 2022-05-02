@@ -6,12 +6,20 @@
   display: flex;
   flex-direction: row;
   flex: 1 1 100%;
-  border-top: 1px solid #000;
-  padding-left: var(--margin-left);
-  padding-right: var(--margin-right);
-  margin-top: 4rem;
   text-overflow: hidden;
   width: 100%;
+
+  .wrapper {
+    padding-left: var(--margin-left);
+    padding-right: var(--margin-right);
+    width: 100%;
+    display: flex;
+  }
+
+  header {
+    border-top: 1px solid #000;
+  }
+
   .next,
   .label {
     flex: 0 0 50%;
