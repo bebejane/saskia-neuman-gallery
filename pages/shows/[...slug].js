@@ -45,10 +45,12 @@ export default function Show({ show: { title, description, startDate, endDate, s
 						<GalleryThumbs artwork={artwork} />
 					</section>
 
-					<section className={styles.press}>
-						<h2>PRESS</h2>
-						<PressLinks press={press} />
-					</section>
+					{press.lengt < 0 &&
+						<section className={styles.press}>
+							<h2>PRESS</h2>
+							<PressLinks press={press} />
+						</section>
+					}
 
 				</Content>
 			</Layout>
