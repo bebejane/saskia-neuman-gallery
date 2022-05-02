@@ -14,6 +14,17 @@ export default function Start({ start, image, color }) {
 
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem)
 
+	const linkType = ({_modelApiKey : model, startDate, endDate}) => {
+		if(model === 'external_link')
+			return 'News'
+		if(new Date() >= new Date(startDate) && new Date() <= new Date(endDate))
+			return 'Current'
+		else if(new Date(startDate) > new Date() && new Date(endDate) > new Date())
+			return 'Upcoming'
+		else
+			return 'Past'
+	}
+
 	useEffect(() => {
 		const originalColor = document.body.style.backgroundColor;
 		document.body.style.backgroundColor = color;
@@ -25,12 +36,11 @@ export default function Start({ start, image, color }) {
 	return (
 		<div className={styles.container}>
 			{links.map((link, idx) => {
-
-				const type = link._modelApiKey === 'show' ? 'SHOWING NOW' : 'UPCOMING'
+				const type = linkType(link)
 				const title = `${link.title} by ${link.artists?.length ? link.artists[0]?.name : ''}`
 				const bubbleStyle = { color: `rgb(${imageColor(link.image).join(',')})` }
-				const href= link._modelApiKey === 'external_link' ? link.url : `/${link._modelApiKey}s/${link.slug}`
-				
+				const href = link._modelApiKey === 'external_link' ? link.url : `/${link._modelApiKey}s/${link.slug}`
+
 				return (
 					<Link key={idx} href={href} scroll={false}>
 						<a className={styles.card}>
