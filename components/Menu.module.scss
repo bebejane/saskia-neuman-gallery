@@ -15,6 +15,10 @@ $navbarHeight: 50px;
   font-weight: bold;
 
   .logo {
+    @include mq($until: tablet) {
+      padding-top: 1.2em;
+      padding-bottom: 1rem;
+    }
     font-size: 1.1em;
     letter-spacing: 0.01em;
   }
@@ -27,7 +31,7 @@ $navbarHeight: 50px;
   @include mq($until: desktop) {
     width: 100%;
     padding: 0;
-    padding-left: 10px;
+    padding-left: var(--margin-left);
     background-color: #fff;
     z-index: 3000;
     .hamburger {
@@ -237,16 +241,25 @@ $navbarHeight: 50px;
       justify-content: flex-start;
       background-color: #fff;
       z-index: 700;
-      padding-left: $small-space;
-      padding-right: $small-space;
+      padding-left: var(--margin-left);
+      padding-right: var(--margin-right);
       &.show {
         display: flex;
       }
       ul {
         flex-direction: column;
         flex: 0 1;
+
+        & > li {
+          padding-top: 1em;
+        }
+
+        @include mq($until: tablet) {
+          border-top: 1px solid $black;
+        }
+
         li {
-          border-bottom: 2px solid $black;
+          border-bottom: 1px solid $black;
           padding-bottom: 1em;
           display: none;
           width: 100%;
