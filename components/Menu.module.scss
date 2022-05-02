@@ -63,10 +63,10 @@ $navbarHeight: 50px;
   z-index: 800;
   font-weight: 700;
   width: 100%;
-  height:0vh;
+  height: 0vh;
   padding: $small-space * 2;
   opacity: 1;
-  transition: opacity ease .2s, height ease 0s;
+  transition: opacity ease 0.2s, height ease 0s;
   &.hide {
     opacity: 0;
   }
@@ -106,7 +106,7 @@ $navbarHeight: 50px;
     }
     &.open {
       background-color: #fff;
-      
+
       @include mq($until: desktop) {
         .menu {
           background-color: $black;
@@ -127,9 +127,9 @@ $navbarHeight: 50px;
     display: none;
     top: 0;
     left: 0;
-    width: 2px;
+    width: 1px;
     height: 100vh;
-    border: 1px solid $black;
+    border: 0.5px solid $black;
     &.show {
       display: block;
     }
@@ -170,6 +170,8 @@ $navbarHeight: 50px;
         padding: 0;
         text-indent: 0;
         list-style-type: none;
+        cursor: pointer;
+
         &.selected {
           text-decoration: underline;
         }
@@ -180,7 +182,7 @@ $navbarHeight: 50px;
           margin-left: $small-space/2;
           li {
             border-bottom: 0px solid $black;
-            &.selected{
+            &.selected {
               text-decoration: underline;
             }
           }
@@ -207,6 +209,12 @@ $navbarHeight: 50px;
           white-space: pre;
           &.selected {
             text-decoration: underline;
+          }
+
+          &:not(:first-child) {
+            h3 {
+              padding-top: 1em;
+            }
           }
         }
         &.open {
@@ -239,6 +247,7 @@ $navbarHeight: 50px;
         flex: 0 1;
         li {
           border-bottom: 2px solid $black;
+          padding-bottom: 1em;
           display: none;
           width: 100%;
           margin-left: 0rem;

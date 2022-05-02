@@ -1,6 +1,8 @@
 .footer {
-  position: absolute;
-  bottom: 0;
+  @include mq($from: tablet) {
+    position: absolute;
+    bottom: 0;
+  }
   z-index: 3;
   width: 100%;
   display: flex;
