@@ -2,7 +2,7 @@ import styles from './GalleryThumbs.module.scss'
 import { Image } from "react-datocms"
 import { useState } from 'react'
 import Gallery from './Gallery'
-import { splitArray } from '/lib/utils'
+import { splitArray } from '/utils'
 
 export default function GalleryThumbs({ artwork }) {
   

@@ -3,7 +3,7 @@ import { withGlobalProps } from "/lib/hoc";
 import { GetAbout } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
-import { imageColor, imageBrightness } from '/lib/utils';
+import { imageColor, imageBrightness } from '/utils';
 import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
 

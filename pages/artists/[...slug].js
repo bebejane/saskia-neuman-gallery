@@ -1,7 +1,7 @@
 import styles from './Artists.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor, imageBrightness } from '/lib/utils';
+import { imageColor, imageBrightness } from '/utils';
 import { GetAllArtists, GetArtist } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';

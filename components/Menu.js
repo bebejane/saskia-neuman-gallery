@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useWindowScrollPosition } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
-import { imageColor } from "/lib/utils";
+import { imageColor } from "/utils";
 import { format } from 'date-fns'
 
 const brightnessThreshold = 0.35
