@@ -32,6 +32,7 @@ export default function Gallery({ images, onClose, index = 0 }) {
                 className={styles.image}
                 pictureClassName={styles.picture}
                 data={image.responsiveImage}
+                lazyLoad={false}
                 usePlaceholder={false}
               />}
             </SwiperSlide>

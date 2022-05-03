@@ -2,12 +2,14 @@
   position: fixed;
   display: flex;
   align-items: 'flex-start';
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   top: 0;
   left: 0;
   overflow: hidden;
   z-index: 2000;
+  
   .color {
     position: absolute;
     width: 100vw;
@@ -54,5 +56,14 @@
         display: none !important;
       }
     }
+  }
+  .white{
+    background-color: #fff;
+    flex: 1 1 auto;
+    z-index: 300;
+    display: flex;
+    position: fixed;
+    min-width: 100vw;
+    height: 100%;
   }
 }

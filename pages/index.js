@@ -36,6 +36,7 @@ export default function Start({ start, image, color }) {
 	return (
 		<div className={styles.container}>
 			{links.map((link, idx) => {
+
 				const type = linkType(link)
 				const title = `${link.title} by ${link.artists?.length ? link.artists[0]?.name : ''}`
 				const bubbleStyle = { color: `rgb(${imageColor(link.image).join(',')})` }
@@ -55,6 +56,7 @@ export default function Start({ start, image, color }) {
 								<div className={styles.bubble} style={bubbleStyle}>
 									<h3>{type}</h3>
 									<h1>{title}</h1>
+									{type === 'News' && <span className={styles.link}>↗</span>}
 								</div>
 							</div>
 						</a>
