@@ -30,8 +30,8 @@ export default function Artist({ artist: { name, biography, artwork, shows }}) {
 					<h2>EXHIBITIONS</h2>
 					<p>
 						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
-							<Link key={idx} href={`/shows/${slug}`} color={imageColor(image)} style={{display:'flex', marginBottom: '1rem', flexDirection: 'row'}}>
-								<figure style={{flex: '0 0 50%', paddingRight:'20px'}}>
+							<Link key={idx} href={`/shows/${slug}`} color={imageColor(image)} className={styles.exhibition}>
+								<figure>
 									<Image
 										className={styles.image}
 										data={image.responsiveImage}
