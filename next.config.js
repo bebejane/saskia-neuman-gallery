@@ -1,3 +1,4 @@
+const path = require('path')
 const withPlugins = require('next-compose-plugins');
 const graphql = require('next-plugin-graphql')
 

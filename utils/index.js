@@ -12,10 +12,11 @@ const imageColor = (image) => {
   return color;
 }
 
-const brightnessCache = {}
+global.brightnessCache = global.brightnessCache || {}
 const imageBrightness = async (image) => {
-
-  if(process.env.NODE_ENV === 'development' && brightnessCache[image?.id]) return brightnessCache[image.id]
+  return 1
+  if(process.env.NODE_ENV === 'development' && global.brightnessCache[image?.id]) 
+    return global.brightnessCache[image.id]
 
   const url = `${image.url}?fmt=jpg&w=1000`
   const img  = await jimp.read(url)

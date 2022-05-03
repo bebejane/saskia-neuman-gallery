@@ -59,7 +59,9 @@ export default function Artist({ artist: { name, biography, artwork, shows }}) {
 }
 
 export async function getStaticPaths(context) {
+	
 	const { artists } = await apiQuery(GetAllArtists)
+	
 	const paths = artists.map(({ slug }) => ({ params: { slug: [slug] } }))
 
 	return {
