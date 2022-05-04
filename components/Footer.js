@@ -7,9 +7,8 @@ import cn from 'classnames'
 
 export default function Footer(props) {
 
-  const { image, show, event, artist } = props
+  const { show, event, artist } = props
   const setBackgroundImage = useStore((state) => state.setBackgroundImage);
-  const backgroundImage = useStore((state) => state.backgroundImage)
   const type = show ? 'show' : event ? 'event' : artist ? 'artist' : null
 
   if (!type) return null

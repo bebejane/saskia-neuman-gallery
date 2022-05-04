@@ -26,9 +26,6 @@
     position: sticky;
     top: 3rem;
     width: 50%;
-    &.nonsticky{
-      position: relative !important;
-    }
   }
 
   p:first-of-type {

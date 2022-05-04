@@ -12,7 +12,7 @@ export function Layout(props) {
 export function Meta(props) {
 
 	return (
-		<aside className={cn(styles.meta, props.sticky === false && styles.nonsticky)}>
+		<aside className={styles.meta}>
 			{props.children}
 		</aside>
 	);

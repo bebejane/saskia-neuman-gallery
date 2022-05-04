@@ -9,10 +9,12 @@ import { HeaderBar } from 'components/HeaderBar';
 
 export default function About({ about, externalLinks }) {
 	const { description, address, hours, email, googleMapsUrl, image } = about || {};
+	
 	externalLinks = externalLinks.concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks)
+
 	return (
 		<Layout>
-			<Meta sticky={false}>
+			<Meta>
 				<HeaderBar>
 					<h3>Contact</h3>
 				</HeaderBar>
@@ -33,15 +35,14 @@ export default function About({ about, externalLinks }) {
 			<section className={styles.archive}>
 				<h2>Archive</h2>
 				<ul>
-
-				{externalLinks.map(({title, url, image}) => 
-					<a href={url}>
-						<li>
-							<Image data={image.responsiveImage} className={styles.image}/>
-							<span>{title} j sdalkj sda</span>
-						</li>
-					</a>
-				)}
+					{externalLinks.map(({title, url, image}) => 
+						<a href={url}>
+							<li>
+								<Image data={image.responsiveImage} className={styles.image}/>
+								<span>{title}</span>
+							</li>
+						</a>
+					)}
 				</ul>
 			</section>
 		</Layout>
