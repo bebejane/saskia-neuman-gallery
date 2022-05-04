@@ -5,7 +5,6 @@ import { imageColor, imageBrightness } from '/utils';
 import { GetAllShows, GetShow } from '/graphql';
 import Markdown from '/lib/dato/components/Markdown';
 import { format } from "date-fns"
-import { Image } from 'react-datocms';
 import { useState } from 'react';
 import Gallery from '/components/Gallery'
 import { Layout, Meta, Content } from '/components/Layout'

@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
-const duration = .5;
-const ease = 'easeOut'
+const duration = 0.6;
 const pageTransition = {
 	initial: {
 		height: '100vh',

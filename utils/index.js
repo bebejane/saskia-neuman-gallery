@@ -14,8 +14,7 @@ const imageColor = (image) => {
 
 global.brightnessCache = global.brightnessCache || {}
 const imageBrightness = async (image) => {
-  return 1
-  if(process.env.NODE_ENV === 'development' && global.brightnessCache[image?.id]) 
+  if(process.env.DEV_CACHE && image && global.brightnessCache[image.id])
     return global.brightnessCache[image.id]
 
   const url = `${image.url}?fmt=jpg&w=1000`
@@ -48,7 +47,7 @@ const imageBrightness = async (image) => {
     brightness
   }
   
-  brightnessCache[image.id] = brightness/255
+  brightnessCache[image.id] = (brightness/255)
   return brightness/255
 }
 

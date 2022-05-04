@@ -3,6 +3,7 @@
 #import "./ArtistFragment.graphql"
 
 fragment ShowFragment on ShowRecord {
+  id
   title
   artists{
     ...ArtistFragment

@@ -1,6 +1,7 @@
 #import "./ImageFragment.graphql"
 
 fragment ExternalLinkFragment on ExternalLinkRecord {
+  id
   title
   url
   image{

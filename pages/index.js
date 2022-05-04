@@ -68,7 +68,7 @@ export default function Start({ start, image, color }) {
 	)
 }
 
-export const getStaticProps = withGlobalProps({ queries: [GetStart], model: 'start' }, async ({ props, revalidate }) => {
+export const getStaticProps = withGlobalProps({ queries: [GetStart] }, async ({ props, revalidate }) => {
 	const { links } = props.start
 	const image = links[0]?.image ? links[0].image : links[0]?.images?.length ? links[0]?.images[0] : null
 	

@@ -28,7 +28,7 @@ function SaskiaNeumanGallery({
 		brightness,
 	},
 }) {
-	
+	//console.log(pageProps)
 	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) 
 		usePagesViews(); // Google Analytics page view tracker
 

@@ -1,6 +1,7 @@
 #import "./ImageFragment.graphql"
 
 fragment EventFragmentFull on EventRecord {
+  id
   title
   description(markdown: false)
   startDate

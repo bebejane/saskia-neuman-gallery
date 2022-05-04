@@ -1,4 +1,5 @@
 fragment AboutFragmentFull on AboutRecord {
+  id
   image{
     ...ImageFragment
   }
