@@ -163,7 +163,7 @@ export default function Menu(props) {
 						toggled={showMobileMenu}
 						duration={0.5}
 						onToggle={(toggle) => setShowMobileMenu(toggle)}
-						color={darkTheme ? "#fff" : "#000"}
+						color={darkTheme && !showMobileMenu ? "#fff" : "#000"}
 						label={"Menu"}
 						size={20}
 					/>

@@ -28,15 +28,13 @@ function SaskiaNeumanGallery({
 		brightness,
 	},
 }) {
-	//console.log(pageProps)
-	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) 
-		usePagesViews(); // Google Analytics page view tracker
+	
+	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
 
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
-
-	const { asPath: pathname } = router;
-	const title = show?.title || event?.title || artist?.name || (about ? "About" : null);
+	const { asPath: pathname } = router.asPath;
+	const title = pathname === '/' ? '' : show?.title || event?.title || artist?.name || (about ? "About" : null);
 		
 	return (
 		<>
