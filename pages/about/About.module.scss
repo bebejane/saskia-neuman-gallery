@@ -1,3 +1,6 @@
+$grid-space: 1.2rem;
+$grid-space-small: 1.2rem;
+
 .archive {
 	width: 100%;
 	ul {
@@ -5,8 +8,8 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		width: calc(100% + 20px);
-		margin-left: -10px;
+		width: calc(100% + $grid-space);
+		margin-left: math.div(-$grid-space, 2);
 		a {
 			flex: 0 0 20%;
 			font-size: 0.8rem;
@@ -20,8 +23,8 @@
 				display: flex;
 				flex-direction: column;
 				margin: 0;
-				padding-left: 10px;
-				padding-right: 10px;
+				padding-left: math.div($grid-space, 2);
+				padding-right: math.div($grid-space, 2);
 				text-indent: 0;
 				list-style-type: none;
 				span {
@@ -34,15 +37,15 @@
 			}
 		}
 		@include mq($until: tablet) {
-			width: calc(100% + 10px);
-			margin-left: -5px;
+			width: calc(100% + $grid-space-small);
+			margin-left: math.div(-$grid-space-small, 2);
 			a {
 				flex: 0 0 50%;
 				max-width: 50%;
 				min-width: 50%;
 				li {
-					padding-left: 5px;
-					padding-right: 5px;
+					padding-left: math.div($grid-space-small, 2);
+					padding-right: math.div($grid-space-small, 2);
 				}
 			}
 		}
