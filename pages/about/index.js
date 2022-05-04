@@ -7,11 +7,12 @@ import { imageColor, imageBrightness } from '/utils';
 import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
 
-export default function About({ about }) {
+export default function About({ about, externalLinks }) {
 	const { description, address, hours, email, googleMapsUrl, image } = about || {};
+	externalLinks = externalLinks.concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks)
 	return (
 		<Layout>
-			<Meta>
+			<Meta sticky={false}>
 				<HeaderBar>
 					<h3>Contact</h3>
 				</HeaderBar>
@@ -31,8 +32,17 @@ export default function About({ about }) {
 			</Content>
 			<section className={styles.archive}>
 				<h2>Archive</h2>
-				Archive of all external links (model that doesent exists yet). Might need some kind of auto load on scroll...
-				<div className={styles.links}></div>
+				<ul>
+
+				{externalLinks.map(({title, url, image}) => 
+					<a href={url}>
+						<li>
+							<Image data={image.responsiveImage} className={styles.image}/>
+							<span>{title} j sdalkj sda</span>
+						</li>
+					</a>
+				)}
+				</ul>
 			</section>
 		</Layout>
 	)

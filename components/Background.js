@@ -23,29 +23,37 @@ export default function Background({image, color, title, brightness}){
 			<div className={cn(styles.container)}>
 				<Image 
 					className={styles.backgroundImage} 
-					lazyLoad={false}
+					layout="responsive"
+					objectFit="contain"
+					objectPosition="50% 50%"
+					fadeInDuration={0}
+					usePlaceholder={true}
+					lazyLoad={true}
 					data={image?.responsiveImage}
 				/>
 			</div>	
-			
-			<AnimatePresence>
-				{backgroundImage &&
-					<div className={styles.hoverContainer} key={backgroundImage.id}>
-						<motion.div 
-							initial={{opacity:0}}
-							animate={{opacity:1, transition:{duration:0.35}}}
-							className={styles.hoverImage}
-						>
+			{backgroundImage &&
+				<div className={styles.hoverContainer} key={backgroundImage.id}>
+					<motion.div 
+						initial={{opacity:0}}
+						animate={{opacity:1, transition:{duration:0.35}}}
+						className={styles.hoverImage}
+					>
+						<img src={`${backgroundImage.url}?fmt=jpg&w=1000`} className={styles.image} />
+						{ /* Not working Safari
 							<Image 
-								className={styles.image} 
-								lazyLoad={true}
-								usePlaceholder={false}
-								data={backgroundImage?.responsiveImage}
-							/>
-						</motion.div>
-					</div>
-				}
-			</AnimatePresence>
+							className={styles.image} 
+							layout="responsive"
+							objectFit="contain"
+							objectPosition="50% 50%"
+							fadeInDuration={0}
+							usePlaceholder={true}
+							lazyLoad={false}	
+							data={backgroundImage?.responsiveImage}
+						/>*/}
+					</motion.div>
+				</div>
+			}
 		</>
 	)
 }

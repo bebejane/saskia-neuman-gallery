@@ -1,5 +1,5 @@
 import * as NextLink from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export function Link({
@@ -15,6 +15,7 @@ export function Link({
 }) {
   
   const [hover, setHover] = useState(false)
+  const linkRef = useRef()
   const linkStyle = hover && color ? {color:`rgb(${color.join(',')})`, textShadow: '0 0 1px #fff'} : {}
 
   const handleMouse = (e) => {
@@ -26,11 +27,12 @@ export function Link({
       onMouseEnter && onMouseEnter(e)
     }
   }
-
+  
 	return (
 		<NextLink href={href} scroll={scroll !== undefined ? scroll : false} >
       <a 
         id={id}
+        ref={linkRef}
         className={className}
         style={{...linkStyle, ...style}}
         onMouseEnter={handleMouse} 

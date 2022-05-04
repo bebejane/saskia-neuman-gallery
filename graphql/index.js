@@ -6,6 +6,7 @@ import { GetAllShows, GetShow } from "./show.graphql"
 import { GetAllEvents, GetEvent } from "./event.graphql"
 import { GetAbout } from "./about.graphql"
 import { GetStart } from "./start.graphql"
+import { GetAllExternalLinks } from "./externalLink.graphql"
 
 export {
   GetGlobal,
@@ -18,5 +19,6 @@ export {
   GetAllEvents,
   GetEvent,
   GetAbout,
-  GetStart
+  GetStart,
+  GetAllExternalLinks
 }

@@ -58,7 +58,7 @@ export default function PageTransition({image}){
       onAnimationStart={()=>setAnimating(true)}
     >
       <div className={styles.color} style={{backgroundColor: color}}>
-        <div className={cn(styles.logo, hideLogo && styles.hide)} style={{background:`url(${image?.url}?w=400)`}}>
+        <div className={cn(styles.logo, hideLogo && styles.hide)} style={{background:`url('${image?.url}?fmt=jpg&w=400')`}}>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
       </div>

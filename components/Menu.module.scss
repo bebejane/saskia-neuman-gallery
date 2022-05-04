@@ -249,13 +249,13 @@ $navbarHeight: 50px;
       ul {
         flex-direction: column;
         flex: 0 1;
-
+        padding-top: 1rem;
         & > li {
           padding-top: 1em;
         }
 
         @include mq($until: tablet) {
-          border-top: 1px solid $black;
+          //border-top: 1px solid $black;
         }
 
         li {

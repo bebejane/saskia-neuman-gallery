@@ -1,4 +1,5 @@
 import styles from './Layout.module.scss'
+import cn from 'classnames'
 
 export function Layout(props) {
 	return (
@@ -11,7 +12,7 @@ export function Layout(props) {
 export function Meta(props) {
 
 	return (
-		<aside className={styles.meta}>
+		<aside className={cn(styles.meta, props.sticky === false && styles.nonsticky)}>
 			{props.children}
 		</aside>
 	);
