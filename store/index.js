@@ -25,7 +25,8 @@ const useStore = create((set) => ({
   ),
   setIsRouting: (isRouting) =>  
     set((state) => ({
-      isRouting
+      isRouting,
+      backgroundImage: state.isRouting && !isRouting ? undefined : state.backgroundImage
     })
   ),
 }));
