@@ -21,7 +21,7 @@ export default function Background({image, color, title, brightness}){
 		const routeChangeStart = (url) => setIsRouting(true)
 		const routeChangeComplete = (url) => setTimeout(()=>{
 			setIsRouting(false)
-			setBackgroundImage(undeffined)
+			setBackgroundImage(undefined)
 		}, 100)
 
 		Router.events.on('routeChangeStart', routeChangeStart)
