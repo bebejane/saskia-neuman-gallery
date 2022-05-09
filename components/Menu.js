@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useWindowScrollPosition } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
-import { imageColor } from "/utils";
+import { imageColor, datePeriod } from "/utils";
 import { format } from 'date-fns'
 
 const brightnessThreshold = 0.35
@@ -34,15 +34,19 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				type: "show",
 				path: "/shows",
 				label: "Shows",
-				current: shows.find(({ startDate, endDate }) => new Date() >= new Date(startDate) && new Date() <= new Date(endDate)),
-				upcoming: shows.filter(({ startDate, endDate }) => new Date(startDate) > new Date() && new Date(endDate) > new Date())[0],
-				past: shows.filter(({ startDate, endDate }) => new Date(startDate) < new Date() && new Date(endDate) < new Date())[0],
+				more:true,
+				current: shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
+				upcoming: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
+				past: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
 				sub: shows.map((s) => ({ ...s, slug: `shows/${s.slug}`, color: imageColor(s.image) })),
 			},
 			{
 				type: "event",
 				path: "/events",
 				label: "Events",
+				more:true,
+				upcoming: events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
+				past: events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
 				sub: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
 			},
 			{ type: "about", path: "/about", label: "About", image: about.image, color: imageColor(about.image) },
@@ -77,6 +81,9 @@ export default function Menu(props) {
 	const [showMenu, setShowMenu] = useState(true);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
+	const [showMore, setShowMore] = useState({event:false, show:false, artist:false});
+	
+
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
 
@@ -132,15 +139,14 @@ export default function Menu(props) {
 
 		const threshold = main.offsetTop - (logo.clientHeight * 2);
 
-		if (scrollY > threshold && darkTheme && brightness < brightnessThreshold) {
+		if (scrollY > threshold && darkTheme && brightness < brightnessThreshold) 
 			setDarkTheme(false)
-		}
 		else if (scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(true)
 
 	}, [scrollY, darkTheme, brightness]);
 
-	const showSeparator = subMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
+	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
 	const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
 	const menuStyles = cn(
 		styles.menuWrapper,
@@ -170,10 +176,7 @@ export default function Menu(props) {
 				</div>
 			</div>
 			<div id="menu-wrapper" className={menuStyles}>
-				<div
-					className={cn(styles.menu, showMobileMenu && styles.show)}
-					onMouseLeave={() => setSubMenu()}
-				>
+				<div className={cn(styles.menu, showMobileMenu && styles.show)} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
 							<li
@@ -190,11 +193,7 @@ export default function Menu(props) {
 									</Link>
 								)}
 								{showMobileMenu && m.type === subMenu?.type && (
-									<ul
-										key={idx}
-										id={`sub-${m.type}`}
-										className={cn(subMenu?.type === m.type && styles.open)}
-									>
+									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenu?.type === m.type && styles.open)}>
 										{m.sub?.map((a, idx) => (
 											<Link key={idx} href={`/${a.slug}`} color={a.color} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
 												<li className={a.isSelected && styles.selected}>
@@ -209,7 +208,7 @@ export default function Menu(props) {
 					</ul>
 					<div className={styles.subMenu}>
 						{menu.slice(1).map(
-							({ type, path, label, sub, past, upcoming, current }, idx) =>
+							({ type, path, label, sub, past, upcoming, current, more }, idx) =>
 								(sub && !showMobileMenu) &&
 								<ul
 									key={idx}
@@ -217,33 +216,44 @@ export default function Menu(props) {
 									className={cn(subMenu?.type === type && styles.open)}
 									style={{ marginLeft: `${subMenuMargin}px` }}
 								>
-									{type !== 'show' ? sub.map((a, idx) => (
+									{sub.map((item, idx) => (
 										<li
 											key={idx}
-											onMouseEnter={() => handleMouseOver(a, true)}
-											onMouseLeave={() => handleMouseOver(a, false)}
+											onMouseEnter={() => handleMouseOver(item, true)}
+											onMouseLeave={() => handleMouseOver(item, false)}
 										>
-											<Link href={`/${a.slug}`} color={a.color}>
-												{a.name || a.title}
+											<Link href={`/${item.slug}`} color={item.color}>
+												{type === 'artist' ?
+													<>{item.name || item.title}</>
+												: 
+													<>
+														<h3>{datePeriod(item.startDate, item.endDate)}</h3>
+														{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+														<i>{item.title}</i><br />
+														{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
+													</>
+												}
 											</Link>
 										</li>
-									))
-										: (
-											[current, upcoming, past].map((show, idx) => show &&
-												<li
-													key={idx}
-													onMouseEnter={() => handleMouseOver(show, true)}
-													onMouseLeave={() => handleMouseOver(show, false)}
-												>
-													<Link href={`/shows/${show.slug}`} color={imageColor(show.image)}>
-														<h3>{idx === 0 ? 'Current' : idx === 1 ? 'Upcoming' : 'Past'}</h3>
-														{show.artists.map((a) => a.name).join(', ')}<br />
-														<i>{show.title}</i><br />
-														{format(new Date(show.startDate), 'dd.MM')}—{format(new Date(show.endDate), 'dd.MM.yyyy')}
-													</Link>
-												</li>
-											)
-										)
+									))}
+									{more &&
+										<li className={styles.more} onClick={()=>setShowMore({...showMore, [type]:!showMore[type]})}> 
+											{!showMore[type] ? 
+													'Show all...' 
+												:
+												sub.filter(({startDate, endDate}) => datePeriod(startDate, endDate)).map((item, idx)=>
+													<>
+														<Link key={idx} href={`/${item.slug}`} color={item.color}>
+															<a
+																onMouseEnter={() => handleMouseOver(item, true)}
+																onMouseLeave={() => handleMouseOver(item, false)}
+															>{item.title}</a>
+														</Link>
+														<br/>
+													</>
+												)
+											}
+										</li>
 									}
 								</ul>
 						)}
@@ -251,7 +261,7 @@ export default function Menu(props) {
 				</div>
 				<div
 					id="menu-separator"
-					className={cn(styles.separator, showSeparator && showMenu && styles.show)}
+					className={cn(styles.separator, showSeparator  && styles.show)}
 					style={{ marginLeft: `${separatorMargin}px` }}
 				></div>
 			</div>

@@ -67,9 +67,17 @@ const rgbToHex = (rgb) => '#' + rgb.map(x => {
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
 
+const datePeriod = (startDate, endDate) => {
+  if(new Date() >= new Date(startDate) && new Date() <= new Date(endDate)) return 'current'
+  if(new Date(startDate) > new Date() && new Date(endDate) > new Date()) return 'upcoming'
+  if(new Date(startDate) < new Date() && new Date(endDate) < new Date()) return 'past'
+  return undefined
+}
+
 export {
   imageColor,
   imageBrightness,
   splitArray,
-  rgbToHex
+  rgbToHex,
+  datePeriod
 }

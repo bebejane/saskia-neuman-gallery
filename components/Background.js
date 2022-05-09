@@ -4,20 +4,34 @@ import useStore from "/store";
 import { Image } from "react-datocms"
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion'
+import Router, { useRouter } from 'next/router';
 
 export default function Background({image, color, title, brightness}){
-  
+
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
+	const setIsRouting = useStore((state) => state.setIsRouting);
 	const backgroundImage = useStore((state) => state.backgroundImage);
 
-	useEffect(()=>{  
+	useEffect(()=>{
+		
 		setBackgroundImage(null)
 		setBackgroundColor(color)
+
+		const routeChangeStart = (url) => setIsRouting(true)
+		const routeChangeComplete = (url) => setIsRouting(false)
+
+		Router.events.on('routeChangeStart', routeChangeStart)
+		Router.events.on('routeChangeComplete', routeChangeComplete)
+
+		return () => {
+			Router.events.off('routeChangeStart', routeChangeStart)
+			Router.events.off('routeChangeComplete', routeChangeComplete)
+		}
 	}, [])	
-	
+
 	if(!image) return null
-	
+
 	return (
 		<>			
 			<div className={cn(styles.container)}>

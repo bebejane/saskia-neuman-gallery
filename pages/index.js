@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import useStore from '/store';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor, imageBrightness, rgbToHex } from '/utils';
+import { imageColor, imageBrightness, rgbToHex, datePeriod } from '/utils';
 import { GetStart } from '/graphql';
 import { Image } from "react-datocms"
 import cn from "classnames"
@@ -16,13 +16,9 @@ export default function Start({ start, image, color }) {
 
 	const linkType = ({_modelApiKey : model, startDate, endDate}) => {
 		if(model === 'external_link')
-			return 'News'
-		if(new Date() >= new Date(startDate) && new Date() <= new Date(endDate))
-			return 'Current'
-		else if(new Date(startDate) > new Date() && new Date(endDate) > new Date())
-			return 'Upcoming'
-		else
-			return 'Past'
+			return 'news'
+		else 
+			return datePeriod(startDate, endDate)
 	}
 
 	useEffect(() => {
@@ -35,28 +31,28 @@ export default function Start({ start, image, color }) {
 
 	return (
 		<div className={styles.container}>
-			{links.map((link, idx) => {
+			{links.map(({title, artists, image, url, slug, startDate, endDate, _modelApiKey : model}, idx) => {
 
-				const type = linkType(link)
-				const title = `${link.title} by ${link.artists?.length ? link.artists[0]?.name : ''}`
-				const bubbleStyle = { color: `rgb(${imageColor(link.image).join(',')})` }
-				const href = link._modelApiKey === 'external_link' ? link.url : `/${link._modelApiKey}s/${link.slug}`
+				const type = model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
+				const label = `${title} by ${artists?.length ? artists[0]?.name : ''}`
+				const bubbleStyle = { color: `rgb(${imageColor(image).join(',')})` }
+				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 
 				return (
 					<Link key={idx} href={href} scroll={false}>
-						<a className={styles.card}>
-							{idx > 0 && link.image &&
+						<a className={styles.card} target={type === 'news' ? '_blank' : '_self'}>
+							{idx > 0 && image &&
 								<Image
 									className={styles.linkImage}
-									data={(link.image || link.images[0])?.responsiveImage}
+									data={(image || images[0])?.responsiveImage}
 									prefetch={true}
 								/>
 							}
 							<div className={cn(styles.headline, isHoveringMenuItem && styles.hide)}>
 								<div className={styles.bubble} style={bubbleStyle}>
 									<h3>{type}</h3>
-									<h1>{title}</h1>
-									{type === 'News' && <span className={styles.link}>↗</span>}
+									<h1>{label}</h1>
+									{type === 'news' && <span className={styles.link}>↗</span>}
 								</div>
 							</div>
 						</a>

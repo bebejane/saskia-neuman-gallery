@@ -27,11 +27,7 @@ export default function Show({ show: { title, description, startDate, endDate, s
 					</HeaderBar>
 					<p>
 						<b>
-							{artists.map((a) => 
-								<Link href={`/artists/${a.slug}`} color={imageColor(a.image)}>
-									{a.name}
-								</Link>
-							)}
+							{artists.map((a, idx) => a.name).join(', ')}
 							<br/>
 							<i>{title}</i><br />
 							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
@@ -46,11 +42,11 @@ export default function Show({ show: { title, description, startDate, endDate, s
 					<Markdown>{description}</Markdown>
 
 					<section className={styles.artworks}>
-						<h2>ARTWORKS</h2>
+						<h2>ARTWORK</h2>
 						<GalleryThumbs artwork={artwork} />
 					</section>
 
-					{press.lengt < 0 &&
+					{press.length > 0 &&
 						<section className={styles.press}>
 							<h2>PRESS</h2>
 							<PressLinks press={press} />
