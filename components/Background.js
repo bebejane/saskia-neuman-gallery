@@ -14,12 +14,12 @@ export default function Background({image, color, title, brightness}){
 	const backgroundImage = useStore((state) => state.backgroundImage);
 
 	useEffect(()=>{
-		
+
 		setBackgroundImage(null)
 		setBackgroundColor(color)
 
 		const routeChangeStart = (url) => setIsRouting(true)
-		const routeChangeComplete = (url) => setIsRouting(false)
+		const routeChangeComplete = (url) => setTimeout(()=>setIsRouting(false), 1000)
 
 		Router.events.on('routeChangeStart', routeChangeStart)
 		Router.events.on('routeChangeComplete', routeChangeComplete)
