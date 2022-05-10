@@ -1,4 +1,4 @@
-$navbarHeight: 50px;
+$navbarHeight: 57px;
 
 .navbar {
   position: fixed;
@@ -8,8 +8,7 @@ $navbarHeight: 50px;
   z-index: 1000;
   top: 0;
   left: 0;
-  height: $navbarHeight;
-  padding-top: var(--margin-left);
+  //height: $navbarHeight;
   padding-left: var(--margin-left);
   white-space: pre;
   font-weight: bold;
@@ -19,8 +18,9 @@ $navbarHeight: 50px;
       padding-top: 1.2em;
       padding-bottom: 1rem;
     }
+    padding-top: 2rem;
     font-size: 1.1em;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
   }
 
   .hamburger {
@@ -32,7 +32,8 @@ $navbarHeight: 50px;
     width: 100%;
     padding: 0;
     padding-left: var(--margin-left);
-    background-color: #fff;
+    padding-right: 10px;
+    background-color: $white;
     z-index: 3000;
     .hamburger {
       display: flex !important;
@@ -51,7 +52,7 @@ $navbarHeight: 50px;
       background-color: $black;
     }
     * {
-      color: #fff;
+      color: $white;
     }
   }
 }
@@ -69,6 +70,7 @@ $navbarHeight: 50px;
   width: 100%;
   height: 0vh;
   padding: $small-space * 2;
+  padding-top: 2rem;
   opacity: 1;
   transition: opacity ease 0.2s, height ease 0s;
   &.hide {
@@ -95,21 +97,21 @@ $navbarHeight: 50px;
   }
   &.dark {
     * {
-      color: #fff;
+      color: $white;
     }
     .separator {
-      border-color: #fff !important;
+      border-color: $white !important;
     }
     @include mq($until: desktop) {
       .menu {
         background-color: $black;
         ul > li {
-          border-bottom: 2px solid #fff;
+          border-bottom: 2px solid $white;
         }
       }
     }
     &.open {
-      background-color: #fff;
+      background-color: $white;
 
       @include mq($until: desktop) {
         .menu {
@@ -120,7 +122,7 @@ $navbarHeight: 50px;
   }
   &.light {
     &.open {
-      background-color: #fff;
+      background-color: $white;
     }
   }
   &.transparent {
@@ -167,6 +169,9 @@ $navbarHeight: 50px;
       flex: 1 1 100%;
       width: 100%;
       justify-content: flex-end;
+      @include mq($until: tablet) {
+        border-top: 1px solid $black;
+      }
 
       li {
         flex: 1 1 auto;
@@ -184,6 +189,8 @@ $navbarHeight: 50px;
         }
         ul {
           margin-left: $small-space/2;
+          border-top: 0px solid !important;
+          padding-top: 1rem;
           li {
             border-bottom: 0px solid $black;
             &.selected {
@@ -214,8 +221,8 @@ $navbarHeight: 50px;
           &.selected {
             text-decoration: underline;
           }
-          &.more{
-            margin-top:1rem;
+          &.more {
+            margin-top: 1rem;
           }
           &:not(:first-child) {
             h3 {
@@ -241,7 +248,7 @@ $navbarHeight: 50px;
       max-width: 100%;
       align-items: flex-start;
       justify-content: flex-start;
-      background-color: #fff;
+      background-color: $white;
       z-index: 700;
       padding-left: var(--margin-left);
       padding-right: var(--margin-right);
@@ -251,13 +258,12 @@ $navbarHeight: 50px;
       ul {
         flex-direction: column;
         flex: 0 1;
-        padding-top: 1rem;
         & > li {
           padding-top: 1em;
         }
 
-        @include mq($until: tablet) {
-          //border-top: 1px solid $black;
+        @include mq($from: tablet) {
+          padding-top: 1rem;
         }
 
         li {
