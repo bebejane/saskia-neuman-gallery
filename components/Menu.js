@@ -112,11 +112,14 @@ export default function Menu(props) {
 
 			if(next){
 				setBackgroundColor(next.color)
-				setBackgroundImage(next.image)
+				//setBackgroundImage(next.image)
 			}
 		};
 
-		const handleRouteChangeComplete = (url, { shallow }) => setShowMobileMenu(false);
+		const handleRouteChangeComplete = (url, { shallow }) => setTimeout(()=>{
+			setShowMobileMenu(false)
+			setSubMenu(undefined)
+		}, 600);
 
 		router.events.on("routeChangeStart", handleRouteChange);
 		router.events.on("routeChangeComplete", handleRouteChangeComplete);
@@ -160,7 +163,7 @@ export default function Menu(props) {
 	const menuStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && showMenu && styles.open,
+		(subMenu || showMobileMenu) && showMenu  && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
