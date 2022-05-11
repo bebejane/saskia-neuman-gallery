@@ -79,6 +79,7 @@ export default function Menu(props) {
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [subMenu, setSubMenu] = useState();
 	const [showMenu, setShowMenu] = useState(true);
+	const [menuBackground, setMenuBackground] = useState(false);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
@@ -134,6 +135,7 @@ export default function Menu(props) {
 
 		const logo = document.getElementById('logo')
 		const main = document.getElementById('main')
+		const menu = document.getElementById('menu')
 
 		if (!main || !logo) return
 
@@ -143,6 +145,9 @@ export default function Menu(props) {
 			setDarkTheme(false)
 		else if (scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(true)
+
+		setMenuBackground(scrollY > (main.offsetTop-menu.offsetTop))
+
 
 	}, [scrollY, darkTheme, brightness]);
 
@@ -176,7 +181,7 @@ export default function Menu(props) {
 				</div>
 			</div>
 			<div id="menu-wrapper" className={menuStyles}>
-				<div className={cn(styles.menu, showMobileMenu && styles.show)} onMouseLeave={() => setSubMenu()}>
+				<div id={'menu'} className={cn(styles.menu, showMobileMenu && styles.show, menuBackground && styles.opaque)} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
 							<li
@@ -243,11 +248,14 @@ export default function Menu(props) {
 												:
 												sub.filter(({ startDate, endDate }) => datePeriod(startDate, endDate)).map((item, idx) =>
 													<>
-														<Link key={idx} href={`/${item.slug}`} color={item.color}>
-															<a
-																onMouseEnter={() => handleMouseOver(item, true)}
-																onMouseLeave={() => handleMouseOver(item, false)}
-															>{item.title}</a>
+														<Link 
+															key={idx} 
+															href={`/${item.slug}`} 
+															color={item.color} 
+															onMouseEnter={() => handleMouseOver(item, true)} 
+															onMouseLeave={() => handleMouseOver(item, false)}
+														>
+															{item.title}
 														</Link>
 														<br />
 													</>
