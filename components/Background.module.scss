@@ -4,7 +4,11 @@
   left: 0;
   width: 100vw;
   @include mq($until: tablet) {
+    transition: margin-top ease 0.3s;
     margin-top: 3rem;
+    &.hiddenMenu{
+      margin-top:0rem;
+    }
   }
   @include mq($from: tablet) {
     height: 100vh;

@@ -7,6 +7,7 @@ const useStore = create((set) => ({
   backgroundImage: null,
   isHoveringMenuItem: false,
   isRouting:false,
+  showMenu:true,
 	setBackgroundColor: (color) =>
 		set((state) => ({
 			backgroundColor: color,
@@ -27,6 +28,11 @@ const useStore = create((set) => ({
     set((state) => ({
       isRouting,
       backgroundImage: state.isRouting && !isRouting ? undefined : state.backgroundImage
+    })
+  ),
+  setShowMenu: (showMenu) =>  
+    set((state) => ({
+      showMenu
     })
   ),
 }));

@@ -6,8 +6,8 @@ $navbarHeight: 57px;
   flex-direction: row;
   align-items: center;
   z-index: 1000;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
   //height: $navbarHeight;
   padding-left: var(--margin-left);
   white-space: pre;
@@ -36,15 +36,16 @@ $navbarHeight: 57px;
     padding-right: 10px;
     background-color: $white;
     //z-index: 1000;
+    transition: top .3s ease;
     .hamburger {
       display: flex !important;
     }
   }
-
+  
   &.hide {
     @include mq($until: desktop) {
-      transition: top 0.3s ease;
-      top: -100vh;
+      transition: top .3s ease;
+      top: -150px;
     }
   }
 
@@ -109,7 +110,6 @@ $navbarHeight: 57px;
     }
     @include mq($until: desktop) {
       .menu {
-        background-color: $black;
         ul > li {
           border-bottom: 2px solid $white;
         }

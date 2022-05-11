@@ -12,6 +12,7 @@ export default function Background({image, color, title, brightness}){
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const setIsRouting = useStore((state) => state.setIsRouting);
 	const backgroundImage = useStore((state) => state.backgroundImage);
+	const showMenu = useStore((state) => state.showMenu);
 
 	useEffect(()=>{
 
@@ -34,7 +35,7 @@ export default function Background({image, color, title, brightness}){
 
 	return (
 		<>			
-			<div className={cn(styles.container)}>
+			<div className={cn(styles.container, !showMenu && styles.hiddenMenu)}>
 				<Image 
 					className={styles.backgroundImage} 
 					layout="responsive"

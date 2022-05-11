@@ -2,7 +2,7 @@ import styles from "./Menu.module.scss";
 import Link from "/components/Link";
 import cn from "classnames";
 import useStore from "/store";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useWindowScrollPosition } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
@@ -74,19 +74,20 @@ export default function Menu(props) {
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
+	const showMenu = useStore((state) => state.showMenu);
+	const setShowMenu = useStore((state) => state.setShowMenu);
 
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [subMenu, setSubMenu] = useState();
-	const [showMenu, setShowMenu] = useState(true);
 	const [menuBackground, setMenuBackground] = useState(false);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
-
-
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
+
+	const hideMenuTimeout = useRef(null)
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
@@ -95,11 +96,11 @@ export default function Menu(props) {
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
 	useEffect(() => {
-		if (scrollDirection !== "NONE" || scrollY < 50) {
-			const show = scrollY < 50 || scrollDirection === "UP"
-			setShowMenu(show)
-		}
-	}, [scrollY, scrollDirection]);
+
+		if(scrollDirection === "NONE" || showMobileMenu) return //setShowMenu(scrollY < 1)
+		const show = scrollDirection === "DOWN" ? scrollY < 1 : true; 
+		setShowMenu(show)		
+	}, [scrollY, scrollDirection, showMobileMenu]);
 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -152,7 +153,7 @@ export default function Menu(props) {
 	}, [scrollY, darkTheme, brightness]);
 
 	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
-	const navbarStyles = cn(styles.navbar, !showMenu && !showMobileMenu && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
+	const navbarStyles = cn(styles.navbar, (!showMenu && !showMobileMenu) && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
 	const menuStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
@@ -201,7 +202,7 @@ export default function Menu(props) {
 									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenu?.type === m.type && styles.open)}>
 										{m.sub?.map((a, idx) => (
 											<Link key={idx} href={`/${a.slug}`} color={a.color} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
-												<li className={a.isSelected && styles.selected}>
+												<li className={cn(a.isSelected && styles.selected)}>
 													{a.name || a.title}
 												</li>
 											</Link>
