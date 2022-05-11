@@ -9,7 +9,7 @@
   background: $white;
 
   @include mq($from: tablet) {
-    &:first-child {
+    &:first-of-type {
       margin-top: -$header-bar-height;
     }
   }

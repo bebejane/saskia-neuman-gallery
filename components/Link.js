@@ -17,7 +17,7 @@ export function Link({
   const router = useRouter()
   const [hover, setHover] = useState(false)
   const linkRef = useRef()
-  const linkStyle = hover && color ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 0px #fff' } : {}
+  const linkStyle = hover && color ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
   const handleMouse = (e) => {
     if (e.type === 'mouseleave') {
@@ -28,7 +28,7 @@ export function Link({
       onMouseEnter && onMouseEnter(e)
     }
   }
-  
+
   return (
     <NextLink href={href} scroll={scroll !== undefined ? scroll : false} >
       <a
@@ -38,7 +38,7 @@ export function Link({
         style={{ ...linkStyle, ...style }}
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}
-        onTouchStart={(e)=>router.push(href)}
+        onTouchStart={(e) => router.push(href)}
         suppressHydrationWarning={true}
       >
         {children}
