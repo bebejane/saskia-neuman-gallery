@@ -110,15 +110,20 @@ export default function Menu(props) {
 				subs.filter(({ slug }) => `/${slug}` === url)[0] ||
 				menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0]
 
-			if (next)
+			if(next){
 				setBackgroundColor(next.color)
-
-			setShowMobileMenu(false);
-			setSubMenu(undefined);
+				setBackgroundImage(next.image)
+			}
 		};
 
+		const handleRouteChangeComplete = (url, { shallow }) => setShowMobileMenu(false);
+
 		router.events.on("routeChangeStart", handleRouteChange);
-		return () => router.events.off("routeChangeStart", handleRouteChange);
+		router.events.on("routeChangeComplete", handleRouteChangeComplete);
+		return () => {
+			router.events.off("routeChangeStart", handleRouteChange)
+			router.events.off("routeChangeComplete", handleRouteChangeComplete)
+		};
 	}, []);
 
 	useEffect(() => {

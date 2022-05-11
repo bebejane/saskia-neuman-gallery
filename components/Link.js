@@ -29,8 +29,8 @@ export function Link({
     }
   }
   const handleTouch = (e) => {
-    onMouseEnter && onMouseEnter(e)
-    setTimeout(()=>router.push(href), 50)
+    router.push(href)
+    
   }
   
   return (
