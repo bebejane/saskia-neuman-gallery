@@ -27,6 +27,7 @@ $navbarHeight: 57px;
     display: none;
     justify-content: flex-end;
     flex: 1 1;
+    padding-top: 2px;
   }
   @include mq($until: desktop) {
     width: 100%;
@@ -93,6 +94,10 @@ $navbarHeight: 57px;
     }
     .menu {
       height: 100vh;
+
+      & > ul {
+        border-bottom: 1px solid $black;
+      }
     }
   }
   &.dark {
