@@ -4,7 +4,7 @@ import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { useWindowScrollPosition } from "rooks";
+import { useWindowScrollPosition, useWindowSize } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
@@ -86,8 +86,7 @@ export default function Menu(props) {
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
-
-	const hideMenuTimeout = useRef(null)
+	const { innerHeight } = useWindowSize()
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
@@ -95,12 +94,12 @@ export default function Menu(props) {
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
+	
 	useEffect(() => {
-
-		if(scrollDirection === "NONE" || showMobileMenu) return //setShowMenu(scrollY < 1)
-		const show = scrollDirection === "DOWN" ? scrollY < 1 : true; 
+		if(scrollDirection === "NONE" || showMobileMenu || scrollY > innerHeight) return 
+		const show = scrollDirection === "DOWN" ? scrollY < 10 : true; 
 		setShowMenu(show)		
-	}, [scrollY, scrollDirection, showMobileMenu]);
+	}, [scrollY, scrollDirection, showMobileMenu, innerHeight]);
 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -138,7 +137,7 @@ export default function Menu(props) {
 		const main = document.getElementById('main')
 		const menu = document.getElementById('menu')
 
-		if (!main || !logo) return
+		if (!main || !logo || !menu) return
 
 		const threshold = main.offsetTop - (logo.clientHeight * 2);
 
@@ -148,7 +147,6 @@ export default function Menu(props) {
 			setDarkTheme(true)
 
 		setMenuBackground(scrollY > (main.offsetTop-menu.offsetTop))
-
 
 	}, [scrollY, darkTheme, brightness]);
 
