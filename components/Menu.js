@@ -248,10 +248,13 @@ export default function Menu(props) {
 																onMouseEnter={() => handleMouseOver(item, true)} 
 																onMouseLeave={() => handleMouseOver(item, false)}
 															>
-																{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-																{item.title}
+																<p>
+																	{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+																	{item.title}
+																	{m.type === 'event' ? <><br/>{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
+																</p>	
 															</Link>
-															<br />
+															
 														</>
 													)
 												}
@@ -308,10 +311,12 @@ export default function Menu(props) {
 															onMouseEnter={() => handleMouseOver(item, true)} 
 															onMouseLeave={() => handleMouseOver(item, false)}
 														>
-															{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-															{item.title}
+															<p>
+																{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+																{item.title}
+																{type === 'event' ? <><br/>{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
+															</p>
 														</Link>
-														<br />
 													</>
 												)
 											}
