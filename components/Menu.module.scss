@@ -220,6 +220,11 @@ $navbarHeight: 57px;
       left: 0px;
       display: flex;
       flex-direction: row;
+      align-items: flex-start;
+      max-height: calc(100vh - 6rem);
+      width: 100%;
+      overflow-y: scroll;  
+      scrollbar-width: none;
       ul {
         display: none;
         flex-direction: column;
@@ -252,6 +257,9 @@ $navbarHeight: 57px;
           display: flex;
         }
       }
+      &::-webkit-scrollbar{
+        display: none;
+      }
     }
 
     // Mobile Menu
@@ -262,6 +270,8 @@ $navbarHeight: 57px;
       left: 0px;
       width: 100%;
       height: auto;
+      max-height: calc(100vh - 3rem);
+      overflow-y:scroll;
       flex: 0 0 100%;
       max-width: 100%;
       align-items: flex-start;

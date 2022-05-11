@@ -8,7 +8,7 @@ import { useWindowScrollPosition, useWindowSize } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
-import { format, sub } from 'date-fns'
+import { format } from 'date-fns'
 
 const brightnessThreshold = 0.35
 
@@ -222,7 +222,7 @@ export default function Menu(props) {
 
 													{m.type === 'artist' ?
 														<>{item.name || item.title}</>
-														:
+													:
 														<>
 															<h3>{datePeriod(item.startDate, item.endDate)}</h3>
 															{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
@@ -233,6 +233,30 @@ export default function Menu(props) {
 												</li>
 											</Link>
 										))}
+										{m.more && 
+											<>
+												{!showMore[m.type] ?
+														<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>Show all ›</div>
+													:
+													m.sub.concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).map((item, idx) =>
+														<>
+															<Link 
+																key={idx} 
+																href={`/${item.slug}`} 
+																color={item.color} 
+																isSelected={item.isSelected}
+																onMouseEnter={() => handleMouseOver(item, true)} 
+																onMouseLeave={() => handleMouseOver(item, false)}
+															>
+																{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+																{item.title}
+															</Link>
+															<br />
+														</>
+													)
+												}
+											</>
+										}
 									</ul>
 								)}
 							</li>
@@ -274,7 +298,7 @@ export default function Menu(props) {
 											{!showMore[type] ?
 													<span onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>Show all ›</span>
 												:
-												sub.filter(({ startDate, endDate }) => datePeriod(startDate, endDate)).map((item, idx) =>
+												sub.concat(sub).concat(sub).concat(sub).concat(sub).concat(sub).concat(sub).concat(sub).map((item, idx) =>
 													<>
 														<Link 
 															key={idx} 
@@ -284,6 +308,7 @@ export default function Menu(props) {
 															onMouseEnter={() => handleMouseOver(item, true)} 
 															onMouseLeave={() => handleMouseOver(item, false)}
 														>
+															{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
 															{item.title}
 														</Link>
 														<br />
