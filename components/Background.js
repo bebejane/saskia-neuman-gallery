@@ -3,7 +3,7 @@ import cn from "classnames"
 import useStore from "/store";
 import { Image } from "react-datocms"
 import { useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion'
+import {  motion } from 'framer-motion'
 import Router, { useRouter } from 'next/router';
 
 export default function Background({image, color, title, brightness}){

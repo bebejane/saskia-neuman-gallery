@@ -34,7 +34,7 @@ $navbarHeight: 57px;
     padding-left: var(--margin-left);
     padding-right: 10px;
     background-color: $white;
-    z-index: 3000;
+    //z-index: 1000;
     .hamburger {
       display: flex !important;
     }
@@ -159,6 +159,11 @@ $navbarHeight: 57px;
     align-items: flex-start;
     box-sizing: border-box;
     height: auto;
+    margin:-10px;
+    padding:10px;
+    &.opaque{
+      background-color: #fff;
+    }
     a {
       cursor: pointer;
     }
