@@ -73,8 +73,12 @@
   }
   .close {
     position: absolute;
-    right: var(--margin-right);
-    top: var(--margin-left);
+    right: 3vw;
+    top: 3vw;
+    display: flex;
+    justify-content: center;
+    height: 48px;
+    width: 48px;
     color: #000;
     z-index: 500;
     cursor: pointer;

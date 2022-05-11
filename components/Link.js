@@ -17,9 +17,10 @@ export function Link({
   const router = useRouter()
   const [hover, setHover] = useState(false)
   const linkRef = useRef()
-  const linkStyle = hover && color ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 0px #fff' } : {}
+  const linkStyle = hover && color ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
   const handleMouse = (e) => {
+    console.log(e)
     if (e.type === 'mouseleave') {
       setHover(false)
       onMouseLeave && onMouseLeave(e)
@@ -28,11 +29,12 @@ export function Link({
       onMouseEnter && onMouseEnter(e)
     }
   }
+
   const handleTouch = (e) => {
     router.push(href)
-    
+    e.preventDefault()
   }
-  
+
   return (
     <NextLink href={href} scroll={scroll !== undefined ? scroll : false} >
       <a
