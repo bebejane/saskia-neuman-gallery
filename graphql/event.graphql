@@ -2,7 +2,7 @@
 #import "./fragments/EventFragmentFull.graphql"
 
 query GetAllEvents {
-	events: allEvents(orderBy: [title_ASC]) {
+	events: allEvents(orderBy: [startDate_ASC]) {
 		...EventFragment
 	}
 }

@@ -11,16 +11,16 @@ export function Link({
   scroll,
   className,
   style = {},
+  isSelected,
   onMouseEnter,
   onMouseLeave
 }) {
   const router = useRouter()
   const [hover, setHover] = useState(false)
   const linkRef = useRef()
-  const linkStyle = hover && color ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
+  const linkStyle = color && (hover || isSelected) ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
   const handleMouse = (e) => {
-    console.log(e)
     if (e.type === 'mouseleave') {
       setHover(false)
       onMouseLeave && onMouseLeave(e)

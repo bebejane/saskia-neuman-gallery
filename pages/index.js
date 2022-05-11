@@ -34,7 +34,7 @@ export default function Start({ start, image, color }) {
 			{links.map(({title, artists, image, url, slug, startDate, endDate, _modelApiKey : model}, idx) => {
 
 				const type = model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
-				const label = `${title} by ${artists?.length ? artists[0]?.name : ''}`
+				const byArtists = artists?.length ? ` by ${artists.map(({name}) => name).join(', ')}` : ''
 				const bubbleStyle = { color: `rgb(${imageColor(image).join(',')})` }
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 
@@ -51,7 +51,7 @@ export default function Start({ start, image, color }) {
 							<div className={cn(styles.headline, isHoveringMenuItem && styles.hide)}>
 								<div className={styles.bubble} style={bubbleStyle}>
 									<h3>{type}</h3>
-									<h1>{label}</h1>
+									<h1>{title}<span>{byArtists}</span></h1>
 									{type === 'news' && <span className={styles.link}>↗</span>}
 								</div>
 							</div>
