@@ -2,7 +2,7 @@ import styles from "./Menu.module.scss";
 import Link from "/components/Link";
 import cn from "classnames";
 import useStore from "/store";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useWindowScrollPosition, useWindowSize } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
