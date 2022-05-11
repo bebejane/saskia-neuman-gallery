@@ -36,15 +36,15 @@ $navbarHeight: 57px;
     padding-right: 10px;
     background-color: $white;
     //z-index: 1000;
-    transition: top .3s ease;
+    transition: top 0.3s ease;
     .hamburger {
       display: flex !important;
     }
   }
-  
+
   &.hide {
     @include mq($until: desktop) {
-      transition: top .3s ease;
+      transition: top 0.3s ease;
       top: -150px;
     }
   }
@@ -164,10 +164,11 @@ $navbarHeight: 57px;
     align-items: flex-start;
     box-sizing: border-box;
     height: auto;
-    margin:-10px;
-    padding:10px;
-    &.opaque{
-      background-color: #fff;
+    margin: -10px;
+    margin-right: 10px;
+    padding: 10px;
+    &.opaque {
+      background-color: $white;
     }
     a {
       cursor: pointer;
