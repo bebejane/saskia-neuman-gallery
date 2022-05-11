@@ -164,9 +164,12 @@ $navbarHeight: 57px;
     align-items: flex-start;
     box-sizing: border-box;
     height: auto;
-    margin: -10px;
-    margin-right: 10px;
     padding: 10px;
+    margin-top: -10px;
+    @include mq($from: tablet) {
+      margin: -10px;
+      margin-right: 10px;
+    }
     &.opaque {
       background-color: $white;
     }
