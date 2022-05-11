@@ -15,7 +15,8 @@ query GetAbout {
 	externalLinks: allExternalLinks(orderBy: _createdAt_ASC) {
     id
     title
-    url
+		_createdAt
+		url
 		image{
 			...ImageFragment
 		}

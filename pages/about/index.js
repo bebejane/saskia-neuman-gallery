@@ -6,6 +6,7 @@ import Markdown from '/lib/dato/components/Markdown';
 import { imageColor, imageBrightness } from '/utils';
 import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
+import { format } from "date-fns"
 
 export default function About({ about, externalLinks }) {
 	const { description, address, hours, email, googleMapsUrl, image } = about || {};
@@ -14,14 +15,14 @@ export default function About({ about, externalLinks }) {
 
 	return (
 		<>
-			<Layout>
+			<Layout noMargin='true'>
 				<Meta>
 					<HeaderBar>
 						<h3>Contact</h3>
 					</HeaderBar>
 					<p><b>
 						<Markdown>{address}</Markdown>
-						<a href={googleMapsUrl}>View in Google Maps</a><br />
+						<a href={googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
 						Opening hours:<br />
 						{hours}<br /><br />
 						<a href={`mailto:${email}`}>{email}</a><br />
@@ -35,15 +36,16 @@ export default function About({ about, externalLinks }) {
 				</Content>
 
 			</Layout>
-			<Layout>
+			<Layout noMargin='true'>
 				<section className={styles.archive}>
 					<h2>Archive</h2>
 					<ul>
-						{externalLinks.map(({ title, url, image }) =>
-							<a href={url}>
+						{externalLinks.map(({ title, url, image, _createdAt }) =>
+							<a href={url} target="new">
 								<li>
 									<Image data={image.responsiveImage} className={styles.image} />
-									<span>{title}</span>
+									<h4>{format(new Date(_createdAt), 'dd.MM.yy')}</h4>
+									<h1>{title} ↗</h1>
 								</li>
 							</a>
 						)}

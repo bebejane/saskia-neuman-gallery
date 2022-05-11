@@ -7,11 +7,18 @@
   padding-left: var(--margin-left);
   padding-right: var(--margin-right);
   background: $white;
+
   @include mq($from: tablet) {
-    margin-top: -$header-bar-height;
+    &:first-child {
+      margin-top: -$header-bar-height;
+    }
   }
   z-index: 1000;
   padding-bottom: 7rem;
+
+  &.noMargin {
+    padding-bottom: 1rem;
+  }
 }
 
 .meta {
@@ -21,7 +28,6 @@
     }
     padding-bottom: 1em;
   }
-  width: 50%;
 
   @include mq($from: tablet) {
     position: sticky;

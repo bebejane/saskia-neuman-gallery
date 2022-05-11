@@ -1,17 +1,17 @@
 import styles from './Layout.module.scss'
 import cn from 'classnames'
 
-export function Layout(props) {
+export function Layout({ children, noMargin }) {
 	return (
-		<main id="main" className={styles.main}>
-			{props.children}
+		<main id="main" className={cn(styles.main, noMargin && styles.noMargin)}>
+			{children}
 		</main>
 	);
 }
 
-export function Meta({ children, sticky }) {
+export function Meta({ children }) {
 	return (
-		<aside className={cn(styles.meta, sticky && styles.sticky)}>
+		<aside className={styles.meta}>
 			{children}
 		</aside>
 	);
