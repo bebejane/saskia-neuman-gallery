@@ -96,6 +96,7 @@ export default function Menu(props) {
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
 	
 	useEffect(() => {
+		
 		if(scrollDirection === "NONE" || showMobileMenu || scrollY > innerHeight) return 
 		const show = scrollDirection === "DOWN" ? scrollY < 10 : true; 
 		setShowMenu(show)		
@@ -117,6 +118,7 @@ export default function Menu(props) {
 		};
 
 		const handleRouteChangeComplete = (url, { shallow }) => setTimeout(()=>{
+			setShowMenu(true)
 			setShowMobileMenu(false)
 			setSubMenu(undefined)
 		}, 600);
