@@ -213,7 +213,7 @@ $navbarHeight: 57px;
     }
     .subMenu {
       position: absolute;
-      top: 60px;
+      top: 3rem;
       left: 0px;
       display: flex;
       flex-direction: row;
@@ -223,7 +223,7 @@ $navbarHeight: 57px;
         flex: 0 0;
         li {
           margin: 0;
-          margin-bottom: 0.2em;
+          margin-bottom: 0.4em;
           padding: 0;
           margin-left: 0;
           text-indent: 0;
@@ -234,6 +234,10 @@ $navbarHeight: 57px;
           }
           &.more {
             margin-top: 1rem;
+            a {
+              padding-bottom: 0.4em;
+              display: inline-block;
+            }
           }
           &:not(:first-child) {
             h3 {
