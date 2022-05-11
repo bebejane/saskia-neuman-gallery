@@ -29,6 +29,11 @@ export function Link({
     }
   }
 
+  const handleTouch = (e) => {
+    onMouseEnter && onMouseEnter(e)
+    setTimeout(() => router.push(href), 50)
+  }
+
   return (
     <NextLink href={href} scroll={scroll !== undefined ? scroll : false} >
       <a
@@ -39,6 +44,7 @@ export function Link({
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}
         onTouchStart={(e) => router.push(href)}
+        onTouchStart={handleTouch}
         suppressHydrationWarning={true}
       >
         {children}
