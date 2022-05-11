@@ -9,15 +9,13 @@ export function Layout(props) {
 	);
 }
 
-export function Meta(props) {
-
+export function Meta({ children, sticky }) {
 	return (
-		<aside className={styles.meta}>
-			{props.children}
+		<aside className={cn(styles.meta, sticky && styles.sticky)}>
+			{children}
 		</aside>
 	);
 }
-
 
 export function Content(props) {
 

@@ -34,7 +34,7 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				type: "show",
 				path: "/shows",
 				label: "Shows",
-				more:true,
+				more: true,
 				current: shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
 				upcoming: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
 				past: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
@@ -44,7 +44,7 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				type: "event",
 				path: "/events",
 				label: "Events",
-				more:true,
+				more: true,
 				upcoming: events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
 				past: events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
 				sub: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
@@ -82,8 +82,8 @@ export default function Menu(props) {
 	const [menuBackground, setMenuBackground] = useState(false);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
-	const [showMore, setShowMore] = useState({event:false, show:false, artist:false});
-	
+	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
+
 
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
@@ -141,7 +141,7 @@ export default function Menu(props) {
 
 		const threshold = main.offsetTop - (logo.clientHeight * 2);
 
-		if (scrollY > threshold && darkTheme && brightness < brightnessThreshold) 
+		if (scrollY > threshold && darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(false)
 		else if (scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(true)
@@ -176,7 +176,7 @@ export default function Menu(props) {
 						onToggle={(toggle) => setShowMobileMenu(toggle)}
 						color={darkTheme && !showMobileMenu ? "#fff" : "#000"}
 						label={"Menu"}
-						size={20}
+						size={17}
 					/>
 				</div>
 			</div>
@@ -230,7 +230,7 @@ export default function Menu(props) {
 											<Link href={`/${item.slug}`} color={item.color}>
 												{type === 'artist' ?
 													<>{item.name || item.title}</>
-												: 
+													:
 													<>
 														<h3>{datePeriod(item.startDate, item.endDate)}</h3>
 														{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
@@ -242,11 +242,11 @@ export default function Menu(props) {
 										</li>
 									))}
 									{more &&
-										<li className={styles.more} onClick={()=>setShowMore({...showMore, [type]:!showMore[type]})}> 
-											{!showMore[type] ? 
-													'Show all...' 
+										<li className={styles.more} onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
+											{!showMore[type] ?
+												'Show all ›'
 												:
-												sub.filter(({startDate, endDate}) => datePeriod(startDate, endDate)).map((item, idx)=>
+												sub.filter(({ startDate, endDate }) => datePeriod(startDate, endDate)).map((item, idx) =>
 													<>
 														<Link 
 															key={idx} 
@@ -257,7 +257,7 @@ export default function Menu(props) {
 														>
 															{item.title}
 														</Link>
-														<br/>
+														<br />
 													</>
 												)
 											}
@@ -269,7 +269,7 @@ export default function Menu(props) {
 				</div>
 				<div
 					id="menu-separator"
-					className={cn(styles.separator, showSeparator  && styles.show)}
+					className={cn(styles.separator, showSeparator && styles.show)}
 					style={{ marginLeft: `${separatorMargin}px` }}
 				></div>
 			</div>
