@@ -46,7 +46,7 @@ function SaskiaNeumanGallery({
 				pathname={pathname}
 				key={pathname}
 			/>
-			<Menu {...{start, artists, shows, events, about, color, brightness, image }}/>
+			<Menu {...{start, artists, shows, events, about, color, brightness, image }} key={`menu-${pathname}`}/>
 			<AnimatePresence
 				exitBeforeEnter
 				initial={true}

@@ -8,7 +8,7 @@ import { useWindowScrollPosition, useWindowSize } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
-import { format } from 'date-fns'
+import { format, sub } from 'date-fns'
 
 const brightnessThreshold = 0.35
 
@@ -38,16 +38,24 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				current: shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
 				upcoming: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
 				past: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
-				sub: shows.map((s) => ({ ...s, slug: `shows/${s.slug}`, color: imageColor(s.image) })),
+				sub:[
+					shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
+					shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
+					shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
+				].filter(i => i).map(s => ({...s, slug: `shows/${s.slug}`})),
+				all: shows.map((s) => ({ ...s, slug: `shows/${s.slug}`, color: imageColor(s.image) })),
 			},
 			{
 				type: "event",
 				path: "/events",
 				label: "Events",
 				more: true,
-				upcoming: events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
-				past: events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
-				sub: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
+				sub:[
+					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
+					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
+				].filter(i => i).map(s => ({...s, slug: `events/${s.slug}`})),
+
+				all: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
 			},
 			{ type: "about", path: "/about", label: "About", image: about.image, color: imageColor(about.image) },
 		].map((m) => ({
@@ -55,7 +63,7 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 			image: m.sub ? m.sub[0]?.image : m.image,
 			color: imageColor(m.sub ? m.sub[0]?.image : m.image),
 			isSelected: !m.sub && m.path === path,
-			sub: m.sub?.map((s) => ({ ...s, isSelected: `/${s.slug}` === path }))
+			sub: m.sub?.map((s) => ({ ...s, isSelected: `/${s.slug}` === path, color:imageColor(s.image) }))
 		}));
 		return menu;
 	} catch (err) {
@@ -93,13 +101,16 @@ export default function Menu(props) {
 		setBackgroundImage(hovering ? item.image : null);
 	};
 
+	const selectedColorStyle = (item) => item?.isSelected ? {color:`rgb(${item.color.join(',')})`} : {}
+
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
 	
 	useEffect(() => {
-		if(scrollDirection === "NONE" || showMobileMenu || scrollY > innerHeight) return 
+		if(scrollDirection === "NONE" || showMobileMenu || scrollY > innerHeight || subMenu) return 
+
 		const show = scrollDirection === "DOWN" ? scrollY < 10 : true; 
 		setShowMenu(show)		
-	}, [scrollY, scrollDirection, showMobileMenu, innerHeight]);
+	}, [scrollY, scrollDirection, showMobileMenu, innerHeight, subMenu]);
 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -110,15 +121,22 @@ export default function Menu(props) {
 				subs.filter(({ slug }) => `/${slug}` === url)[0] ||
 				menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0]
 
-			if (next)
+			if(next)
 				setBackgroundColor(next.color)
+		};
 
-			setShowMobileMenu(false);
-			setSubMenu(undefined);
+		const handleRouteChangeComplete = (url, { shallow }) => {
+			setShowMenu(true)
+			setShowMobileMenu(false)
+			setSubMenu(undefined)
 		};
 
 		router.events.on("routeChangeStart", handleRouteChange);
-		return () => router.events.off("routeChangeStart", handleRouteChange);
+		router.events.on("routeChangeComplete", handleRouteChangeComplete);
+		return () => {
+			router.events.off("routeChangeStart", handleRouteChange)
+			router.events.off("routeChangeComplete", handleRouteChangeComplete)
+		};
 	}, []);
 
 	useEffect(() => {
@@ -155,13 +173,13 @@ export default function Menu(props) {
 	const menuStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && showMenu && styles.open,
+		(subMenu || showMobileMenu) && showMenu  && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
 
 	if (!menu || menu.length === 0) return null
-
+	
 	return (
 		<>
 			<div className={navbarStyles}>
@@ -190,18 +208,28 @@ export default function Menu(props) {
 								onMouseOver={() => setSubMenu(m)}
 							>
 								{m.sub ? (
-									<span onClick={() => setSubMenu(m)}>{m.label}</span>
+									<span onClick={() => setSubMenu(subMenu?.label === m.label ? undefined : m)}>{m.label}</span>
 								) : (
-									<Link href={m.path} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
+									<Link href={m.path} isSelected={m.isSelected} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
 										{m.label}
 									</Link>
 								)}
 								{showMobileMenu && m.type === subMenu?.type && (
 									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenu?.type === m.type && styles.open)}>
-										{m.sub?.map((a, idx) => (
-											<Link key={idx} href={`/${a.slug}`} color={a.color} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
-												<li className={cn(a.isSelected && styles.selected)}>
-													{a.name || a.title}
+										{m.sub?.map((item, idx) => (
+											<Link href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
+												<li className={cn(item.isSelected && styles.selected)}>
+
+													{m.type === 'artist' ?
+														<>{item.name || item.title}</>
+														:
+														<>
+															<h3>{datePeriod(item.startDate, item.endDate)}</h3>
+															{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+															<i>{item.title}</i><br />
+															{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
+														</>
+													}
 												</li>
 											</Link>
 										))}
@@ -225,8 +253,9 @@ export default function Menu(props) {
 											key={idx}
 											onMouseEnter={() => handleMouseOver(item, true)}
 											onMouseLeave={() => handleMouseOver(item, false)}
+											style={selectedColorStyle(item)}
 										>
-											<Link href={`/${item.slug}`} color={item.color}>
+											<Link href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
 												{type === 'artist' ?
 													<>{item.name || item.title}</>
 													:
@@ -241,9 +270,9 @@ export default function Menu(props) {
 										</li>
 									))}
 									{more &&
-										<li className={styles.more} onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
+										<li className={styles.more} >
 											{!showMore[type] ?
-												'Show all ›'
+													<span onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>Show all ›</span>
 												:
 												sub.filter(({ startDate, endDate }) => datePeriod(startDate, endDate)).map((item, idx) =>
 													<>
@@ -251,6 +280,7 @@ export default function Menu(props) {
 															key={idx} 
 															href={`/${item.slug}`} 
 															color={item.color} 
+															isSelected={item.isSelected}
 															onMouseEnter={() => handleMouseOver(item, true)} 
 															onMouseLeave={() => handleMouseOver(item, false)}
 														>

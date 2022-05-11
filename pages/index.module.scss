@@ -86,6 +86,10 @@ $slideSpeed: 1.5s;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			font-style: italic;
+			span{
+				font-style: normal;
+			}
 		}
 
 		h3 {

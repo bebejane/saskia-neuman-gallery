@@ -11,13 +11,14 @@ export function Link({
   scroll,
   className,
   style = {},
+  isSelected,
   onMouseEnter,
   onMouseLeave
 }) {
   const router = useRouter()
   const [hover, setHover] = useState(false)
   const linkRef = useRef()
-  const linkStyle = hover && color ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
+  const linkStyle = color && (hover || isSelected) ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
   const handleMouse = (e) => {
     if (e.type === 'mouseleave') {
@@ -30,8 +31,8 @@ export function Link({
   }
 
   const handleTouch = (e) => {
-    onMouseEnter && onMouseEnter(e)
-    setTimeout(() => router.push(href), 50)
+    router.push(href)
+    e.preventDefault()
   }
 
   return (
@@ -43,7 +44,6 @@ export function Link({
         style={{ ...linkStyle, ...style }}
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}
-        onTouchStart={(e) => router.push(href)}
         onTouchStart={handleTouch}
         suppressHydrationWarning={true}
       >
