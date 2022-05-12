@@ -27,7 +27,7 @@ query GetGlobal{
     ...EventFragment
   }
   about {
-    ...AboutFragment
+    ...AboutFragmentFull
   }
   site: _site {
 		...SiteFragment
