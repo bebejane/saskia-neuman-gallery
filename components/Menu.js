@@ -196,7 +196,9 @@ export default function Menu(props) {
 					<a href={m.about.googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
 					Opening hours:<br />
 					{m.about.hours}<br /><br />
-					<a href={`mailto:${m.about.email}`}>{m.about.email}</a>
+					<a href={`mailto:${m.about.email}`}>
+						{m.about.email}
+					</a>
 				</p>
 			}
 			</>
