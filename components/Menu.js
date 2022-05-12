@@ -62,8 +62,8 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				path: "/about", 
 				label: "About",
 				more:false,
-				about,
-				sub: [{name:'Our Gallery', image:about.image, color:imageColor(about.image) }]
+				about:about,
+				sub: [{name:'Our Gallery', image:about.image, color:imageColor(about.image), slug:'about'}]
 			},
 		].map((m) => ({
 			...m,
