@@ -54,7 +54,6 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
 					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
 				].filter(i => i).map(s => ({...s, slug: `events/${s.slug}`})),
-
 				all: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
 			},
 			{ type: "about", path: "/about", label: "About", image: about.image, color: imageColor(about.image) },
@@ -76,7 +75,7 @@ export default function Menu(props) {
 
 	const { brightness, start } = props;
 	const router = useRouter();
-	const menu = generateMenu(props, router.asPath)
+	
 
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
@@ -168,6 +167,46 @@ export default function Menu(props) {
 
 	}, [scrollY, darkTheme, brightness]);
 
+	const menu = generateMenu(props, router.asPath).map(m => ({
+		...m,
+		sub: m.sub?.map((item, idx) => (
+			<Link href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
+				<li className={cn(item.isSelected && styles.selected)}>
+					{m.type === 'artist' ?
+						<>{item.name || item.title}</>
+					:
+						<>
+							<h3>{datePeriod(item.startDate, item.endDate)}</h3>
+							{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+							<i>{item.title}</i><br />
+							{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
+						</>
+					}
+				</li>
+			</Link>
+		)),
+		more: m.more && m.sub?.map(item =>
+			m.sub.concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).map((item, idx) =>
+				<>
+					<Link 
+						key={idx} 
+						href={`/${item.slug}`} 
+						color={item.color} 
+						isSelected={item.isSelected}
+						onMouseEnter={() => handleMouseOver(item, true)} 
+						onMouseLeave={() => handleMouseOver(item, false)}
+					>
+						<p>
+							{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+							{item.title}
+							{m.type === 'event' ? <><br/>{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
+						</p>
+					</Link>
+				</>
+			)
+		)
+	}))
+
 	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
 	const navbarStyles = cn(styles.navbar, (!showMenu && !showMobileMenu) && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
 	const menuStyles = cn(
@@ -178,19 +217,19 @@ export default function Menu(props) {
 		isHoveringMenuItem && styles.transparent
 	);
 
-	if (!menu || menu.length === 0) return null
-	
+	if (!menu || menu.length === 0) return null	
+
 	return (
 		<>
 			<div className={navbarStyles}>
 				<Link href={menu[0].path} id="logo" className={styles.logo}>
-					{menu[0].label}
+					SASKIA NEUMAN GALLERY
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
 						toggled={showMobileMenu}
 						duration={0.5}
-						onToggle={(toggle) => setShowMobileMenu(toggle)}
+						onToggle={setShowMobileMenu}
 						color={darkTheme && !showMobileMenu ? "#fff" : "#000"}
 						label={"Menu"}
 						size={17}
@@ -216,49 +255,13 @@ export default function Menu(props) {
 								)}
 								{showMobileMenu && m.type === subMenu?.type && (
 									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenu?.type === m.type && styles.open)}>
-										{m.sub?.map((item, idx) => (
-											<Link href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
-												<li className={cn(item.isSelected && styles.selected)}>
-
-													{m.type === 'artist' ?
-														<>{item.name || item.title}</>
-													:
-														<>
-															<h3>{datePeriod(item.startDate, item.endDate)}</h3>
-															{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-															<i>{item.title}</i><br />
-															{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
-														</>
-													}
-												</li>
-											</Link>
-										))}
-										{m.more && 
-											<>
-												{!showMore[m.type] ?
-														<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>Show all ›</div>
-													:
-													m.sub.concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).map((item, idx) =>
-														<>
-															<Link 
-																key={idx} 
-																href={`/${item.slug}`} 
-																color={item.color} 
-																isSelected={item.isSelected}
-																onMouseEnter={() => handleMouseOver(item, true)} 
-																onMouseLeave={() => handleMouseOver(item, false)}
-															>
-																<p>
-																	{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-																	{item.title}
-																	{m.type === 'event' ? <><br/>{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
-																</p>	
-															</Link>
-															
-														</>
-													)
-												}
-											</>
+										{m.sub}
+										{m.more && !showMore[m.type] ?
+												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>
+													Show all ›
+												</div>
+											:
+											<>{m.more}</>
 										}
 									</ul>
 								)}
@@ -275,60 +278,25 @@ export default function Menu(props) {
 									className={cn(subMenu?.type === type && styles.open)}
 									style={{ marginLeft: `${subMenuMargin}px` }}
 								>
-									{sub.map((item, idx) => (
-										<li
-											key={idx}
-											onMouseEnter={() => handleMouseOver(item, true)}
-											onMouseLeave={() => handleMouseOver(item, false)}
-											style={selectedColorStyle(item)}
-										>
-											<Link href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
-												{type === 'artist' ?
-													<>{item.name || item.title}</>
-													:
-													<>
-														<h3>{datePeriod(item.startDate, item.endDate)}</h3>
-														{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-														<i>{item.title}</i><br />
-														{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
-													</>
-												}
-											</Link>
-										</li>
-									))}
+									{sub}
 									{more &&
 										<li className={styles.more} >
-											{!showMore[type] ?
-													<span onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>Show all ›</span>
-												:
-												sub.concat(sub).concat(sub).concat(sub).concat(sub).concat(sub).concat(sub).concat(sub).map((item, idx) =>
-													<>
-														<Link 
-															key={idx} 
-															href={`/${item.slug}`} 
-															color={item.color} 
-															isSelected={item.isSelected}
-															onMouseEnter={() => handleMouseOver(item, true)} 
-															onMouseLeave={() => handleMouseOver(item, false)}
-														>
-															<p>
-																{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-																{item.title}
-																{type === 'event' ? <><br/>{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
-															</p>
-														</Link>
-													</>
-												)
+											{more && !showMore[type] ?
+												<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
+													Show all ›
+												</div>
+											:
+											<>{more}</>
 											}
 										</li>
 									}
 								</ul>
-						)}
+							)}
 					</div>
 				</div>
-				<div
-					id="menu-separator"
-					className={cn(styles.separator, showSeparator && styles.show)}
+				<div 
+					id="menu-separator" 
+					className={cn(styles.separator, showSeparator && styles.show)} 
 					style={{ marginLeft: `${separatorMargin}px` }}
 				></div>
 			</div>
