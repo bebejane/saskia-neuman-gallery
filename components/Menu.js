@@ -63,7 +63,7 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				label: "About",
 				more:false,
 				about:about,
-				sub: [{name:'Our Gallery', image:about.image, color:imageColor(about.image), slug:'about'}]
+				sub: [{name:'The Gallery', image:about.image, color:imageColor(about.image), slug:'about'}]
 			},
 		].map((m) => ({
 			...m,
@@ -189,15 +189,12 @@ export default function Menu(props) {
 				</li>
 			</Link>
 			{m.type === 'about' && idx === m.sub.length-1 &&
-				<li>
+				<li className={styles.contact}>
 					<h3>Contact</h3>
 					<Markdown>{m.about.address}</Markdown>
-					<a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a><br /><br />
-					Opening hours:<br />
-					{m.about.hours}<br /><br />
-					<a href={`mailto:${m.about.email}`}>
-						E-mail
-					</a>
+					<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
+					<p>Opening hours:<br />{m.about.hours}</p>
+					<a href={`mailto:${m.about.email}`}>{m.about.email}</a>
 				</li>
 			}
 			</>

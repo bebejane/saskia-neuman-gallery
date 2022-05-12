@@ -14,7 +14,7 @@ $navbarHeight: 57px;
   font-weight: bold;
 
   .logo {
-    @include mq($until: tablet) {
+    @include mq($until: desktop) {
       padding-top: 1.2em;
       padding-bottom: 1rem;
     }
@@ -194,7 +194,7 @@ $navbarHeight: 57px;
         text-indent: 0;
         list-style-type: none;
         cursor: pointer;
-
+        
         &.selected {
           text-decoration: underline;
         }
@@ -254,6 +254,12 @@ $navbarHeight: 57px;
           text-indent: 0;
           list-style-type: none;
           white-space: pre;
+          &.contact{
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: normal;
+            width:200px;
+          }
           &.selected {
             text-decoration: underline;
           }
