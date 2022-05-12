@@ -9,6 +9,7 @@ import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
 import { format } from 'date-fns'
+import Markdown from "/lib/dato/components/Markdown";
 
 const brightnessThreshold = 0.35
 
@@ -56,7 +57,14 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				].filter(i => i).map(s => ({...s, slug: `events/${s.slug}`})),
 				all: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
 			},
-			{ type: "about", path: "/about", label: "About", image: about.image, color: imageColor(about.image) },
+			{ 
+				type: "about", 
+				path: "/about", 
+				label: "About",
+				more:false,
+				about,
+				sub: [{name:'Our Gallery', image:about.image, color:imageColor(about.image) }]
+			},
 		].map((m) => ({
 			...m,
 			image: m.sub ? m.sub[0]?.image : m.image,
@@ -138,7 +146,7 @@ export default function Menu(props) {
 		if (!el || !menu) return;
 
 		const padding = getComputedStyle(menuWrapper, null).getPropertyValue("padding-left");
-		setSeparatorMargin(el.offsetParent.offsetLeft + el.offsetLeft - parseInt(padding));
+		setSeparatorMargin(el.offsetParent?.offsetLeft + el.offsetLeft - parseInt(padding));
 		setSubMenuMargin(el.offsetLeft);
 	}, [subMenu]);
 
@@ -162,13 +170,14 @@ export default function Menu(props) {
 	const menu = generateMenu(props, router.asPath).map(m => ({
 		...m,
 		sub: m.sub?.map((item, idx) => (
+			<>
 			<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
 				<li 
 					className={cn(item.isSelected && styles.selected)} 
 					onMouseEnter={() => handleMouseOver(item, true)} 
 					onMouseLeave={() => handleMouseOver(item, false)}
 				>
-					{m.type === 'artist' ?
+					{m.type === 'artist' || m.type === 'about' ?
 						<>{item.name || item.title}</>
 					:
 						<>
@@ -180,6 +189,17 @@ export default function Menu(props) {
 					}
 				</li>
 			</Link>
+			{m.type === 'about' && idx === m.sub.length-1 &&
+				<p>
+					<h3>Contact</h3>
+					<Markdown>{m.about.address}</Markdown>
+					<a href={m.about.googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
+					Opening hours:<br />
+					{m.about.hours}<br /><br />
+					<a href={`mailto:${m.about.email}`}>{m.about.email}</a>
+				</p>
+			}
+			</>
 		)),
 		more: m.more && m.sub?.map(item =>
 			m.sub.concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).map((item, idx) =>
@@ -236,14 +256,9 @@ export default function Menu(props) {
 				<div id={'menu'} className={cn(styles.menu, showMobileMenu && styles.show, menuBackground && styles.opaque)} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
-							<li
-								id={`menu-${m.type}`}
-								key={idx}
-								className={cn(router.asPath === m.path && styles.selected)}
-								onMouseOver={() => setSubMenu(m)}
-							>
+							<li id={`menu-${m.type}`} key={idx} onMouseOver={() => setSubMenu(m)}>
 								{m.sub ? 
-									<span onClick={() => setSubMenu(subMenu?.label === m.label ? undefined : m)}>{m.label}</span>
+									<span onTouchEnd={() => setSubMenu(subMenu && subMenu.label === m.label ? undefined : m)}>{m.label}</span>
 								: 
 									<Link 
 										href={m.path} 
