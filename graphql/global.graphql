@@ -1,7 +1,7 @@
 #import "./fragments/ShowFragment.graphql"
 #import "./fragments/EventFragment.graphql"
 #import "./fragments/SiteFragment.graphql"
-#import "./fragments/AboutFragment.graphql"
+#import "./fragments/AboutFragmentFull.graphql"
 #import "./fragments/ArtistFragment.graphql"
 
 query GetGlobal{

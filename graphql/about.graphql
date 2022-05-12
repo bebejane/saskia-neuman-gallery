@@ -1,16 +1,9 @@
 #import "./fragments/ImageFragment.graphql"
+#import "./fragments/AboutFragmentFull.graphql"
 
 query GetAbout {
 	about{
-		id
-		description(markdown: false) 
-		address(markdown: false)
-		hours
-		email
-		googleMapsUrl
-		image{
-			...ImageFragment
-		}
+		...AboutFragmentFull
 	}
 	externalLinks: allExternalLinks(orderBy: _createdAt_ASC) {
     id

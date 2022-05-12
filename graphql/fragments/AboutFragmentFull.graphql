@@ -1,5 +1,10 @@
 fragment AboutFragmentFull on AboutRecord {
   id
+  description(markdown: false) 
+  address(markdown: false)
+  hours
+  email
+  googleMapsUrl
   image{
     ...ImageFragment
   }
