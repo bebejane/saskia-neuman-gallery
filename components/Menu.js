@@ -173,7 +173,6 @@ export default function Menu(props) {
 			<>
 			<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
 				<li 
-					className={cn(item.isSelected && styles.selected)} 
 					onMouseEnter={() => handleMouseOver(item, true)} 
 					onMouseLeave={() => handleMouseOver(item, false)}
 				>
@@ -190,16 +189,16 @@ export default function Menu(props) {
 				</li>
 			</Link>
 			{m.type === 'about' && idx === m.sub.length-1 &&
-				<p>
+				<li>
 					<h3>Contact</h3>
 					<Markdown>{m.about.address}</Markdown>
-					<a href={m.about.googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
+					<a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a><br /><br />
 					Opening hours:<br />
 					{m.about.hours}<br /><br />
 					<a href={`mailto:${m.about.email}`}>
-						{m.about.email}
+						E-mail
 					</a>
-				</p>
+				</li>
 			}
 			</>
 		)),
@@ -274,12 +273,13 @@ export default function Menu(props) {
 								{showMobileMenu && m.type === subMenu?.type && (
 									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenu?.type === m.type && styles.open)}>
 										{m.sub}
-										{m.more && !showMore[m.type] ?
+										{m.more &&
+											<li className={styles.more} >
 												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type]})}>
-													Show all ›
+													More <div className={cn(styles.arrow, showMore[m.type] && styles.opened)}>›</div>
 												</div>
-											:
-											<>{m.more}</>
+												{showMore[m.type] && m.more}
+											</li>
 										}
 									</ul>
 								)}
@@ -298,12 +298,13 @@ export default function Menu(props) {
 									{sub}
 									{more &&
 										<li className={styles.more} >
-											{more && !showMore[type] ?
-												<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
-													Show all ›
-												</div>
-											:
-											<>{more}</>
+											{more &&
+												<>
+													<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type]})}>
+														More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div>
+													</div>
+													{showMore[type] &&  more}
+												</>
 											}
 										</li>
 									}

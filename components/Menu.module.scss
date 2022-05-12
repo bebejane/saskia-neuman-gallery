@@ -200,15 +200,32 @@ $navbarHeight: 57px;
         }
         &:last-child {
           margin-right: 0;
-        }
+        }        
         ul {
           margin-left: $small-space/2;
           border-top: 0px solid !important;
           padding-top: 1rem;
           li {
-            border-bottom: 0px solid $black;
             &.selected {
               text-decoration: underline;
+            }
+            &.more {
+              
+              div{
+                margin-bottom: 0.4rem;
+                .arrow{
+                  display: inline-block;
+                  transition: transform .3s;
+                  &.opened{
+                    transform: rotate(90deg)
+                  }
+                }
+              }
+              a {
+                padding-bottom: 0.4em;
+                transition: color 0.5s;
+                //display: inline-block;
+              }
             }
           }
         }
@@ -242,6 +259,16 @@ $navbarHeight: 57px;
           }
           &.more {
             margin-top: 1rem;
+            div{
+              margin-bottom: 0.4rem;
+              .arrow{
+                display: inline-block;
+                transition: transform .3s;
+                &.opened{
+                  transform: rotate(90deg)
+                }
+              }
+            }
             a {
               padding-bottom: 0.4em;
               transition: color 0.5s;
