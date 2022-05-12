@@ -75,8 +75,6 @@ export default function Menu(props) {
 
 	const { brightness, start } = props;
 	const router = useRouter();
-	
-
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
@@ -100,13 +98,9 @@ export default function Menu(props) {
 		setBackgroundImage(hovering ? item.image : null);
 	};
 
-	const selectedColorStyle = (item) => item?.isSelected ? {color:`rgb(${item.color.join(',')})`} : {}
-
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
-	
 	useEffect(() => {
 		if(scrollDirection === "NONE" || showMobileMenu || scrollY > innerHeight || subMenu) return 
-
 		const show = scrollDirection === "DOWN" ? scrollY < 10 : true; 
 		setShowMenu(show)		
 	}, [scrollY, scrollDirection, showMobileMenu, innerHeight, subMenu]);
@@ -149,7 +143,6 @@ export default function Menu(props) {
 	}, [subMenu]);
 
 	useEffect(() => {
-
 		const logo = document.getElementById('logo')
 		const main = document.getElementById('main')
 		const menu = document.getElementById('menu')
@@ -164,14 +157,17 @@ export default function Menu(props) {
 			setDarkTheme(true)
 
 		setMenuBackground(scrollY > (main.offsetTop-menu.offsetTop))
-
 	}, [scrollY, darkTheme, brightness]);
 
 	const menu = generateMenu(props, router.asPath).map(m => ({
 		...m,
 		sub: m.sub?.map((item, idx) => (
-			<Link href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
-				<li className={cn(item.isSelected && styles.selected)}>
+			<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
+				<li 
+					className={cn(item.isSelected && styles.selected)} 
+					onMouseEnter={() => handleMouseOver(item, true)} 
+					onMouseLeave={() => handleMouseOver(item, false)}
+				>
 					{m.type === 'artist' ?
 						<>{item.name || item.title}</>
 					:
@@ -189,7 +185,7 @@ export default function Menu(props) {
 			m.sub.concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).map((item, idx) =>
 				<>
 					<Link 
-						key={idx} 
+						key={`more-${idx}`} 
 						href={`/${item.slug}`} 
 						color={item.color} 
 						isSelected={item.isSelected}
@@ -246,18 +242,23 @@ export default function Menu(props) {
 								className={cn(router.asPath === m.path && styles.selected)}
 								onMouseOver={() => setSubMenu(m)}
 							>
-								{m.sub ? (
+								{m.sub ? 
 									<span onClick={() => setSubMenu(subMenu?.label === m.label ? undefined : m)}>{m.label}</span>
-								) : (
-									<Link href={m.path} isSelected={m.isSelected} onMouseEnter={() => handleMouseOver(m, true)} onMouseLeave={() => handleMouseOver(m, false)}>
+								: 
+									<Link 
+										href={m.path} 
+										isSelected={m.isSelected} 
+										onMouseEnter={() => handleMouseOver(m, true)} 
+										onMouseLeave={() => handleMouseOver(m, false)}
+									>
 										{m.label}
 									</Link>
-								)}
+								}
 								{showMobileMenu && m.type === subMenu?.type && (
 									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenu?.type === m.type && styles.open)}>
 										{m.sub}
 										{m.more && !showMore[m.type] ?
-												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>
+												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type]})}>
 													Show all ›
 												</div>
 											:
@@ -270,8 +271,7 @@ export default function Menu(props) {
 					</ul>
 					<div className={styles.subMenu}>
 						{menu.slice(1).map(
-							({ type, path, label, sub, past, upcoming, current, more }, idx) =>
-								(sub && !showMobileMenu) &&
+							({ type, path, label, sub, past, upcoming, current, more }, idx) => (sub && !showMobileMenu) &&
 								<ul
 									key={idx}
 									id={`sub-${type}`}
