@@ -13,9 +13,9 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
-export default function Artist({ artist: { name, biography, artwork, shows }}) {
+export default function Artist({ artist: { name, biography, artwork, shows } }) {
 	const [galleryIndex, setGalleryIndex] = useState()
-	
+
 	return (
 		<>
 			<Layout>
@@ -23,9 +23,10 @@ export default function Artist({ artist: { name, biography, artwork, shows }}) {
 					<HeaderBar>
 						<h3>ARTISTS</h3>
 					</HeaderBar>
+					<h1>{name}</h1>
 				</Meta>
 				<Content>
-					<HeaderBar><h1>{name}</h1></HeaderBar>
+					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
 					<h2>EXHIBITIONS</h2>
 					<p>
@@ -59,9 +60,9 @@ export default function Artist({ artist: { name, biography, artwork, shows }}) {
 }
 
 export async function getStaticPaths(context) {
-	
+
 	const { artists } = await apiQuery(GetAllArtists)
-	
+
 	const paths = artists.map(({ slug }) => ({ params: { slug: [slug] } }))
 
 	return {
@@ -72,15 +73,15 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps = withGlobalProps({ model: 'artist' }, async ({ props, context, revalidate }) => {
 	const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] })
-	
-	if(!artist) return { notFound:true}
+
+	if (!artist) return { notFound: true }
 
 	return {
 		props: {
 			...props,
 			artist: {
 				...artist,
-				shows: props.shows?.filter(({artists}) => artists.filter(a => a.id === artist.id).length > 0)
+				shows: props.shows?.filter(({ artists }) => artists.filter(a => a.id === artist.id).length > 0)
 			},
 			image: artist.image || null,
 			color: imageColor(artist.image),

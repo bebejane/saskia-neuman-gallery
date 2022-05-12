@@ -1,10 +1,10 @@
 import styles from './HeaderBar.module.scss'
 import cn from "classnames";
 
-export function HeaderBar({ children, mobile }) {
+export function HeaderBar({ children, mobileHide }) {
 
 	return (
-		<header className={cn(styles.bar, mobile && styles.mobile)}>
+		<header className={cn(styles.bar, mobileHide && styles.mobileHide)}>
 			{children}
 		</header >
 	);

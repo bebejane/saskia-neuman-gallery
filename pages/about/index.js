@@ -16,7 +16,7 @@ export default function About({ about, externalLinks }) {
 	return (
 		<>
 			<Layout noMargin='true'>
-				<Meta>
+				<Meta border='true'>
 					<HeaderBar>
 						<h3>Contact</h3>
 					</HeaderBar>

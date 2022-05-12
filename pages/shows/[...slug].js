@@ -21,14 +21,13 @@ export default function Show({ show: { title, description, startDate, endDate, s
 		<>
 			<Layout>
 				<Meta>
-					<HeaderBar mobile='true'>
+					<HeaderBar>
 						<h3>Shows</h3>
-						<h1>{title}</h1>
 					</HeaderBar>
 					<p>
 						<b>
 							{artists.map((a, idx) => a.name).join(', ')}
-							<br/>
+							<br />
 							<i>{title}</i><br />
 							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
 						</b>
@@ -36,7 +35,7 @@ export default function Show({ show: { title, description, startDate, endDate, s
 				</Meta>
 
 				<Content>
-					<HeaderBar>
+					<HeaderBar mobileHide='true'>
 						<h1><i>{title}</i></h1>
 					</HeaderBar>
 					<Markdown>{description}</Markdown>
@@ -71,8 +70,8 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps = withGlobalProps({ model: 'show' }, async ({ props, context, revalidate }) => {
 	const { show } = await apiQuery(GetShow, { slug: context.params.slug[0] })
-	
-	if(!show) return { notFound:true}
+
+	if (!show) return { notFound: true }
 
 	return {
 		props: {

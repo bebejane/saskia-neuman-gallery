@@ -223,7 +223,7 @@ $navbarHeight: 57px;
       align-items: flex-start;
       max-height: calc(100vh - 6rem);
       width: 100%;
-      overflow-y: scroll;  
+      overflow-y: scroll;
       scrollbar-width: none;
       ul {
         display: none;
@@ -244,6 +244,7 @@ $navbarHeight: 57px;
             margin-top: 1rem;
             a {
               padding-bottom: 0.4em;
+              transition: color 0.5s;
               //display: inline-block;
             }
           }
@@ -257,7 +258,7 @@ $navbarHeight: 57px;
           display: flex;
         }
       }
-      &::-webkit-scrollbar{
+      &::-webkit-scrollbar {
         display: none;
       }
     }
@@ -271,7 +272,7 @@ $navbarHeight: 57px;
       width: 100%;
       height: auto;
       max-height: calc(100vh - 3rem);
-      overflow-y:scroll;
+      overflow-y: scroll;
       flex: 0 0 100%;
       max-width: 100%;
       align-items: flex-start;

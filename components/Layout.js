@@ -9,9 +9,9 @@ export function Layout({ children, noMargin }) {
 	);
 }
 
-export function Meta({ children }) {
+export function Meta({ children, border }) {
 	return (
-		<aside className={styles.meta}>
+		<aside className={cn(styles.meta, border && styles.border)}>
 			{children}
 		</aside>
 	);

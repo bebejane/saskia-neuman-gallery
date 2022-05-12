@@ -13,10 +13,9 @@ import { format } from "date-fns"
 export default function Event({ event }) {
 	return (
 		<Layout>
-			<Meta>
+			<Meta border='true'>
 				<HeaderBar mobile='true'>
 					<h3>EVENTS</h3>
-					<h1>{event.title}</h1>
 				</HeaderBar>
 				<p>
 					<b>
@@ -26,7 +25,7 @@ export default function Event({ event }) {
 				</p>
 			</Meta>
 			<Content>
-				<HeaderBar>
+				<HeaderBar mobileHide='true'>
 					<h1>{event.title}</h1>
 				</HeaderBar>
 				<Markdown>{event.description}</Markdown>
@@ -51,7 +50,7 @@ export async function getStaticPaths(context) {
 export const getStaticProps = withGlobalProps({ model: 'event' }, async ({ props, context, revalidate }) => {
 	const { event } = await apiQuery(GetEvent, { slug: context.params.slug[0] })
 
-	if(!event) return { notFound:true}
+	if (!event) return { notFound: true }
 
 	return {
 		props: {

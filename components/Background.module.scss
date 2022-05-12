@@ -6,8 +6,8 @@
   @include mq($until: tablet) {
     transition: margin-top ease 0.3s;
     margin-top: 3rem;
-    &.hiddenMenu{
-      margin-top:0rem;
+    &.hiddenMenu {
+      margin-top: 0rem;
     }
   }
   @include mq($from: tablet) {
@@ -19,9 +19,9 @@
     top: 0;
     left: 0;
     z-index: -1;
-    height: calc(100vh - 3rem);
+    //height: calc(100vh - 3rem);
     @include mq($from: tablet) {
-      height: 100vh;
+      height: calc(100vh - 3rem);
     }
     width: 100vw;
     max-width: 100vw !important;

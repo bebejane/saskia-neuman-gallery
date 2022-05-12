@@ -23,9 +23,6 @@
 
 .meta {
   @include mq($until: tablet) {
-    p {
-      padding-left: 25%;
-    }
     padding-bottom: 1em;
   }
 
@@ -38,6 +35,12 @@
   p:first-of-type {
     margin-top: -0.2em;
   }
+
+  &.border {
+    @include mq($until: tablet) {
+      border-bottom: 1px solid $black;
+    }
+  }
 }
 
 .content {
@@ -46,11 +49,5 @@
   }
   p:first-of-type {
     margin-top: -0.2em;
-  }
-
-  @include mq($until: tablet) {
-    header {
-      display: none;
-    }
   }
 }
