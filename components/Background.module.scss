@@ -5,7 +5,7 @@
   width: 100vw;
   @include mq($until: tablet) {
     transition: margin-top ease 0.3s;
-    margin-top: 3rem;
+    margin-top: $navbarHeight;
     &.hiddenMenu {
       margin-top: 0rem;
     }
@@ -19,15 +19,13 @@
     top: 0;
     left: 0;
     z-index: -1;
-    height: calc(100vh - 3rem);
+    height: calc(100vh - $navbarHeight);
     @include mq($from: tablet) {
       height: 100vh;
     }
     width: 100vw;
     max-width: 100vw !important;
-    > picture > img {
-      object-fit: cover !important;
-    }
+    
   }
 }
 
@@ -47,16 +45,15 @@
     }
     .image {
       position: absolute;
-      top: 0;
+      top: $navbarHeight;
       left: 0;
       object-fit: cover;
-      width: 100vw;
+      min-width: 100vw;
+      min-height: calc(100vh - $navbarHeight);
       max-width: 100vw !important;
       @include mq($from: tablet) {
+        top:0;
         height: 100vh;
-      }
-      > picture > img {
-        object-fit: cover !important;
       }
     }
   }

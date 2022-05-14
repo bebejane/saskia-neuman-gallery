@@ -99,7 +99,7 @@ export default function Menu(props) {
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
-	const { innerHeight } = useWindowSize()
+	
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
@@ -108,10 +108,11 @@ export default function Menu(props) {
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
 	useEffect(() => {
-		if(scrollDirection === "NONE" || showMobileMenu || scrollY > innerHeight || subMenu) return 
+		
+		if(scrollDirection === "NONE" || showMobileMenu || scrollY > document.body.clientHeight || subMenu) return 
 		const show = scrollDirection === "DOWN" ? scrollY < 10 : true; 
 		setShowMenu(show)		
-	}, [scrollY, scrollDirection, showMobileMenu, innerHeight, subMenu]);
+	}, [scrollY, scrollDirection, showMobileMenu, subMenu]);
 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -171,32 +172,32 @@ export default function Menu(props) {
 		...m,
 		sub: m.sub?.map((item, idx) => (
 			<>
-			<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
-				<li 
-					onMouseEnter={() => handleMouseOver(item, true)} 
-					onMouseLeave={() => handleMouseOver(item, false)}
-				>
-					{m.type === 'artist' || m.type === 'about' ?
-						<>{item.name || item.title}</>
-					:
-						<>
-							<h3>{datePeriod(item.startDate, item.endDate)}</h3>
-							{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-							<i>{item.title}</i><br />
-							{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
-						</>
-					}
-				</li>
-			</Link>
-			{m.type === 'about' && idx === m.sub.length-1 &&
-				<li className={styles.contact}>
-					<h3>Contact</h3>
-					<Markdown>{m.about.address}</Markdown>
-					<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
-					<p>Opening hours:<br />{m.about.hours}</p>
-					<a href={`mailto:${m.about.email}`}>{m.about.email}</a>
-				</li>
-			}
+				<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
+					<li 
+						onMouseEnter={() => handleMouseOver(item, true)} 
+						onMouseLeave={() => handleMouseOver(item, false)}
+					>
+						{m.type === 'artist' || m.type === 'about' ?
+							<>{item.name || item.title}</>
+						:
+							<>
+								<h3>{datePeriod(item.startDate, item.endDate)}</h3>
+								{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+								<i>{item.title}</i><br />
+								{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
+							</>
+						}
+					</li>
+				</Link>
+				{m.type === 'about' && idx === m.sub.length-1 &&
+					<li className={styles.contact}>
+						<h3>Contact</h3>
+						<Markdown>{m.about.address}</Markdown>
+						<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
+						<p>Opening hours:<br />{m.about.hours}</p>
+						<a href={`mailto:${m.about.email}`}>{m.about.email}</a>
+					</li>
+				}
 			</>
 		)),
 		more: m.more && m.sub?.map(item =>

@@ -1,5 +1,3 @@
-$navbarHeight: 57px;
-
 .navbar {
   position: fixed;
   display: flex;
@@ -8,7 +6,7 @@ $navbarHeight: 57px;
   z-index: 1000;
   top: 0px;
   left: 0px;
-  //height: $navbarHeight;
+  height: $navbarHeight;
   padding-left: var(--margin-left);
   white-space: pre;
   font-weight: bold;
@@ -254,12 +252,7 @@ $navbarHeight: 57px;
           text-indent: 0;
           list-style-type: none;
           white-space: pre;
-          &.contact{
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: normal;
-            width:200px;
-          }
+          
           &.selected {
             text-decoration: underline;
           }
@@ -336,6 +329,13 @@ $navbarHeight: 57px;
           margin-left: 0rem;
           &:last-child {
             border-bottom: 0px;
+          }
+          &.contact{
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: normal;
+            width:200px;
+            padding-top: 0px;
           }
         }
       }

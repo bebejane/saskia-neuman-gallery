@@ -27,7 +27,7 @@ $slideSpeed: 1.5s;
 			display: block;
 			width: 100vw;
 			min-width: 100vw;
-			height: 70vh;
+			height: 100vh;
 			@include mq($from: tablet) {
 				height: 100vh;
 			}

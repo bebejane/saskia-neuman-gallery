@@ -32,16 +32,17 @@ export default function Background({image, color, title, brightness}){
 	}, [])	
 
 	if(!image) return null
-
+	
 	return (
 		<>			
 			<div className={cn(styles.container, !showMenu && styles.hiddenMenu)}>
 				<Image 
 					className={styles.backgroundImage} 
 					layout="responsive"
-					objectFit="contain"
+					objectFit="cover"
 					objectPosition="50% 50%"
 					fadeInDuration={0}
+					
 					usePlaceholder={true}
 					lazyLoad={true}
 					data={image?.responsiveImage}
@@ -54,18 +55,11 @@ export default function Background({image, color, title, brightness}){
 						animate={{opacity:1, transition:{duration:0.35}}}
 						className={styles.hoverImage}
 					>
-						<img src={`${backgroundImage.url}?fmt=jpg&w=1000`} className={styles.image} />
-						{ /* Not working Safari
-							<Image 
+						<img 
+							//style={{minHeight:'100vh'}}
+							src={`${backgroundImage.url}?fmt=jpg&w=1000`} 
 							className={styles.image} 
-							layout="responsive"
-							objectFit="contain"
-							objectPosition="50% 50%"
-							fadeInDuration={0}
-							usePlaceholder={true}
-							lazyLoad={false}	
-							data={backgroundImage?.responsiveImage}
-						/>*/}
+						/>
 					</motion.div>
 				</div>
 			}

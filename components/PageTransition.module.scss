@@ -22,9 +22,9 @@
     .logo {
       display: flex;
       position: fixed;
-      min-width: 100vw;
-      min-height: 100vh;
-      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
       left: 0;
       flex-direction: column;
       align-items: center;
@@ -32,6 +32,7 @@
       overflow: hidden;
       color: #fff;
       z-index: 500;
+      object-fit: cover;
       background-size: cover !important;
       background-repeat: no-repeat !important;
       -webkit-background-clip: text !important;
@@ -39,7 +40,10 @@
       background-position: center !important;
       pointer-events: none;
       font-weight: bolder;
-
+      @include mq($until: tablet) {
+        top:$navbarHeight;
+        height: calc(100vh - $navbarHeight);
+      }
       h1 {
         display: flex;
         align-items: center;
@@ -49,7 +53,7 @@
         margin: 0;
         font-size: 3rem;
         letter-spacing: 0.02em;
-        @include mq($until: desktop) {
+        @include mq($until: tablet) {
           font-size: 20px;
         }
       }
