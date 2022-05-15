@@ -1,12 +1,13 @@
 import * as NextLink from 'next/link';
-import { Router, useRouter } from 'next/router';
+import {  useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import useStore from '/store';
 
 export function Link({
   id,
   href,
   color,
+  image,
   children,
   scroll,
   className,
@@ -18,6 +19,7 @@ export function Link({
   const router = useRouter()
   const [hover, setHover] = useState(false)
   const linkRef = useRef()
+  const setBackgroundImage = useStore(state => state.setBackgroundImage)
   const linkStyle = color && (hover || isSelected) ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
   const handleMouse = (e) => {
@@ -31,9 +33,19 @@ export function Link({
   }
 
   const handleTouch = (e) => {
+    image && setBackgroundImage(image)
     router.push(href)
     e.preventDefault()
+    e.stopPropagation()
   }
+
+  useEffect(()=>{
+    if(!image) return
+    const img = new Image();
+    img.src = `${image.url}?fmt=jpg&w=1400`;
+    img.onload = () => console.log('preloaded', image.id);
+      
+  }, [])
 
   return (
     <NextLink href={href} scroll={scroll !== undefined ? scroll : false} >
@@ -44,7 +56,7 @@ export function Link({
         style={{ ...linkStyle, ...style }}
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}
-        onTouchStart={handleTouch}
+        onTouchEnd={handleTouch}
         suppressHydrationWarning={true}
       >
         {children}

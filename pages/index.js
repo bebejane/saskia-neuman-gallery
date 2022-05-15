@@ -39,7 +39,7 @@ export default function Start({ start, image, color }) {
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 
 				return (
-					<Link key={idx} href={href} scroll={false}>
+					<Link key={idx} href={href} scroll={false} image={image}>
 						<a className={styles.card} target={type === 'news' ? '_blank' : '_self'}>
 							{idx > 0 && image &&
 								<Image

@@ -108,9 +108,8 @@ export default function Menu(props) {
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
 	useEffect(() => {
-		
 		if(scrollDirection === "NONE" || showMobileMenu || scrollY > document.body.clientHeight || subMenu) return 
-		const show = scrollDirection === "DOWN" ? scrollY < 10 : true; 
+		const show = scrollDirection === "DOWN" ? false : true; 
 		setShowMenu(show)		
 	}, [scrollY, scrollDirection, showMobileMenu, subMenu]);
 
@@ -172,7 +171,7 @@ export default function Menu(props) {
 		...m,
 		sub: m.sub?.map((item, idx) => (
 			<>
-				<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected}>
+				<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected} image={item.image}>
 					<li 
 						onMouseEnter={() => handleMouseOver(item, true)} 
 						onMouseLeave={() => handleMouseOver(item, false)}
@@ -208,6 +207,7 @@ export default function Menu(props) {
 						href={`/${item.slug}`} 
 						color={item.color} 
 						isSelected={item.isSelected}
+						image={item.image}
 						onMouseEnter={() => handleMouseOver(item, true)} 
 						onMouseLeave={() => handleMouseOver(item, false)}
 					>
@@ -237,7 +237,7 @@ export default function Menu(props) {
 	return (
 		<>
 			<div className={navbarStyles}>
-				<Link href={menu[0].path} id="logo" className={styles.logo}>
+				<Link href={'/'} id="logo" className={styles.logo}>
 					SASKIA NEUMAN GALLERY
 				</Link>
 				<div className={styles.hamburger}>
@@ -262,6 +262,7 @@ export default function Menu(props) {
 									<Link 
 										href={m.path} 
 										isSelected={m.isSelected} 
+										image={m.image}
 										onMouseEnter={() => handleMouseOver(m, true)} 
 										onMouseLeave={() => handleMouseOver(m, false)}
 									>

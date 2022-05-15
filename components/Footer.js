@@ -31,7 +31,7 @@ export default function Footer(props) {
         <div className={styles.label}>
           <HeaderBar>
             <b>
-              <Link href={slug} scroll={false} color={imageColor(next.image)}>
+              <Link href={slug} scroll={false} color={imageColor(next.image)} image={next.image}>
                 <span onMouseEnter={() => setBackgroundImage(next.image)} onMouseLeave={() => setBackgroundImage(null)}>
                   {label}
                 </span>

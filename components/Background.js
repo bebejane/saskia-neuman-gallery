@@ -42,7 +42,6 @@ export default function Background({image, color, title, brightness}){
 					objectFit="cover"
 					objectPosition="50% 50%"
 					fadeInDuration={0}
-					
 					usePlaceholder={true}
 					lazyLoad={true}
 					data={image?.responsiveImage}
@@ -56,8 +55,7 @@ export default function Background({image, color, title, brightness}){
 						className={styles.hoverImage}
 					>
 						<img 
-							//style={{minHeight:'100vh'}}
-							src={`${backgroundImage.url}?fmt=jpg&w=1000`} 
+							src={`${backgroundImage.url}?fmt=jpg&w=1400`} 
 							className={styles.image} 
 						/>
 					</motion.div>
