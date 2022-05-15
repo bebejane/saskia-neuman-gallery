@@ -2,6 +2,7 @@ import * as NextLink from 'next/link';
 import {  useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
 import useStore from '/store';
+import Tappable from 'react-tapper';
 
 export function Link({
   id,
@@ -16,9 +17,10 @@ export function Link({
   onMouseEnter,
   onMouseLeave
 }) {
+
   const router = useRouter()
   const [hover, setHover] = useState(false)
-  const linkRef = useRef()
+  const linkRef = useRef() 
   const setBackgroundImage = useStore(state => state.setBackgroundImage)
   const linkStyle = color && (hover || isSelected) ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
@@ -32,19 +34,16 @@ export function Link({
     }
   }
 
-  const handleTouch = (e) => {
-    image && setBackgroundImage(image)
+  const handleTouchEnd = (e) => {
+    if(e.type === 'click') return 
+    image && setBackgroundImage(image)    
     router.push(href)
-    e.preventDefault()
-    e.stopPropagation()
   }
-
+  
   useEffect(()=>{
     if(!image) return
     const img = new Image();
-    img.src = `${image.url}?fmt=jpg&w=1400`;
-    img.onload = () => console.log('preloaded', image.id);
-      
+    img.src = `${image.url}?fmt=jpg&w=1400`; // Preload image
   }, [])
 
   return (
@@ -53,13 +52,14 @@ export function Link({
         id={id}
         ref={linkRef}
         className={className}
-        style={{ ...linkStyle, ...style }}
+        style={{ ...linkStyle, ...style}}
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}
-        onTouchEnd={handleTouch}
         suppressHydrationWarning={true}
       >
-        {children}
+        <Tappable onTap={handleTouchEnd}>
+          {children}
+        </Tappable>
       </a>
     </NextLink>
   );

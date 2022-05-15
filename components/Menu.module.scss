@@ -86,7 +86,6 @@
         ul {
           li {
             display: block;
-            cursor: pointer;
           }
         }
       }
@@ -204,6 +203,7 @@
           border-top: 0px solid !important;
           padding-top: 1rem;
           li {
+            cursor: pointer !important;
             &.selected {
               text-decoration: underline;
             }

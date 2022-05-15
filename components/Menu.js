@@ -4,7 +4,7 @@ import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useWindowScrollPosition, useWindowSize } from "rooks";
+import { useWindowScrollPosition, useDebounce } from "rooks";
 import { useScrollDirection } from "use-scroll-direction";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
@@ -89,6 +89,8 @@ export default function Menu(props) {
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
 	const showMenu = useStore((state) => state.showMenu);
 	const setShowMenu = useStore((state) => state.setShowMenu);
+	const [scrollDir, setScrollDir] = useState('NONE')
+	const setScrollDirDebounced = useDebounce(setScrollDir, 100);
 
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [darkTheme, setDarkTheme] = useState(false);
@@ -100,19 +102,23 @@ export default function Menu(props) {
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
 	
-
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
 		setBackgroundImage(hovering ? item.image : null);
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
+	
 	useEffect(() => {
+		if(scrollDir === "NONE" || scrollY <= 0 || (scrollY + window.innerHeight) >= document.body.clientHeight || subMenu || showMobileMenu) return 
+		const show = scrollDir === "DOWN" ? false : true; 
+		setShowMenu(show)
 		
-		if(scrollDirection === "NONE" || scrollY < 0 || (scrollY + window.innerHeight) > document.body.clientHeight || subMenu || showMobileMenu) return 
-		const show = scrollDirection === "DOWN" ? false : true; 
-		setShowMenu(show)		
-	}, [scrollY, scrollDirection, showMobileMenu, subMenu]);
+	}, [scrollY, scrollDir, showMobileMenu, subMenu]);
+
+	
+	
+	useEffect(()=>setScrollDirDebounced(scrollDirection), [scrollDirection])
 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
