@@ -109,7 +109,7 @@ export default function Menu(props) {
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
 	useEffect(() => {
 		
-		if(scrollDirection === "NONE" || showMobileMenu || (scrollY + window.innerHeight) > document.body.clientHeight || subMenu) return 
+		if(scrollDirection === "NONE" || scrollY < 0 || (scrollY + window.innerHeight) > document.body.clientHeight || subMenu || showMobileMenu) return 
 		const show = scrollDirection === "DOWN" ? false : true; 
 		setShowMenu(show)		
 	}, [scrollY, scrollDirection, showMobileMenu, subMenu]);
