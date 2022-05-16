@@ -60,7 +60,7 @@ export default function PageTransition({image}){
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
 					className={cn(styles.logo, hideLogo && styles.hide)} 
-					style={{background:`url(${image?.url}?fmt=jpg&w=1000)`}}
+					style={{background:`url(${image?.url}?w=1400)`}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
