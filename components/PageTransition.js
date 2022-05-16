@@ -46,7 +46,7 @@ export default function PageTransition({image}){
 	const isHome = router.asPath === '/';
 	const hideLogo = (isHome && !animating) || !isHome
 	const color = `rgb(${backgroundColor?.join(',')})`;
-	
+	console.log(isHome, hideLogo, animating)
 	return (
     <motion.div
 			className={styles.pageTransition} 
