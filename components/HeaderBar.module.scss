@@ -7,4 +7,10 @@
       display: none;
     }
   }
+  a div,
+  a span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

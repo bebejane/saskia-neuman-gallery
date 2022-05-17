@@ -20,7 +20,10 @@
   }
 
   &.noMargin {
-    padding-bottom: 1rem;
+    padding-bottom: 0;
+    @include mq($from: tablet) {
+      padding-bottom: 1rem;
+    }
   }
 }
 
