@@ -191,13 +191,13 @@
         text-indent: 0;
         list-style-type: none;
         cursor: pointer;
-        
+
         &.selected {
           text-decoration: underline;
         }
         &:last-child {
           margin-right: 0;
-        }        
+        }
         ul {
           margin-left: $small-space/2;
           border-top: 0px solid !important;
@@ -208,14 +208,13 @@
               text-decoration: underline;
             }
             &.more {
-              
-              div{
+              div {
                 margin-bottom: 0.4rem;
-                .arrow{
+                .arrow {
                   display: inline-block;
-                  transition: transform .3s;
-                  &.opened{
-                    transform: rotate(90deg)
+                  transition: transform 0.3s;
+                  &.opened {
+                    transform: rotate(90deg);
                   }
                 }
               }
@@ -252,19 +251,28 @@
           text-indent: 0;
           list-style-type: none;
           white-space: pre;
-          
+
+          &.contact {
+            br {
+              display: none;
+            }
+            p {
+              margin: 0;
+            }
+          }
+
           &.selected {
             text-decoration: underline;
           }
           &.more {
             margin-top: 1rem;
-            div{
+            div {
               margin-bottom: 0.4rem;
-              .arrow{
+              .arrow {
                 display: inline-block;
-                transition: transform .3s;
-                &.opened{
-                  transform: rotate(90deg)
+                transition: transform 0.3s;
+                &.opened {
+                  transform: rotate(90deg);
                 }
               }
             }
@@ -330,12 +338,16 @@
           &:last-child {
             border-bottom: 0px;
           }
-          &.contact{
+          &.contact {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: normal;
-            width:200px;
+            width: 200px;
             padding-top: 0px;
+
+            p {
+              padding-bottom: 0;
+            }
           }
         }
       }

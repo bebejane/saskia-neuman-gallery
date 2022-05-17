@@ -39,11 +39,11 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				current: shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
 				upcoming: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
 				past: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
-				sub:[
+				sub: [
 					shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
 					shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
 					shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
-				].filter(i => i).map(s => ({...s, slug: `shows/${s.slug}`})),
+				].filter(i => i).map(s => ({ ...s, slug: `shows/${s.slug}` })),
 				all: shows.map((s) => ({ ...s, slug: `shows/${s.slug}`, color: imageColor(s.image) })),
 			},
 			{
@@ -51,26 +51,26 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				path: "/events",
 				label: "Events",
 				more: true,
-				sub:[
+				sub: [
 					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
 					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
-				].filter(i => i).map(s => ({...s, slug: `events/${s.slug}`})),
+				].filter(i => i).map(s => ({ ...s, slug: `events/${s.slug}` })),
 				all: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
 			},
-			{ 
-				type: "about", 
-				path: "/about", 
+			{
+				type: "about",
+				path: "/about",
 				label: "About",
-				more:false,
-				about:about,
-				sub: [{name:'The Gallery', image:about.image, color:imageColor(about.image), slug:'about'}]
+				more: false,
+				about: about,
+				sub: [{ name: 'The Gallery', image: about.image, color: imageColor(about.image), slug: 'about' }]
 			},
 		].map((m) => ({
 			...m,
 			image: m.sub ? m.sub[0]?.image : m.image,
 			color: imageColor(m.sub ? m.sub[0]?.image : m.image),
 			isSelected: !m.sub && m.path === path,
-			sub: m.sub?.map((s) => ({ ...s, isSelected: `/${s.slug}` === path, color:imageColor(s.image) }))
+			sub: m.sub?.map((s) => ({ ...s, isSelected: `/${s.slug}` === path, color: imageColor(s.image) }))
 		}));
 		return menu;
 	} catch (err) {
@@ -101,24 +101,24 @@ export default function Menu(props) {
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { scrollDirection } = useScrollDirection();
-	
+
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
 		setBackgroundImage(hovering ? item.image : null);
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
-	
+
 	useEffect(() => {
-		if(scrollDir === "NONE" || scrollY <= 0 || (scrollY + window.innerHeight) >= document.body.clientHeight || subMenu || showMobileMenu) return 
-		const show = scrollDir === "DOWN" ? false : true; 
+		if (scrollDir === "NONE" || scrollY <= 0 || (scrollY + window.innerHeight) >= document.body.clientHeight || subMenu || showMobileMenu) return
+		const show = scrollDir === "DOWN" ? false : true;
 		setShowMenu(show)
-		
+
 	}, [scrollY, scrollDir, showMobileMenu, subMenu]);
 
-	
-	
-	useEffect(()=>setScrollDirDebounced(scrollDirection), [scrollDirection])
+
+
+	useEffect(() => setScrollDirDebounced(scrollDirection), [scrollDirection])
 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -129,7 +129,7 @@ export default function Menu(props) {
 				subs.filter(({ slug }) => `/${slug}` === url)[0] ||
 				menu.filter(({ path }) => path === url)[0] || menu.filter(({ path }) => path === url)[0]
 
-			if(next)
+			if (next)
 				setBackgroundColor(next.color)
 		};
 
@@ -171,7 +171,7 @@ export default function Menu(props) {
 		else if (scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
 			setDarkTheme(true)
 
-		setMenuBackground(scrollY > (main.offsetTop-menu.offsetTop))
+		setMenuBackground(scrollY > (main.offsetTop - menu.offsetTop))
 	}, [scrollY, darkTheme, brightness]);
 
 	const menu = generateMenu(props, router.asPath).map(m => ({
@@ -179,13 +179,13 @@ export default function Menu(props) {
 		sub: m.sub?.map((item, idx) => (
 			<>
 				<Link key={`sub-${idx}`} href={`/${item.slug}`} color={item.color} isSelected={item.isSelected} image={item.image}>
-					<li 
-						onMouseEnter={() => handleMouseOver(item, true)} 
+					<li
+						onMouseEnter={() => handleMouseOver(item, true)}
 						onMouseLeave={() => handleMouseOver(item, false)}
 					>
 						{m.type === 'artist' || m.type === 'about' ?
 							<>{item.name || item.title}</>
-						:
+							:
 							<>
 								<h3>{datePeriod(item.startDate, item.endDate)}</h3>
 								{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
@@ -195,13 +195,11 @@ export default function Menu(props) {
 						}
 					</li>
 				</Link>
-				{m.type === 'about' && idx === m.sub.length-1 &&
+				{m.type === 'about' && idx === m.sub.length - 1 &&
 					<li className={styles.contact}>
 						<h3>Contact</h3>
 						<Markdown>{m.about.address}</Markdown>
 						<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
-						<p>Opening hours:<br />{m.about.hours}</p>
-						<a href={`mailto:${m.about.email}`}>{m.about.email}</a>
 					</li>
 				}
 			</>
@@ -209,19 +207,19 @@ export default function Menu(props) {
 		more: m.more && m.sub?.map(item =>
 			m.sub.concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).map((item, idx) =>
 				<>
-					<Link 
-						key={`more-${idx}`} 
-						href={`/${item.slug}`} 
-						color={item.color} 
+					<Link
+						key={`more-${idx}`}
+						href={`/${item.slug}`}
+						color={item.color}
 						isSelected={item.isSelected}
 						image={item.image}
-						onMouseEnter={() => handleMouseOver(item, true)} 
+						onMouseEnter={() => handleMouseOver(item, true)}
 						onMouseLeave={() => handleMouseOver(item, false)}
 					>
 						<p>
 							{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
 							{item.title}
-							{m.type === 'event' ? <><br/>{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
+							{m.type === 'event' ? <><br />{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
 						</p>
 					</Link>
 				</>
@@ -234,12 +232,12 @@ export default function Menu(props) {
 	const menuStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && showMenu  && styles.open,
+		(subMenu || showMobileMenu) && showMenu && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
 
-	if (!menu || menu.length === 0) return null	
+	if (!menu || menu.length === 0) return null
 
 	return (
 		<>
@@ -263,14 +261,14 @@ export default function Menu(props) {
 					<ul>
 						{menu.slice(1).map((m, idx) => (
 							<li id={`menu-${m.type}`} key={idx} onMouseOver={() => setSubMenu(m)}>
-								{m.sub ? 
+								{m.sub ?
 									<span onTouchEnd={() => setSubMenu(subMenu && subMenu.label === m.label ? undefined : m)}>{m.label}</span>
-								: 
-									<Link 
-										href={m.path} 
-										isSelected={m.isSelected} 
+									:
+									<Link
+										href={m.path}
+										isSelected={m.isSelected}
 										image={m.image}
-										onMouseEnter={() => handleMouseOver(m, true)} 
+										onMouseEnter={() => handleMouseOver(m, true)}
 										onMouseLeave={() => handleMouseOver(m, false)}
 									>
 										{m.label}
@@ -281,7 +279,7 @@ export default function Menu(props) {
 										{m.sub}
 										{m.more &&
 											<li className={styles.more} >
-												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type]})}>
+												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>
 													More <div className={cn(styles.arrow, showMore[m.type] && styles.opened)}>›</div>
 												</div>
 												{showMore[m.type] && m.more}
@@ -306,21 +304,21 @@ export default function Menu(props) {
 										<li className={styles.more} >
 											{more &&
 												<>
-													<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type]})}>
+													<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
 														More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div>
 													</div>
-													{showMore[type] &&  more}
+													{showMore[type] && more}
 												</>
 											}
 										</li>
 									}
 								</ul>
-							)}
+						)}
 					</div>
 				</div>
-				<div 
-					id="menu-separator" 
-					className={cn(styles.separator, showSeparator && styles.show)} 
+				<div
+					id="menu-separator"
+					className={cn(styles.separator, showSeparator && styles.show)}
 					style={{ marginLeft: `${separatorMargin}px` }}
 				></div>
 			</div>
