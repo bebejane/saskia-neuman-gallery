@@ -208,6 +208,7 @@
               text-decoration: underline;
             }
             &.more {
+              padding-top: 0;
               div {
                 margin-bottom: 0.2rem;
                 .arrow {
@@ -265,7 +266,7 @@
             text-decoration: underline;
           }
           &.more {
-            // margin-top: 1rem;
+            //padding-top: 0rem;
             div {
               margin-bottom: 0.2rem;
               .arrow {
@@ -325,7 +326,7 @@
         flex-direction: column;
         flex: 0 1;
         & > li {
-          padding-top: 1em;
+          padding-top: 0.8em;
         }
 
         @include mq($from: tablet) {
@@ -334,7 +335,7 @@
 
         li {
           border-bottom: 1px solid $black;
-          padding-bottom: 1em;
+          padding-bottom: 0.8em;
           display: none;
           width: 100%;
           margin-left: 0rem;
