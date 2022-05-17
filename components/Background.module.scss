@@ -19,13 +19,12 @@
     top: 0;
     left: 0;
     z-index: -1;
-    height: calc(100vh - $navbarHeight);
+    height: calc(50vh - $navbarHeight);
     @include mq($from: tablet) {
       height: 100vh;
     }
     width: 100vw;
     max-width: 100vw !important;
-    
   }
 }
 
@@ -52,7 +51,7 @@
       min-height: calc(100vh - $navbarHeight);
       max-width: 100vw !important;
       @include mq($from: tablet) {
-        top:0;
+        top: 0;
         height: 100vh;
       }
     }

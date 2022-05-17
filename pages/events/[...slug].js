@@ -13,7 +13,7 @@ import { format } from "date-fns"
 export default function Event({ event }) {
 	return (
 		<Layout>
-			<Meta border='true'>
+			<Meta>
 				<HeaderBar mobile='true'>
 					<h3>EVENTS</h3>
 				</HeaderBar>

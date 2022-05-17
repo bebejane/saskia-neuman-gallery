@@ -218,7 +218,7 @@ export default function Menu(props) {
 					>
 						<p>
 							{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-							{item.title}
+							<i>{item.title}</i>
 							{m.type === 'event' ? <><br />{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
 						</p>
 					</Link>
@@ -280,7 +280,7 @@ export default function Menu(props) {
 										{m.more &&
 											<li className={styles.more} >
 												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>
-													More <div className={cn(styles.arrow, showMore[m.type] && styles.opened)}>›</div>
+													<h3>More <div className={cn(styles.arrow, showMore[m.type] && styles.opened)}>›</div></h3>
 												</div>
 												{showMore[m.type] && m.more}
 											</li>
@@ -305,7 +305,7 @@ export default function Menu(props) {
 											{more &&
 												<>
 													<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
-														More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div>
+														<h3>More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div></h3>
 													</div>
 													{showMore[type] && more}
 												</>

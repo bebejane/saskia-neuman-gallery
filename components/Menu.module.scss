@@ -209,7 +209,7 @@
             }
             &.more {
               div {
-                margin-bottom: 0.4rem;
+                margin-bottom: 0.2rem;
                 .arrow {
                   display: inline-block;
                   transition: transform 0.3s;
@@ -219,7 +219,7 @@
                 }
               }
               a {
-                padding-bottom: 0.4em;
+                padding-bottom: 0.2em;
                 transition: color 0.5s;
                 //display: inline-block;
               }
@@ -245,7 +245,7 @@
         flex: 0 0;
         li {
           margin: 0;
-          margin-bottom: 0.4em;
+          margin-bottom: 0.6em;
           padding: 0;
           margin-left: 0;
           text-indent: 0;
@@ -265,9 +265,9 @@
             text-decoration: underline;
           }
           &.more {
-            margin-top: 1rem;
+            // margin-top: 1rem;
             div {
-              margin-bottom: 0.4rem;
+              margin-bottom: 0.2rem;
               .arrow {
                 display: inline-block;
                 transition: transform 0.3s;
@@ -276,15 +276,18 @@
                 }
               }
             }
+            p {
+              margin-bottom: 0.6em;
+            }
             a {
-              padding-bottom: 0.4em;
+              padding-bottom: 0.2em;
               transition: color 0.5s;
               //display: inline-block;
             }
           }
           &:not(:first-child) {
             h3 {
-              padding-top: 1em;
+              //padding-top: 1em;
             }
           }
         }
