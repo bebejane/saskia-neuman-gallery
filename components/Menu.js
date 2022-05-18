@@ -139,7 +139,7 @@ export default function Menu(props) {
 			setTimeout(()=>{
 				setShowMenu(true)
 				setSubMenu(undefined)
-			}, 400)
+			}, 600)
 		};
 		router.events.on("routeChangeStart", handleRouteChange);
 		router.events.on("routeChangeComplete", handleRouteChangeComplete);
