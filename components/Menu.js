@@ -87,12 +87,15 @@ export default function Menu(props) {
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
+	const isTransitioning = useStore((state) => state.isTransitioning);
 	const showMenu = useStore((state) => state.showMenu);
 	const setShowMenu = useStore((state) => state.setShowMenu);
 	const [scrollDir, setScrollDir] = useState('NONE')
 	const setScrollDirDebounced = useDebounce(setScrollDir, 100);
 
-	const [showMobileMenu, setShowMobileMenu] = useState(false);
+	const showMobileMenu = useStore((state) => state.showMobileMenu);
+	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
+
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [subMenu, setSubMenu] = useState();
 	const [menuBackground, setMenuBackground] = useState(false);
@@ -116,8 +119,6 @@ export default function Menu(props) {
 
 	}, [scrollY, scrollDir, showMobileMenu, subMenu]);
 
-
-
 	useEffect(() => setScrollDirDebounced(scrollDirection), [scrollDirection])
 
 	useEffect(() => {
@@ -131,14 +132,15 @@ export default function Menu(props) {
 
 			if (next)
 				setBackgroundColor(next.color)
+			
 		};
 
 		const handleRouteChangeComplete = (url, { shallow }) => {
-			setShowMenu(true)
-			setShowMobileMenu(false)
-			setSubMenu(undefined)
+			setTimeout(()=>{
+				setShowMenu(true)
+				setSubMenu(undefined)
+			}, 400)
 		};
-
 		router.events.on("routeChangeStart", handleRouteChange);
 		router.events.on("routeChangeComplete", handleRouteChangeComplete);
 		return () => {
@@ -188,7 +190,7 @@ export default function Menu(props) {
 							:
 							<>
 								<h3>{datePeriod(item.startDate, item.endDate)}</h3>
-								{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+								{item.artists && item.artists?.map((a, idx) => a.name).join(', ')}{item.artists && <br />}
 								<i>{item.title}</i><br />
 								{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
 							</>
@@ -205,24 +207,22 @@ export default function Menu(props) {
 			</>
 		)),
 		more: m.more && m.sub?.map(item =>
-			m.sub.concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).concat(m.sub).map((item, idx) =>
-				<>
-					<Link
-						key={`more-${idx}`}
-						href={`/${item.slug}`}
-						color={item.color}
-						isSelected={item.isSelected}
-						image={item.image}
-						onMouseEnter={() => handleMouseOver(item, true)}
-						onMouseLeave={() => handleMouseOver(item, false)}
-					>
-						<p>
-							{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
-							<i>{item.title}</i>
-							{m.type === 'event' ? <><br />{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
-						</p>
-					</Link>
-				</>
+			m.sub.map((item, idx) =>
+				<Link
+					key={`more-${idx}`}
+					href={`/${item.slug}`}
+					color={item.color}
+					isSelected={item.isSelected}
+					image={item.image}
+					onMouseEnter={() => handleMouseOver(item, true)}
+					onMouseLeave={() => handleMouseOver(item, false)}
+				>
+					<p>
+						{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+						<i>{item.title}</i>
+						{m.type === 'event' ? <><br />{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
+					</p>
+				</Link>
 			)
 		)
 	}))
@@ -260,7 +260,7 @@ export default function Menu(props) {
 				<div id={'menu'} className={cn(styles.menu, showMobileMenu && styles.show, menuBackground && styles.opaque)} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
-							<li id={`menu-${m.type}`} key={idx} onMouseOver={() => setSubMenu(m)}>
+							<li id={`menu-${m.type}`} key={`menu-${idx}`} onMouseOver={() => setSubMenu(m)}>
 								{m.sub ?
 									<span onTouchEnd={() => setSubMenu(subMenu && subMenu.label === m.label ? undefined : m)}>{m.label}</span>
 									:
@@ -292,7 +292,7 @@ export default function Menu(props) {
 					</ul>
 					<div className={styles.subMenu}>
 						{menu.slice(1).map(
-							({ type, path, label, sub, past, upcoming, current, more }, idx) => (sub && !showMobileMenu) &&
+							({ type, sub, more }, idx) => (sub && !showMobileMenu) &&
 								<ul
 									key={idx}
 									id={`sub-${type}`}
@@ -302,14 +302,10 @@ export default function Menu(props) {
 									{sub}
 									{more &&
 										<li className={styles.more} >
-											{more &&
-												<>
-													<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
-														<h3>More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div></h3>
-													</div>
-													{showMore[type] && more}
-												</>
-											}
+											<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
+												<h3>More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div></h3>
+											</div>
+											{showMore[type] && more}
 										</li>
 									}
 								</ul>

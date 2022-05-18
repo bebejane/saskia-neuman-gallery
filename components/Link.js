@@ -36,7 +36,7 @@ export function Link({
 
   const handleTouchEnd = (e) => {
     if(e.type === 'click') return 
-    image && setBackgroundImage(image)    
+    //image && setBackgroundImage(image)
     router.push(href)
   }
   

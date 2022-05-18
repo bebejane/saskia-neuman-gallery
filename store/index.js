@@ -8,6 +8,8 @@ const useStore = create((set) => ({
   isHoveringMenuItem: false,
   isRouting:false,
   showMenu:true,
+  isTransitioning:false,
+  showMobileMenu:false,
 	setBackgroundColor: (color) =>
 		set((state) => ({
 			backgroundColor: color,
@@ -33,6 +35,16 @@ const useStore = create((set) => ({
   setShowMenu: (showMenu) =>  
     set((state) => ({
       showMenu
+    })
+  ),
+  setShowMobileMenu: (showMobileMenu) =>  
+    set((state) => ({
+      showMobileMenu
+    })
+  ),
+  setIsTransitioning: (isTransitioning) =>  
+    set((state) => ({
+      isTransitioning
     })
   ),
 }));

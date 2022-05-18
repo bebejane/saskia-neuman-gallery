@@ -38,7 +38,7 @@
   z-index: 1;
   .hoverImage {
     width: 100vw;
-    height: 100vh;
+    height: 50vh;
     &.hide {
       display: none;
     }
@@ -48,7 +48,7 @@
       left: 0;
       object-fit: cover;
       min-width: 100vw;
-      min-height: calc(100vh - $navbarHeight);
+      min-height: calc(50vh - $navbarHeight);
       max-width: 100vw !important;
       @include mq($from: tablet) {
         top: 0;
