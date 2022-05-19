@@ -101,7 +101,7 @@ export default function Menu(props) {
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
-	const { isPageBottom, isScrolledUp, scrolledPosition} = useScrollInfo();
+	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop} = useScrollInfo();
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
@@ -109,7 +109,7 @@ export default function Menu(props) {
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
-	useEffect(() => { setShowMenu(isScrolledUp && !isPageBottom)}, [scrolledPosition, isPageBottom, isScrolledUp]);
+	useEffect(() => { setShowMenu((isScrolledUp && !isPageBottom) || isPageTop)}, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
