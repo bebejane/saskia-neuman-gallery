@@ -30,9 +30,9 @@ const pageTransition = {
 		transition:{ duration, ease  : 'easeIn'}
 	},
 	home:{
-		height: ['0vh', '0vh', '0vh', '100vh', '100vh', '0vh'],
-		top:['0%', '0%', '0%', '0%', '0%', '100%'],
-		transition:{ duration: duration*4, ease:['easeIn', 'linear','linear', 'linear', 'easeOut'] },
+		height: ['0vh', '100vh', '0vh'],
+		top:['0%', '0%', '100%'],
+		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'], delay:1},
 	}
 }
 
