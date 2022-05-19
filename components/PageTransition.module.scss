@@ -41,7 +41,7 @@
       pointer-events: none;
       font-weight: bolder;
       @include mq($until: tablet) {
-        display: none;
+        //display: none;
       }
       h1 {
         display: flex;

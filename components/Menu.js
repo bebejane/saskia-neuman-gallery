@@ -5,7 +5,7 @@ import useStore from "/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useWindowScrollPosition, useDebounce } from "rooks";
-import { useScrollDirection } from "use-scroll-direction";
+import useScrollInfo from "/lib/hooks/useScrollInfo";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
 import { format } from 'date-fns'
@@ -90,9 +90,7 @@ export default function Menu(props) {
 	const isTransitioning = useStore((state) => state.isTransitioning);
 	const showMenu = useStore((state) => state.showMenu);
 	const setShowMenu = useStore((state) => state.setShowMenu);
-	const [scrollDir, setScrollDir] = useState('NONE')
-	const setScrollDirDebounced = useDebounce(setScrollDir, 100);
-
+	
 	const showMobileMenu = useStore((state) => state.showMobileMenu);
 	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
 
@@ -103,7 +101,7 @@ export default function Menu(props) {
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
-	const { scrollDirection } = useScrollDirection();
+	const { isPageBottom, isScrolledUp, scrolledPosition} = useScrollInfo();
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
@@ -111,16 +109,7 @@ export default function Menu(props) {
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
-
-	useEffect(() => {
-		if (scrollDir === "NONE" || scrollY <= 0 || (scrollY + window.innerHeight) >= document.body.clientHeight || subMenu || showMobileMenu) return
-		const show = scrollDir === "DOWN" ? false : true;
-		setShowMenu(show)
-
-	}, [scrollY, scrollDir, showMobileMenu, subMenu]);
-
-	useEffect(() => setScrollDirDebounced(scrollDirection), [scrollDirection])
-
+	useEffect(() => { setShowMenu(isScrolledUp && !isPageBottom)}, [scrolledPosition, isPageBottom, isScrolledUp]);
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];

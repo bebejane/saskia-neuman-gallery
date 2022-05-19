@@ -43,7 +43,7 @@
   &.hide {
     @include mq($until: desktop) {
       transition: top 0.3s ease;
-      top: -150px;
+      top: -$navbarHeight;
     }
   }
 
