@@ -29,9 +29,7 @@ export default function Artist({ artist: { name, biography, artwork, exhibitions
 					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
 					<section className={styles.cv}>
-						{soloShows.map(({ year, text, additional, location }) => (
-							{ text }
-						))}
+						
 					</section>
 
 					<h2>EXHIBITIONS</h2>

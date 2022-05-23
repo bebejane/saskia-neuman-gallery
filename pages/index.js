@@ -26,7 +26,7 @@ export default function Start({ start, image, color }) {
 		document.body.style.backgroundColor = color;
 		return () => document.body.style.backgroundColor = originalColor;
 	}, [])
-	console.log(start)
+	
 	if (!links || !links.length) return null
 
 	return (
@@ -37,7 +37,8 @@ export default function Start({ start, image, color }) {
 				const byArtists = artists?.length ? ` by ${artists.map(({ name }) => name).join(', ')}` : ''
 				const bubbleStyle = { color: `rgb(${imageColor(image).join(',')})` }
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
-
+				const theme = image.customData.theme
+				console.log(theme)
 				return (
 					<Link key={idx} href={href} scroll={false} image={image}>
 						<a className={styles.card} target={type === 'news' ? '_blank' : '_self'}>
@@ -48,7 +49,7 @@ export default function Start({ start, image, color }) {
 									prefetch={true}
 								/>
 							}
-							<div className={cn(styles.headline, isHoveringMenuItem && styles.hide)}>
+							<div className={cn(styles.headline, isHoveringMenuItem && styles.hide, styles[theme])}>
 								<div className={styles.bubble}>
 									<h3>{type}</h3>
 									<h1>{title}<span>{byArtists}</span></h1>
