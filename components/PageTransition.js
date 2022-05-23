@@ -1,7 +1,6 @@
 import styles from './PageTransition.module.scss'
 import useStore from "/store";
 import cn from "classnames"
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
@@ -40,12 +39,28 @@ export default function PageTransition({image}){
 	
 	const backgroundColor = useStore((state) => state.backgroundColor);
 	const setIsTransitioning = useStore((state) => state.setIsTransitioning);
+	const setIsExiting = useStore((state) => state.setIsExiting);
 	const isTransitioning = useStore((state) => state.isTransitioning);
+	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
+  
 	const router = useRouter()
 	const isHome = router.asPath === '/';
 	const hideLogo = (isHome && !isTransitioning) || !isHome
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
+	const handleAnimationEvent = (type, variant) => {
+		const isComplete = ['home', 'enter'].includes(variant) && type === 'complete'
+		const isExiting = variant === 'exit' && type === 'start'
+
+		setIsTransitioning(!isComplete)
+		setIsExiting(isExiting)
+
+		if(variant === 'exit' && type === 'complete') {
+			window.scrollTo({ top: 0, behavior:'instant' })
+			setShowMobileMenu(false)
+		}	
+	}
+
 	return (
     <motion.div
 			className={styles.pageTransition} 
@@ -53,8 +68,8 @@ export default function PageTransition({image}){
       animate={isHome ? "home" : "enter"}
       exit={!isHome ? "exit" : undefined}
       variants={pageTransition} 
-      onAnimationComplete={()=>setIsTransitioning(false)}
-      onAnimationStart={()=>setIsTransitioning(true)}
+      onAnimationComplete={ (variant) => handleAnimationEvent('complete', variant)}
+      onAnimationStart={(variant) => handleAnimationEvent('start', variant)}
     >
 			
       <div className={styles.color} style={{backgroundColor: color}}>

@@ -34,6 +34,7 @@ function SaskiaNeumanGallery({
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
 	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
+	const setIsTransitioning = useStore((state) => state.setIsTransitioning);
 	const { asPath: pathname } = router;
 	const isHome = pathname === '/'
 	const title = isHome ? '' : exhibition?.title || happening?.title || artist?.name || (about ? "About" : null);
@@ -53,10 +54,7 @@ function SaskiaNeumanGallery({
 			<AnimatePresence
 				exitBeforeEnter
 				initial={true}
-				onExitComplete={() =>  {
-					setShowMobileMenu(false)
-					window.scrollTo({ top: 0, behavior:'instant' })
-				}}
+				
 			>
 				<div id="app" key={router.asPath}>
 					<PageTransition image={image}/>

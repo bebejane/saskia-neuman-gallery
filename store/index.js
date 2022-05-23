@@ -3,13 +3,16 @@ import create from "zustand";
 const defaultColor = [255,255,255]
 
 const useStore = create((set) => ({
+  
 	backgroundColor: defaultColor,
   backgroundImage: null,
   isHoveringMenuItem: false,
   isRouting:false,
   showMenu:true,
   isTransitioning:false,
+  isExiting:false,
   showMobileMenu:false,
+
 	setBackgroundColor: (color) =>
 		set((state) => ({
 			backgroundColor: color,
@@ -45,6 +48,11 @@ const useStore = create((set) => ({
   setIsTransitioning: (isTransitioning) =>  
     set((state) => ({
       isTransitioning
+    })
+  ),
+  setIsExiting: (isExiting) =>  
+    set((state) => ({
+      isExiting
     })
   ),
 }));

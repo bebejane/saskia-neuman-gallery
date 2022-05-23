@@ -51,7 +51,7 @@
     @include mq($until: desktop) {
       background-color: $black;
     }
-    * {
+    a {
       color: $white;
     }
   }
@@ -78,6 +78,7 @@
   }
   &.open {
     height: 100vh;
+    
     @include mq($until: desktop) {
       z-index: 800;
       overflow: hidden;
@@ -169,6 +170,9 @@
     }
     &.opaque {
       background-color: $white;
+      * {
+        color: $black !important;
+      }
     }
     a {
       cursor: pointer;
@@ -233,13 +237,16 @@
       position: absolute;
       top: 3rem;
       left: 0px;
-      display: flex;
+      display: none;
       flex-direction: row;
       align-items: flex-start;
       max-height: calc(100vh - 6rem);
       width: 100%;
       overflow-y: scroll;
       scrollbar-width: none;
+      &.show {
+        display: flex;
+      }
       ul {
         display: none;
         flex-direction: column;
@@ -308,7 +315,7 @@
       top: $navbarHeight;
       left: 0px;
       width: 100%;
-      height: auto;
+      height: 100vh;
       max-height: calc(100vh - 3rem);
       overflow-y: scroll;
       flex: 0 0 100%;
@@ -336,7 +343,7 @@
         li {
           border-bottom: 1px solid $black;
           padding-bottom: 0.8em;
-          display: none;
+          //display: none;
           width: 100%;
           margin-left: 0rem;
           &:last-child {

@@ -101,8 +101,6 @@ export default function Menu(props) {
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop } = useScrollInfo();
 
-	
-	
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
 		setBackgroundImage(hovering ? item.image : null);
@@ -111,6 +109,7 @@ export default function Menu(props) {
 	useEffect(() => { setDarkTheme(imageTheme === 'dark')}, [imageTheme])
 	useEffect(() => { setShowMenu((isScrolledUp && !isPageBottom) || isPageTop) }, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 	useEffect(() => {
+		setIsHoveringMenuItem(false)
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
@@ -152,11 +151,11 @@ export default function Menu(props) {
 		const logo = document.getElementById('logo')
 		const main = document.getElementById('main')
 		const menu = document.getElementById('menu')
-
+		
 		if (!main || !logo || !menu) return
 
-		const threshold = main.offsetTop - (logo.clientHeight * 2);
-
+		const threshold = main.offsetTop - (logo.clientHeight);
+		
 		if (scrollY > threshold && darkTheme && imageTheme === 'light')
 			setDarkTheme(false)
 		else if (scrollY < threshold )
@@ -223,7 +222,7 @@ export default function Menu(props) {
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
 		(subMenu || showMobileMenu) && showMenu && subMenuMargin > 0 && styles.open,
-		!showMenu && !showMobileMenu && styles.hide,
+		((!showMenu && !showMobileMenu) || isTransitioning) && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
 
@@ -233,21 +232,23 @@ export default function Menu(props) {
 		<>
 			<div className={navbarStyles}>
 				<Link href={'/'} id="logo" className={styles.logo}>
-					SASKIA NEUMAN GALLERY
+					<a>
+						SASKIA NEUMAN GALLERY
+					</a>
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
 						toggled={showMobileMenu}
 						duration={0.5}
 						onToggle={setShowMobileMenu}
-						color={darkTheme && !showMobileMenu ? "#fff" : "#000"}
+						color={"#000"}
 						label={"Menu"}
 						size={17}
 					/>
 				</div>
 			</div>
 			<div id="menu-wrapper" className={menuStyles}>
-				<div id={'menu'} className={cn(styles.menu, showMobileMenu && styles.show, menuBackground && styles.opaque)} onMouseLeave={() => setSubMenu()}>
+				<div id={'menu'} className={cn(styles.menu, showMobileMenu && styles.show, menuBackground && !isTransitioning && !isHoveringMenuItem && styles.opaque)} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
 							<li id={`menu-${m.type}`} key={`menu-${idx}`} onMouseOver={() => setSubMenu(m)}>
@@ -280,7 +281,7 @@ export default function Menu(props) {
 							</li>
 						))}
 					</ul>
-					<div className={styles.subMenu}>
+					<div className={cn(styles.subMenu, subMenuMargin > 0 && styles.show)}>
 						{menu.slice(1).map(
 							({ type, sub, more }, idx) => (sub && !showMobileMenu) &&
 								<ul
