@@ -28,6 +28,12 @@ export default function Artist({ artist: { name, biography, artwork, exhibitions
 				<Content>
 					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
+					<section className={styles.cv}>
+						{soloShows.map((year) => (
+							{ year }
+						))}
+					</section>
+
 					<h2>EXHIBITIONS</h2>
 					<p>
 						{exhibitions.map(({ title, description, image, startDate, endDate, slug }, idx) =>
