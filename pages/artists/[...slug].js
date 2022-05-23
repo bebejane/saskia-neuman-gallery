@@ -13,7 +13,7 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
-export default function Artist({ artist: { name, biography, artwork, shows } }) {
+export default function Artist({ artist: { name, biography, artwork, shows, soloShows } }) {
 	const [galleryIndex, setGalleryIndex] = useState()
 
 	return (
@@ -28,6 +28,12 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 				<Content>
 					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
+					<section className={styles.cv}>
+						{soloShows.map((year) => (
+							{ year }
+						))}
+					</section>
+
 					<h2>EXHIBITIONS</h2>
 					<p>
 						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
