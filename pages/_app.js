@@ -34,9 +34,11 @@ function SaskiaNeumanGallery({
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
 	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
-	const { asPath: pathname } = router.asPath;
-	const title = pathname === '/' ? '' : exhibition?.title || happening?.title || artist?.name || (about ? "About" : null);
-		
+	const { asPath: pathname } = router;
+	const isHome = pathname === '/'
+	const title = isHome ? '' : exhibition?.title || happening?.title || artist?.name || (about ? "About" : null);
+	const backgroundLink = start?.links?.[0].slug ? `/${start.links[0]._modelApiKey}s/${start.links[0].slug}` : start?.links?.[0].url ||  null;
+	
 	return (
 		<>
 			<GoogleAnalytics />
@@ -63,6 +65,7 @@ function SaskiaNeumanGallery({
 						color={color}
 						key={pathname}
 						title={title}
+						href={isHome ? backgroundLink : undefined}
 					/>
 					<Component {...{...pageProps}}/>
 					<Footer {...pageProps} />

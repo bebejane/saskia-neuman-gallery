@@ -13,7 +13,15 @@
   @include mq($from: tablet) {
     height: 100vh;
   }
-
+  .link{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 2;
+  }
   .backgroundImage {
     position: absolute;
     top: 0;

@@ -3,10 +3,11 @@ import cn from "classnames"
 import useStore from "/store";
 import { Image } from "react-datocms"
 import { useEffect } from 'react';
-import {  motion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import Link from 'next/link';
 import Router from 'next/router';
 
-export default function Background({image, color}){
+export default function Background({image, color, href}){
 
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
@@ -45,6 +46,7 @@ export default function Background({image, color}){
 					lazyLoad={false}
 					data={image?.responsiveImage}
 				/>
+				{href && <Link href={href}><a className={styles.link}></a></Link>}
 			</div>	
 			{backgroundImage &&
 				<div className={styles.hoverContainer} key={backgroundImage.id}>

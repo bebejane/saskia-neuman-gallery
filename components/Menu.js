@@ -143,8 +143,9 @@ export default function Menu(props) {
 		if (!el || !menu) return;
 
 		const padding = getComputedStyle(menuWrapper, null).getPropertyValue("padding-left");
-		setSeparatorMargin(el.offsetParent?.offsetLeft + el.offsetLeft - parseInt(padding));
 		setSubMenuMargin(el.offsetLeft);
+		setSeparatorMargin(el.offsetParent?.offsetLeft + el.offsetLeft - parseInt(padding));
+		
 	}, [subMenu]);
 
 	useEffect(() => {
@@ -221,7 +222,7 @@ export default function Menu(props) {
 	const menuStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && showMenu && styles.open,
+		(subMenu || showMobileMenu) && showMenu && subMenuMargin > 0 && styles.open,
 		!showMenu && !showMobileMenu && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
@@ -252,7 +253,7 @@ export default function Menu(props) {
 							<li id={`menu-${m.type}`} key={`menu-${idx}`} onMouseOver={() => setSubMenu(m)}>
 								{m.sub ?
 									<span onTouchEnd={() => setSubMenu(subMenu && subMenu.label === m.label ? undefined : m)}>{m.label}</span>
-									:
+								:
 									<Link
 										href={m.path}
 										isSelected={m.isSelected}
