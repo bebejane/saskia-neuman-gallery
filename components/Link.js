@@ -51,13 +51,13 @@ export function Link({
       <a
         id={id}
         ref={linkRef}
-        className={className}
+        //className={className}
         style={{ ...linkStyle, ...style}}
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}
         suppressHydrationWarning={true}
       >
-        <Tappable onTap={handleTouchEnd}>
+        <Tappable onTap={handleTouchEnd} className={className}>
           {children}
         </Tappable>
       </a>
