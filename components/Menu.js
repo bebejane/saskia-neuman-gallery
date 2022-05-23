@@ -189,7 +189,7 @@ export default function Menu(props) {
 				{m.type === 'about' && idx === m.sub.length - 1 &&
 					<li className={styles.contact}>
 						<h3>Contact</h3>
-						<Markdown>{m.about.address}</Markdown>
+						Linnégatan 19
 						<p>{m.about.phone}</p>
 						<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
 					</li>
