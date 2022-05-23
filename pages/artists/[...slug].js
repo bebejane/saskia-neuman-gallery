@@ -13,7 +13,7 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
-export default function Artist({ artist: { name, biography, artwork, shows, soloShows } }) {
+export default function Artist({ artist: { name, biography, artwork, exhibitions } }) {
 	const [galleryIndex, setGalleryIndex] = useState()
 
 	return (
@@ -36,8 +36,8 @@ export default function Artist({ artist: { name, biography, artwork, shows, solo
 
 					<h2>EXHIBITIONS</h2>
 					<p>
-						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
-							<Link key={idx} href={`/shows/${slug}`} color={imageColor(image)} image={image} className={styles.exhibition}>
+						{exhibitions.map(({ title, description, image, startDate, endDate, slug }, idx) =>
+							<Link key={idx} href={`/exhibitions/${slug}`} color={imageColor(image)} image={image} className={styles.exhibition}>
 								<figure>
 									<Image
 										className={styles.image}
@@ -87,7 +87,7 @@ export const getStaticProps = withGlobalProps({ model: 'artist' }, async ({ prop
 			...props,
 			artist: {
 				...artist,
-				shows: props.shows?.filter(({ artists }) => artists.filter(a => a.id === artist.id).length > 0)
+				exhibitions: props.exhibitions?.filter(({ artists }) => artists.filter(a => a.id === artist.id).length > 0)
 			},
 			image: artist.image || null,
 			color: imageColor(artist.image),

@@ -2,16 +2,23 @@
 #import "./ImageFragment.graphql"
 #import "./ArtistFragment.graphql"
 
-fragment ShowFragment on ShowRecord {
+fragment ExhibitionFragmentFull on ExhibitionRecord {
   id
   title
+  description(markdown: false)
   artists{
     ...ArtistFragment
   }
   image{
     ...ImageFragment
   }
+  artwork{
+    ...ImageFragment
+  }
   startDate
   endDate
+  press{
+    ...PressFragment
+  }
   slug
 }

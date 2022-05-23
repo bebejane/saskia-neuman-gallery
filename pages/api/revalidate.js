@@ -35,11 +35,11 @@ export default async (req, res) => {
       case "about":
         path = `/about`;
         break;
-      case "show":
-        path = `/shows/${record.slug}`;
+      case "exhibition":
+        path = `/exhibitions/${record.slug}`;
         break;
-      case "event":
-        path = `/events/${record.slug}`;
+      case "happening":
+        path = `/happenings/${record.slug}`;
         break;
       case "artist":
         path = `/artists/${record.slug}`;

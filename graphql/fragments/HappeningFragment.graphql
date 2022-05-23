@@ -1,6 +1,6 @@
 #import "./ImageFragment.graphql"
 
-fragment EventFragment on EventRecord {
+fragment HappeningFragment on HappeningRecord {
   id
   title
   startDate
