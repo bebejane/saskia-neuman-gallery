@@ -13,7 +13,7 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
-export default function Artist({ artist: { name, biography, artwork, exhibitions, soloShows } }) {
+export default function Artist({ artist: { name, biography, artwork, exhibitions, soloShows, groupShows, publications, education, represented } }) {
 	const [galleryIndex, setGalleryIndex] = useState()
 
 	return (
@@ -28,8 +28,49 @@ export default function Artist({ artist: { name, biography, artwork, exhibitions
 				<Content>
 					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
+					<h3>EXTENDED BIO</h3>
 					<section className={styles.cv}>
-						
+						{soloShows.length > 0 && <div>
+							<h3>Solo Shows</h3>
+							<ul>
+								{soloShows.map(({ year, text, additionalText, location }) => (
+									<li>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+								))}
+							</ul>
+						</div>}
+						{groupShows.length > 0 && <div>
+							<h3>Group shows</h3>
+							<ul>
+								{groupShows.map(({ year, text, additionalText, location }) => (
+									<li>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+								))}
+							</ul>
+						</div>}
+						{represented.length > 0 && <div>
+							<h3>Represented</h3>
+							<ul>
+								{represented.map(({ year, text, additionalText, location }) => (
+									<li>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+								))}
+							</ul>
+						</div>}
+						{education.length > 0 && <div>
+							<h3>Education</h3>
+							<ul>
+								{education.map(({ year, text, additionalText, location }) => (
+									<li>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+								))}
+							</ul>
+						</div>}
+						{publications.length > 0 && <div>
+							<h3>Publications</h3>
+							<ul>
+								{publications.map(({ year, text, additionalText, location }) => (
+									<li>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+								))}
+							</ul>
+						</div>}
+
 					</section>
 
 					<h2>EXHIBITIONS</h2>
