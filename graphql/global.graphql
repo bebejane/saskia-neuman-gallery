@@ -1,5 +1,5 @@
-#import "./fragments/ShowFragment.graphql"
-#import "./fragments/EventFragment.graphql"
+#import "./fragments/ExhibitionFragment.graphql"
+#import "./fragments/HappeningFragment.graphql"
 #import "./fragments/SiteFragment.graphql"
 #import "./fragments/AboutFragmentFull.graphql"
 #import "./fragments/ArtistFragment.graphql"
@@ -7,12 +7,12 @@
 query GetGlobal{
   start {
     links {
-      ... on EventRecord {
-        ...EventFragment
+      ... on HappeningRecord {
+        ...HappeningFragment
         _modelApiKey
       }
-      ... on ShowRecord {
-        ...ShowFragment
+      ... on ExhibitionRecord {
+        ...ExhibitionFragment
         _modelApiKey
       }
     }
@@ -20,11 +20,11 @@ query GetGlobal{
 	artists: allArtists {
     ...ArtistFragment
   }
-  shows: allShows(orderBy: [startDate_DESC]) {
-    ...ShowFragment
+  exhibitions: allExhibitions(orderBy: [startDate_DESC]) {
+    ...ExhibitionFragment
   }
-  events: allEvents(orderBy: [startDate_DESC]) {
-    ...EventFragment
+  happenings: allHappenings(orderBy: [startDate_DESC]) {
+    ...HappeningFragment
   }
   about {
     ...AboutFragmentFull

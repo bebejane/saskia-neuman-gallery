@@ -26,7 +26,7 @@ export default function Start({ start, image, color }) {
 		document.body.style.backgroundColor = color;
 		return () => document.body.style.backgroundColor = originalColor;
 	}, [])
-
+	console.log(start)
 	if (!links || !links.length) return null
 
 	return (

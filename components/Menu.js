@@ -13,9 +13,9 @@ import Markdown from "/lib/dato/components/Markdown";
 
 const brightnessThreshold = 0.35
 
-const generateMenu = ({ start, artists, events, shows, about }, path) => {
-
-	if (!artists || !events || !shows || !about || !start) return []
+const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) => {
+	
+	if (!artists || !happenings || !exhibitions || !about || !start) return []
 
 	try {
 		const menu = [
@@ -32,30 +32,30 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 				sub: artists.map((a) => ({ ...a, slug: `artists/${a.slug}`, color: imageColor(a.image) })),
 			},
 			{
-				type: "show",
-				path: "/shows",
+				type: "exhibition",
+				path: "/exhibitions",
 				label: "Exhibitions",
 				more: true,
-				current: shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
-				upcoming: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
-				past: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
+				current: exhibitions.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
+				upcoming: exhibitions.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
+				past: exhibitions.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
 				sub: [
-					shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
-					shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
-					shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
-				].filter(i => i).map(s => ({ ...s, slug: `shows/${s.slug}` })),
-				all: shows.map((s) => ({ ...s, slug: `shows/${s.slug}`, color: imageColor(s.image) })),
+					exhibitions.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
+					exhibitions.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
+					exhibitions.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
+				].filter(i => i).map(s => ({ ...s, slug: `exhibitions/${s.slug}` })),
+				all: exhibitions.map((s) => ({ ...s, slug: `exhibitions/${s.slug}`, color: imageColor(s.image) })),
 			},
 			{
-				type: "event",
-				path: "/events",
+				type: "happening",
+				path: "/happenings",
 				label: "Happenings",
 				more: true,
 				sub: [
-					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
-					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
-				].filter(i => i).map(s => ({ ...s, slug: `events/${s.slug}` })),
-				all: events.map((e) => ({ ...e, slug: `events/${e.slug}`, color: imageColor(e.image) })),
+					happenings.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
+					happenings.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0]
+				].filter(i => i).map(s => ({ ...s, slug: `happenings/${s.slug}` })),
+				all: happenings.map((e) => ({ ...e, slug: `happenings/${e.slug}`, color: imageColor(e.image) })),
 			},
 			{
 				type: "about",
@@ -217,7 +217,7 @@ export default function Menu(props) {
 		)
 	}))
 
-	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
+	const exhibitionseparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
 	const navbarStyles = cn(styles.navbar, (!showMenu && !showMobileMenu) && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
 	const menuStyles = cn(
 		styles.menuWrapper,
@@ -304,7 +304,7 @@ export default function Menu(props) {
 				</div>
 				<div
 					id="menu-separator"
-					className={cn(styles.separator, showSeparator && styles.show)}
+					className={cn(styles.separator, exhibitionseparator && styles.show)}
 					style={{ marginLeft: `${separatorMargin}px` }}
 				></div>
 			</div>

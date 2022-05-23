@@ -1,6 +1,6 @@
 #import "./ImageFragment.graphql"
 
-fragment EventFragmentFull on EventRecord {
+fragment HappeningFragmentFull on HappeningRecord {
   id
   title
   description(markdown: false)

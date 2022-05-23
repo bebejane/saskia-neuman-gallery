@@ -1,17 +1,17 @@
-#import "./fragments/ShowFragment.graphql"
-#import "./fragments/EventFragment.graphql"
+#import "./fragments/ExhibitionFragment.graphql"
+#import "./fragments/HappeningFragment.graphql"
 #import "./fragments/ExternalLinkFragment.graphql"
 
 query GetStart {
 	start {
     id
     links {
-      ... on EventRecord {
-        ...EventFragment
+      ... on HappeningRecord {
+        ...HappeningFragment
         _modelApiKey
       }
-      ... on ShowRecord {
-        ...ShowFragment
+      ... on ExhibitionRecord {
+        ...ExhibitionFragment
         _modelApiKey
       }
       ... on ExternalLinkRecord {

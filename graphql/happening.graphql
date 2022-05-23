@@ -1,0 +1,13 @@
+#import "./fragments/HappeningFragment.graphql"
+#import "./fragments/HappeningFragmentFull.graphql"
+
+query GetAllHappenings {
+	happenings: allHappenings(orderBy: [startDate_ASC]) {
+		...HappeningFragment
+	}
+}
+query GetHappening($slug:String!) {
+	happening(filter: {slug: {eq: $slug}}) {
+		...HappeningFragmentFull
+	}
+}

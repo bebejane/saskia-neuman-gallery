@@ -53,14 +53,12 @@ export default function PageTransition({image}){
       animate={isHome ? "home" : "enter"}
       exit={!isHome ? "exit" : undefined}
       variants={pageTransition} 
-      onAnimationComplete={()=>setIsTransitioning(false)} 
+      onAnimationComplete={()=>setIsTransitioning(false)}
       onAnimationStart={()=>setIsTransitioning(true)}
     >
+			
       <div className={styles.color} style={{backgroundColor: color}}>
-        <div 
-					className={cn(styles.logo, hideLogo && styles.hide)} 
-					style={{background:`url(${image?.url}?w=1400)`}}
-				>
+        <div className={cn(styles.logo, hideLogo && styles.hide)}  style={{background:`url(${image?.url}?w=1400)`}}>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
       </div>

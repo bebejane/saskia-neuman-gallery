@@ -1,0 +1,13 @@
+#import "./fragments/ExhibitionFragment.graphql"
+#import "./fragments/ExhibitionFragmentFull.graphql"
+
+query GetAllExhibitions {
+	exhibitions: allExhibitions(orderBy: [startDate_ASC]) {
+		...ExhibitionFragment
+	}
+}
+query GetExhibition($slug:String!) {
+	exhibition(filter: {slug: {eq: $slug}}) {
+		...ExhibitionFragmentFull
+	}
+}
