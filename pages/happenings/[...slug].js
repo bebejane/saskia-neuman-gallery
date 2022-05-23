@@ -1,7 +1,7 @@
 import styles from './Happenings.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor, imageBrightness } from '/utils';
+import { imageColor} from '/utils';
 import { GetAllHappenings, GetHappening } from '/graphql';
 import Markdown from '/lib/dato/components/Markdown';
 import { Layout, Meta, Content } from '/components/Layout'
@@ -56,8 +56,7 @@ export const getStaticProps = withGlobalProps({ model: 'happening' }, async ({ p
 			...props,
 			happening,
 			image: happening.image || null,
-			color: imageColor(happening.image),
-			brightness: await imageBrightness(happening.image)
+			color: imageColor(happening.image)
 		},
 		revalidate
 	};

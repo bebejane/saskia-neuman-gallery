@@ -12,9 +12,9 @@ export default function GalleryThumbs({ artwork }) {
   
   return (
     <>
-      <div className={styles.galleryThumbs}>
+      <div className={styles.thumbs}>
         {artworkRows.map((artworks, ridx) =>
-          <div key={ridx} className={styles.row} style={{flex: `0 0 ${100/artworkRows.length}%`}}>
+          <div key={`thumb-${ridx}`} style={{flex: `0 0 ${100/artworkRows.length}%`}} className={styles.row}>
             {artworks.map((image, idx) =>
               <figure key={idx} onClick={() => setGalleryIndex(artwork.findIndex(a => a.id === image.id))}>
                 <Image data={image.responsiveImage} pictureClassName={styles.thumb}/>

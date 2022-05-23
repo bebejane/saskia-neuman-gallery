@@ -4,9 +4,9 @@ import useStore from "/store";
 import { Image } from "react-datocms"
 import { useEffect } from 'react';
 import {  motion } from 'framer-motion'
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 
-export default function Background({image, color, title, brightness}){
+export default function Background({image, color}){
 
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
@@ -15,7 +15,6 @@ export default function Background({image, color, title, brightness}){
 	const showMenu = useStore((state) => state.showMenu);
 
 	useEffect(()=>{
-
 		setBackgroundImage(null)
 		setBackgroundColor(color)
 
@@ -42,8 +41,8 @@ export default function Background({image, color, title, brightness}){
 					objectFit="cover"
 					objectPosition="50% 50%"
 					fadeInDuration={0}
-					usePlaceholder={true}
-					lazyLoad={true}
+					usePlaceholder={false}
+					lazyLoad={false}
 					data={image?.responsiveImage}
 				/>
 			</div>	

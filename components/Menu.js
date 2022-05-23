@@ -9,9 +9,6 @@ import useScrollInfo from "/lib/hooks/useScrollInfo";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
 import { format } from 'date-fns'
-import Markdown from "/lib/dato/components/Markdown";
-
-const brightnessThreshold = 0.35
 
 const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) => {
 	
@@ -81,7 +78,7 @@ const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) 
 
 export default function Menu(props) {
 
-	const { brightness, start } = props;
+	const { image } = props;
 	const router = useRouter();
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
@@ -94,6 +91,7 @@ export default function Menu(props) {
 	const showMobileMenu = useStore((state) => state.showMobileMenu);
 	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
 
+	const imageTheme = image?.customData.theme || 'light'
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [subMenu, setSubMenu] = useState();
 	const [menuBackground, setMenuBackground] = useState(false);
@@ -103,12 +101,14 @@ export default function Menu(props) {
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop } = useScrollInfo();
 
+	
+	
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
 		setBackgroundImage(hovering ? item.image : null);
 	};
 
-	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
+	useEffect(() => setDarkTheme(imageTheme === 'dark'), [imageTheme])
 	useEffect(() => { setShowMenu((isScrolledUp && !isPageBottom) || isPageTop) }, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -121,7 +121,6 @@ export default function Menu(props) {
 
 			if (next)
 				setBackgroundColor(next.color)
-
 		};
 
 		const handleRouteChangeComplete = (url, { shallow }) => {
@@ -157,13 +156,13 @@ export default function Menu(props) {
 
 		const threshold = main.offsetTop - (logo.clientHeight * 2);
 
-		if (scrollY > threshold && darkTheme && brightness < brightnessThreshold)
+		if (scrollY > threshold && darkTheme)
 			setDarkTheme(false)
-		else if (scrollY < threshold && !darkTheme && brightness < brightnessThreshold)
+		else if (scrollY < threshold && !darkTheme)
 			setDarkTheme(true)
 
 		setMenuBackground(scrollY > (main.offsetTop - menu.offsetTop))
-	}, [scrollY, darkTheme, brightness]);
+	}, [scrollY, darkTheme]);
 
 	const menu = generateMenu(props, router.asPath).map(m => ({
 		...m,
@@ -228,7 +227,7 @@ export default function Menu(props) {
 	);
 
 	if (!menu || menu.length === 0) return null
-
+	
 	return (
 		<>
 			<div className={navbarStyles}>

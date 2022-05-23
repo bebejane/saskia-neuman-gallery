@@ -1,7 +1,7 @@
 import styles from './Exhibitions.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor, imageBrightness } from '/utils';
+import { imageColor } from '/utils';
 import { GetAllExhibitions, GetExhibition } from '/graphql';
 import Markdown from '/lib/dato/components/Markdown';
 import { format } from "date-fns"
@@ -11,7 +11,6 @@ import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import PressLinks from 'components/PressLinks';
-import Link from '/components/Link'
 
 export default function Exhibition({ exhibition: { title, description, startDate, endDate, slug, artwork, artists, press } }) {
 
@@ -79,7 +78,6 @@ export const getStaticProps = withGlobalProps({ model: 'exhibition' }, async ({ 
 			...props,
 			image: exhibition.image || null,
 			color: imageColor(exhibition.image),
-			brightness: await imageBrightness(exhibition.image),
 			exhibition
 		},
 		revalidate

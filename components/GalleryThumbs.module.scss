@@ -1,21 +1,21 @@
-.galleryThumbs {
-  display: flex;
-  flex-direction: row;
-  .row {
-    padding: 0px 10px 0px 0px;
-    @include mq($from: tablet) {
-      padding: 0px 20px 0px 0px;
-    }
-    &:last-child {
-      padding: 0px;
-    }
-    figure {
-      width: 100%;
-      margin-bottom: 10px;
-      @include mq($from: tablet) {
-        margin-bottom: 20px;
-      }
-      cursor: pointer;
-    }
-  }
+.thumbs {
+	display: flex;
+	flex-direction: row;
+	.row {
+		padding: 0px 10px 0px 0px;
+		@include mq($from: tablet) {
+			padding: 0px 20px 0px 0px;
+		}
+		&:last-child {
+			padding: 0px 0px 0px 0px;
+		}
+		figure {
+			width: 100%;
+			margin-bottom: 10px;
+			@include mq($from: tablet) {
+				margin-bottom: 20px;
+			}
+			cursor: pointer;
+		}
+	}
 }

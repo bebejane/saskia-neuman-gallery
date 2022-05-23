@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import useStore from '/store';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor, imageBrightness, rgbToHex, datePeriod } from '/utils';
+import { imageColor, datePeriod } from '/utils';
 import { GetStart } from '/graphql';
 import { Image } from "react-datocms"
 import cn from "classnames"
@@ -32,13 +32,10 @@ export default function Start({ start, image, color }) {
 	return (
 		<div className={styles.container}>
 			{links.map(({ title, artists, image, url, slug, startDate, endDate, _modelApiKey: model }, idx) => {
-
 				const type = model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
 				const byArtists = artists?.length ? ` by ${artists.map(({ name }) => name).join(', ')}` : ''
-				const bubbleStyle = { color: `rgb(${imageColor(image).join(',')})` }
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 				const theme = image.customData.theme
-				console.log(theme)
 				return (
 					<Link key={idx} href={href} scroll={false} image={image}>
 						<a className={styles.card} target={type === 'news' ? '_blank' : '_self'}>
@@ -73,8 +70,7 @@ export const getStaticProps = withGlobalProps({ queries: [GetStart], model: 'sta
 		props: {
 			...props,
 			image,
-			color: imageColor(image),
-			brightness: await imageBrightness(image)
+			color: imageColor(image)
 		},
 		revalidate
 	};

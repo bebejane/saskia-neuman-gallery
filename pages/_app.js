@@ -25,8 +25,7 @@ function SaskiaNeumanGallery({
 		artist,
 		about,
 		image,
-		color,
-		brightness,
+		color
 	},
 }) {
 	
@@ -48,7 +47,7 @@ function SaskiaNeumanGallery({
 				pathname={pathname}
 				key={pathname}
 			/>
-			<Menu {...{start, artists, happenings, exhibitions, about, color, brightness, image }} key={`menu-${pathname}`}/>
+			<Menu {...{start, artists, happenings, exhibitions, about, color, image }} key={`menu-${pathname}`}/>
 			<AnimatePresence
 				exitBeforeEnter
 				initial={true}
@@ -64,7 +63,6 @@ function SaskiaNeumanGallery({
 						color={color}
 						key={pathname}
 						title={title}
-						brightness={brightness}
 					/>
 					<Component {...{...pageProps}}/>
 					<Footer {...pageProps} />

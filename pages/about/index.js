@@ -3,7 +3,7 @@ import { withGlobalProps } from "/lib/hoc";
 import { GetAbout } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';
-import { imageColor, imageBrightness } from '/utils';
+import { imageColor } from '/utils';
 import { Layout, Meta, Content } from '/components/Layout'
 import { HeaderBar } from 'components/HeaderBar';
 import { format } from "date-fns"
@@ -63,8 +63,7 @@ export const getStaticProps = withGlobalProps({ queries: [GetAbout], model: 'abo
 		props: {
 			...props,
 			image: image || null,
-			color: imageColor(image),
-			brightness: await imageBrightness(image)
+			color: imageColor(image)
 		},
 		revalidate
 	};
