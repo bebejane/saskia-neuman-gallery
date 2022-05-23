@@ -1,4 +1,5 @@
 import styles from './Artists.module.scss'
+import cn from 'classnames'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
 import { imageColor } from '/utils';
@@ -13,8 +14,10 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
+
 export default function Artist({ artist: { name, biography, artwork, exhibitions, soloShows, groupShows, publications, education, represented } }) {
 	const [galleryIndex, setGalleryIndex] = useState()
+	const [showBiography, setShowBiography] = useState(false)
 
 	return (
 		<>
@@ -28,8 +31,11 @@ export default function Artist({ artist: { name, biography, artwork, exhibitions
 				<Content>
 					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
-					<h3>EXTENDED BIO</h3>
-					<section className={styles.cv}>
+					
+					<section className={cn(styles.cv, showBiography && styles.show)}>
+						<h3 onClick={()=> setShowBiography(!showBiography)}>
+							EXTENDED BIO <span>›</span>
+						</h3>
 						{soloShows.length > 0 && <div>
 							<h3>Solo Shows</h3>
 							<ul>
