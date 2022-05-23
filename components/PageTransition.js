@@ -14,7 +14,7 @@ const pageTransition = {
 	enter: {
 		height: ['100vh', '0vh'],
 		top:['0%', '100%'],
-		transition:{ duration, ease:'easeOut' },
+		transition:{ duration, ease:'easeOut', delay:0.1 },
 		transitionEnd:{
 			top:'0%',
 			height:'0vh'
@@ -24,29 +24,28 @@ const pageTransition = {
 		height: ['0vh', '100vh'],
 		top:['0%', '0%'],
 		transitionEnd :{
+			top:'0%',
+			height:'100vh'
 		},
 		transition:{ duration, ease  : 'easeIn'}
 	},
 	home:{
 		height: ['0vh', '100vh', '0vh'],
 		top:['0%', '0%', '100%'],
-		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'] },
-	},
-	
-	exitHome: {
-		transition:{ duration:0 }
+		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'], delay:1},
 	}
 }
 
 export default function PageTransition({image}){
 	
 	const backgroundColor = useStore((state) => state.backgroundColor);
+	const setIsTransitioning = useStore((state) => state.setIsTransitioning);
+	const isTransitioning = useStore((state) => state.isTransitioning);
 	const router = useRouter()
-	const [animating, setAnimating] = useState(true)
 	const isHome = router.asPath === '/';
-	const hideLogo = (isHome && !animating) || !isHome
+	const hideLogo = (isHome && !isTransitioning) || !isHome
 	const color = `rgb(${backgroundColor?.join(',')})`;
-	console.log(isHome, hideLogo, animating)
+	
 	return (
     <motion.div
 			className={styles.pageTransition} 
@@ -54,8 +53,8 @@ export default function PageTransition({image}){
       animate={isHome ? "home" : "enter"}
       exit={!isHome ? "exit" : undefined}
       variants={pageTransition} 
-      onAnimationComplete={()=>setAnimating(false)} 
-      onAnimationStart={()=>setAnimating(true)}
+      onAnimationComplete={()=>setIsTransitioning(false)} 
+      onAnimationStart={()=>setIsTransitioning(true)}
     >
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 

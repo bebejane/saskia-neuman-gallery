@@ -8,6 +8,7 @@ import Menu from "/components/Menu";
 import Background from "/components/Background";
 import Footer from "/components/Footer";
 import { AnimatePresence } from "framer-motion";
+import useStore from "/store";
 
 function SaskiaNeumanGallery({
 	Component,
@@ -33,6 +34,7 @@ function SaskiaNeumanGallery({
 
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
+	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
 	const { asPath: pathname } = router.asPath;
 	const title = pathname === '/' ? '' : show?.title || event?.title || artist?.name || (about ? "About" : null);
 		
@@ -50,7 +52,11 @@ function SaskiaNeumanGallery({
 			<AnimatePresence
 				exitBeforeEnter
 				initial={true}
-				onExitComplete={() =>  typeof window !== 'undefined' && window.scrollTo({ top: 0 })}
+				onExitComplete={() =>  {
+					setShowMobileMenu(false)
+					window.scrollTo({ top: 0, behavior:'instant' })
+					
+				}}
 			>
 				<div id="app" key={router.asPath}>
 					<PageTransition image={image}/>
