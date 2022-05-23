@@ -11,10 +11,10 @@ fragment ArtistFragmentFull on ArtistRecord{
     ...ImageFragment
   }
   slug
-   soloShows {
-      additionalText
-      text
-      updatedAt
-      year
-    }
+  soloShows {
+    additionalText
+    text
+    updatedAt
+    year
+  }
 }
