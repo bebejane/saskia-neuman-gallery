@@ -9,15 +9,15 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function Start({ start, image, color }) {
-	
+
 	const { links } = start;
 
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem)
 
-	const linkType = ({_modelApiKey : model, startDate, endDate}) => {
-		if(model === 'external_link')
+	const linkType = ({ _modelApiKey: model, startDate, endDate }) => {
+		if (model === 'external_link')
 			return 'news'
-		else 
+		else
 			return datePeriod(startDate, endDate)
 	}
 
@@ -31,10 +31,10 @@ export default function Start({ start, image, color }) {
 
 	return (
 		<div className={styles.container}>
-			{links.map(({title, artists, image, url, slug, startDate, endDate, _modelApiKey : model}, idx) => {
+			{links.map(({ title, artists, image, url, slug, startDate, endDate, _modelApiKey: model }, idx) => {
 
 				const type = model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
-				const byArtists = artists?.length ? ` by ${artists.map(({name}) => name).join(', ')}` : ''
+				const byArtists = artists?.length ? ` by ${artists.map(({ name }) => name).join(', ')}` : ''
 				const bubbleStyle = { color: `rgb(${imageColor(image).join(',')})` }
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 
@@ -49,7 +49,7 @@ export default function Start({ start, image, color }) {
 								/>
 							}
 							<div className={cn(styles.headline, isHoveringMenuItem && styles.hide)}>
-								<div className={styles.bubble} style={bubbleStyle}>
+								<div className={styles.bubble}>
 									<h3>{type}</h3>
 									<h1>{title}<span>{byArtists}</span></h1>
 									{type === 'news' && <span className={styles.link}>↗</span>}
@@ -64,10 +64,10 @@ export default function Start({ start, image, color }) {
 	)
 }
 
-export const getStaticProps = withGlobalProps({ queries: [GetStart], model:'start' }, async ({ props, revalidate }) => {
+export const getStaticProps = withGlobalProps({ queries: [GetStart], model: 'start' }, async ({ props, revalidate }) => {
 	const { links } = props.start
 	const image = links[0]?.image ? links[0].image : links[0]?.images?.length ? links[0]?.images[0] : null
-	
+
 	return {
 		props: {
 			...props,

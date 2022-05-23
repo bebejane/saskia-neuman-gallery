@@ -4,6 +4,7 @@ fragment AboutFragmentFull on AboutRecord {
   address(markdown: false)
   hours
   email
+  phone
   googleMapsUrl
   image{
     ...ImageFragment

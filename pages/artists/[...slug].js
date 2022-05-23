@@ -21,14 +21,14 @@ export default function Artist({ artist: { name, biography, artwork, shows } }) 
 			<Layout>
 				<Meta>
 					<HeaderBar>
-						<h3>ARTISTS</h3>
+						<h3>ARTIST</h3>
 					</HeaderBar>
 					<h1>{name}</h1>
 				</Meta>
 				<Content>
 					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
-					<h2>EXHIBITIONS</h2>
+					<h2>Artists</h2>
 					<p>
 						{shows.map(({ title, description, image, startDate, endDate, slug }, idx) =>
 							<Link key={idx} href={`/shows/${slug}`} color={imageColor(image)} image={image} className={styles.exhibition}>

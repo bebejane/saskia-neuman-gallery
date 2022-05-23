@@ -9,7 +9,7 @@ import { HeaderBar } from 'components/HeaderBar';
 import { format } from "date-fns"
 
 export default function About({ about, externalLinks }) {
-	const { description, address, hours, email, googleMapsUrl, image } = about || {};
+	const { description, address, hours, phone, email, googleMapsUrl, image } = about || {};
 
 	externalLinks = externalLinks.concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks)
 
@@ -23,6 +23,7 @@ export default function About({ about, externalLinks }) {
 					<p><b>
 						<Markdown>{address}</Markdown>
 						<a href={googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
+						Phone: {phone}<br /><br />
 						Opening hours:<br />
 						{hours}<br /><br />
 						<a href={`mailto:${email}`}>{email}</a><br />

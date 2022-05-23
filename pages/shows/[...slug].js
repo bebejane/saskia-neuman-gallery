@@ -22,7 +22,7 @@ export default function Show({ show: { title, description, startDate, endDate, s
 			<Layout>
 				<Meta>
 					<HeaderBar>
-						<h3>Shows</h3>
+						<h3>Exhibition</h3>
 					</HeaderBar>
 					<p>
 						<b>

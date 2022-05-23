@@ -56,17 +56,15 @@ $slideSpeed: 1.5s;
 		display: none;
 	}
 	.bubble {
-		margin-bottom: 3rem;
+		margin-bottom: 2rem;
 		border-radius: 80px;
-		background-color: #fff;
+		//background-color: #fff;
 		padding-left: 1.5rem;
 		padding-right: 1.5em;
-		padding-top: 0.8rem;
-		padding-bottom: 0.8rem;
 		color: #000;
 		transition: color 0.3s;
 		display: flex;
-		align-items: center;
+		align-items: baseline;
 		max-width: calc(100% - 50px);
 
 		@include mq($from: tablet) {
@@ -87,7 +85,7 @@ $slideSpeed: 1.5s;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			font-style: italic;
-			span{
+			span {
 				font-style: normal;
 			}
 		}
@@ -98,7 +96,7 @@ $slideSpeed: 1.5s;
 		}
 		.link {
 			line-height: 1;
-			margin-left: 0.5em;
+			margin-left: 0.2em;
 		}
 	}
 }

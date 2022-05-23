@@ -15,7 +15,7 @@ export default function Event({ event }) {
 		<Layout>
 			<Meta>
 				<HeaderBar mobile='true'>
-					<h3>EVENTS</h3>
+					<h3>HAPPENING</h3>
 				</HeaderBar>
 				<p>
 					<b>

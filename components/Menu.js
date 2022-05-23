@@ -34,7 +34,7 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 			{
 				type: "show",
 				path: "/shows",
-				label: "Shows",
+				label: "Exhibitions",
 				more: true,
 				current: shows.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
 				upcoming: shows.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
@@ -49,7 +49,7 @@ const generateMenu = ({ start, artists, events, shows, about }, path) => {
 			{
 				type: "event",
 				path: "/events",
-				label: "Events",
+				label: "Happenings",
 				more: true,
 				sub: [
 					events.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
@@ -90,7 +90,7 @@ export default function Menu(props) {
 	const isTransitioning = useStore((state) => state.isTransitioning);
 	const showMenu = useStore((state) => state.showMenu);
 	const setShowMenu = useStore((state) => state.setShowMenu);
-	
+
 	const showMobileMenu = useStore((state) => state.showMobileMenu);
 	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
 
@@ -101,7 +101,7 @@ export default function Menu(props) {
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
-	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop} = useScrollInfo();
+	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop } = useScrollInfo();
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
@@ -109,7 +109,7 @@ export default function Menu(props) {
 	};
 
 	useEffect(() => setDarkTheme(brightness < brightnessThreshold), [brightness])
-	useEffect(() => { setShowMenu((isScrolledUp && !isPageBottom) || isPageTop)}, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
+	useEffect(() => { setShowMenu((isScrolledUp && !isPageBottom) || isPageTop) }, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
@@ -121,11 +121,11 @@ export default function Menu(props) {
 
 			if (next)
 				setBackgroundColor(next.color)
-			
+
 		};
 
 		const handleRouteChangeComplete = (url, { shallow }) => {
-			setTimeout(()=>{
+			setTimeout(() => {
 				setShowMenu(true)
 				setSubMenu(undefined)
 			}, 600)
@@ -190,6 +190,7 @@ export default function Menu(props) {
 					<li className={styles.contact}>
 						<h3>Contact</h3>
 						<Markdown>{m.about.address}</Markdown>
+						<p>{m.about.phone}</p>
 						<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
 					</li>
 				}
