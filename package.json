@@ -22,7 +22,7 @@
     "hamburger-react": "^2.5.0",
     "jimp": "^0.14.0",
     "markdown-truncate": "^1.0.4",
-    "next": "^12.1.5",
+    "next": "^12.1.6",
     "next-compose-plugins": "^2.2.1",
     "next-plugin-graphql": "^0.0.2",
     "next-seo": "^4.28.1",

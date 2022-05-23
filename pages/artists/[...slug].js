@@ -76,7 +76,7 @@ export default function Artist({ artist: { name, biography, artwork, exhibitions
 					<h2>EXHIBITIONS</h2>
 					<p>
 						{exhibitions.map(({ title, description, image, startDate, endDate, slug }, idx) =>
-							<Link key={idx} href={`/exhibitions/${slug}`} color={imageColor(image)} image={image} className={styles.exhibition}>
+							<Link key={`exhibition-${idx}`} href={`/exhibitions/${slug}`} color={imageColor(image)} image={image} className={styles.exhibition}>
 								<figure>
 									<Image
 										className={styles.image}
