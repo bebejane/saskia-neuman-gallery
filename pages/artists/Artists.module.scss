@@ -17,3 +17,19 @@
     }
   }
 }
+
+.cv {
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  h3 {
+    width: 25%;
+  }
+  ul {
+    list-style: none;
+    width: 75%;
+  }
+}

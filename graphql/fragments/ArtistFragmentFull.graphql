@@ -16,5 +16,34 @@ fragment ArtistFragmentFull on ArtistRecord{
     text
     updatedAt
     year
+    location
+  }
+  groupShows {
+    additionalText
+    text
+    updatedAt
+    year
+    location
+  }
+  education {
+    additionalText
+    text
+    updatedAt
+    year
+    location
+  }
+  represented {
+    additionalText
+    text
+    updatedAt
+    year
+    location
+  }
+  publications {
+    additionalText
+    text
+    updatedAt
+    year
+    location
   }
 }
