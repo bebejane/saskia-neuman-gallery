@@ -1,13 +1,9 @@
 .thumbs {
 	display: flex;
-	flex-direction: row;
+	flex-direction: row;	
 }
-
-.row{
+.row {
 	padding: 0px 10px 0px 0px;
-	@include mq($from: tablet) {
-		padding: 0px 20px 0px 0px;
-	}
 	&:last-child {
 		padding: 0px 0px 0px 0px;
 	}
@@ -19,4 +15,7 @@
 		}
 		cursor: pointer;
 	}
+	@include mq($from: tablet) {
+		padding: 0px 20px 0px 0px;
+	}	
 }

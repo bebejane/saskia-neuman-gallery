@@ -108,7 +108,7 @@ export default function Menu(props) {
 		setBackgroundImage(hovering ? item.image : null);
 	};
 
-	useEffect(() => setDarkTheme(imageTheme === 'dark'), [imageTheme])
+	useEffect(() => { setDarkTheme(imageTheme === 'dark')}, [imageTheme])
 	useEffect(() => { setShowMenu((isScrolledUp && !isPageBottom) || isPageTop) }, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
@@ -156,13 +156,13 @@ export default function Menu(props) {
 
 		const threshold = main.offsetTop - (logo.clientHeight * 2);
 
-		if (scrollY > threshold && darkTheme)
+		if (scrollY > threshold && darkTheme && imageTheme === 'light')
 			setDarkTheme(false)
-		else if (scrollY < threshold && !darkTheme)
-			setDarkTheme(true)
+		else if (scrollY < threshold )
+			setDarkTheme(imageTheme === 'dark')
 
 		setMenuBackground(scrollY > (main.offsetTop - menu.offsetTop))
-	}, [scrollY, darkTheme]);
+	}, [scrollY, darkTheme, imageTheme]);
 
 	const menu = generateMenu(props, router.asPath).map(m => ({
 		...m,
@@ -216,7 +216,7 @@ export default function Menu(props) {
 		)
 	}))
 
-	const exhibitionseparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
+	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
 	const navbarStyles = cn(styles.navbar, (!showMenu && !showMobileMenu) && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
 	const menuStyles = cn(
 		styles.menuWrapper,
@@ -303,7 +303,7 @@ export default function Menu(props) {
 				</div>
 				<div
 					id="menu-separator"
-					className={cn(styles.separator, exhibitionseparator && styles.show)}
+					className={cn(styles.separator, separatorMargin > 0 && showSeparator && styles.show)}
 					style={{ marginLeft: `${separatorMargin}px` }}
 				></div>
 			</div>
