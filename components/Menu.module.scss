@@ -48,12 +48,15 @@
   }
 
   &.dark {
-    @include mq($until: desktop) {
-      background-color: $black;
-    }
-    a {
+    *{
       color: $white;
     }
+    @include mq($until: desktop) {
+      * {
+        color: $black;
+      }
+    }
+    
   }
 }
 

@@ -1,5 +1,6 @@
 import styles from "./Menu.module.scss";
 import Link from "/components/Link";
+import * as NextLink from "next/link";
 import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
@@ -232,9 +233,7 @@ export default function Menu(props) {
 		<>
 			<div className={navbarStyles}>
 				<Link href={'/'} id="logo" className={styles.logo}>
-					<a>
-						SASKIA NEUMAN GALLERY
-					</a>
+					SASKIA NEUMAN GALLERY
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
