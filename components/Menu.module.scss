@@ -12,6 +12,7 @@
   font-weight: bold;
 
   .logo {
+    
     @include mq($until: desktop) {
       padding-top: 1.2em;
       padding-bottom: 1rem;
@@ -19,6 +20,9 @@
     padding-top: 2rem;
     font-size: 1.1em;
     letter-spacing: 0.02em;
+    div{
+      transition: color .3s;
+    }
   }
 
   .hamburger {

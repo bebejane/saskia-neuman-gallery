@@ -14,12 +14,7 @@ export default function Start({ start, image, color }) {
 
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem)
 
-	const linkType = ({ _modelApiKey: model, startDate, endDate }) => {
-		if (model === 'external_link')
-			return 'news'
-		else
-			return datePeriod(startDate, endDate)
-	}
+	const linkType = ({ _modelApiKey: model, startDate, endDate }) => model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
 
 	useEffect(() => {
 		const originalColor = document.body.style.backgroundColor;
@@ -36,6 +31,7 @@ export default function Start({ start, image, color }) {
 				const byArtists = artists?.length ? ` by ${artists.map(({ name }) => name).join(', ')}` : ''
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 				const theme = image.customData.theme
+				
 				return (
 					<Link key={idx} href={href} scroll={false} image={image}>
 						<a className={styles.card} target={type === 'news' ? '_blank' : '_self'}>

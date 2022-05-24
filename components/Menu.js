@@ -108,9 +108,13 @@ export default function Menu(props) {
 	};
 
 	useEffect(() => { setDarkTheme(imageTheme === 'dark')}, [imageTheme])
-	useEffect(() => { setShowMenu((isScrolledUp && !isPageBottom) || isPageTop) }, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
-	useEffect(() => {
+	useEffect(() => { // Toggle menu bar on scroll
+		setShowMenu((isScrolledUp && !isPageBottom) || isPageTop)
+	}, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
+
+	useEffect(() => { // Set Background image on route start change
 		setIsHoveringMenuItem(false)
+
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
@@ -122,22 +126,14 @@ export default function Menu(props) {
 			if (next)
 				setBackgroundColor(next.color)
 		};
-
-		const handleRouteChangeComplete = (url, { shallow }) => {
-			setTimeout(() => {
-				//setShowMenu(true)
-				//setSubMenu(undefined)
-			}, 600)
-		};
 		router.events.on("routeChangeStart", handleRouteChange);
-		router.events.on("routeChangeComplete", handleRouteChangeComplete);
 		return () => {
 			router.events.off("routeChangeStart", handleRouteChange)
-			router.events.off("routeChangeComplete", handleRouteChangeComplete)
 		};
 	}, []);
 
-	useEffect(() => {
+	useEffect(() => { // Update separator and sub menu margin
+
 		const el = document.getElementById(`menu-${subMenu?.type}`);
 		const menuWrapper = document.getElementById("menu-wrapper");
 		if (!el || !menu) return;
@@ -148,24 +144,28 @@ export default function Menu(props) {
 		
 	}, [subMenu]);
 
-	useEffect(() => {
+	useEffect(() => { // Toggle dark/light logo on scroll after fold
+
 		const logo = document.getElementById('logo')
 		const main = document.getElementById('main')
 		const menu = document.getElementById('menu')
 		
 		if (!main || !logo || !menu) return
 
-		const threshold = main.offsetTop - (logo.clientHeight);
+		const logoStyle = getComputedStyle(logo, null);
+		const logoHeight = parseInt(logoStyle.getPropertyValue("height")) - parseInt(logoStyle.getPropertyValue("padding-top"))	
+		const threshold = main.offsetTop - (logoHeight * 2);
 		
-		if (scrollY > threshold && darkTheme && imageTheme === 'light')
+		if (scrollY > threshold && darkTheme && imageTheme === 'dark')
 			setDarkTheme(false)
-		else if (scrollY < threshold )
+		else if (scrollY < threshold)
 			setDarkTheme(imageTheme === 'dark')
 
 		setMenuBackground(scrollY > (main.offsetTop - menu.offsetTop))
+
 	}, [scrollY, darkTheme, imageTheme]);
 
-	useEffect(()=>{
+	useEffect(() => { // Hide mobile menu after exiting
 		if(showMobileMenu && !isExiting){
 			setSubMenu(undefined)
 			setShowMobileMenu(false)
@@ -244,8 +244,8 @@ export default function Menu(props) {
 	return (
 		<>
 			<div className={navbarStyles}>
-				<Link href={'/'} id="logo" className={styles.logo}>
-					SASKIA NEUMAN GALLERY
+				<Link href={'/'} className={styles.logo}>
+					<div id="logo">SASKIA NEUMAN GALLERY</div>
 				</Link>
 				<div className={styles.hamburger}>
 					<Hamburger
