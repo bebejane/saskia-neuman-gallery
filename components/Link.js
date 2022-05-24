@@ -21,7 +21,6 @@ export function Link({
   const router = useRouter()
   const [hover, setHover] = useState(false)
   const linkRef = useRef() 
-  const setBackgroundImage = useStore(state => state.setBackgroundImage)
   const linkStyle = color && (hover || isSelected) ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
   const handleMouse = (e) => {
@@ -36,7 +35,6 @@ export function Link({
 
   const handleTouchEnd = (e) => {
     if(e.type === 'click') return 
-    //image && setBackgroundImage(image)
     router.push(href)
   }
   
@@ -51,7 +49,6 @@ export function Link({
       <a
         id={id}
         ref={linkRef}
-        //className={className}
         style={{ ...linkStyle, ...style}}
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}

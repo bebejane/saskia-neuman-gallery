@@ -57,7 +57,7 @@ export default function PageTransition({image}){
 
 		if(variant === 'exit' && type === 'complete') {
 			window.scrollTo({ top: 0, behavior:'instant' })
-			setShowMobileMenu(false)
+			//setShowMobileMenu(false)
 		}	
 	}
 

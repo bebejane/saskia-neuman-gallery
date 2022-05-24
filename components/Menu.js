@@ -1,6 +1,5 @@
 import styles from "./Menu.module.scss";
 import Link from "/components/Link";
-import * as NextLink from "next/link";
 import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
@@ -86,6 +85,7 @@ export default function Menu(props) {
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
 	const isTransitioning = useStore((state) => state.isTransitioning);
+	const isExiting = useStore((state) => state.isExiting);
 	const showMenu = useStore((state) => state.showMenu);
 	const setShowMenu = useStore((state) => state.setShowMenu);
 
@@ -125,8 +125,8 @@ export default function Menu(props) {
 
 		const handleRouteChangeComplete = (url, { shallow }) => {
 			setTimeout(() => {
-				setShowMenu(true)
-				setSubMenu(undefined)
+				//setShowMenu(true)
+				//setSubMenu(undefined)
 			}, 600)
 		};
 		router.events.on("routeChangeStart", handleRouteChange);
@@ -164,6 +164,13 @@ export default function Menu(props) {
 
 		setMenuBackground(scrollY > (main.offsetTop - menu.offsetTop))
 	}, [scrollY, darkTheme, imageTheme]);
+
+	useEffect(()=>{
+		if(showMobileMenu && !isExiting){
+			setSubMenu(undefined)
+			setShowMobileMenu(false)
+		}
+	}, [isExiting])
 
 	const menu = generateMenu(props, router.asPath).map(m => ({
 		...m,
@@ -219,13 +226,18 @@ export default function Menu(props) {
 
 	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
 	const navbarStyles = cn(styles.navbar, (!showMenu && !showMobileMenu) && styles.hide, (darkTheme && !(subMenu || showMobileMenu)) && styles.dark);
-	const menuStyles = cn(
+	const menuWrapperStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
 		(subMenu || showMobileMenu) && showMenu && subMenuMargin > 0 && styles.open,
-		((!showMenu && !showMobileMenu) || isTransitioning) && styles.hide,
+		((!showMenu && !showMobileMenu) || (isExiting && !showMobileMenu)) && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
+	const menuStyles = cn(
+		styles.menu,
+		showMobileMenu && styles.show, 
+		menuBackground && !isTransitioning && !isHoveringMenuItem && styles.opaque
+	)
 
 	if (!menu || menu.length === 0) return null
 	
@@ -246,8 +258,8 @@ export default function Menu(props) {
 					/>
 				</div>
 			</div>
-			<div id="menu-wrapper" className={menuStyles}>
-				<div id={'menu'} className={cn(styles.menu, showMobileMenu && styles.show, menuBackground && !isTransitioning && !isHoveringMenuItem && styles.opaque)} onMouseLeave={() => setSubMenu()}>
+			<div id="menu-wrapper" className={menuWrapperStyles}>
+				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
 							<li id={`menu-${m.type}`} key={`menu-${idx}`} onMouseOver={() => setSubMenu(m)}>
