@@ -95,6 +95,7 @@ export default function Menu(props) {
 	const imageTheme = image?.customData.theme || 'light'
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [subMenu, setSubMenu] = useState();
+	const [subMenuMobile, setSubMenuMobile] = useState();
 	const [menuBackground, setMenuBackground] = useState(false);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
@@ -229,7 +230,7 @@ export default function Menu(props) {
 	const menuWrapperStyles = cn(
 		styles.menuWrapper,
 		darkTheme && !(subMenu || showMobileMenu) ? styles.dark : styles.light,
-		(subMenu || showMobileMenu) && showMenu && subMenuMargin > 0 && styles.open,
+		((showMobileMenu) || (subMenu && showMenu && subMenuMargin > 0)) && styles.open,
 		((!showMenu && !showMobileMenu) || (isExiting && !showMobileMenu)) && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
@@ -264,7 +265,7 @@ export default function Menu(props) {
 						{menu.slice(1).map((m, idx) => (
 							<li id={`menu-${m.type}`} key={`menu-${idx}`} onMouseOver={() => setSubMenu(m)}>
 								{m.sub ?
-									<span onTouchEnd={() => setSubMenu(subMenu && subMenu.label === m.label ? undefined : m)}>{m.label}</span>
+									<span onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}>{m.label}</span>
 								:
 									<Link
 										href={m.path}
@@ -276,8 +277,8 @@ export default function Menu(props) {
 										{m.label}
 									</Link>
 								}
-								{showMobileMenu && m.type === subMenu?.type && (
-									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenu?.type === m.type && styles.open)}>
+								{showMobileMenu && m.type === subMenuMobile?.type && (
+									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
 										{m.sub}
 										{m.more &&
 											<li className={styles.more} >
