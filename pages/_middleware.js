@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(req) {
+
+  if(process.env.NODE_ENV === 'development') return NextResponse.next()
+
   const basicAuth = req.headers.get('authorization')
 
   if (basicAuth) {
     const auth = basicAuth.split(' ')[1]
     const [user, pwd] = Buffer.from(auth, 'base64').toString().split(':')
-
-    if (process.env.NODE_ENV === 'development' || (user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD)) {
+    console.log(process.env.NODE_ENV === 'development')
+    if (user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD) {
       return NextResponse.next()
     }
   }

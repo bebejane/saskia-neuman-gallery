@@ -3,6 +3,7 @@ import useStore from "/store";
 import cn from "classnames"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import usePreviousRoute from '/lib/hooks/usePreviousRoute';
 
 const duration = 0.6;
 const pageTransition = {
@@ -13,7 +14,7 @@ const pageTransition = {
 	enter: {
 		height: ['100vh', '0vh'],
 		top:['0%', '100%'],
-		transition:{ duration, ease:'easeOut', delay:0.1 },
+		transition:{ duration, ease:'easeInOut', delay:0.1 },
 		transitionEnd:{
 			top:'0%',
 			height:'0vh'
@@ -26,12 +27,17 @@ const pageTransition = {
 			top:'0%',
 			height:'100vh'
 		},
-		transition:{ duration, ease  : 'easeIn'}
+		transition:{ duration, ease:'easeOut'}
+	},
+	homeIntro:{
+		height: ['0vh', '100vh', '100vh', '0vh'],
+		top:['0%', '0%', '100%', '100%'],
+		transition:{ duration: duration*3, ease:['easeIn', 'easeIn', 'easeOut'], delay:1},
 	},
 	home:{
-		height: ['0vh', '100vh', '0vh'],
-		top:['0%', '0%', '100%'],
-		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'], delay:1},
+		height: ['0vh', '100vh', '100vh', '0vh'],
+		top:['0%', '0%', '100%', '100%'],
+		transition:{ duration: duration*3, ease:['easeIn', 'easeIn', 'easeOut']},
 	}
 }
 
@@ -41,31 +47,30 @@ export default function PageTransition({image}){
 	const setIsTransitioning = useStore((state) => state.setIsTransitioning);
 	const setIsExiting = useStore((state) => state.setIsExiting);
 	const isTransitioning = useStore((state) => state.isTransitioning);
-	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
-  
+	
 	const router = useRouter()
+	const prevRoute = usePreviousRoute()
+
 	const isHome = router.asPath === '/';
 	const hideLogo = (isHome && !isTransitioning) || !isHome
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
 	const handleAnimationEvent = (type, variant) => {
-		const isComplete = ['home', 'enter'].includes(variant) && type === 'complete'
+		const isComplete = ['home', 'homeIntro', 'enter'].includes(variant) && type === 'complete'
 		const isExiting = variant === 'exit' && type === 'start'
 
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
 
-		if(variant === 'exit' && type === 'complete') {
+		if(variant === 'exit' && type === 'complete')
 			window.scrollTo({ top: 0, behavior:'instant' })
-			//setShowMobileMenu(false)
-		}	
 	}
-
+	
 	return (
     <motion.div
 			className={styles.pageTransition} 
 			initial="initial" 
-      animate={isHome ? "home" : "enter"}
+      animate={isHome ? !prevRoute ? "homeIntro" : "home" : "enter"}
       exit={!isHome ? "exit" : undefined}
       variants={pageTransition} 
       onAnimationComplete={ (variant) => handleAnimationEvent('complete', variant)}
@@ -77,7 +82,7 @@ export default function PageTransition({image}){
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
       </div>
-			{isHome && <div className={styles.white}></div>}
+			{isHome && !prevRoute && <div className={styles.white}></div>}
     </motion.div>
 	)
 }

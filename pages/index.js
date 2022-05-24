@@ -11,7 +11,7 @@ import Link from 'next/link';
 export default function Start({ start, image, color }) {
 
 	const { links } = start;
-
+	
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem)
 
 	const linkType = ({ _modelApiKey: model, startDate, endDate }) => model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
@@ -23,7 +23,7 @@ export default function Start({ start, image, color }) {
 	}, [])
 	
 	if (!links || !links.length) return null
-
+	
 	return (
 		<div className={styles.container}>
 			{links.map(({ title, artists, image, url, slug, startDate, endDate, _modelApiKey: model }, idx) => {
