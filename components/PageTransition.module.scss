@@ -39,6 +39,11 @@
       background-position: center !important;
       pointer-events: none;
       font-weight: bolder;
+      
+      &.show {
+        display: flex !important;
+      }
+
       @include mq($until: tablet) {
         -webkit-text-fill-color: $black;
       }
@@ -60,9 +65,7 @@
           color: $black;
         }
       }
-      &.show {
-        display: flex;
-      }
+      
     }
   }
   .white {

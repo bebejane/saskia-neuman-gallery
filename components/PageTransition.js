@@ -86,7 +86,7 @@ export default function PageTransition({image}){
 			className={styles.pageTransition} 
 			initial="initial" 
       animate={isHome ? !prevRoute ? "homeIntro" : "home" : "enter"}
-      exit={!isHome ? "exit" : "exitInstant"}
+      exit={isHome ? "exitInstant" : "exit" }
       variants={pageTransition} 
       onAnimationComplete={ (variant) => handleAnimationEvent('complete', variant)}
       onAnimationStart={(variant) => handleAnimationEvent('start', variant)}
