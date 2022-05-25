@@ -80,7 +80,7 @@ export default function PageTransition({image}){
 		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo)
 			setShowLogo(false)
 	}
-	console.log(showLogo)
+	
 	return (
     <motion.div
 			className={styles.pageTransition} 
@@ -94,12 +94,10 @@ export default function PageTransition({image}){
     >	
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
-					className={cn(styles.logo)}
-					//style={{background:`url(${image?.url}?w=1400)`}}
+					className={cn(styles.logo, showLogo && styles.showLogo)}
+					style={{background:`url("${image?.url}?w=1400")`}}
 				>
-          <h1 style={{opacity: showLogo ? 1 : 0}}>
-						SASKIA NEUMAN GALLERY
-					</h1>
+          <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
       </div>
 			{isHome && <div className={styles.white}></div>}

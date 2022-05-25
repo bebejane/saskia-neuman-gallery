@@ -19,7 +19,7 @@
     overflow: hidden;
     background-color: #000;
     .logo {
-      display: flex;
+      display: none;
       position: fixed;
       width: 100vw;
       height: 100vh;
@@ -34,8 +34,8 @@
       object-fit: cover;
       background-size: cover !important;
       background-repeat: no-repeat !important;
-      //-webkit-background-clip: text !important;
-      //-webkit-text-fill-color: transparent;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent;
       background-position: center !important;
       pointer-events: none;
       font-weight: bolder;

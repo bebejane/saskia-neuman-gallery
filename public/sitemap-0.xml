@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://localhost:3000</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/about</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/artists/ferdinand-evaldsson</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/artists/jakob-solgren</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/artists/susanna-jablonski</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/artists/tobias-bradford</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/artists/tora-schultz-larsen</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/exhibitions/long-time-listener-first-time-caller</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/exhibitions/stage-fright</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/exhibitions/the-next-plague</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/happenings/welcome-home-party</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+<url><loc>https://localhost:3000/happenings/test-event</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2022-05-25T10:07:35.907Z</lastmod></url>
+</urlset>
