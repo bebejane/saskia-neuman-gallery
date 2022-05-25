@@ -8,7 +8,6 @@ import Menu from "/components/Menu";
 import Background from "/components/Background";
 import Footer from "/components/Footer";
 import { AnimatePresence } from "framer-motion";
-import useStore from "/store";
 
 function SaskiaNeumanGallery({
 	Component,
@@ -33,8 +32,6 @@ function SaskiaNeumanGallery({
 
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
-	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
-	const setIsTransitioning = useStore((state) => state.setIsTransitioning);
 	const { asPath: pathname } = router;
 	const isHome = pathname === '/'
 	const title = isHome ? '' : exhibition?.title || happening?.title || artist?.name || (about ? "About" : null);
@@ -50,14 +47,11 @@ function SaskiaNeumanGallery({
 				pathname={pathname}
 				key={pathname}
 			/>
+			
 			<Menu {...{start, artists, happenings, exhibitions, about, color, image }} key={`menu`}/>
-			<AnimatePresence
-				exitBeforeEnter
-				initial={true}
-				
-			>
+			<AnimatePresence exitBeforeEnter initial={true}>
 				<div id="app" key={router.asPath}>
-					<PageTransition image={image} key={`${pathname}${Math.random()}`}/>
+					<PageTransition image={image} key={pathname}/>
 					<Background
 						image={image}
 						color={color}
