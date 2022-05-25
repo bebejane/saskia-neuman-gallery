@@ -19,7 +19,7 @@
     overflow: hidden;
     background-color: #000;
     .logo {
-      display: flex;
+      display: none;
       position: fixed;
       width: 100vw;
       height: 100vh;
@@ -60,8 +60,8 @@
           color: $black;
         }
       }
-      &.hide {
-        display: none !important;
+      &.show {
+        display: flex;
       }
     }
   }
