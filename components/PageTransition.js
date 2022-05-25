@@ -56,15 +56,17 @@ export default function PageTransition({image}){
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
 	const handleAnimationEvent = (type, variant) => {
-		
+
+		if(variant === 'exit' && type === 'complete')
+			window.scrollTo({ top: 0, behavior:'instant' }) // Scroll top efter exit animation
+
 		const isComplete = ['home', 'homeIntro', 'enter'].includes(variant) && type === 'complete'
 		const isExiting = variant === 'exit' && type === 'start'
 
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
 		
-		if(!isExiting)
-			window.scrollTo({ top: 0, behavior:'instant' })
+		
 	}
 	
 	return (

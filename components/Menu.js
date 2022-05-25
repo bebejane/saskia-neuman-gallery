@@ -4,7 +4,7 @@ import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useWindowScrollPosition, useDebounce } from "rooks";
+import { useWindowScrollPosition } from "rooks";
 import useScrollInfo from "/lib/hooks/useScrollInfo";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
