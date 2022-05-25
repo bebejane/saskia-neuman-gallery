@@ -40,8 +40,6 @@
       pointer-events: none;
       font-weight: bolder;
 
-      
-
       @include mq($until: tablet) {
         -webkit-text-fill-color: $black;
       }
@@ -63,7 +61,6 @@
           color: $black;
         }
       }
-      
     }
   }
   .white {
