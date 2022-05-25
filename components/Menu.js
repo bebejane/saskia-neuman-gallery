@@ -151,7 +151,8 @@ export default function Menu(props) {
 		const main = document.getElementById('main')
 		const menu = document.getElementById('menu')
 		
-		if (!main || !logo || !menu) return
+		if (!main || !logo || !menu) 
+			return setMenuBackground(false)
 
 		const logoStyle = getComputedStyle(logo, null);
 		const logoHeight = parseInt(logoStyle.getPropertyValue("height")) - parseInt(logoStyle.getPropertyValue("padding-top"))	

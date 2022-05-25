@@ -1,9 +1,10 @@
 import styles from './PageTransition.module.scss'
 import useStore from "/store";
 import cn from "classnames"
-import { motion } from 'framer-motion';
+import { motion, useAnimationFrame } from 'framer-motion';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '/lib/hooks/usePreviousRoute';
+import { useState } from 'react';
 
 const duration = 0.6;
 const pageTransition = {
@@ -29,15 +30,22 @@ const pageTransition = {
 		},
 		transition:{ duration, ease:'easeOut'}
 	},
+	exitInstant: {
+		transition:{ duration:0 },
+		transitionEnd :{
+			top:'0%',
+			height:'100vh'
+		}
+	},
 	homeIntro:{
-		height: ['0vh', '100vh', '100vh', '0vh'],
-		top:['0%', '0%', '100%', '100%'],
-		transition:{ duration: duration*3, ease:['easeIn', 'easeIn', 'easeOut'], delay:1},
+		height: ['0vh', '100vh', '0vh'],
+		top:['0%', '0%', '100%', ],
+		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'], delay:1},
 	},
 	home:{
-		height: ['0vh', '100vh', '100vh', '0vh'],
-		top:['0%', '0%', '100%', '100%'],
-		transition:{ duration: duration*3, ease:['easeIn', 'easeIn', 'easeOut']},
+		height: ['0vh', '100vh', '0vh'],
+		top:['0%', '0%', '100%'],
+		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'], delay:0},
 	}
 }
 
@@ -52,40 +60,44 @@ export default function PageTransition({image}){
 	const prevRoute = usePreviousRoute()
 
 	const isHome = router.asPath === '/';
-	const hideLogo = (isHome && !isTransitioning) || !isHome
+	const [hideLogo, setHideLogo] = useState(!isHome)
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
 	const handleAnimationEvent = (type, variant) => {
+		
+		console.log(type, variant)
 
-		if(variant === 'exit' && type === 'complete')
+		if(variant.startsWith('exit') && type === 'complete')
 			window.scrollTo({ top: 0, behavior:'instant' }) // Scroll top efter exit animation
 
 		const isComplete = ['home', 'homeIntro', 'enter'].includes(variant) && type === 'complete'
-		const isExiting = variant === 'exit' && type === 'start'
+		const isExiting = variant.startsWith('exit') && type === 'start'
 
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
 		
-		
 	}
-	
+	const handleAnimationUpdate = ({height, top}) => {
+		if(parseInt(top) > 0 && parseInt(height) < 50 && !hideLogo) 
+			setHideLogo(true)
+	}
 	return (
     <motion.div
 			className={styles.pageTransition} 
 			initial="initial" 
       animate={isHome ? !prevRoute ? "homeIntro" : "home" : "enter"}
-      exit={!isHome ? "exit" : undefined}
+      exit={!isHome ? "exit" : "exitInstant"}
       variants={pageTransition} 
       onAnimationComplete={ (variant) => handleAnimationEvent('complete', variant)}
       onAnimationStart={(variant) => handleAnimationEvent('start', variant)}
-    >
-			
+			onUpdate={handleAnimationUpdate}
+    >	
       <div className={styles.color} style={{backgroundColor: color}}>
         <div className={cn(styles.logo, hideLogo && styles.hide)}  style={{background:`url(${image?.url}?w=1400)`}}>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
       </div>
-			{isHome && !prevRoute && <div className={styles.white}></div>}
+			{isHome && <div className={styles.white}></div>}
     </motion.div>
 	)
 }
