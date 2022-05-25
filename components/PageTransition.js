@@ -95,12 +95,11 @@ export default function PageTransition({image}){
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
 					className={cn(styles.logo)}
-					style={{
-						background:`url(${image?.url}?w=1400)`, 
-						display: showLogo ? 'flex' : 'none'
-					}}
+					style={{background:`url(${image?.url}?w=1400)`}}
 				>
-          <h1>SASKIA NEUMAN GALLERY</h1>
+          <h1 style={{opacity: showLogo ? 1 : 0}}>
+						SASKIA NEUMAN GALLERY
+					</h1>
         </div>
       </div>
 			{isHome && <div className={styles.white}></div>}
