@@ -1,7 +1,7 @@
 import styles from './PageTransition.module.scss'
 import useStore from "/store";
 import cn from "classnames"
-import { motion, useAnimationFrame } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '/lib/hooks/usePreviousRoute';
 import { useState } from 'react';
@@ -40,12 +40,12 @@ const pageTransition = {
 	homeIntro:{
 		height: ['0vh', '100vh', '0vh'],
 		top:['0%', '0%', '100%', ],
-		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'], delay:1},
+		transition:{ duration: duration*2, ease:'easeInOut', delay:1},
 	},
 	home:{
 		height: ['0vh', '100vh', '0vh'],
 		top:['0%', '0%', '100%'],
-		transition:{ duration: duration*2, ease:['easeIn', 'easeOut'], delay:0},
+		transition:{ duration: duration*2, ease:'easeInOut', delay:0},
 	}
 }
 
@@ -80,7 +80,7 @@ export default function PageTransition({image}){
 		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo) 
 			setShowLogo(false)
 	}
-	console.log(styles)
+	
 	return (
     <motion.div
 			className={styles.pageTransition} 

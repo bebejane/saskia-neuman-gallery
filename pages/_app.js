@@ -57,7 +57,7 @@ function SaskiaNeumanGallery({
 				
 			>
 				<div id="app" key={router.asPath}>
-					<PageTransition image={image}/>
+					<PageTransition image={image} key={pathname}/>
 					<Background
 						image={image}
 						color={color}

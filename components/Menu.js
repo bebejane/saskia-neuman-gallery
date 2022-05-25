@@ -279,7 +279,7 @@ export default function Menu(props) {
 									</Link>
 								}
 								{showMobileMenu && m.type === subMenuMobile?.type && (
-									<ul key={idx} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
+									<ul key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
 										{m.sub}
 										{m.more &&
 											<li className={styles.more} >
@@ -298,7 +298,7 @@ export default function Menu(props) {
 						{menu.slice(1).map(
 							({ type, sub, more }, idx) => (sub && !showMobileMenu) &&
 								<ul
-									key={idx}
+									key={`submenu-${idx}`}
 									id={`sub-${type}`}
 									className={cn(subMenu?.type === type && styles.open)}
 									style={{ marginLeft: `${subMenuMargin}px` }}
