@@ -65,8 +65,6 @@ export default function PageTransition({image}){
 	
 	const handleAnimationEvent = (type, variant) => {
 		
-		console.log(type, variant)
-
 		if(variant.startsWith('exit') && type === 'complete')
 			window.scrollTo({ top: 0, behavior:'instant' }) // Scroll top efter exit animation
 
@@ -75,12 +73,14 @@ export default function PageTransition({image}){
 
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
-		
+		//console.log(type, variant)		
 	}
+
 	const handleAnimationUpdate = ({height, top}) => {
-		if(parseInt(top) > 0 && parseInt(height) < 50 && !hideLogo) 
+		if(parseInt(top) > 0 && parseInt(height) <= 50 && !hideLogo) 
 			setHideLogo(true)
 	}
+	
 	return (
     <motion.div
 			className={styles.pageTransition} 
