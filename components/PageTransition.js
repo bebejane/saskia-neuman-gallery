@@ -80,7 +80,7 @@ export default function PageTransition({image}){
 		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo) 
 			setShowLogo(false)
 	}
-	
+	console.log(styles)
 	return (
     <motion.div
 			className={styles.pageTransition} 
