@@ -2,7 +2,7 @@ import styles from "./Menu.module.scss";
 import Link from "/components/Link";
 import cn from "classnames";
 import useStore from "/store";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import { useWindowScrollPosition } from "rooks";
 import useScrollInfo from "/lib/hooks/useScrollInfo";
@@ -303,7 +303,7 @@ export default function Menu(props) {
 									className={cn(subMenu?.type === type && styles.open)}
 									style={{ marginLeft: `${subMenuMargin}px` }}
 								>
-									{sub}
+									{sub.map((s, idx) => <Fragment key={`sub-desktop-${idx}`}>{s}</Fragment>)}
 									{more &&
 										<li className={styles.more} >
 											<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>

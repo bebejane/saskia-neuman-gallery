@@ -47,10 +47,9 @@ function SaskiaNeumanGallery({
 				pathname={pathname}
 				key={pathname}
 			/>
-			
 			<Menu {...{start, artists, happenings, exhibitions, about, color, image }} key={`menu`}/>
 			<AnimatePresence exitBeforeEnter initial={true}>
-				<div id="app" key={router.asPath}>
+				<div id="app" key={pathname}>
 					<PageTransition image={image} key={pathname}/>
 					<Background
 						image={image}
