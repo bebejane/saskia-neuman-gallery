@@ -54,7 +54,6 @@ export default function PageTransition({image}){
 	const backgroundColor = useStore((state) => state.backgroundColor);
 	const setIsTransitioning = useStore((state) => state.setIsTransitioning);
 	const setIsExiting = useStore((state) => state.setIsExiting);
-	const isTransitioning = useStore((state) => state.isTransitioning);
 	
 	const router = useRouter()
 	const prevRoute = usePreviousRoute()
@@ -77,7 +76,7 @@ export default function PageTransition({image}){
 	}
 
 	const handleAnimationUpdate = ({height, top}) => {
-		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo)
+		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo) // Hide logo mid transition
 			setShowLogo(false)
 	}
 	

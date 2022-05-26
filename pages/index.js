@@ -5,14 +5,15 @@ import { imageColor, datePeriod } from '/utils';
 import { GetStart } from '/graphql';
 import { Image } from "react-datocms"
 import cn from "classnames"
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useEffect} from 'react';
+import Link from '/components/Link';
 
 export default function Start({ start, image, color }) {
 
 	const { links } = start;
 	
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem)
+	const setBackgroundColor = useStore((state) => state.setBackgroundColor)
 
 	const linkType = ({ _modelApiKey: model, startDate, endDate }) => model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
 
@@ -22,19 +23,27 @@ export default function Start({ start, image, color }) {
 		return () => document.body.style.backgroundColor = originalColor;
 	}, [])
 	
+	const handleMouseOver = (item, hovering) => setBackgroundColor(hovering ? imageColor(item.image) : null);
+
 	if (!links || !links.length) return null
 	
 	return (
 		<div className={styles.container}>
 			{links.map(({ title, artists, image, url, slug, startDate, endDate, _modelApiKey: model }, idx) => {
+				
 				const type = model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
 				const byArtists = artists?.length ? ` by ${artists.map(({ name }) => name).join(', ')}` : ''
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 				const theme = image.customData.theme
 				
 				return (
-					<Link key={idx} href={href} scroll={false} image={image}>
-						<a className={styles.card} target={type === 'news' ? '_blank' : '_self'}>
+					<Link key={idx} href={href} image={image} color={imageColor(image)}>
+						<a 
+							className={styles.card} target={type === 'news' ? '_blank' : '_self'}
+							onMouseEnter={()=>handleMouseOver(links[idx], true)}
+							onMouseLeave={()=>handleMouseOver(links[idx], false)}
+							onClick={()=>handleMouseOver(links[idx], true)}
+						>
 							{idx > 0 && image &&
 								<Image
 									className={styles.linkImage}

@@ -12,6 +12,7 @@ export function Link({
   children,
   scroll,
   className,
+  target,
   style = {},
   isSelected,
   onMouseEnter,
@@ -50,6 +51,7 @@ export function Link({
         id={id}
         ref={linkRef}
         style={{ ...linkStyle, ...style}}
+        target={target}
         onMouseEnter={handleMouse}
         onMouseLeave={handleMouse}
         suppressHydrationWarning={true}
