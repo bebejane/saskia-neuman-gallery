@@ -21,6 +21,7 @@ export function Link({
 
   const router = useRouter()
   const [hover, setHover] = useState(false)
+  const setBackgroundColor = useStore((state) => state.setBackgroundColor)
   const linkRef = useRef() 
   const linkStyle = color && (hover || isSelected) ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
 
@@ -36,6 +37,7 @@ export function Link({
 
   const handleTouchEnd = (e) => {
     if(e.type === 'click') return 
+    setBackgroundColor(color)
     router.push(href)
   }
   
@@ -44,6 +46,8 @@ export function Link({
     const img = new Image();
     img.src = `${image.url}?fmt=jpg&w=1400`; // Preload image
   }, [])
+
+  useEffect(()=>{ hover && setBackgroundColor(color)}, [hover, color])
 
   return (
     <NextLink href={href} scroll={scroll !== undefined ? scroll : false} >

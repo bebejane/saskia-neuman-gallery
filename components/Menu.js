@@ -264,20 +264,14 @@ export default function Menu(props) {
 				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
-							<li id={`menu-${m.type}`} key={`menu-${idx}`} onMouseOver={() => setSubMenu(m)}>
-								{m.sub ?
-									<span onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}>{m.label}</span>
-								:
-									<Link
-										href={m.path}
-										isSelected={m.isSelected}
-										image={m.image}
-										onMouseEnter={() => handleMouseOver(m, true)}
-										onMouseLeave={() => handleMouseOver(m, false)}
-									>
-										{m.label}
-									</Link>
-								}
+							<li 
+								id={`menu-${m.type}`} 
+								key={`menu-${idx}`} 
+								onClick={() => setSubMenu(subMenu?.type === m.type ? undefined : m)}
+							>
+								<span onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}>
+									{m.label}
+								</span>
 								{showMobileMenu && m.type === subMenuMobile?.type && (
 									<ul key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
 										{m.sub}
