@@ -94,6 +94,7 @@ export default function Menu(props) {
 
 	const imageTheme = image?.customData.theme || 'light'
 	const [darkTheme, setDarkTheme] = useState(false);
+	const [hoverSubMenu, setHoverSubMenu] = useState();
 	const [subMenu, setSubMenu] = useState();
 	const [subMenuMobile, setSubMenuMobile] = useState();
 	const [menuBackground, setMenuBackground] = useState(false);
@@ -268,9 +269,11 @@ export default function Menu(props) {
 								id={`menu-${m.type}`} 
 								key={`menu-${idx}`} 
 								onClick={() => setSubMenu(subMenu?.type === m.type ? undefined : m)}
+								onMouseEnter={() => setHoverSubMenu(m)}
+								onMouseLeave={() => setHoverSubMenu(undefined)}
 							>
 								<span onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}>
-									{m.label}
+									{m.label} <span className={cn(styles.arrow, subMenu?.type === m.type && styles.open, hoverSubMenu?.type !== m.type && styles.hide)}>›</span>
 								</span>
 								{showMobileMenu && m.type === subMenuMobile?.type && (
 									<ul key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>

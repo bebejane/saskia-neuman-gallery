@@ -205,6 +205,19 @@
         &:last-child {
           margin-right: 0;
         }
+        span{
+          .arrow{
+            display: inline-block;
+            transition: transform .3s ease;
+            transform: rotate(0deg);
+            &.open{ 
+              transform: rotate(90deg);
+            }
+            &.hide{
+              visibility: hidden;
+            }
+          }
+        }
         ul {
           margin-left: $small-space/2;
           border-top: 0px solid !important;
