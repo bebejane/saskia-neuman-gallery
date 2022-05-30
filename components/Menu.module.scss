@@ -207,10 +207,10 @@
         span{
           .arrow{
             display: inline-block;
-            transition: transform .3s ease;
-            transform: rotate(0deg);
+            transition: transform .2s ease;
+            transform: rotate(90deg);
             &.open{ 
-              transform: rotate(90deg);
+              transform: rotate(-90deg);
             }
             &.hide{
               visibility: hidden;
