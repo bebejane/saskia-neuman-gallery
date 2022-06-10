@@ -4,6 +4,7 @@ import cn from "classnames"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '/lib/hooks/usePreviousRoute';
+import { sleep } from '/utils';
 import { useState } from 'react';
 
 const duration = 0.6;
@@ -21,6 +22,11 @@ const pageTransition = {
 			height:'0vh'
 		}
 	},
+	enterInstant: {
+		transition:{ duration:0 },
+		top:'0%',
+		height:'0vh'
+	},
 	exit: {
 		height: ['0vh', '100vh'],
 		top:['0%', '0%'],
@@ -28,7 +34,7 @@ const pageTransition = {
 			top:'0%',
 			height:'100vh'
 		},
-		transition:{ duration, ease:'easeOut'}
+		transition:{ duration, ease:'easeOut' }
 	},
 	exitInstant: {
 		transition:{ duration:0 },
@@ -62,30 +68,34 @@ export default function PageTransition({image}){
 	const [showLogo, setShowLogo] = useState(isHome)
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
-	const handleAnimationEvent = (type, variant) => {
+	const handleAnimationEvent = async (type, variant) => {
 		
-		if(variant.startsWith('exit') && type === 'complete')
-			window.scrollTo({ top: 0, behavior:'instant' }) // Scroll top efter exit animation
-
 		const isComplete = ['home', 'homeIntro', 'enter'].includes(variant) && type === 'complete'
 		const isExiting = variant.startsWith('exit') && type === 'start'
-
+		const didExit = variant.startsWith('exit') && type === 'complete'
+		
+		if(didExit) 
+			window.scrollTo({ top: 0, behavior:'instant' }) // Scroll top efter exit animation	
+		
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
-
+		
 	}
 
 	const handleAnimationUpdate = ({height, top}) => {
-		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo) // Hide logo mid transition
+		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo) // Hide logo mid transition 
 			setShowLogo(false)
 	}
+	
+	const enterAnimation = isHome ? !prevRoute ? "homeIntro" : "home" : prevRoute ? "enter" : "enterInstant"
+	const exitAnimation = isHome ? "exitInstant" : "exit" 
 	
 	return (
     <motion.div
 			className={styles.pageTransition} 
 			initial="initial" 
-      animate={isHome ? !prevRoute ? "homeIntro" : "home" : "enter"}
-      exit={isHome ? "exitInstant" : "exit" }
+      animate={enterAnimation}
+      exit={exitAnimation}
       variants={pageTransition} 
       onAnimationComplete={ (variant) => handleAnimationEvent('complete', variant)}
       onAnimationStart={(variant) => handleAnimationEvent('start', variant)}

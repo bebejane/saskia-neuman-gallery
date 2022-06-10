@@ -74,10 +74,15 @@ const datePeriod = (startDate, endDate) => {
   return undefined
 }
 
+const sleep = async (ms = 0) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 export {
   imageColor,
   imageBrightness,
   splitArray,
   rgbToHex,
-  datePeriod
+  datePeriod,
+  sleep
 }

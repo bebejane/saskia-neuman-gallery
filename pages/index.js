@@ -40,9 +40,9 @@ export default function Start({ start, image, color }) {
 					<Link key={idx} href={href} image={image} color={imageColor(image)}>
 						<a 
 							className={styles.card} target={type === 'news' ? '_blank' : '_self'}
-							onMouseEnter={()=>handleMouseOver(links[idx], true)}
-							onMouseLeave={()=>handleMouseOver(links[idx], false)}
-							onClick={()=>handleMouseOver(links[idx], true)}
+							//onMouseEnter={()=>handleMouseOver(links[idx], true)}
+							//onMouseLeave={()=>handleMouseOver(links[idx], false)}
+							//onClick={()=>handleMouseOver(links[idx], true)}
 						>
 							{idx > 0 && image &&
 								<Image
