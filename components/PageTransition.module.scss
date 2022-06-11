@@ -40,6 +40,9 @@
       pointer-events: none;
       font-weight: bolder;
 
+      &.show{
+        display: flex !important;
+      }
       @include mq($until: tablet) {
         -webkit-text-fill-color: $black;
       }
@@ -71,8 +74,4 @@
     background-color: #fff;
     z-index: 300;
   }
-}
-
-.showLogo{
-  display: flex !important;
 }
