@@ -41,7 +41,7 @@
       font-weight: bolder;
 
       &.show{
-        display: flex !important;
+        display: flex;
       }
       @include mq($until: tablet) {
         -webkit-text-fill-color: $black;

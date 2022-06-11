@@ -4,7 +4,6 @@ import cn from "classnames"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '/lib/hooks/usePreviousRoute';
-import { sleep } from '/utils';
 import { useState } from 'react';
 
 const duration = 0.6;
@@ -106,7 +105,7 @@ export default function PageTransition({image}){
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
 					className={cn(styles.logo, showLogo && styles.show)}
-					style={{background:`url(${image?.url}?w=1400)`}}
+					style={{background:`url(${image?.url}?w=1400)`, display:showLogo ? 'flex' : 'none'}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
