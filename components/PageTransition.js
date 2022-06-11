@@ -93,7 +93,7 @@ export default function PageTransition({image}){
 	console.log(showLogo)
 	return (
     <motion.div
-			className={styles.pageTransition} 
+			className={cn(styles.pageTransition, showLogo && styles.showLogo)} 
 			initial="initial" 
       animate={enterAnimation}
       exit={exitAnimation}
@@ -104,8 +104,9 @@ export default function PageTransition({image}){
     >	
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
-					className={cn(styles.logo, showLogo && styles.show)}
-					style={{background:`url(${image?.url}?w=1400)`, display:showLogo ? 'flex' : 'none'}}
+					key={Math.random()}
+					className={cn(styles.logo)}
+					style={{background:`url(${image?.url}?w=1400)`}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>

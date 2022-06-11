@@ -9,6 +9,13 @@
   left: 0;
   overflow: hidden;
   z-index: 10000;
+  &.showLogo{
+    .color{
+      .logo{
+        display: flex !important;
+      }
+    }
+  }
   .color {
     position: relative;
     width: 100vw;
