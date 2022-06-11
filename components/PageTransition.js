@@ -4,6 +4,7 @@ import cn from "classnames"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '/lib/hooks/usePreviousRoute';
+import { sleep } from '/utils';
 import { useState } from 'react';
 
 const duration = 0.6;
@@ -78,17 +79,17 @@ export default function PageTransition({image}){
 		
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
+		
 	}
 
 	const handleAnimationUpdate = ({height, top}) => {
-		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo){ // Hide logo mid transition 
+		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo) // Hide logo mid transition 
 			setShowLogo(false)
-		}
 	}
 	
 	const enterAnimation = isHome ? !prevRoute ? "homeIntro" : "home" : prevRoute ? "enter" : "enterInstant"
 	const exitAnimation = isHome ? "exitInstant" : "exit" 
-	console.log(styles, styles.show)
+	
 	return (
     <motion.div
 			className={styles.pageTransition} 
@@ -102,7 +103,7 @@ export default function PageTransition({image}){
     >	
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
-					className={cn(styles.logo, showLogo && styles.show)}
+					className={cn(styles.logo, showLogo && styles.showLogo)}
 					style={{background:`url(${image?.url}?w=1400)`}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>
