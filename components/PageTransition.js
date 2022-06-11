@@ -83,13 +83,15 @@ export default function PageTransition({image}){
 	}
 
 	const handleAnimationUpdate = ({height, top}) => {
-		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo) // Hide logo mid transition 
+		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo){ // Hide logo mid transition 
+			console.log('animation halfway')
 			setShowLogo(false)
+		}
 	}
 	
 	const enterAnimation = isHome ? !prevRoute ? "homeIntro" : "home" : prevRoute ? "enter" : "enterInstant"
 	const exitAnimation = isHome ? "exitInstant" : "exit" 
-	
+	console.log(showLogo)
 	return (
     <motion.div
 			className={styles.pageTransition} 
@@ -103,7 +105,7 @@ export default function PageTransition({image}){
     >	
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
-					className={cn(styles.logo, styles.show)}
+					className={cn(styles.logo, showLogo && styles.show)}
 					style={{background:`url(${image?.url}?w=1400)`}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>
