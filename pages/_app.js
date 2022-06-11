@@ -50,7 +50,7 @@ function SaskiaNeumanGallery({
 			<Menu {...{start, artists, happenings, exhibitions, about, color, image }} key={`menu`}/>
 			<AnimatePresence exitBeforeEnter initial={true}>
 				<div id="app" key={pathname}>
-					<PageTransition image={image} key={pathname}/>
+					<PageTransition image={image}/>
 					<Background
 						image={image}
 						color={color}

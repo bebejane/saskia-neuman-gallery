@@ -78,19 +78,17 @@ export default function PageTransition({image}){
 		
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
-		
 	}
 
 	const handleAnimationUpdate = ({height, top}) => {
 		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo){ // Hide logo mid transition 
-			console.log('animation halfway')
 			setShowLogo(false)
 		}
 	}
 	
 	const enterAnimation = isHome ? !prevRoute ? "homeIntro" : "home" : prevRoute ? "enter" : "enterInstant"
 	const exitAnimation = isHome ? "exitInstant" : "exit" 
-	console.log(showLogo)
+	console.log(styles, styles.show)
 	return (
     <motion.div
 			className={styles.pageTransition} 
