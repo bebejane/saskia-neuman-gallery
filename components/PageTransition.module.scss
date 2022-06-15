@@ -34,6 +34,7 @@
       object-fit: cover;
       background-size: cover !important;
       background-repeat: no-repeat !important;
+			background-clip: text !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent;
       background-position: center !important;
