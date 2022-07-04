@@ -43,7 +43,7 @@ function SaskiaNeumanGallery({
 			<DatoSEO
 				seo={seo}
 				site={site}
-				title={`Saskia Neumann Gallery${title ? ` — ${title}` : ''}`}
+				title={`Saskia Neuman Gallery${title ? ` — ${title}` : ''}`}
 				pathname={pathname}
 				key={pathname}
 			/>
