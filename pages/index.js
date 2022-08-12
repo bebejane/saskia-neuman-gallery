@@ -32,7 +32,7 @@ export default function Start({ start, image, color }) {
 			{links.map(({ title, artists, image, url, slug, startDate, endDate, _modelApiKey: model }, idx) => {
 				
 				const type = model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
-				const byArtists = artists?.length ? ` by ${artists.map(({ name }) => name).join(', ')}` : ''
+				const byArtists = artists?.length ? ` by ${artists.map(({ firstName, lastName }) => `${firstName} ${lastName}`).join(', ')}` : ''
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 				const theme = image.customData.theme
 				

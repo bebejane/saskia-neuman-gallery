@@ -207,7 +207,7 @@ export default function Menu(props) {
 				}
 			</>
 		)),
-		more: m.more && m.sub?.map(item =>
+		more: m.more && m.sub?.filter(({startDate,endDate}) => !['upcoming', 'current'].includes(datePeriod(startDate, endDate))).map(item =>
 			m.sub.map((item, idx) =>
 				<Link
 					key={`more-${idx}`}
@@ -284,7 +284,7 @@ export default function Menu(props) {
 										:
 											'To be announced...'
 										}
-										{m.more && m.sub?.length > 0 &&
+										{m.more && m.more?.length > 0 &&
 											<li className={styles.more} >
 												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>
 													<h3>More <div className={cn(styles.arrow, showMore[m.type] && styles.opened)}>›</div></h3>
@@ -312,7 +312,7 @@ export default function Menu(props) {
 											<li>To be announced...</li>
 										}
 									
-									{more && sub?.length > 0 	&& 
+									{more && more?.length > 0 && 
 										<li className={styles.more} >
 											<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
 												<h3>More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div></h3>

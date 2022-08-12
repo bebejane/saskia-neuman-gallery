@@ -1,7 +1,8 @@
 import styles from './Layout.module.scss'
 import cn from 'classnames'
 
-export function Layout({ children, noMargin }) {
+export function Layout({ children, noMargin, hide }) {
+	if(hide) return null
 	return (
 		<main id="main" className={cn(styles.main, noMargin && styles.noMargin)}>
 			{children}

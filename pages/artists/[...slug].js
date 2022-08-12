@@ -42,7 +42,7 @@ export default function Artist({ artist: { firstName, lastName, biography, artwo
 									<h3>Solo Exhibitions</h3>
 									<ul>
 										{soloExhibitions.map(({ year, text, additionalText, location }, idx) => (
-											<li key={`ss-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+											<li key={`ss-${idx}`}>{text}<br/> {additionalText && <span>{additionalText},</span>}  {location && <span>{location},</span>} {year && <span>{year}</span>} </li>
 										))}
 									</ul>
 								</div>
@@ -52,7 +52,7 @@ export default function Artist({ artist: { firstName, lastName, biography, artwo
 									<h3>Group Exhibitions</h3>
 									<ul>
 										{groupExhibitions.map(({ year, text, additionalText, location }, idx) => (
-											<li key={`gs-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+											<li key={`gs-${idx}`}>{text}<br/> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
 										))}
 									</ul>
 								</div>
@@ -62,7 +62,7 @@ export default function Artist({ artist: { firstName, lastName, biography, artwo
 									<h3>Represented</h3>
 									<ul>
 										{represented.map(({ year, text, additionalText, location }, idx) => (
-											<li key={`re-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+											<li key={`re-${idx}`}>{text}<br/> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
 										))}
 									</ul>
 								</div>
@@ -72,17 +72,7 @@ export default function Artist({ artist: { firstName, lastName, biography, artwo
 									<h3>Education</h3>
 									<ul>
 										{education.map(({ year, text, additionalText, location }, idx) => (
-											<li key={`ed-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
-										))}
-									</ul>
-								</div>
-							}
-							{publications.length > 0 && 
-								<div>
-									<h3>Publications</h3>
-									<ul>
-										{publications.map(({ year, text, additionalText, location }, idx) => (
-											<li key={`pub-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+											<li key={`ed-${idx}`}>{text}<br/> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
 										))}
 									</ul>
 								</div>
@@ -92,7 +82,17 @@ export default function Artist({ artist: { firstName, lastName, biography, artwo
 									<h3>Performances</h3>
 									<ul>
 										{performances.map(({ year, text, additionalText, location }, idx) => (
-											<li key={`pub-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+											<li key={`pub-${idx}`}>{text}<br/> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+										))}
+									</ul>
+								</div>
+							}
+							{publications.length > 0 && 
+								<div>
+									<h3>Publications</h3>
+									<ul>
+										{publications.map(({ year, text, additionalText, location }, idx) => (
+											<li key={`pub-${idx}`}>{text}<br/> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
 										))}
 									</ul>
 								</div>

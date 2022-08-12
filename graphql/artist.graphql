@@ -2,7 +2,7 @@
 #import "./fragments/ArtistFragmentFull.graphql"
 
 query GetAllArtists{
-	artists: allArtists(orderBy: [name_ASC]) {
+	artists: allArtists(orderBy: [lastName_ASC]) {
 		...ArtistFragment
 	}
 }

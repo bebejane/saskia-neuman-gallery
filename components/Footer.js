@@ -11,7 +11,7 @@ export default function Footer(props) {
   const setBackgroundImage = useStore((state) => state.setBackgroundImage);
   const type = exhibition ? 'exhibition' : happening ? 'happening' : artist ? 'artist' : null
 
-  if (!type) return null
+  if (!type || props[type + 's'].length <= 1) return null
 
   let nextIndex = 0; // Get the next index
   props[type + 's'].forEach(({ slug }, idx) => (slug === props[type].slug) && (nextIndex = idx + 1 === props[type + 's'].length ? 0 : idx + 1))

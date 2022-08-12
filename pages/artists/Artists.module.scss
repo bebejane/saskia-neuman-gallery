@@ -24,6 +24,13 @@
     display: none;
     flex-wrap: wrap;
     margin-top: 1rem;
+    ul{
+      li{
+        text-indent: -1em;
+        padding-left: 1em;
+        padding-bottom: .5em;
+      }
+    }
   }
   h3 {
     cursor: pointer;

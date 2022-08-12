@@ -26,7 +26,7 @@ export default function About({ about, externalLinks }) {
 						Phone: {phone}<br /><br />
 						Opening hours:<br />
 						<Markdown>{hours}</Markdown>
-						<br /><br />
+						<br />
 						<a href={`mailto:${email}`}>{email}</a><br />
 					</b></p>
 				</Meta>
@@ -38,7 +38,8 @@ export default function About({ about, externalLinks }) {
 				</Content>
 
 			</Layout>
-			<Layout noMargin='true'>
+
+			<Layout noMargin={true} hide={externalLinks.length === 0}>
 				<section className={styles.archive}>
 					<h2>Archive</h2>
 					<ul>
