@@ -20,5 +20,9 @@ fragment ExhibitionFragmentFull on ExhibitionRecord {
   press{
     ...PressFragment
   }
+  pressRelease{
+    filename
+    url
+  }
   slug
 }

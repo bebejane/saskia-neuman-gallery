@@ -13,7 +13,7 @@ import { format } from 'date-fns'
 const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) => {
 	
 	if (!artists || !happenings || !exhibitions || !about || !start) return []
-
+	
 	try {
 		const menu = [
 			{
@@ -26,7 +26,7 @@ const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) 
 				type: "artist",
 				path: "/artists",
 				label: "Artists",
-				sub: artists.map((a) => ({ ...a, slug: `artists/${a.slug}`, color: imageColor(a.image) })),
+				sub: artists.map((a) => ({ ...a, slug: `artists/${a.slug}`, color: imageColor(a.image) })).sort((a, b) => a.lastName > b.lastName ? 1 : -1),
 			},
 			{
 				type: "exhibition",
@@ -185,11 +185,11 @@ export default function Menu(props) {
 						onMouseLeave={() => handleMouseOver(item, false)}
 					>
 						{m.type === 'artist' || m.type === 'about' ?
-							<>{item.name || item.title}</>
+							<>{item.firstName ? `${item.firstName} ${item.lastName}` : item.title}</>
 							:
 							<>
 								<h3>{datePeriod(item.startDate, item.endDate)}</h3>
-								{item.artists && item.artists?.map((a, idx) => a.name).join(', ')}{item.artists && <br />}
+								{item.artists && item.artists?.map((a, idx) => `${a.firstName} ${a.lastName}`).join(', ')}{item.artists && <br />}
 								<i>{item.title}</i><br />
 								{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
 							</>
@@ -200,6 +200,7 @@ export default function Menu(props) {
 					<li className={styles.contact}>
 						<h3>Contact</h3>
 						Linnégatan 19
+						<p>Stockholm</p>
 						<p>{m.about.phone}</p>
 						<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
 					</li>
@@ -218,7 +219,7 @@ export default function Menu(props) {
 					onMouseLeave={() => handleMouseOver(item, false)}
 				>
 					<p>
-						{item.artists && item.artists?.map((a) => a.name).join(', ')}{item.artists && <br />}
+						{item.artists && item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(', ')}{item.artists && <br />}
 						<i>{item.title}</i>
 						{m.type === 'event' ? <><br />{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
 					</p>
@@ -236,6 +237,7 @@ export default function Menu(props) {
 		((!showMenu && !showMobileMenu) || (isExiting && !showMobileMenu)) && styles.hide,
 		isHoveringMenuItem && styles.transparent
 	);
+
 	const menuStyles = cn(
 		styles.menu,
 		showMobileMenu && styles.show, 
@@ -277,8 +279,12 @@ export default function Menu(props) {
 								</span>
 								{showMobileMenu && m.type === subMenuMobile?.type && (
 									<ul key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
-										{m.sub}
-										{m.more &&
+										{m.sub.length > 0 ? 
+											m.sub	
+										:
+											'To be announced...'
+										}
+										{m.more && m.sub?.length > 0 &&
 											<li className={styles.more} >
 												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>
 													<h3>More <div className={cn(styles.arrow, showMore[m.type] && styles.opened)}>›</div></h3>
@@ -300,8 +306,13 @@ export default function Menu(props) {
 									className={cn(subMenu?.type === type && styles.open)}
 									style={{ marginLeft: `${subMenuMargin}px` }}
 								>
-									{sub.map((s, idx) => <Fragment key={`sub-desktop-${idx}`}>{s}</Fragment>)}
-									{more &&
+									{sub.length > 0 ? 
+											sub.map((s, idx) => <Fragment key={`sub-desktop-${idx}`}>{s}</Fragment>)
+										:
+											<li>To be announced...</li>
+										}
+									
+									{more && sub?.length > 0 	&& 
 										<li className={styles.more} >
 											<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
 												<h3>More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div></h3>

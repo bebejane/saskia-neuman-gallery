@@ -17,7 +17,7 @@ export default function Footer(props) {
   props[type + 's'].forEach(({ slug }, idx) => (slug === props[type].slug) && (nextIndex = idx + 1 === props[type + 's'].length ? 0 : idx + 1))
 
   const next = props[type + 's'][nextIndex]
-  const label = next.title || next.name
+  const label = next.title || `${next.firstName} ${next.lastName}`
   const slug = `/${type}s/${next.slug}`
 
   return (

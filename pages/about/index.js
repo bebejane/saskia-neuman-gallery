@@ -25,7 +25,8 @@ export default function About({ about, externalLinks }) {
 						<a href={googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
 						Phone: {phone}<br /><br />
 						Opening hours:<br />
-						{hours}<br /><br />
+						<Markdown>{hours}</Markdown>
+						<br /><br />
 						<a href={`mailto:${email}`}>{email}</a><br />
 					</b></p>
 				</Meta>

@@ -12,7 +12,7 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import PressLinks from 'components/PressLinks';
 
-export default function Exhibition({ exhibition: { title, description, startDate, endDate, slug, artwork, artists, press } }) {
+export default function Exhibition({ exhibition: { title, description, startDate, endDate, slug, artwork, artists, press, pressRelease } }) {
 
 	const [showGallery, setShowGallery] = useState(false)
 
@@ -25,12 +25,17 @@ export default function Exhibition({ exhibition: { title, description, startDate
 					</HeaderBar>
 					<p>
 						<b>
-							{artists.map((a, idx) => a.name).join(', ')}
+							{artists.map((a, idx) => `${a.firstName} ${a.lastName}`).join(', ')}
 							<br />
 							<i>{title}</i><br />
 							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
-						</b>
+						</b>	
 					</p>
+					{pressRelease && 
+						<p>
+							<a href={pressRelease.url} download>Download pressrelease ↓</a>
+						</p>
+					}
 				</Meta>
 
 				<Content>

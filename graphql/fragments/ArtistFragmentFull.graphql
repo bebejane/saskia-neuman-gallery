@@ -2,7 +2,8 @@
 
 fragment ArtistFragmentFull on ArtistRecord{
   id
-  name
+  firstName
+  lastName
   biography(markdown: false)
   image {
     ...ImageFragment    
@@ -11,14 +12,14 @@ fragment ArtistFragmentFull on ArtistRecord{
     ...ImageFragment
   }
   slug
-  soloShows {
+  soloExhibitions {
     additionalText
     text
     updatedAt
     year
     location
   }
-  groupShows {
+  groupExhibitions {
     additionalText
     text
     updatedAt
@@ -40,6 +41,13 @@ fragment ArtistFragmentFull on ArtistRecord{
     location
   }
   publications {
+    additionalText
+    text
+    updatedAt
+    year
+    location
+  }
+  performances {
     additionalText
     text
     updatedAt

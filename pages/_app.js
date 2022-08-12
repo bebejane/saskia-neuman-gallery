@@ -29,12 +29,12 @@ function SaskiaNeumanGallery({
 }) {
 	
 	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
-
+	
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
 	const { asPath: pathname } = router;
 	const isHome = pathname === '/'
-	const title = isHome ? '' : exhibition?.title || happening?.title || artist?.name || (about ? "About" : null);
+	const title = isHome ? '' : exhibition?.title || happening?.title || (artist ? `${artist.firstName} ${artist.lastName}` : undefined) || (about ? "About" : null);
 	const backgroundLink = start?.links?.[0].slug ? `/${start.links[0]._modelApiKey}s/${start.links[0].slug}` : start?.links?.[0].url ||  null;
 	
 	return (

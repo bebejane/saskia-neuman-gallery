@@ -2,7 +2,8 @@
 
 fragment ArtistFragment on ArtistRecord{
   id
-  name
+  firstName
+  lastName
   image {
     ...ImageFragment    
   }

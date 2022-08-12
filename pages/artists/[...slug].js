@@ -14,11 +14,11 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
-export default function Artist({ artist: { name, biography, artwork, exhibitions, soloShows, groupShows, publications, education, represented } }) {
+export default function Artist({ artist: { firstName, lastName, biography, artwork, exhibitions, soloExhibitions, groupExhibitions, publications, education, represented, performances } }) {
 	
 	const [galleryIndex, setGalleryIndex] = useState()
 	const [showBiography, setShowBiography] = useState(false)
-	const haveExtendedBiography = (soloShows.length || groupShows.length || publications.length || represented.length || education.length) > 0
+	const haveExtendedBiography = (soloExhibitions.length || groupExhibitions.length || publications.length || represented.length || education.length) > 0
 
 	return (
 		<>
@@ -27,31 +27,31 @@ export default function Artist({ artist: { name, biography, artwork, exhibitions
 					<HeaderBar>
 						<h3>ARTIST</h3>
 					</HeaderBar>
-					<h1>{name}</h1>
+					<h1>{firstName} {lastName}</h1>
 				</Meta>
 				<Content>
-					<HeaderBar mobileHide='true'><h1>{name}</h1></HeaderBar>
+					<HeaderBar mobileHide='true'><h1>{firstName} {lastName}</h1></HeaderBar>
 					<Markdown>{biography}</Markdown>
 					{haveExtendedBiography &&
 						<section className={cn(styles.cv, showBiography && styles.show)}>
 							<h3 onClick={()=> setShowBiography(!showBiography)}>
-								EXTENDED BIO <span>›</span>
+								Extended Bio <span>›</span>
 							</h3>
-							{soloShows.length > 0 && 
+							{soloExhibitions.length > 0 && 
 								<div>
-									<h3>Solo Shows</h3>
+									<h3>Solo Exhibitions</h3>
 									<ul>
-										{soloShows.map(({ year, text, additionalText, location }, idx) => (
+										{soloExhibitions.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`ss-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
 										))}
 									</ul>
 								</div>
 							}
-							{groupShows.length > 0 && 
+							{groupExhibitions.length > 0 && 
 								<div>
-									<h3>Group shows</h3>
+									<h3>Group Exhibitions</h3>
 									<ul>
-										{groupShows.map(({ year, text, additionalText, location }, idx) => (
+										{groupExhibitions.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`gs-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
 										))}
 									</ul>
@@ -82,6 +82,16 @@ export default function Artist({ artist: { name, biography, artwork, exhibitions
 									<h3>Publications</h3>
 									<ul>
 										{publications.map(({ year, text, additionalText, location }, idx) => (
+											<li key={`pub-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
+										))}
+									</ul>
+								</div>
+							}
+							{performances.length > 0 && 
+								<div>
+									<h3>Performances</h3>
+									<ul>
+										{performances.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`pub-${idx}`}>{text}, {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>} {year && <span>{year}</span>}</li>
 										))}
 									</ul>
