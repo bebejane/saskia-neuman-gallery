@@ -185,7 +185,7 @@ export default function Menu(props) {
 						onMouseLeave={() => handleMouseOver(item, false)}
 					>
 						{m.type === 'artist' || m.type === 'about' ?
-							<>{item.firstName ? `${item.firstName} ${item.lastName}` : item.title}</>
+							<>{item.firstName ? `${item.firstName} ${item.lastName}` : item.title || item.name}</>
 							:
 							<>
 								<h3>{datePeriod(item.startDate, item.endDate)}</h3>
