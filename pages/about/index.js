@@ -29,12 +29,15 @@ export default function About({ about, externalLinks }) {
 						<br />
 						<a href={`mailto:${email}`}>{email}</a><br />
 					</b></p>
+					<div className={styles.tempSpaceDesktop}></div>
+
 				</Meta>
 				<Content>
 					<HeaderBar>
 						<h1>About</h1>
 					</HeaderBar>
 					<Markdown>{description}</Markdown>
+					<div className={styles.tempSpaceMobile}></div>
 				</Content>
 
 			</Layout>

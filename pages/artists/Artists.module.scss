@@ -34,7 +34,9 @@
   }
   h3 {
     cursor: pointer;
-    width: 25%;
+    @include mq($from: tablet) { 
+      width: 25%;
+    }
     span{
       transition: transform ease 0.3s;
       display: inline-block;
@@ -43,7 +45,9 @@
   }
   ul {
     list-style: none;
-    width: 75%;
+    @include mq($from: tablet) { 
+     width: 75%;
+    }
   }
   &.show{
     div{
