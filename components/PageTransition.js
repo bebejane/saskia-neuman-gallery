@@ -103,8 +103,8 @@ export default function PageTransition({image}){
     >	
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
-					className={cn(styles.logo, showLogo && styles.showLogo)}
-					//style={{background:`url(${image?.url}?w=1400)`}}
+					className={cn(styles.logo,  styles.showLogo)}
+					style={{background:`url(${image?.url}?w=1400)`}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>
         </div>
