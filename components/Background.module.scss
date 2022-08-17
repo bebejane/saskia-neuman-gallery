@@ -32,12 +32,13 @@
     object-fit: cover;
 		object-position: 50% 50%;
     &.fullHeight{
-      height: calc(100vh - $navbarHeight);
-      @include safari{
-        height: 100%;
-        height: -webkit-fill-available;
+      @include mq($until: tablet) {
+        height: calc(100vh - $navbarHeight);
+        @include safari{
+          height: 100%;
+          height: -webkit-fill-available;
+        }
       }
-      
     }
     @include mq($from: tablet) {
       height: 100vh;
