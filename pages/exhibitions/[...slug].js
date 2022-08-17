@@ -43,11 +43,12 @@ export default function Exhibition({ exhibition: { title, description, startDate
 						<h1><i>{title}</i></h1>
 					</HeaderBar>
 					<Markdown>{description}</Markdown>
-
-					<section className={styles.artworks}>
-						<h2>ARTWORK</h2>
-						<GalleryThumbs artwork={artwork} />
-					</section>
+					{artwork.length > 0 && 
+						<section className={styles.artworks}>
+							<h2>ARTWORK</h2>
+							<GalleryThumbs artwork={artwork} />
+						</section>
+					}
 
 					{press.length > 0 &&
 						<section className={styles.press}>
