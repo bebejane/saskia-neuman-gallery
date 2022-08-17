@@ -17,9 +17,14 @@ query GetGlobal{
       }
     }
   }
-	artists: allArtists {
-    ...ArtistFragment
-  }
+	artists: allArtists(
+		orderBy: [lastName_ASC]
+		filter: {
+			hidden: { eq : false }
+		}
+		) {
+		...ArtistFragment
+	}
   exhibitions: allExhibitions(orderBy: [startDate_DESC]) {
     ...ExhibitionFragment
   }
