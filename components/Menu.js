@@ -273,12 +273,13 @@ export default function Menu(props) {
 								onClick={() => setSubMenu(subMenu?.type === m.type ? undefined : m)}
 								onMouseEnter={() => setHoverSubMenu(m)}
 								onMouseLeave={() => setHoverSubMenu(undefined)}
+								onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}
 							>
-								<span onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}>
+								<span >
 									{m.label} <span className={cn(styles.arrow, subMenu?.type === m.type && styles.open, hoverSubMenu?.type !== m.type && styles.hide)}>›</span>
 								</span>
 								{showMobileMenu && m.type === subMenuMobile?.type && (
-									<ul key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
+									<ul onTouchEnd={(e) => e.stopPropagation()} key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
 										{m.sub.length > 0 ? 
 											m.sub	
 										:
