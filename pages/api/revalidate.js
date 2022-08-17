@@ -51,10 +51,11 @@ export default async (req, res) => {
     if(!path) 
       throw new Error(`Path not found for model ${model.apiKey}`);
 
+    res.json({ revalidated: true, path, model:model.apiKey })
     console.log(`revalidate path: ${path}`)
     await res.unstable_revalidate(path)
     console.log('done!')
-    res.json({ revalidated: true, path, model:model.apiKey })
+    
   }catch(err){
     console.error(err)
     res.status(500).send(`Error revalidating path: ${path}! ${err.message}`)
