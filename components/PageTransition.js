@@ -81,12 +81,11 @@ export default function PageTransition({image}){
 		const isExiting = variant.startsWith('exit') && type === 'start'
 		const didExit = variant.startsWith('exit') && type === 'complete'
 		
-		if(didExit) 
-			window.scrollTo({ top: 0, behavior:'instant' }) // Scroll top efter exit animation	
-		
 		setIsTransitioning(!isComplete)
 		setIsExiting(isExiting)
-		
+
+		if(didExit) 
+			window.scrollTo({ top: 0, behavior:'instant' }) // Scroll top efter exit animation	
 	}
 
 	const handleAnimationUpdate = ({height, top}) => { // Hide logo mid transition 

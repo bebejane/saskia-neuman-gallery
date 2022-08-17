@@ -4,7 +4,7 @@ import cn from "classnames";
 import useStore from "/store";
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
-import { useWindowScrollPosition } from "rooks";
+import { useWindowScrollPosition, useWindowSize } from "rooks";
 import useScrollInfo from "/lib/hooks/useScrollInfo";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/utils";
@@ -103,6 +103,8 @@ export default function Menu(props) {
 	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
 	const { scrollY } = typeof window !== "undefined" ? useWindowScrollPosition() : { scrollY: 0 };
 	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop } = useScrollInfo();
+	const { innerWidth } = useWindowSize();
+	const isMobile = innerWidth <= 768;
 
 	const handleMouseOver = (item, hovering) => {
 		setIsHoveringMenuItem(hovering);
@@ -169,11 +171,12 @@ export default function Menu(props) {
 	}, [scrollY, darkTheme, imageTheme]);
 
 	useEffect(() => { // Hide mobile menu after exiting
+		
 		if(showMobileMenu && !isExiting){
 			setSubMenu(undefined)
 			setShowMobileMenu(false)
 		}
-	}, [isExiting])
+	}, [isTransitioning, isExiting])
 
 	const menu = generateMenu(props, router.asPath).map(m => ({
 		...m,
@@ -270,13 +273,13 @@ export default function Menu(props) {
 							<li 
 								id={`menu-${m.type}`} 
 								key={`menu-${idx}`} 
-								onClick={() => setSubMenu(subMenu?.type === m.type ? undefined : m)}
+								onClick={(e) => { !isMobile && setSubMenu(subMenu?.type === m.type ? undefined : m);}}
 								onMouseEnter={() => setHoverSubMenu(m)}
 								onMouseLeave={() => setHoverSubMenu(undefined)}
 								onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}
 							>
 								<span >
-									{m.label} <span className={cn(styles.arrow, subMenu?.type === m.type && styles.open, hoverSubMenu?.type !== m.type && styles.hide)}>›</span>
+									{m.label} <span className={cn(styles.arrow, (subMenu?.type === m.type || subMenuMobile?.type === m.type) && styles.open, hoverSubMenu?.type !== m.type && styles.hide)}>›</span>
 								</span>
 								{showMobileMenu && m.type === subMenuMobile?.type && (
 									<ul onTouchEnd={(e) => e.stopPropagation()} key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
