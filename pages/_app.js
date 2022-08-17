@@ -36,7 +36,8 @@ function SaskiaNeumanGallery({
 	const isHome = pathname === '/'
 	const title = isHome ? '' : exhibition?.title || happening?.title || (artist ? `${artist.firstName} ${artist.lastName}` : undefined) || (about ? "About" : null);
 	const backgroundLink = start?.links?.[0].slug ? `/${start.links[0]._modelApiKey}s/${start.links[0].slug}` : start?.links?.[0].url ||  null;
-	
+	const isSingleLinkHome = isHome && pageProps.start?.links?.length === 1
+
 	return (
 		<>
 			<GoogleAnalytics />
@@ -57,6 +58,7 @@ function SaskiaNeumanGallery({
 						key={pathname}
 						title={title}
 						href={isHome ? backgroundLink : undefined}
+						fullHeight={isSingleLinkHome}
 					/>
 					<Component {...{...pageProps}}/>
 					<Footer {...pageProps} />

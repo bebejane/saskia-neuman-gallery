@@ -3,6 +3,7 @@
   top: 0;
   left: 0;
   width: 100vw;
+  
   @include mq($until: tablet) {
     transition: margin-top ease 0.3s;
     margin-top: $navbarHeight;
@@ -30,6 +31,14 @@
     height: calc(50vh - $navbarHeight);
     object-fit: cover;
 		object-position: 50% 50%;
+    &.fullHeight{
+      height: calc(100vh - $navbarHeight);
+      @include safari{
+        height: 100%;
+        height: -webkit-fill-available;
+      }
+      
+    }
     @include mq($from: tablet) {
       height: 100vh;
     }

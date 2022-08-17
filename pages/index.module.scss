@@ -26,6 +26,9 @@
 			width: 100vw;
 			min-width: 100vw;
 			height: 50vh;
+			&.single{
+				height: 100vh;
+			}
 			@include mq($from: tablet) {
 				height: 100vh;
 			}

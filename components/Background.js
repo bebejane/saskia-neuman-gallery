@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link';
 import Router from 'next/router';
 
-export default function Background({image, color, href}){
+export default function Background({image, color, href, fullHeight}){
 
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
@@ -36,17 +36,7 @@ export default function Background({image, color, href}){
 	return (
 		<>			
 			<div className={cn(styles.container, !showMenu && styles.hiddenMenu)}>
-					{/*<Image 
-					className={styles.backgroundImage} 
-					layout="responsive"
-					objectFit="cover"
-					objectPosition="50% 50%"
-					fadeInDuration={0}
-					usePlaceholder={false}
-					lazyLoad={false}
-					data={image?.responsiveImage}
-					/>*/}
-					<img className={styles.backgroundImage} src={`${image.url}?fmt=jpg&w=1400`}/>
+					<img className={cn(styles.backgroundImage, fullHeight && styles.fullHeight)} src={`${image.url}?fmt=jpg&w=1400`}/>
 				{href && <Link href={href}><a className={styles.link}></a></Link>}
 			</div>	
 			{backgroundImage && 
