@@ -65,11 +65,24 @@
     position: absolute;
     height: 10vh;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     bottom: 0;
     font-weight: bold;
     font-size: 0.9rem;
+    @include mq($from: desktop) {
+      span:nth-child(2){
+         &::before{
+          content: "\00a0—\00a0"
+         }
+      }
+    }
+    @include mq($until: desktop) {
+      max-width: 80vw;
+      flex-direction: column;
+    }
+
   }
   .close {
     position: absolute;

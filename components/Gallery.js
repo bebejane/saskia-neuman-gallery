@@ -8,10 +8,13 @@ export default function Gallery({ images, onClose, index = 0 }) {
 
   const swiperRef = useRef()
   const [realIndex, setRealIndex] = useState(index)
-  const [title, setTitle] = useState()
+  const [caption, setCaption] = useState({})
 
-  useEffect(() => setTitle(images[realIndex].title), [realIndex])
-
+  useEffect(() => {
+    const { title, alt} = images[realIndex]
+    setCaption({title, alt})
+  }, [realIndex])
+  
   if (!images) return null
 
   return (
@@ -40,7 +43,10 @@ export default function Gallery({ images, onClose, index = 0 }) {
         </Swiper>
       </div>
       <div className={styles.forward} onClick={() => swiperRef.current.slideNext()}>❯</div>
-      <div className={styles.caption}>{title}</div>
+      <div className={styles.caption}>
+        <span>{caption.title}</span>
+        {caption.alt && <span>{caption.alt}</span>}
+      </div>
       <div className={styles.close} onClick={onClose}>×</div>
     </div>
   )
