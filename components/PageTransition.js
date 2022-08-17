@@ -4,7 +4,6 @@ import cn from "classnames"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '/lib/hooks/usePreviousRoute';
-import { sleep } from '/utils';
 import { useState } from 'react';
 
 const duration = 0.6;
@@ -86,14 +85,12 @@ export default function PageTransition({image}){
 		// Hide logo mid transition 
 		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo){
 			setShowLogo(false)
-			console.log('hide logo, mid')
 		}
-			
 	}
 	
 	const enterAnimation = isHome ? !prevRoute ? "homeIntro" : "home" : prevRoute ? "enter" : "enterInstant"
 	const exitAnimation = isHome ? "exitInstant" : "exit" 
-	console.log(isHome, showLogo, styles.showLogo)
+	
 	return (
     <motion.div
 			className={styles.pageTransition} 
