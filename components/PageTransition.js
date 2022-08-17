@@ -4,7 +4,8 @@ import cn from "classnames"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '/lib/hooks/usePreviousRoute';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { detect } from 'detect-browser';
 
 const duration = 0.6;
 const pageTransition = {
@@ -65,8 +66,15 @@ export default function PageTransition({image}){
 
 	const isHome = router.pathname === '/';
 	const [showLogo, setShowLogo] = useState(isHome)
+	const [textMaskSupported, setTextMaskSupported] = useState(true)
 	const color = `rgb(${backgroundColor?.join(',')})`;
 	
+	useEffect(()=>{ // Safari bug, Text clip mask supported from v. 15.5
+		const device = detect();
+		if(device.name === 'safari' && parseInt(device.version.replace(/\./g, '')) < 1550)
+			setTextMaskSupported(false)
+	}, [setTextMaskSupported])
+
 	const handleAnimationEvent = async (type, variant) => {
 		
 		const isComplete = ['home', 'homeIntro', 'enter'].includes(variant) && type === 'complete'
@@ -81,8 +89,7 @@ export default function PageTransition({image}){
 		
 	}
 
-	const handleAnimationUpdate = ({height, top}) => {
-		// Hide logo mid transition 
+	const handleAnimationUpdate = ({height, top}) => { // Hide logo mid transition 
 		if(parseInt(top) > 0 && parseInt(height) <= 50 && showLogo){
 			setShowLogo(false)
 		}
@@ -104,7 +111,7 @@ export default function PageTransition({image}){
     >	
       <div className={styles.color} style={{backgroundColor: color}}>
         <div 
-					className={cn(styles.logo, !showLogo && styles.hideLogo)}
+					className={cn(styles.logo, !showLogo && styles.hideLogo, !textMaskSupported && styles.nomask)}
 					style={{background:`url(${image?.url}?w=1400)`}}
 				>
           <h1>SASKIA NEUMAN GALLERY</h1>

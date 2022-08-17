@@ -17,6 +17,8 @@
     "date-fns": "^2.28.0",
     "datocms-client": "^3.5.19",
     "datocms-structured-text-utils": "^2.0.0",
+    "detect-browser": "^5.3.0",
+    "detect-ua": "^1.0.2",
     "framer-motion": "^6.3.4",
     "graphql": "^16.4.0",
     "graphql-tag": "^2.12.6",

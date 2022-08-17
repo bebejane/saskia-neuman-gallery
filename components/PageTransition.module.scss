@@ -42,9 +42,12 @@
       font-weight: bolder;
 
       @include mq($until: tablet) {
-        -webkit-text-fill-color: $black;
+        //-webkit-text-fill-color: $black;
       }
       @include safari() {
+        //-webkit-text-fill-color: $black;
+      }
+      &.nomask{
         -webkit-text-fill-color: $black;
       }
       h1 {
