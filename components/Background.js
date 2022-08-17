@@ -36,7 +36,7 @@ export default function Background({image, color, href}){
 	return (
 		<>			
 			<div className={cn(styles.container, !showMenu && styles.hiddenMenu)}>
-				<Image 
+					{/*<Image 
 					className={styles.backgroundImage} 
 					layout="responsive"
 					objectFit="cover"
@@ -45,10 +45,11 @@ export default function Background({image, color, href}){
 					usePlaceholder={false}
 					lazyLoad={false}
 					data={image?.responsiveImage}
-				/>
+					/>*/}
+					<img className={styles.backgroundImage} src={`${image.url}?fmt=jpg&w=1400`}/>
 				{href && <Link href={href}><a className={styles.link}></a></Link>}
 			</div>	
-			{backgroundImage &&
+			{backgroundImage && 
 				<div className={styles.hoverContainer} key={backgroundImage.id}>
 					<motion.div 
 						initial={{opacity:0}}
