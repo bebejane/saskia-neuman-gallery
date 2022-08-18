@@ -11,9 +11,9 @@ import { imageColor, datePeriod } from "/utils";
 import { format } from 'date-fns'
 
 const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) => {
-	
+
 	if (!artists || !happenings || !exhibitions || !about || !start) return []
-	
+
 	try {
 		const menu = [
 			{
@@ -111,7 +111,7 @@ export default function Menu(props) {
 		setBackgroundImage(hovering ? item.image : null);
 	};
 
-	useEffect(() => { setDarkTheme(imageTheme === 'dark')}, [imageTheme])
+	useEffect(() => { setDarkTheme(imageTheme === 'dark') }, [imageTheme])
 	useEffect(() => { // Toggle menu bar on scroll
 		setShowMenu((isScrolledUp && !isPageBottom) || isPageTop)
 	}, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
@@ -145,7 +145,7 @@ export default function Menu(props) {
 		const padding = getComputedStyle(menuWrapper, null).getPropertyValue("padding-left");
 		setSubMenuMargin(el.offsetLeft);
 		setSeparatorMargin(el.offsetParent?.offsetLeft + el.offsetLeft - parseInt(padding));
-		
+
 	}, [subMenu]);
 
 	useEffect(() => { // Toggle dark/light logo on scroll after fold
@@ -153,14 +153,14 @@ export default function Menu(props) {
 		const logo = document.getElementById('logo')
 		const main = document.getElementById('main')
 		const menu = document.getElementById('menu')
-		
-		if (!main || !logo || !menu) 
+
+		if (!main || !logo || !menu)
 			return setMenuBackground(false)
 
 		const logoStyle = getComputedStyle(logo, null);
-		const logoHeight = parseInt(logoStyle.getPropertyValue("height")) - parseInt(logoStyle.getPropertyValue("padding-top"))	
+		const logoHeight = parseInt(logoStyle.getPropertyValue("height")) - parseInt(logoStyle.getPropertyValue("padding-top"))
 		const threshold = main.offsetTop - (logoHeight * 2);
-		
+
 		if (scrollY > threshold && darkTheme && imageTheme === 'dark')
 			setDarkTheme(false)
 		else if (scrollY < threshold)
@@ -171,8 +171,8 @@ export default function Menu(props) {
 	}, [scrollY, darkTheme, imageTheme]);
 
 	useEffect(() => { // Hide mobile menu after exiting
-		
-		if(showMobileMenu && !isExiting){
+
+		if (showMobileMenu && !isExiting) {
 			setSubMenu(undefined)
 			setShowMobileMenu(false)
 		}
@@ -204,13 +204,13 @@ export default function Menu(props) {
 						<h3>Contact</h3>
 						Linnégatan 19
 						<p>Stockholm</p>
-						<p>{m.about.phone}</p>
-						<p><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
+						<p className={styles.narrowHide}>{m.about.phone}</p>
+						<p className={styles.narrowHide}><a href={m.about.googleMapsUrl} target="new">Google Maps ↗</a></p>
 					</li>
 				}
 			</>
 		)),
-		more: m.more && m.sub?.filter(({startDate,endDate}) => !['upcoming', 'current'].includes(datePeriod(startDate, endDate))).map(item =>
+		more: m.more && m.sub?.filter(({ startDate, endDate }) => !['upcoming', 'current'].includes(datePeriod(startDate, endDate))).map(item =>
 			m.sub.map((item, idx) =>
 				<Link
 					key={`more-${idx}`}
@@ -243,12 +243,12 @@ export default function Menu(props) {
 
 	const menuStyles = cn(
 		styles.menu,
-		showMobileMenu && styles.show, 
+		showMobileMenu && styles.show,
 		menuBackground && !isTransitioning && !isHoveringMenuItem && styles.opaque
 	)
 
 	if (!menu || menu.length === 0) return null
-	
+
 	return (
 		<>
 			<div className={navbarStyles}>
@@ -270,10 +270,10 @@ export default function Menu(props) {
 				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu()}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
-							<li 
-								id={`menu-${m.type}`} 
-								key={`menu-${idx}`} 
-								onClick={(e) => { !isMobile && setSubMenu(subMenu?.type === m.type ? undefined : m);}}
+							<li
+								id={`menu-${m.type}`}
+								key={`menu-${idx}`}
+								onClick={(e) => { !isMobile && setSubMenu(subMenu?.type === m.type ? undefined : m); }}
 								onMouseEnter={() => setHoverSubMenu(m)}
 								onMouseLeave={() => setHoverSubMenu(undefined)}
 								onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}
@@ -283,9 +283,9 @@ export default function Menu(props) {
 								</span>
 								{showMobileMenu && m.type === subMenuMobile?.type && (
 									<ul onTouchEnd={(e) => e.stopPropagation()} key={`mobile-list-${idx}`} id={`sub-${m.type}`} className={cn(subMenuMobile?.type === m.type && styles.open)}>
-										{m.sub.length > 0 ? 
-											m.sub	
-										:
+										{m.sub.length > 0 ?
+											m.sub
+											:
 											'To be announced...'
 										}
 										{m.more && m.more?.length > 0 &&
@@ -310,13 +310,13 @@ export default function Menu(props) {
 									className={cn(subMenu?.type === type && styles.open)}
 									style={{ marginLeft: `${subMenuMargin}px` }}
 								>
-									{sub.length > 0 ? 
-											sub.map((s, idx) => <Fragment key={`sub-desktop-${idx}`}>{s}</Fragment>)
+									{sub.length > 0 ?
+										sub.map((s, idx) => <Fragment key={`sub-desktop-${idx}`}>{s}</Fragment>)
 										:
-											<li>To be announced...</li>
-										}
-									
-									{more && more?.length > 0 && 
+										<li>To be announced...</li>
+									}
+
+									{more && more?.length > 0 &&
 										<li className={styles.more} >
 											<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
 												<h3>More <div className={cn(styles.arrow, showMore[type] && styles.opened)}>›</div></h3>

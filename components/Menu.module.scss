@@ -281,6 +281,11 @@
             }
             p {
               margin: 0;
+              &.narrowHide {
+                @include mq($until: nav-break) {
+                  display: none;
+                }
+              }
             }
           }
 
@@ -321,6 +326,8 @@
       &::-webkit-scrollbar {
         display: none;
       }
+
+
     }
 
     // Mobile Menu
@@ -366,11 +373,10 @@
           }
           &.contact {
             text-overflow: ellipsis;
-            overflow: hidden;
+            //overflow: hidden;
             white-space: normal;
             width: 200px;
             padding-top: 0px;
-
             p {
               padding-bottom: 0;
             }
