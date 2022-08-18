@@ -5,13 +5,13 @@ import { imageColor, datePeriod } from '/utils';
 import { GetStart } from '/graphql';
 import { Image } from "react-datocms"
 import cn from "classnames"
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import Link from '/components/Link';
 
 export default function Start({ start, image, color }) {
 
 	const { links } = start;
-	
+
 	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem)
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor)
 
@@ -22,20 +22,20 @@ export default function Start({ start, image, color }) {
 		document.body.style.backgroundColor = color;
 		return () => document.body.style.backgroundColor = originalColor;
 	}, [])
-	
+
 	const handleMouseOver = (item, hovering) => setBackgroundColor(hovering ? imageColor(item.image) : null);
 
 	if (!links || !links.length) return null
-	
+
 	return (
 		<div className={styles.container}>
 			{links.map(({ title, artists, image, url, slug, startDate, endDate, _modelApiKey: model }, idx) => {
-				
+
 				const type = model === 'external_link' ? 'news' : datePeriod(startDate, endDate)
-				const byArtists = artists?.length ? ` by ${artists.map(({ firstName, lastName }) => `${firstName} ${lastName}`).join(', ')}` : ''
+				const byArtists = artists?.length ? ` — ${artists.map(({ firstName, lastName }) => `${firstName} ${lastName}`).join(', ')}` : ''
 				const href = model === 'external_link' ? url : `/${model}s/${slug}`
 				const theme = image.customData.theme
-				
+
 				return (
 					<Link key={idx} href={href} image={image} color={imageColor(image)}>
 						<a className={styles.card} target={type === 'news' ? '_blank' : '_self'}>
