@@ -28,6 +28,7 @@ export default function About({ about, externalLinks }) {
 						<Markdown>{hours}</Markdown>
 						<br />
 						<a href={`mailto:${email}`}>{email}</a><br />
+						<a href="https://www.instagram.com/saskianeumangallerystockholm/" target="new">@saskianeumangallerystockholm</a>
 					</b></p>
 					<div className={styles.tempSpaceDesktop}></div>
 
