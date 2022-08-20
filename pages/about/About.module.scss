@@ -11,6 +11,15 @@ $grid-space-small: 1.2rem;
   padding-bottom: 2em;
 }
 
+.instaWrap {
+  display: flex;
+  align-items: center;
+  img {
+    height: .8em;
+    padding-right: .3em;
+  }
+}
+
 .archive {
   width: 100%;
   ul {
