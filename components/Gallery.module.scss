@@ -84,8 +84,10 @@
     }
 
     .subTitle{
-      text-align: center;
-      padding-bottom: 1em;
+      @include mq($until: tablet) { 
+        text-align: center;
+        padding-bottom: 1em;
+      }
     }
 
   }
