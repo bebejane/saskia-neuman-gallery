@@ -11,10 +11,10 @@ export default function Gallery({ images, onClose, index = 0 }) {
   const [caption, setCaption] = useState({})
 
   useEffect(() => {
-    const { title, alt} = images[realIndex]
-    setCaption({title, alt})
+    const { title, alt } = images[realIndex]
+    setCaption({ title, alt })
   }, [realIndex])
-  
+
   if (!images) return null
 
   return (
@@ -45,7 +45,7 @@ export default function Gallery({ images, onClose, index = 0 }) {
       <div className={styles.forward} onClick={() => swiperRef.current.slideNext()}>❯</div>
       <div className={styles.caption}>
         <span>{caption.title}</span>
-        {caption.alt && <span>{caption.alt}</span>}
+        {caption.alt && <span className={styles.subTitle}>{caption.alt}</span>}
       </div>
       <div className={styles.close} onClick={onClose}>×</div>
     </div>
