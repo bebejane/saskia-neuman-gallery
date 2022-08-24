@@ -11,7 +11,7 @@ import { format } from "date-fns"
 export default function About({ about, externalLinks }) {
 	const { description, address, hours, phone, email, googleMapsUrl, image } = about || {};
 
-	externalLinks = externalLinks.concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks)
+	//externalLinks = externalLinks.concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks).concat(externalLinks)
 
 	return (
 		<>

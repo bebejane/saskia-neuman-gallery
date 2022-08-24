@@ -21,9 +21,9 @@ $grid-space-small: 1.2rem;
 }
 
 .colophon {
-  @include mq($until: tablet) {
+  //@include mq($until: tablet) {
     display: none;
-   }
+   //}
   font-size: .8em;
   position: absolute;
   bottom: 2em;
@@ -66,6 +66,10 @@ $grid-space-small: 1.2rem;
           text-overflow: ellipsis;
         }
         .image {
+          aspect-ratio: 4 / 3;
+          img {
+            object-fit: cover;
+          }
         }
       }
     }
