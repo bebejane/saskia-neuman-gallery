@@ -31,7 +31,6 @@ export default function About({ about, externalLinks }) {
 						<span className={styles.instaWrap}>
 							<img className={styles.instagram} src="/img/instagram.svg"></img><a href="https://www.instagram.com/saskianeumangallerystockholm/" target="new">@saskianeumangallerystockholm</a></span>
 					</b></p>
-					<div className={styles.tempSpaceDesktop}></div>
 
 				</Meta>
 				<Content>
@@ -39,8 +38,6 @@ export default function About({ about, externalLinks }) {
 						<h1>About</h1>
 					</HeaderBar>
 					<Markdown>{description}</Markdown>
-					<div className={styles.tempSpaceMobile}></div>
-					<div className={styles.colophon}><a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a></div>
 				</Content>
 
 			</Layout>
@@ -59,6 +56,12 @@ export default function About({ about, externalLinks }) {
 							</a>
 						)}
 					</ul>
+				</section>
+			</Layout>
+
+			<Layout noMargin={true} hide={externalLinks.length === 0}>
+				<section className={styles.colophon}>
+					<div className={styles.kt}>Copyright ©2022 Saskia Neuman Gallery. <a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a>.</div>
 				</section>
 			</Layout>
 		</>
