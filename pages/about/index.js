@@ -40,6 +40,7 @@ export default function About({ about, externalLinks }) {
 					</HeaderBar>
 					<Markdown>{description}</Markdown>
 					<div className={styles.tempSpaceMobile}></div>
+					<div className={styles.colophon}><a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a></div>
 				</Content>
 
 			</Layout>
