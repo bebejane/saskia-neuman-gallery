@@ -61,7 +61,7 @@ export default function About({ about, externalLinks }) {
 
 			<Layout noMargin={true} hide={externalLinks.length === 0}>
 				<section className={styles.colophon}>
-					<div className={styles.kt}>Copyright ©2022 Saskia Neuman Gallery. <a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a>.</div>
+					<div className={styles.text}>Copyright ©2022 Saskia Neuman Gallery <a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a></div>
 				</section>
 			</Layout>
 		</>

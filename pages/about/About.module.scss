@@ -26,6 +26,10 @@ $grid-space-small: 1.2rem;
   font-size: .8em;
   margin-bottom: 1em;
   width: 100%;
+  .text {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 
