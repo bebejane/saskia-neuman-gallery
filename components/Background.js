@@ -1,6 +1,6 @@
 import styles from './Background.module.scss'
 import cn from "classnames"
-import useStore from "/store";
+import useStore from "/lib/store";
 import { Image } from "react-datocms"
 import { useEffect } from 'react';
 import { motion } from 'framer-motion'

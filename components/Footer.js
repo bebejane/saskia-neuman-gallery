@@ -1,8 +1,8 @@
 import styles from './Footer.module.scss'
-import useStore from '/store';
+import useStore from '/lib/store';
 import Link from '/components/Link';
 import { HeaderBar } from 'components/HeaderBar';
-import { imageColor } from '/utils'
+import { imageColor } from '/lib/utils'
 import cn from 'classnames'
 
 export default function Footer(props) {

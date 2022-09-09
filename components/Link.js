@@ -1,7 +1,7 @@
 import * as NextLink from 'next/link';
 import {  useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
-import useStore from '/store';
+import useStore from '/lib/store';
 import Tappable from 'react-tapper';
 
 export function Link({

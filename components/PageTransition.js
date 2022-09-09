@@ -1,5 +1,5 @@
 import styles from './PageTransition.module.scss'
-import useStore from "/store";
+import useStore from "/lib/store";
 import cn from "classnames"
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
