@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
-import useStore from '/store';
+import useStore from '/lib/store';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor, datePeriod } from '/utils';
+import { imageColor, datePeriod } from '/lib/utils';
 import { GetStart } from '/graphql';
 import { Image } from "react-datocms"
 import cn from "classnames"

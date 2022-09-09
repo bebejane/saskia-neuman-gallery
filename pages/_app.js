@@ -33,11 +33,11 @@ function SaskiaNeumanGallery({
 	const router = useRouter();
 	const transitionFix = useTransitionFix()
 	const { asPath: pathname } = router;
-	const isHome = pathname === '/'
-	const title = isHome ? '' : exhibition?.title || happening?.title || (artist ? `${artist.firstName} ${artist.lastName}` : undefined) || (about ? "About" : null);
+	const isHome = !pathname || pathname === '/'
+	const title = isHome ? '' : exhibition?.title || happening?.title || (artist ? `${artist.firstName} ${artist.lastName}` : undefined) || (pathname === '/about' ? "About" : null);
 	const backgroundLink = start?.links?.[0].slug ? `/${start.links[0]._modelApiKey}s/${start.links[0].slug}` : start?.links?.[0].url ||  null;
 	const isSingleLinkHome = isHome && pageProps.start?.links?.length === 1
-
+	console.log(pathname, isSingleLinkHome, isHome)
 	return (
 		<>
 			<GoogleAnalytics />

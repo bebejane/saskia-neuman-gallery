@@ -1,7 +1,7 @@
 import * as NextLink from 'next/link';
 import {  useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
-import useStore from '/store';
+import useStore from '/lib/store';
 import Tappable from 'react-tapper';
 
 export function Link({
@@ -22,9 +22,11 @@ export function Link({
   const router = useRouter()
   const [hover, setHover] = useState(false)
   const setBackgroundColor = useStore((state) => state.setBackgroundColor)
-  const linkRef = useRef() 
-  const linkStyle = color && (hover || isSelected) ? { color: `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
+  const linkRef = useRef()
+  const isWhite = color?.reduce((prev, curr) => parseInt(prev)+parseInt(curr), 0) >= ((255*3)*0.97)
 
+  const linkStyle = color && (hover || isSelected) ? { color: isWhite ? 'rgb(0,0,0)' : `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' } : {}
+  
   const handleMouse = (e) => {
     if (e.type === 'mouseleave') {
       setHover(false)

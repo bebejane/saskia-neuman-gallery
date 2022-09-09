@@ -1,7 +1,7 @@
 import styles from './Happenings.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor} from '/utils';
+import { imageColor} from '/lib/utils';
 import { GetAllHappenings, GetHappening } from '/graphql';
 import Markdown from '/lib/dato/components/Markdown';
 import { Layout, Meta, Content } from '/components/Layout'

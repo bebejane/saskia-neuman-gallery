@@ -1,7 +1,7 @@
 import styles from './Exhibitions.module.scss'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor } from '/utils';
+import { imageColor } from '/lib/utils';
 import { GetAllExhibitions, GetExhibition } from '/graphql';
 import Markdown from '/lib/dato/components/Markdown';
 import { format } from "date-fns"

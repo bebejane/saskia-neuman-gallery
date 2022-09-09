@@ -2,7 +2,7 @@ import styles from './Artists.module.scss'
 import cn from 'classnames'
 import { apiQuery } from '/lib/dato/api';
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor } from '/utils';
+import { imageColor } from '/lib/utils';
 import { GetAllArtists, GetArtist } from '/graphql';
 import { Image } from 'react-datocms';
 import Markdown from '/lib/dato/components/Markdown';

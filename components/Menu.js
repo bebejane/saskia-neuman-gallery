@@ -1,13 +1,13 @@
 import styles from "./Menu.module.scss";
 import Link from "/components/Link";
 import cn from "classnames";
-import useStore from "/store";
+import useStore from "/lib/store";
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import { useWindowScrollPosition, useWindowSize } from "rooks";
 import useScrollInfo from "/lib/hooks/useScrollInfo";
 import { Twirl as Hamburger } from "hamburger-react";
-import { imageColor, datePeriod } from "/utils";
+import { imageColor, datePeriod } from "/lib/utils";
 import { format } from 'date-fns'
 
 const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) => {
