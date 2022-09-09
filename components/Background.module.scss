@@ -42,10 +42,10 @@
 
 .fullHeight{
   @include mq($until: tablet) {
-    height: calc(100vh - $navbarHeight);
+    height: calc(100vh - $navbarHeight) !important;
     @include safari{
       height: 100%;
-      height: -webkit-fill-available;
+      height: -webkit-fill-available !important;
     }
   }
 }
