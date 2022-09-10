@@ -4,6 +4,7 @@
   left: 0;
   width: 100vw;
   line-height: 0;
+  overflow: hidden;
   @include mq($until: tablet) {
     transition: margin-top ease 0.3s;
     margin-top: $navbarHeight;
