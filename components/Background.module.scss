@@ -28,10 +28,20 @@
     top: 0;
     left: 0;
     z-index: -1;
-    height: calc(50vh - $navbarHeight);
     object-fit: cover;
 		object-position: 50% 50%;
-    
+    &.halfHeight{
+      @include mq($until: tablet) {
+        height: calc(50vh - $navbarHeight);
+      }
+    }
+    @include mq($until: tablet) {
+      height: calc(100vh - $navbarHeight) !important;
+      @include safari{
+        height: 100%;
+        height: -webkit-fill-available !important;
+      }
+    }
     @include mq($from: tablet) {
       height: 100vh;
     }
@@ -40,15 +50,7 @@
   }
 }
 
-.fullHeight{
-  @include mq($until: tablet) {
-    height: calc(100vh - $navbarHeight) !important;
-    @include safari{
-      height: 100%;
-      height: -webkit-fill-available !important;
-    }
-  }
-}
+
 
 .hoverContainer {
   position: fixed;

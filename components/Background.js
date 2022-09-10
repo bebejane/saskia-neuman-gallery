@@ -36,7 +36,7 @@ export default function Background({image, color, href, fullHeight}){
 	return (
 		<>			
 			<div className={cn(styles.container, !showMenu && styles.hiddenMenu)}>
-				<img className={cn(styles.backgroundImage, fullHeight && styles.fullHeight)} src={`${image.url}?fmt=jpg&w=1400`}/>
+				<img className={cn(styles.backgroundImage, !fullHeight && styles.halfHeight)} src={`${image.url}?fmt=jpg&w=1400`}/>
 				{href && <Link href={href}><a className={styles.link}></a></Link>}
 			</div>
 			{backgroundImage && 
