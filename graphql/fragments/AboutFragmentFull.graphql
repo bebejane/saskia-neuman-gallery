@@ -9,4 +9,5 @@ fragment AboutFragmentFull on AboutRecord {
   image{
     ...ImageFragment
   }
+  privacyPolicy(markdown: false)
 }

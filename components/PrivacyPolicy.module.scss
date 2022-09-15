@@ -1,0 +1,33 @@
+.privacy{
+    position: fixed;
+    
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $black;
+    color: $white;
+    z-index: 4000;
+    padding: 100px;
+    .content{
+      
+    }
+    .close {
+      position: absolute;
+      right: 3vw;
+      @include mq($until: tablet) { 
+        top: .6em;
+      }
+      top: 3vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 48px;
+      width: 48px;
+      color: #000;
+      z-index: 500;
+      cursor: pointer;
+      color:$white;
+      font-size: 2rem;
+    }
+}
