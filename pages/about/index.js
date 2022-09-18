@@ -11,7 +11,7 @@ import { format } from "date-fns"
 import { useState } from 'react';
 
 export default function About({ about, externalLinks }) {
-	
+
 	const { description, address, hours, phone, email, googleMapsUrl, image, privacyPolicy } = about || {};
 	const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
@@ -25,19 +25,18 @@ export default function About({ about, externalLinks }) {
 					</HeaderBar>
 					<p>
 						<b>
-						<Markdown>{address}</Markdown>
-						<a href={googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
-						Phone: {phone}<br /><br />
-						Opening hours:<br />
-						<Markdown>{hours}</Markdown>
-						<br />
-						<a href={`mailto:${email}`}>{email}</a><br />
-						<span className={styles.instaWrap}>
-							<img className={styles.instagram} src="/img/instagram.svg"></img><a href="https://www.instagram.com/saskianeumangallerystockholm/" target="new">@saskianeumangallerystockholm</a>
-						</span>
+							<Markdown>{address}</Markdown>
+							<a href={googleMapsUrl} target="new">View in Google Maps ↗</a><br /><br />
+							Phone: {phone}<br /><br />
+							Opening hours:<br />
+							<Markdown>{hours}</Markdown>
+							<br />
+							<a href={`mailto:${email}`}>{email}</a><br />
+							<span className={styles.instaWrap}>
+								<img className={styles.instagram} src="/img/instagram.svg"></img><a href="https://www.instagram.com/saskianeumangallerystockholm/" target="new">@saskianeumangallerystockholm</a>
+							</span>
 						</b>
-						<br/>
-						<a href="#privacy" onClick={()=> setShowPrivacyPolicy(true)}>Privacy policy</a>
+						<br />
 					</p>
 
 				</Meta>
@@ -69,12 +68,13 @@ export default function About({ about, externalLinks }) {
 
 			<Layout noMargin={true} hide={externalLinks.length === 0}>
 				<section className={styles.colophon}>
-					<div className={styles.text}>Copyright ©2022 Saskia Neuman Gallery <a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a></div>
+					<div className={styles.text}><span>Copyright ©2022 Saskia Neuman Gallery · <a href="#privacy" onClick={() => setShowPrivacyPolicy(true)}>Privacy policy</a></span>
+						<a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a></div>
 				</section>
 			</Layout>
-			
-			{showPrivacyPolicy && 
-				<PrivacyPolicy content={privacyPolicy} onClose={()=>setShowPrivacyPolicy(false)}/>
+
+			{showPrivacyPolicy &&
+				<PrivacyPolicy content={privacyPolicy} onClose={() => setShowPrivacyPolicy(false)} />
 			}
 		</>
 	)
