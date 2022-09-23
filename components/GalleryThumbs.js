@@ -4,19 +4,19 @@ import { useState } from 'react'
 import Gallery from './Gallery'
 import { splitArray } from '/lib/utils'
 
-export default function GalleryThumbs({ artwork }) {
+export default function GalleryThumbs({ artwork, artworkThumbnails }) {
   
   const maxRows = 4
-  const artworkRows = splitArray(artwork, maxRows)
+  const artworkRows = splitArray(artworkThumbnails, maxRows)
   const [galleryIndex, setGalleryIndex] = useState(-1)
   
   return (
     <>
       <div className={styles.thumbs}>
-        {artworkRows.map((artworks, ridx) =>
+        {artworkRows.map((a, ridx) =>
           <div key={`thumb-${ridx}`} className={styles.row}>
-            {artworks.map((image, idx) =>
-              <figure key={`thumb-image-${idx}`} onClick={() => setGalleryIndex(artwork.findIndex(a => a.id === image.id))}>
+            {a.map((image, idx) =>
+              <figure key={`thumb-image-${idx}`} onClick={() => setGalleryIndex(artworkThumbnails.findIndex(a => a.id === image.id))}>
                 <Image data={image.responsiveImage} objectFit="contain"/>
               </figure>
             )}

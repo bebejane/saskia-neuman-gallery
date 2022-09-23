@@ -1,4 +1,5 @@
 #import "./ImageFragment.graphql"
+#import "./ImageThumbnailFragment.graphql"
 
 fragment HappeningFragmentFull on HappeningRecord {
   id
@@ -12,5 +13,8 @@ fragment HappeningFragmentFull on HappeningRecord {
   }
   gallery{
    ...ImageFragment
+  }
+  galleryThumbnails: gallery{
+    ...ImageThumbnailFragment
   }
 }

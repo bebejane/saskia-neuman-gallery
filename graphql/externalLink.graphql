@@ -1,12 +1,7 @@
-#import "./fragments/ImageFragment.graphql"
+#import "./fragments/ExternalLinkFragment.graphql"
 
 query GetAllExternalLinks {
 	externalLinks: allExternalLinks(orderBy: _createdAt_ASC) {
-    id
-    title
-    url
-		image{
-			...ImageFragment
-		}
+    ...ExternalLinkFragment
   }
 }

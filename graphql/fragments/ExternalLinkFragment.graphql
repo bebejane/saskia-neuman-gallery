@@ -1,10 +1,11 @@
-#import "./ImageFragment.graphql"
+#import "./ImageThumbnailFragment.graphql"
 
 fragment ExternalLinkFragment on ExternalLinkRecord {
-  id
-  title
-  url
-  image{
-    ...ImageFragment
-  }
+	_createdAt
+	id
+	title
+	url
+	image {
+		...ImageThumbnailFragment
+	}
 }

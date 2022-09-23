@@ -1,5 +1,6 @@
 #import "./PressFragment.graphql"
 #import "./ImageFragment.graphql"
+#import "./ImageThumbnailFragment.graphql"
 #import "./ArtistFragment.graphql"
 
 fragment ExhibitionFragmentFull on ExhibitionRecord {
@@ -14,6 +15,9 @@ fragment ExhibitionFragmentFull on ExhibitionRecord {
   }
   artwork{
     ...ImageFragment
+  }
+  artworkThumbnails : artwork{
+    ...ImageThumbnailFragment
   }
   startDate
   endDate

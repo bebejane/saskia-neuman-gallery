@@ -30,7 +30,7 @@ export default function Happening({ happening }) {
 				<Markdown>{happening.description}</Markdown>
 				<section className={styles.artworks}>
 					<h2>IMAGES</h2>
-					<GalleryThumbs artwork={happening.gallery} />
+					<GalleryThumbs artwork={happening.gallery} artworkThumbnails={happening.galleryThumbnails}/>
 				</section>
 			</Content>
 		</Layout>

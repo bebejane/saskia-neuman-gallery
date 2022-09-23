@@ -10,11 +10,10 @@ import { HeaderBar } from 'components/HeaderBar';
 import { format } from "date-fns"
 import { useState } from 'react';
 
-export default function About({ about, externalLinks }) {
+export default function About({ aboutGallery, externalLinks }) {
 
-	const { description, address, hours, phone, email, googleMapsUrl, image, privacyPolicy } = about || {};
+	const { description, address, hours, phone, email, googleMapsUrl, privacyPolicy } = aboutGallery || {};
 	const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
-
 
 	return (
 		<>
@@ -49,11 +48,11 @@ export default function About({ about, externalLinks }) {
 
 			</Layout>
 
-			<Layout noMargin={true} hide={externalLinks.length === 0}>
+			<Layout noMargin={true} hide={externalLinks?.length === 0}>
 				<section className={styles.archive}>
 					<h2>Archive</h2>
 					<ul>
-						{externalLinks.map(({ title, url, image, _createdAt }) =>
+						{externalLinks?.map(({ title, url, image, _createdAt }) =>
 							<a href={url} target="new">
 								<li>
 									<Image data={image.responsiveImage} className={styles.image} />
@@ -66,7 +65,7 @@ export default function About({ about, externalLinks }) {
 				</section>
 			</Layout>
 
-			<Layout noMargin={true} hide={externalLinks.length === 0}>
+			<Layout noMargin={true} hide={externalLinks?.length === 0}>
 				<section className={styles.colophon}>
 					<div className={styles.text}><span>Copyright ©2022 Saskia Neuman Gallery · <a href="#privacy" onClick={() => setShowPrivacyPolicy(true)}>Privacy policy</a></span>
 						<a href="http://www.konst-teknik.se/" target="new">Designed and developed by Konst & Teknik</a></div>
@@ -82,6 +81,7 @@ export default function About({ about, externalLinks }) {
 
 export const getStaticProps = withGlobalProps({ queries: [GetAbout], model: 'about' }, async ({ props, revalidate }) => {
 	const { image } = props.about;
+	
 	return {
 		props: {
 			...props,

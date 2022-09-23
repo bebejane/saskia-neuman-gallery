@@ -14,7 +14,7 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import { format } from 'date-fns'
 
-export default function Artist({ artist: { firstName, lastName, biography, artwork, exhibitions, soloExhibitions, groupExhibitions, publications, education, represented, performances } }) {
+export default function Artist({ artist: { firstName, lastName, biography, artwork, artworkThumbnails, exhibitions, soloExhibitions, groupExhibitions, publications, education, represented, performances } }) {
 	
 	const [galleryIndex, setGalleryIndex] = useState()
 	const [showBiography, setShowBiography] = useState(false)
@@ -125,7 +125,7 @@ export default function Artist({ artist: { firstName, lastName, biography, artwo
 					{artwork.length > 0 &&
 						<>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs artwork={artwork} />
+							<GalleryThumbs artworkThumbnails={artworkThumbnails} artwork={artwork} />
 						</>
 					}
 				</Content>

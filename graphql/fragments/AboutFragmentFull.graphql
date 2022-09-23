@@ -1,3 +1,5 @@
+#import "./ImageFragment.graphql"
+
 fragment AboutFragmentFull on AboutRecord {
   id
   description(markdown: false) 

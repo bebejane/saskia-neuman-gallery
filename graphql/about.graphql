@@ -1,17 +1,11 @@
-#import "./fragments/ImageFragment.graphql"
 #import "./fragments/AboutFragmentFull.graphql"
+#import "./fragments/ExternalLinkFragment.graphql"
 
 query GetAbout {
-	about{
+	aboutGallery: about {
 		...AboutFragmentFull
 	}
 	externalLinks: allExternalLinks(orderBy: _createdAt_ASC) {
-    id
-    title
-		_createdAt
-		url
-		image{
-			...ImageFragment
-		}
-  }
+		...ExternalLinkFragment
+	}
 }

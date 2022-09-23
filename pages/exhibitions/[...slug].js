@@ -12,7 +12,7 @@ import { HeaderBar } from 'components/HeaderBar';
 import GalleryThumbs from 'components/GalleryThumbs';
 import PressLinks from 'components/PressLinks';
 
-export default function Exhibition({ exhibition: { title, description, startDate, endDate, slug, artwork, artists, press, pressRelease } }) {
+export default function Exhibition({ exhibition: { title, description, startDate, endDate, slug, artwork, artworkThumbnails, artists, press, pressRelease } }) {
 
 	const [showGallery, setShowGallery] = useState(false)
 
@@ -46,7 +46,7 @@ export default function Exhibition({ exhibition: { title, description, startDate
 					{artwork.length > 0 && 
 						<section className={styles.artworks}>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs artwork={artwork} />
+							<GalleryThumbs artwork={artwork} artworkThumbnails={artworkThumbnails}/>
 						</section>
 					}
 
