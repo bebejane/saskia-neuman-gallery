@@ -1,7 +1,16 @@
 .pressLinks {
   display: flex;
-
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: -1rem;
   div {
-    width: 50%;
+    flex: 0 0 33.3333%;
+    margin-bottom: 1rem;
+    @include mq($until: tablet){
+      flex: 0 0 50%;
+    }
+    h3{
+      white-space: pre;
+    }
   }
 }

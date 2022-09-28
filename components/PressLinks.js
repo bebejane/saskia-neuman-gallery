@@ -8,7 +8,7 @@ export default function PressLinks({ press }) {
         <div key={idx} className={styles.block}>
           <h3>{format(new Date(date), 'dd.MM.yyyy')}</h3>
           <a href={url} targer="new">
-            <b>{source} ↗</b><br />
+            <b>{source}&nbsp;↗</b><br />
             {author}</a>
         </div>
       )}
