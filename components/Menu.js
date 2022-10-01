@@ -47,6 +47,7 @@ const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) 
 				type: "happening",
 				path: "/happenings",
 				label: "Happenings",
+				past: happenings.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
 				more: true,
 				sub: [
 					happenings.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')[0],
@@ -210,7 +211,7 @@ export default function Menu(props) {
 				}
 			</>
 		)),
-		more: m.more && m.sub?.filter(({ startDate, endDate }) => !['upcoming', 'current'	].includes(datePeriod(startDate, endDate))).map(item =>
+		more: m.more && m.sub?.filter(({ startDate, endDate, id }) => !['upcoming', 'current'	].includes(datePeriod(startDate, endDate)) && m.past?.id !== id).map(item =>
 			m.sub.map((item, idx) =>
 				<Link
 					key={`more-${idx}`}
