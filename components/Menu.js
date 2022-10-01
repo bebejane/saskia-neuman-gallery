@@ -210,7 +210,7 @@ export default function Menu(props) {
 				}
 			</>
 		)),
-		more: m.more && m.sub?.filter(({ startDate, endDate }) => !['upcoming', 'current'].includes(datePeriod(startDate, endDate))).map(item =>
+		more: m.more && m.sub?.filter(({ startDate, endDate }) => !['upcoming', 'current'	].includes(datePeriod(startDate, endDate))).map(item =>
 			m.sub.map((item, idx) =>
 				<Link
 					key={`more-${idx}`}
