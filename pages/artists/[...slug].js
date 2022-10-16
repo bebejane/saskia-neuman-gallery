@@ -130,10 +130,8 @@ export default function Artist({ artist: { firstName, lastName, biography, artwo
 					}
 				</Content>
 			</Layout>
-			{
-				galleryIndex !== undefined &&
-				<Gallery images={artwork} index={galleryIndex} onClose={() => setGalleryIndex(undefined)} />
-			}
+			<Gallery show={galleryIndex !== undefined} images={artwork} index={galleryIndex} onClose={() => setGalleryIndex(undefined)} />
+			
 		</>
 	)
 }

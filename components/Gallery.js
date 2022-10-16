@@ -4,18 +4,19 @@ import { Image } from "react-datocms"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useRef, useEffect } from 'react';
 
-export default function Gallery({ images, onClose, index = 0 }) {
+export default function Gallery({ show, images, onClose, index = 0 }) {
 
   const swiperRef = useRef()
   const [realIndex, setRealIndex] = useState(index)
   const [caption, setCaption] = useState({})
 
   useEffect(() => {
+    if(!images || !images[realIndex]) return
     const { title, alt } = images[realIndex]
     setCaption({ title, alt })
-  }, [realIndex])
+  }, [images, realIndex])
 
-  if (!images) return null
+  if (!images || !show) return null
 
   return (
     <div className={styles.gallery}>

@@ -37,8 +37,6 @@
     padding-left: var(--margin-left);
     padding-right: 10px;
     background-color: $white;
-    //z-index: 1000;
-    transition: top 0.3s ease;
     .hamburger {
       display: flex !important;
     }
@@ -46,7 +44,6 @@
 
   &.hide {
     @include mq($until: desktop) {
-      transition: top 0.3s ease;
       top: -$navbarHeight;
     }
   }

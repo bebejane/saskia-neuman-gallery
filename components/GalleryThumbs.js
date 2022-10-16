@@ -23,7 +23,7 @@ export default function GalleryThumbs({ artwork, artworkThumbnails }) {
           </div>
         )}
       </div>
-      {galleryIndex > -1 && <Gallery images={artwork} index={galleryIndex} onClose={()=>setGalleryIndex(-1)}/>}
+      <Gallery show={galleryIndex > -1} images={artwork} index={galleryIndex} onClose={()=>setGalleryIndex(-1)}/>
     </>
   )
 }

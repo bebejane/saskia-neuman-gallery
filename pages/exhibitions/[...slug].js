@@ -59,7 +59,7 @@ export default function Exhibition({ exhibition: { title, description, startDate
 
 				</Content>
 			</Layout>
-			{showGallery && <Gallery images={artwork} onClose={() => setShowGallery(false)} />}
+			<Gallery show={showGallery} images={artwork} onClose={() => setShowGallery(false)} />
 		</>
 	)
 }

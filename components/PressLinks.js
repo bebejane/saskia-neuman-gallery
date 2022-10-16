@@ -1,5 +1,7 @@
 import styles from './PressLinks.module.scss'
-import { format } from "date-fns"
+import { format, isAfter } from "date-fns"
+
+const sortDates = (a, b) => isAfter(new Date(a.date), new Date(b.date)) ? 1 : -1
 
 export default function PressLinks({ press }) {
   return (
