@@ -13,7 +13,7 @@ import { format } from 'date-fns'
 const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) => {
 
 	if (!artists || !happenings || !exhibitions || !about || !start) return []
-
+	
 	try {
 		const menu = [
 			{
@@ -211,25 +211,25 @@ export default function Menu(props) {
 				}
 			</>
 		)),
-		more: m.more && m.sub?.filter(({ startDate, endDate, id }) => !['upcoming', 'current'	].includes(datePeriod(startDate, endDate)) && m.past?.id !== id).map(item =>
-			m.sub.map((item, idx) =>
-				<Link
-					key={`more-${idx}`}
-					href={`/${item.slug}`}
-					color={item.color}
-					isSelected={item.isSelected}
-					image={item.image}
-					onMouseEnter={() => handleMouseOver(item, true)}
-					onMouseLeave={() => handleMouseOver(item, false)}
-				>
-					<p>
-						{item.artists && item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(', ')}{item.artists && <br />}
-						<i>{item.title}</i>
-						{m.type === 'event' ? <><br />{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}</> : ''}
-					</p>
-				</Link>
-			)
+		more: m.all?.filter(({ startDate, endDate, id }) => datePeriod(startDate, endDate) === 'past' && m.past?.id !== id).map((item, idx) =>
+			<Link
+				key={`more-${idx}`}
+				href={`/${item.slug}`}
+				color={item.color}
+				isSelected={item.isSelected}
+				image={item.image}
+				onMouseEnter={() => handleMouseOver(item, true)}
+				onMouseLeave={() => handleMouseOver(item, false)}
+			>
+				<p>
+					{item.artists && item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(', ')}{item.artists && <br />}
+					<i>{item.title}</i>
+					<br />
+					{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
+				</p>
+			</Link>
 		)
+		
 	}))
 
 	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
@@ -249,7 +249,7 @@ export default function Menu(props) {
 	)
 
 	if (!menu || menu.length === 0) return null
-
+	
 	return (
 		<>
 			<div className={navbarStyles}>
@@ -313,7 +313,7 @@ export default function Menu(props) {
 								>
 									{sub.length > 0 ?
 										sub.map((s, idx) => <Fragment key={`sub-desktop-${idx}`}>{s}</Fragment>)
-										:
+									:
 										<li>To be announced...</li>
 									}
 
