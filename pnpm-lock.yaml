@@ -24,7 +24,7 @@ specifiers:
   next-sitemap: ^2.5.25
   nextjs-google-analytics: ^1.2.1
   react: 17.0.2
-  react-datocms: 4.0.7
+  react-datocms: ^4.0.7
   react-dom: 17.0.2
   react-markdown: ^7.1.0
   react-tapper: ^0.1.23
