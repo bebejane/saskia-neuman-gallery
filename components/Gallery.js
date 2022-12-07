@@ -39,7 +39,7 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 									placeholderClassName={styles.image}
 									pictureClassName={styles.picture}
 									data={image.responsiveImage}
-									lazyLoad={true}
+									lazyLoad={false}
 								/>
 							}
 						</SwiperSlide>
