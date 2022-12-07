@@ -1,25 +1,22 @@
 fragment ImageFragment on FileField {
-	alt
-	basename
-	format
-	height
 	id
 	mimeType
-	size
-	title
+	basename
 	url
+	format
+	title
 	width
-	responsiveImage {
-		alt
-		aspectRatio
-		base64
-		height
-		sizes
+	height
+	alt
+	responsiveImage(imgixParams: { auto: format }) {
 		src
-		srcSet
-		webpSrcSet
-		title
+		alt
 		width
+		height
+		alt
+		base64
+		sizes
+		title
 	}
 	colors {
 		blue

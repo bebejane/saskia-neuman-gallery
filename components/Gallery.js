@@ -40,7 +40,9 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 									pictureClassName={styles.picture}
 									data={image.responsiveImage}
 									fadeInDuration={100}
-									lazyLoad={false}
+									lazyLoad={index === idx}
+									onLoad={() => console.log("loaded", idx, image.title)}
+									//priority={index === idx || index === (idx - 1 || index === idx + 1}
 								/>
 							}
 						</SwiperSlide>
