@@ -1,4 +1,5 @@
 import "swiper/css";
+import cn from "classnames";
 import styles from "./Gallery.module.scss";
 import { Image } from "react-datocms";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,10 +16,10 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 		setCaption({ title, alt });
 	}, [images, realIndex]);
 
-	if (!images || !show) return null;
+	if (!images) return null;
 
 	return (
-		<div className={styles.gallery}>
+		<div className={cn(styles.gallery, !show && styles.hide)}>
 			<div className={styles.back} onClick={() => swiperRef.current.slidePrev()}>
 				❮
 			</div>
