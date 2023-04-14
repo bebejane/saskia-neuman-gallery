@@ -41,8 +41,6 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 									data={image.responsiveImage}
 									fadeInDuration={100}
 									lazyLoad={index === idx}
-									onLoad={() => console.log("loaded", idx, image.title)}
-									//priority={index === idx || index === (idx - 1 || index === idx + 1}
 								/>
 							}
 						</SwiperSlide>

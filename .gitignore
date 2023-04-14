@@ -4,7 +4,8 @@ yarn.lock
 /node_modules
 /.next
 /.vscode
-#package-lock.json
 **/.DS_Store
 TODO
 .swc
+/public/sitemap*
+/public/robot.txt
