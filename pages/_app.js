@@ -29,7 +29,6 @@ function SaskiaNeumanGallery({
 	if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) usePagesViews(); // Google Analytics page view tracker
 
 	const router = useRouter();
-	//const transitionFix = useTransitionFix()
 	const { asPath: pathname } = router;
 	const isHome = !pathname || pathname === "/";
 	const title = isHome
@@ -42,6 +41,8 @@ function SaskiaNeumanGallery({
 		? `/${start.links[0]._modelApiKey}s/${start.links[0].slug}`
 		: start?.links?.[0].url || null;
 	const isSingleLinkHome = isHome && pageProps.start?.links?.length === 1;
+
+	console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
 
 	return (
 		<>
