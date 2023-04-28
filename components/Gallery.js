@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from "react";
 
 export default function Gallery({ show, images, onClose, index = 0 }) {
 	const swiperRef = useRef();
-	const [realIndex, setRealIndex] = useState(index);
+	const [realIndex, setRealIndex] = useState(0);
 	const [caption, setCaption] = useState({});
 
 	useEffect(() => {
@@ -16,6 +16,10 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 		setCaption({ title, alt });
 	}, [images, realIndex]);
 
+	useEffect(() => {
+		swiperRef.current.slideTo(index + 1);
+	}, [index]);
+
 	if (!images) return null;
 
 	return (
@@ -23,7 +27,7 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 			<div className={styles.back} onClick={() => swiperRef.current.slidePrev()}>
 				❮
 			</div>
-			<div className={styles.images} onClick={() => swiperRef?.current?.slideNext()}>
+			<div className={styles.images} onClick={() => swiperRef?.current?.slideNext()} key={index}>
 				<Swiper
 					loop={true}
 					spaceBetween={500}
