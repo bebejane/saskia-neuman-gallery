@@ -40,9 +40,8 @@ function SaskiaNeumanGallery({
 	const backgroundLink = start?.links?.[0].slug
 		? `/${start.links[0]._modelApiKey}s/${start.links[0].slug}`
 		: start?.links?.[0].url || null;
-	const isSingleLinkHome = isHome && pageProps.start?.links?.length === 1;
 
-	console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
+	const isSingleLinkHome = isHome && pageProps.start?.links?.length === 1;
 
 	return (
 		<>
