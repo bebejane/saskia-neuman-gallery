@@ -1,7 +1,8 @@
-import { withWebPreviews } from "dato-nextjs-utils/hoc";
+import { withWebPreviewsEdge } from "dato-nextjs-utils/hoc";
 
-export default withWebPreviews(async ({ item, itemType }) => {
+export default withWebPreviewsEdge(async ({ item, itemType }) => {
 	let path = null;
+
 	const { slug } = item.attributes;
 	const { api_key } = itemType.attributes;
 
