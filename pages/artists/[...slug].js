@@ -159,7 +159,6 @@ export default function Artist({
 										color={imageColor(image)}
 										image={image}
 										className={styles.exhibition}
-										legacyBehavior
 									>
 										<figure>
 											<Image className={styles.image} data={image.responsiveImage} />

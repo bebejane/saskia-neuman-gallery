@@ -40,7 +40,7 @@ export default function Background({ image, color, href, fullHeight }) {
 					src={`${image.url}?fmt=jpg&w=1400`}
 				/>
 				{href && (
-					<Link href={href} legacyBehavior>
+					<Link href={href}>
 						<a className={styles.link}></a>
 					</Link>
 				)}

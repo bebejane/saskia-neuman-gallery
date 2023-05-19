@@ -57,7 +57,7 @@ export function Link({
 	}, [hover, color]);
 
 	return (
-		<NextLink href={href} scroll={scroll !== undefined ? scroll : false} legacyBehavior>
+		<NextLink href={href} scroll={scroll !== undefined ? scroll : false}>
 			<a
 				id={id}
 				ref={linkRef}

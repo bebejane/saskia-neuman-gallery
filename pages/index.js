@@ -42,33 +42,28 @@ export default function Start({ start, image, color }) {
 					const theme = image.customData.theme;
 
 					return (
-						<Link
-							key={idx}
-							href={href}
-							image={image}
-							color={imageColor(image)}
-							className={styles.card}
-							target={type === "news" ? "_blank" : "_self"}
-						>
-							{idx > 0 && image && (
-								<Image
-									className={cn(styles.linkImage)}
-									data={(image || images[0])?.responsiveImage}
-									prefetch={true}
-								/>
-							)}
-							<div
-								className={cn(styles.headline, isHoveringMenuItem && styles.hide, styles[theme])}
-							>
-								<div className={styles.bubble}>
-									<h3>{type}</h3>
-									<h1>
-										{title}
-										<span>{byArtists}</span>
-									</h1>
-									{type === "news" && <span className={styles.link}>↗</span>}
+						<Link key={idx} href={href} image={image} color={imageColor(image)}>
+							<a className={styles.card} target={type === "news" ? "_blank" : "_self"}>
+								{idx > 0 && image && (
+									<Image
+										className={cn(styles.linkImage)}
+										data={(image || images[0])?.responsiveImage}
+										prefetch={true}
+									/>
+								)}
+								<div
+									className={cn(styles.headline, isHoveringMenuItem && styles.hide, styles[theme])}
+								>
+									<div className={styles.bubble}>
+										<h3>{type}</h3>
+										<h1>
+											{title}
+											<span>{byArtists}</span>
+										</h1>
+										{type === "news" && <span className={styles.link}>↗</span>}
+									</div>
 								</div>
-							</div>
+							</a>
 						</Link>
 					);
 				}

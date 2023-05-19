@@ -234,7 +234,6 @@ export default function Menu(props) {
 					color={item.color}
 					isSelected={item.isSelected}
 					image={item.image}
-					legacyBehavior
 				>
 					<li
 						onMouseEnter={() => handleMouseOver(item, true)}
@@ -285,7 +284,6 @@ export default function Menu(props) {
 					image={item.image}
 					onMouseEnter={() => handleMouseOver(item, true)}
 					onMouseLeave={() => handleMouseOver(item, false)}
-					legacyBehavior
 				>
 					<p>
 						{item.artists && item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(", ")}
@@ -325,7 +323,7 @@ export default function Menu(props) {
 	return (
 		<>
 			<div className={navbarStyles}>
-				<Link href={"/"} className={styles.logo} legacyBehavior>
+				<Link href={"/"} className={styles.logo}>
 					<div id="logo">SASKIA NEUMAN GALLERY</div>
 				</Link>
 				<div className={styles.hamburger}>
