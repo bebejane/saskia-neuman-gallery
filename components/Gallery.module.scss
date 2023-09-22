@@ -43,6 +43,13 @@
         max-height: calc(100vh - 11em);
       }
 
+      .placeholder {
+        object-fit: contain;
+        height: 100% !important;
+        width: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+      }
 
       .image {
         position: relative;

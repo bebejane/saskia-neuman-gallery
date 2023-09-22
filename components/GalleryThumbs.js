@@ -21,7 +21,11 @@ export default function GalleryThumbs({ artwork, artworkThumbnails }) {
 									setGalleryIndex(artworkThumbnails.findIndex((a) => a.id === image.id))
 								}
 							>
-								<Image data={image.responsiveImage} objectFit="contain" />
+								<Image
+									data={image.responsiveImage}
+									objectFit="contain"
+									intersectionMargin="0px 0px 100% 0px"
+								/>
 							</figure>
 						))}
 					</div>

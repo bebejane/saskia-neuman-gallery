@@ -41,7 +41,7 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 							{
 								<Image
 									className={styles.image}
-									placeholderClassName={styles.image}
+									placeholderClassName={styles.placeholder}
 									pictureClassName={styles.picture}
 									data={image.responsiveImage}
 									fadeInDuration={100}

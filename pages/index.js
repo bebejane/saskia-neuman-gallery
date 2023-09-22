@@ -49,6 +49,7 @@ export default function Start({ start, image, color }) {
 										className={cn(styles.linkImage)}
 										data={(image || images[0])?.responsiveImage}
 										prefetch={true}
+										intersectionMargin="0px 0px 200% 0px"
 									/>
 								)}
 								<div
