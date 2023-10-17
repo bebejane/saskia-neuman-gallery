@@ -1,20 +1,32 @@
-import styles from './Exhibitions.module.scss'
-import { apiQuery } from '/lib/dato/api';
+import styles from "./Exhibitions.module.scss";
+import { apiQuery } from "/lib/dato/api";
 import { withGlobalProps } from "/lib/hoc";
-import { imageColor } from '/lib/utils';
-import { GetAllExhibitions, GetExhibition } from '/graphql';
-import Markdown from '/lib/dato/components/Markdown';
-import { format } from "date-fns"
-import { useState } from 'react';
-import Gallery from '/components/Gallery'
-import { Layout, Meta, Content } from '/components/Layout'
-import { HeaderBar } from 'components/HeaderBar';
-import GalleryThumbs from 'components/GalleryThumbs';
-import PressLinks from 'components/PressLinks';
+import { imageColor } from "/lib/utils";
+import { GetAllExhibitions, GetExhibition } from "/graphql";
+import Markdown from "/lib/dato/components/Markdown";
+import { format } from "date-fns";
+import { useState } from "react";
+import Gallery from "/components/Gallery";
+import { Layout, Meta, Content } from "/components/Layout";
+import { HeaderBar } from "components/HeaderBar";
+import GalleryThumbs from "components/GalleryThumbs";
+import PressLinks from "components/PressLinks";
 
-export default function Exhibition({ exhibition: { title, description, startDate, endDate, slug, artwork, artworkThumbnails, artists, press, pressRelease } }) {
-
-	const [showGallery, setShowGallery] = useState(false)
+export default function Exhibition({
+	exhibition: {
+		title,
+		description,
+		startDate,
+		endDate,
+		slug,
+		artwork,
+		artworkThumbnails,
+		artists,
+		press,
+		pressRelease,
+	},
+}) {
+	const [showGallery, setShowGallery] = useState(false);
 
 	return (
 		<>
@@ -25,67 +37,78 @@ export default function Exhibition({ exhibition: { title, description, startDate
 					</HeaderBar>
 					<p>
 						<b>
-							{artists.map((a, idx) => `${a.firstName} ${a.lastName}`).join(', ')}
+							{artists.map((a, idx) => `${a.firstName} ${a.lastName}`).join(", ")}
 							<br />
-							<i>{title}</i><br />
-							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
-						</b>	
+							<i>{title}</i>
+							<br />
+							{format(new Date(startDate), "dd.MM")}—{format(new Date(endDate), "dd.MM.yyyy")}
+						</b>
 					</p>
-					{pressRelease && 
+					{pressRelease && (
 						<p>
-							<a href={pressRelease.url} download>Download pressrelease ↓</a>
+							<a href={pressRelease.url} download>
+								Download pressrelease ↓
+							</a>
 						</p>
-					}
+					)}
 				</Meta>
 
 				<Content>
-					<HeaderBar mobileHide='true'>
-						<h1><i>{title}</i></h1>
+					<HeaderBar mobileHide="true">
+						<h1>
+							<i>{title}</i>
+						</h1>
 					</HeaderBar>
 					<Markdown>{description}</Markdown>
-					{artwork.length > 0 && 
+					{artwork.length > 0 && (
 						<section className={styles.artworks}>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs artwork={artwork} artworkThumbnails={artworkThumbnails}/>
+							<GalleryThumbs artwork={artwork} artworkThumbnails={artworkThumbnails} />
 						</section>
-					}
+					)}
 
-					{press.length > 0 &&
+					{press.length > 0 && (
 						<section className={styles.press}>
 							<h2>PRESS</h2>
 							<PressLinks press={press} />
 						</section>
-					}
-
+					)}
 				</Content>
 			</Layout>
 			<Gallery show={showGallery} images={artwork} onClose={() => setShowGallery(false)} />
 		</>
-	)
+	);
 }
 
 export async function getStaticPaths(context) {
-	const { exhibitions } = await apiQuery(GetAllExhibitions)
-	
-	const paths = exhibitions.map(({ slug }) => ({ params: { slug: [slug] } }))
+	const { exhibitions } = await apiQuery(GetAllExhibitions);
+
+	const paths = exhibitions.map(({ slug }) => ({ params: { slug: [slug] } }));
 	return {
 		paths,
-		fallback: 'blocking'
-	}
+		fallback: "blocking",
+	};
 }
 
-export const getStaticProps = withGlobalProps({ model: 'exhibition' }, async ({ props, context, revalidate }) => {
-	const { exhibition } = await apiQuery(GetExhibition, { slug: context.params.slug[0] })
+export const getStaticProps = withGlobalProps(
+	{ model: "exhibition" },
+	async ({ props, context, revalidate }) => {
+		const { exhibition } = await apiQuery(
+			GetExhibition,
+			{ slug: context.params.slug[0] },
+			context.preview
+		);
 
-	if (!exhibition) return { notFound: true }
+		if (!exhibition) return { notFound: true };
 
-	return {
-		props: {
-			...props,
-			image: exhibition.image || null,
-			color: imageColor(exhibition.image),
-			exhibition
-		},
-		revalidate
-	};
-});
+		return {
+			props: {
+				...props,
+				image: exhibition.image || null,
+				color: imageColor(exhibition.image),
+				exhibition,
+			},
+			revalidate,
+		};
+	}
+);
