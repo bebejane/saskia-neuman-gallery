@@ -27,7 +27,14 @@ export default function Footer(props) {
 			<div className={styles.wrapper}>
 				<div className={styles.next}>
 					<HeaderBar>
-						<h3>Next {type} </h3>
+						<Link href={slug} scroll={false} color={imageColor(next.image)} image={next.image}>
+							<h3
+								onMouseEnter={() => setBackgroundImage(next.image)}
+								onMouseLeave={() => setBackgroundImage(null)}
+							>
+								Next {type}
+							</h3>
+						</Link>
 					</HeaderBar>
 				</div>
 				<div className={styles.label}>
