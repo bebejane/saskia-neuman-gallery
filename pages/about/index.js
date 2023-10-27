@@ -61,8 +61,8 @@ export default function About({ aboutGallery, externalLinks }) {
 				<section className={styles.archive}>
 					<h2>Archive</h2>
 					<ul>
-						{externalLinks?.map(({ title, url, image, _createdAt }) => (
-							<a href={url} target="new">
+						{externalLinks?.map(({ title, url, image, _createdAt }, idx) => (
+							<a key={idx} href={url} target="new">
 								<li>
 									<Image
 										data={image.responsiveImage}
