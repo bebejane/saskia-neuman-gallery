@@ -60,7 +60,7 @@ export const getStaticProps = withGlobalProps(
 			context.preview
 		);
 
-		if (!happening) return { notFound: true };
+		if (!happening) return { notFound: true, revalidate };
 
 		return {
 			props: {

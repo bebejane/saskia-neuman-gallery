@@ -208,7 +208,7 @@ export const getStaticProps = withGlobalProps(
 	async ({ props, context, revalidate }) => {
 		const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] }, context.preview);
 
-		if (!artist) return { notFound: true };
+		if (!artist) return { notFound: true, revalidate };
 
 		return {
 			props: {
