@@ -1,12 +1,17 @@
-import { withWebPreviews } from "dato-nextjs-utils/hoc";
+import { withWebPreviewsEdge } from "dato-nextjs-utils/hoc";
+import { apiQuery } from "dato-nextjs-utils/api";
+import { GetExhibitionById } from "/graphql";
 
-export default withWebPreviews(async ({ item, itemType }) => {
+export const config = {
+	runtime: "edge",
+};
+
+export default withWebPreviewsEdge(async ({ item, itemType }) => {
 	let path = null;
 
 	const { slug } = item.attributes;
-	const { api_key } = itemType.attributes;
 
-	switch (api_key) {
+	switch (itemType.attributes.api_key) {
 		case "start":
 			path = `/`;
 			break;
@@ -22,6 +27,12 @@ export default withWebPreviews(async ({ item, itemType }) => {
 			break;
 		case "artist":
 			path = `/artists/${slug}`;
+			break;
+		case "press":
+			const { exhibition } = await apiQuery(GetExhibitionById, {
+				variables: { id: item.attributes.exhibition },
+			});
+			path = `/exhibitions/${exhibition?.slug}`;
 			break;
 		default:
 			break;

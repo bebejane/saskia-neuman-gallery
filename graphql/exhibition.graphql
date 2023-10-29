@@ -6,8 +6,13 @@ query GetAllExhibitions {
 		...ExhibitionFragment
 	}
 }
-query GetExhibition($slug:String!) {
-	exhibition(filter: {slug: {eq: $slug}}) {
+query GetExhibition($slug: String!) {
+	exhibition(filter: { slug: { eq: $slug } }) {
+		...ExhibitionFragmentFull
+	}
+}
+query GetExhibitionById($id: ItemId!) {
+	exhibition(filter: { id: { eq: $id } }) {
 		...ExhibitionFragmentFull
 	}
 }

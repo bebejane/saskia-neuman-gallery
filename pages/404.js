@@ -5,7 +5,7 @@ export default function FourOhFour() {
 		<div id="error-404">
 			<h1>404 - Page Not Found</h1>
 			<Link prefetch={false} href="/">
-				<a>Go back home</a>
+				Go back home
 			</Link>
 		</div>
 	);

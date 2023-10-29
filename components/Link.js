@@ -57,20 +57,20 @@ export function Link({
 	}, [hover, color]);
 
 	return (
-		<NextLink href={href} scroll={scroll !== undefined ? scroll : false}>
-			<a
-				id={id}
-				ref={linkRef}
-				style={{ ...linkStyle, ...style }}
-				target={target}
-				onMouseEnter={handleMouse}
-				onMouseLeave={handleMouse}
-				suppressHydrationWarning={true}
-			>
-				<Tappable onTap={handleTouchEnd} className={className}>
-					{children}
-				</Tappable>
-			</a>
+		<NextLink
+			href={href}
+			scroll={scroll !== undefined ? scroll : false}
+			id={id}
+			ref={linkRef}
+			style={{ ...linkStyle, ...style }}
+			target={target}
+			onMouseEnter={handleMouse}
+			onMouseLeave={handleMouse}
+			suppressHydrationWarning={true}
+		>
+			<Tappable onTap={handleTouchEnd} className={className}>
+				{children}
+			</Tappable>
 		</NextLink>
 	);
 }

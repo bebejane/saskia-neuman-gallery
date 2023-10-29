@@ -5,7 +5,7 @@ export default function FiveZeroZero() {
 		<div id="error-505">
 			<h1>500 - Server-side error occurred</h1>
 			<Link prefetch={false} href="/">
-				<a>Go back home</a>
+				Go back home
 			</Link>
 		</div>
 	);

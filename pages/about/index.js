@@ -22,32 +22,31 @@ export default function About({ aboutGallery, externalLinks }) {
 					<HeaderBar>
 						<h3>Contact</h3>
 					</HeaderBar>
-					<p>
-						<b>
-							<Markdown>{address}</Markdown>
-							<a href={googleMapsUrl} target="new">
-								View in Google Maps ↗
-							</a>
-							<br />
-							<br />
-							Phone: {phone}
-							<br />
-							<br />
-							Opening hours:
-							<br />
-							<Markdown>{hours}</Markdown>
-							<br />
-							<a href={`mailto:${email}`}>{email}</a>
-							<br />
-							<span className={styles.instaWrap}>
-								<img className={styles.instagram} src="/img/instagram.svg"></img>
-								<a href="https://www.instagram.com/saskianeumangallerystockholm/" target="new">
-									@saskianeumangallerystockholm
-								</a>
-							</span>
-						</b>
+
+					<b>
+						<Markdown>{address}</Markdown>
+						<a href={googleMapsUrl} target="new">
+							View in Google Maps ↗
+						</a>
 						<br />
-					</p>
+						<br />
+						Phone: {phone}
+						<br />
+						<br />
+						Opening hours:
+						<br />
+						<Markdown>{hours}</Markdown>
+						<br />
+						<a href={`mailto:${email}`}>{email}</a>
+						<br />
+						<span className={styles.instaWrap}>
+							<img className={styles.instagram} src="/img/instagram.svg"></img>
+							<a href="https://www.instagram.com/saskianeumangallerystockholm/" target="new">
+								@saskianeumangallerystockholm
+							</a>
+						</span>
+					</b>
+					<br />
 				</Meta>
 				<Content>
 					<HeaderBar>

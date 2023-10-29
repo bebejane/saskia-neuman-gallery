@@ -1,69 +1,37 @@
-import { Dato } from "/lib/dato/api";
+import { withRevalidate } from "dato-nextjs-utils/hoc";
+import { apiQuery } from "dato-nextjs-utils/api";
+import { GetExhibitionById } from "/graphql";
 
-const basicAuth = (req) => {
-	const basicAuth = req.headers.authorization;
-	if (!basicAuth) return true;
+export default withRevalidate(async (record, revalidate) => {
+	const paths = [];
+	const { api_key } = record.model;
+	const { slug } = record;
 
-	const auth = basicAuth.split(" ")[1];
-	const [user, pwd] = Buffer.from(auth, "base64").toString().split(":");
-	return user === process.env.BASIC_AUTH_USER && pwd === process.env.BASIC_AUTH_PASSWORD;
-};
-
-export default async (req, res) => {
-	if (req.method === "GET" && req.query?.ping) {
-		console.log("ping revalidate");
-		return res.status(200).send("pong");
+	switch (api_key) {
+		case "start":
+			paths.push(`/`);
+			break;
+		case "about":
+			paths.push(`/about`);
+			break;
+		case "exhibition":
+			paths.push(`/exhibitions/${slug}`);
+			break;
+		case "happening":
+			paths.push(`/happenings/${slug}`);
+			break;
+		case "artist":
+			paths.push(`/artists/${slug}`);
+			break;
+		case "press":
+			const { exhibition } = await apiQuery(GetExhibitionById, {
+				variables: { id: record.exhibition },
+			});
+			exhibition && paths.push(`/exhibitions/${exhibition.slug}`);
+			break;
+		default:
+			break;
 	}
 
-	if (!basicAuth(req)) return res.status(401).send("Access denied");
-
-	let path;
-
-	try {
-		const { entity } = req.body;
-
-		if (!entity) throw new Error(`Record payload missing!`);
-
-		const models = await Dato.itemTypes.all();
-		const modelId = entity.relationships.item_type.data.id;
-		const model = models.filter((m) => m.id === modelId)[0];
-		const record = (
-			await Dato.items.all(
-				{ filter: { type: model.apiKey, fields: { id: { eq: entity.id } } } },
-				{ allPages: true }
-			)
-		)[0];
-
-		if (!record) throw new Error(`Error revalidating! Record not found with id ${entity.id}`);
-
-		switch (model.apiKey) {
-			case "start":
-				path = `/`;
-				break;
-			case "about":
-				path = `/about`;
-				break;
-			case "exhibition":
-				path = `/exhibitions/${record.slug}`;
-				break;
-			case "happening":
-				path = `/happenings/${record.slug}`;
-				break;
-			case "artist":
-				path = `/artists/${record.slug}`;
-				break;
-			default:
-				break;
-		}
-
-		if (!path) throw new Error(`Path not found for model ${model.apiKey}`);
-
-		res.json({ revalidated: true, path, model: model.apiKey });
-		console.log(`revalidate path: ${path}`);
-		await res.revalidate(path);
-		console.log("done!");
-	} catch (err) {
-		console.error(err);
-		res.status(500).send(`Error revalidating path: ${path}! ${err.message}`);
-	}
-};
+	await revalidate(paths);
+});

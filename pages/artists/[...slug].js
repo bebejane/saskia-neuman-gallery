@@ -151,29 +151,28 @@ export default function Artist({
 					{exhibitions.length > 0 && (
 						<>
 							<h2>EXHIBITIONS</h2>
-							<p>
-								{exhibitions.map(({ title, description, image, startDate, endDate, slug }, idx) => (
-									<Link
-										key={`exhibition-${idx}`}
-										href={`/exhibitions/${slug}`}
-										color={imageColor(image)}
-										image={image}
-										className={styles.exhibition}
-									>
-										<figure>
-											<Image className={styles.image} data={image.responsiveImage} />
-										</figure>
-										<p>
-											<b>
-												<i>{title}</i>
-												<br />
-												{format(new Date(startDate), "dd.MM")}—
-												{format(new Date(endDate), "dd.MM.yyyy")}
-											</b>
-										</p>
-									</Link>
-								))}
-							</p>
+
+							{exhibitions.map(({ title, description, image, startDate, endDate, slug }, idx) => (
+								<Link
+									key={`exhibition-${idx}`}
+									href={`/exhibitions/${slug}`}
+									color={imageColor(image)}
+									image={image}
+									className={styles.exhibition}
+								>
+									<figure>
+										<Image className={styles.image} data={image.responsiveImage} />
+									</figure>
+									<p>
+										<b>
+											<i>{title}</i>
+											<br />
+											{format(new Date(startDate), "dd.MM")}—
+											{format(new Date(endDate), "dd.MM.yyyy")}
+										</b>
+									</p>
+								</Link>
+							))}
 						</>
 					)}
 					{artwork.length > 0 && (

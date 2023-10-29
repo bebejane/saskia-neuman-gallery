@@ -1,7 +1,6 @@
 import styles from "./Background.module.scss";
 import cn from "classnames";
 import useStore from "/lib/store";
-import { Image } from "react-datocms";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -39,11 +38,7 @@ export default function Background({ image, color, href, fullHeight }) {
 					className={cn(styles.backgroundImage, !fullHeight && styles.halfHeight)}
 					src={`${image.url}?fmt=jpg&w=1400`}
 				/>
-				{href && (
-					<Link href={href}>
-						<a className={styles.link}></a>
-					</Link>
-				)}
+				{href && <Link href={href} className={styles.link}></Link>}
 			</div>
 			{backgroundImage && (
 				<div className={styles.hoverContainer} key={backgroundImage.id}>

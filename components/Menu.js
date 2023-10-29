@@ -9,6 +9,7 @@ import useScrollInfo from "/lib/hooks/useScrollInfo";
 import { Twirl as Hamburger } from "hamburger-react";
 import { imageColor, datePeriod } from "/lib/utils";
 import { format } from "date-fns";
+import { is } from "date-fns/locale";
 
 const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) => {
 	if (!artists || !happenings || !exhibitions || !about || !start) return [];
@@ -149,8 +150,13 @@ export default function Menu(props) {
 	const isMobile = innerWidth <= 768;
 
 	const handleMouseOver = (item, hovering) => {
-		setIsHoveringMenuItem(hovering);
-		setBackgroundImage(hovering ? item.image : null);
+		setTimeout(
+			() => {
+				setIsHoveringMenuItem(hovering);
+				setBackgroundImage(hovering ? item.image : null);
+			},
+			isTransitioning ? 1000 : 0
+		);
 	};
 
 	useEffect(() => {
@@ -217,10 +223,12 @@ export default function Menu(props) {
 
 	useEffect(() => {
 		// Hide mobile menu after exiting
-
 		if (showMobileMenu && !isExiting) {
 			setSubMenu(undefined);
 			setShowMobileMenu(false);
+		}
+		if (showMenu && isExiting) {
+			setSubMenu(undefined);
 		}
 	}, [isTransitioning, isExiting]);
 
