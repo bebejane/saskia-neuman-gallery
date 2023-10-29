@@ -18,7 +18,6 @@ export default function Exhibition({
 		description,
 		startDate,
 		endDate,
-		slug,
 		artwork,
 		artworkThumbnails,
 		artists,
