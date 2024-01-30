@@ -38,9 +38,9 @@ const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) 
 				current: exhibitions.find(
 					({ startDate, endDate }) => datePeriod(startDate, endDate) === "current"
 				),
-				upcoming: exhibitions.filter(
-					({ startDate, endDate }) => datePeriod(startDate, endDate) === "upcoming"
-				)[0],
+				upcoming: exhibitions
+					.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === "upcoming")
+					.sort((a, b) => (a.startDate > b.startDate ? -1 : 1))[0],
 				past: exhibitions.filter(
 					({ startDate, endDate }) => datePeriod(startDate, endDate) === "past"
 				)[0],
@@ -48,9 +48,9 @@ const generateMenu = ({ start, artists, happenings, exhibitions, about }, path) 
 					exhibitions.find(
 						({ startDate, endDate }) => datePeriod(startDate, endDate) === "current"
 					),
-					exhibitions.filter(
-						({ startDate, endDate }) => datePeriod(startDate, endDate) === "upcoming"
-					)[0],
+					exhibitions
+						.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === "upcoming")
+						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))[0],
 					exhibitions.filter(
 						({ startDate, endDate }) => datePeriod(startDate, endDate) === "past"
 					)[0],
