@@ -12,6 +12,7 @@ export default withRevalidate(async (record, revalidate) => {
 			paths.push(`/`);
 			break;
 		case "about":
+		case "external_link":
 			paths.push(`/about`);
 			break;
 		case "exhibition":
