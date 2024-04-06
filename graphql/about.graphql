@@ -5,7 +5,4 @@ query GetAbout {
 	aboutGallery: about {
 		...AboutFragmentFull
 	}
-	externalLinks: allExternalLinks(orderBy: _createdAt_ASC) {
-		...ExternalLinkFragment
-	}
 }

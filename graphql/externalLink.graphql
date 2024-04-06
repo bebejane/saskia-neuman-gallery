@@ -1,7 +1,10 @@
 #import "./fragments/ExternalLinkFragment.graphql"
 
-query GetAllExternalLinks {
-	externalLinks: allExternalLinks(orderBy: _createdAt_ASC) {
-    ...ExternalLinkFragment
-  }
+query GetAllExternalLinks($first: IntType = 10000, $skip: IntType = 0) {
+	allExternalLinks(orderBy: _createdAt_ASC, first: $first, skip: $skip) {
+		...ExternalLinkFragment
+	}
+	pagination: _allExternalLinksMeta {
+		count
+	}
 }

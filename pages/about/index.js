@@ -1,5 +1,6 @@
 import styles from "./About.module.scss";
 import { withGlobalProps } from "/lib/hoc";
+import { apiQueryAll } from "dato-nextjs-utils/api";
 import { GetAbout } from "/graphql";
 import { Image } from "react-datocms";
 import Markdown from "/lib/dato/components/Markdown";
@@ -9,8 +10,9 @@ import PrivacyPolicy from "/components/PrivacyPolicy";
 import { HeaderBar } from "components/HeaderBar";
 import { format } from "date-fns";
 import { useState } from "react";
+import { GetAllExternalLinks } from "/graphql";
 
-export default function About({ aboutGallery, externalLinks }) {
+export default function About({ aboutGallery, allExternalLinks }) {
 	const { description, address, hours, phone, email, googleMapsUrl, privacyPolicy } =
 		aboutGallery || {};
 	const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
@@ -56,11 +58,11 @@ export default function About({ aboutGallery, externalLinks }) {
 				</Content>
 			</Layout>
 
-			<Layout noMargin={true} hide={externalLinks?.length === 0}>
+			<Layout noMargin={true} hide={allExternalLinks?.length === 0}>
 				<section className={styles.archive}>
 					<h2>Archive</h2>
 					<ul>
-						{externalLinks?.map(({ title, url, image, _createdAt }, idx) => (
+						{allExternalLinks?.map(({ title, url, image, _createdAt }, idx) => (
 							<a key={idx} href={url} target="new">
 								<li>
 									<Image
@@ -77,7 +79,7 @@ export default function About({ aboutGallery, externalLinks }) {
 				</section>
 			</Layout>
 
-			<Layout noMargin={true} hide={externalLinks?.length === 0}>
+			<Layout noMargin={true} hide={allExternalLinks?.length === 0}>
 				<section className={styles.colophon}>
 					<div className={styles.text}>
 						<span>
@@ -104,10 +106,12 @@ export const getStaticProps = withGlobalProps(
 	{ queries: [GetAbout], model: "about" },
 	async ({ props, revalidate }) => {
 		const { image } = props.about;
+		const { allExternalLinks } = await apiQueryAll(GetAllExternalLinks);
 
 		return {
 			props: {
 				...props,
+				allExternalLinks,
 				image: image || null,
 				color: imageColor(image),
 			},
