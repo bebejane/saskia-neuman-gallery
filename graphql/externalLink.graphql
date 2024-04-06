@@ -1,6 +1,6 @@
 #import "./fragments/ExternalLinkFragment.graphql"
 
-query GetAllExternalLinks($first: IntType = 10000, $skip: IntType = 0) {
+query GetAllExternalLinks($first: IntType = 100, $skip: IntType = 0) {
 	allExternalLinks(orderBy: _createdAt_ASC, first: $first, skip: $skip) {
 		...ExternalLinkFragment
 	}
