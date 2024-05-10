@@ -8,9 +8,9 @@ import { format } from "date-fns";
 import { useState } from "react";
 import Gallery from "/components/Gallery";
 import { Layout, Meta, Content } from "/components/Layout";
-import { HeaderBar } from "components/HeaderBar";
-import GalleryThumbs from "components/GalleryThumbs";
-import PressLinks from "components/PressLinks";
+import { HeaderBar } from "/components/HeaderBar";
+import GalleryThumbs from "/components/GalleryThumbs";
+import PressLinks from "/components/PressLinks";
 
 export default function Exhibition({
 	exhibition: {

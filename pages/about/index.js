@@ -7,7 +7,7 @@ import Markdown from "/lib/dato/components/Markdown";
 import { imageColor } from "/lib/utils";
 import { Layout, Meta, Content } from "/components/Layout";
 import PrivacyPolicy from "/components/PrivacyPolicy";
-import { HeaderBar } from "components/HeaderBar";
+import { HeaderBar } from "/components/HeaderBar";
 import { format } from "date-fns";
 import { useState } from "react";
 import { GetAllExternalLinks } from "/graphql";

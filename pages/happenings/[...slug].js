@@ -5,8 +5,8 @@ import { imageColor } from "/lib/utils";
 import { GetAllHappenings, GetHappening } from "/graphql";
 import Markdown from "/lib/dato/components/Markdown";
 import { Layout, Meta, Content } from "/components/Layout";
-import { HeaderBar } from "components/HeaderBar";
-import GalleryThumbs from "components/GalleryThumbs";
+import { HeaderBar } from "/components/HeaderBar";
+import GalleryThumbs from "/components/GalleryThumbs";
 import { format } from "date-fns";
 
 export default function Happening({ happening }) {

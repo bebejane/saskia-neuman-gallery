@@ -1,7 +1,7 @@
 import styles from "./Footer.module.scss";
 import useStore from "/lib/store";
 import Link from "/components/Link";
-import { HeaderBar } from "components/HeaderBar";
+import { HeaderBar } from "/components/HeaderBar";
 import { imageColor } from "/lib/utils";
 import cn from "classnames";
 

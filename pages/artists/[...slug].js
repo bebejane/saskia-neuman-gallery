@@ -10,8 +10,8 @@ import Link from "/components/Link";
 import Gallery from "/components/Gallery";
 import { useState } from "react";
 import { Layout, Meta, Content } from "/components/Layout";
-import { HeaderBar } from "components/HeaderBar";
-import GalleryThumbs from "components/GalleryThumbs";
+import { HeaderBar } from "/components/HeaderBar";
+import GalleryThumbs from "/components/GalleryThumbs";
 import { format } from "date-fns";
 
 export default function Artist({
