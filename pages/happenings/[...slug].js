@@ -30,13 +30,15 @@ export default function Happening({ happening }) {
 					<h1>{happening.title}</h1>
 				</HeaderBar>
 				<Markdown>{happening.description}</Markdown>
-				<section className={styles.artworks}>
-					<h2>IMAGES</h2>
-					<GalleryThumbs
-						artwork={happening.gallery}
-						artworkThumbnails={happening.galleryThumbnails}
-					/>
-				</section>
+				{happening.gallery.length > 0 && (
+					<section className={styles.artworks}>
+						<h2>IMAGES</h2>
+						<GalleryThumbs
+							artwork={happening.gallery}
+							artworkThumbnails={happening.galleryThumbnails}
+						/>
+					</section>
+				)}
 			</Content>
 		</Layout>
 	);
