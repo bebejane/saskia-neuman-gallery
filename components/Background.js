@@ -1,10 +1,10 @@
-import styles from "./Background.module.scss";
-import cn from "classnames";
-import useStore from "/lib/store";
-import { useEffect } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Router from "next/router";
+import styles from './Background.module.scss';
+import cn from 'classnames';
+import useStore from '/lib/store';
+import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Router from 'next/router';
 
 export default function Background({ image, color, href, fullHeight }) {
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
@@ -20,12 +20,12 @@ export default function Background({ image, color, href, fullHeight }) {
 		const routeChangeStart = (url) => setIsRouting(true);
 		const routeChangeComplete = (url) => setTimeout(() => setIsRouting(false), 1000);
 
-		Router.events.on("routeChangeStart", routeChangeStart);
-		Router.events.on("routeChangeComplete", routeChangeComplete);
+		Router.events.on('routeChangeStart', routeChangeStart);
+		Router.events.on('routeChangeComplete', routeChangeComplete);
 
 		return () => {
-			Router.events.off("routeChangeStart", routeChangeStart);
-			Router.events.off("routeChangeComplete", routeChangeComplete);
+			Router.events.off('routeChangeStart', routeChangeStart);
+			Router.events.off('routeChangeComplete', routeChangeComplete);
 		};
 	}, []);
 
