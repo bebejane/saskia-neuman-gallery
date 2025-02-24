@@ -1,18 +1,18 @@
-import styles from "./Artists.module.scss";
-import cn from "classnames";
-import { apiQuery } from "/lib/dato/api";
-import { withGlobalProps } from "/lib/hoc";
-import { imageColor } from "/lib/utils";
-import { GetAllArtists, GetArtist } from "/graphql";
-import { Image } from "react-datocms";
-import Markdown from "/lib/dato/components/Markdown";
-import Link from "/components/Link";
-import Gallery from "/components/Gallery";
-import { useState } from "react";
-import { Layout, Meta, Content } from "/components/Layout";
-import { HeaderBar } from "/components/HeaderBar";
-import GalleryThumbs from "/components/GalleryThumbs";
-import { format } from "date-fns";
+import styles from './Artists.module.scss';
+import cn from 'classnames';
+import { apiQuery } from '/lib/dato/api';
+import { withGlobalProps } from '/lib/hoc';
+import { imageColor } from '/lib/utils';
+import { GetAllArtists, GetArtist } from '/graphql';
+import { Image } from 'react-datocms';
+import Markdown from '/lib/dato/components/Markdown';
+import Link from '/components/Link';
+import Gallery from '/components/Gallery';
+import { useState } from 'react';
+import { Layout, Meta, Content } from '/components/Layout';
+import { HeaderBar } from '/components/HeaderBar';
+import GalleryThumbs from '/components/GalleryThumbs';
+import { format } from 'date-fns';
 
 export default function Artist({
 	artist: {
@@ -51,7 +51,7 @@ export default function Artist({
 					</h1>
 				</Meta>
 				<Content>
-					<HeaderBar mobileHide="true">
+					<HeaderBar mobileHide='true'>
 						<h1>
 							{firstName} {lastName}
 						</h1>
@@ -69,8 +69,8 @@ export default function Artist({
 										{soloExhibitions.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`ss-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{" "}
-												{location && <span>{location},</span>} {year && <span>{year}</span>}{" "}
+												<br /> {additionalText && <span>{additionalText},</span>}{' '}
+												{location && <span>{location},</span>} {year && <span>{year}</span>}{' '}
 											</li>
 										))}
 									</ul>
@@ -83,7 +83,7 @@ export default function Artist({
 										{groupExhibitions.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`gs-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{" "}
+												<br /> {additionalText && <span>{additionalText},</span>}{' '}
 												{location && <span>{location},</span>} {year && <span>{year}</span>}
 											</li>
 										))}
@@ -97,7 +97,7 @@ export default function Artist({
 										{represented.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`re-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{" "}
+												<br /> {additionalText && <span>{additionalText},</span>}{' '}
 												{location && <span>{location},</span>} {year && <span>{year}</span>}
 											</li>
 										))}
@@ -111,7 +111,7 @@ export default function Artist({
 										{education.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`ed-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{" "}
+												<br /> {additionalText && <span>{additionalText},</span>}{' '}
 												{location && <span>{location},</span>} {year && <span>{year}</span>}
 											</li>
 										))}
@@ -125,7 +125,7 @@ export default function Artist({
 										{performances.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`pub-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{" "}
+												<br /> {additionalText && <span>{additionalText},</span>}{' '}
 												{location && <span>{location},</span>} {year && <span>{year}</span>}
 											</li>
 										))}
@@ -139,7 +139,7 @@ export default function Artist({
 										{publications.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`pub-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{" "}
+												<br /> {additionalText && <span>{additionalText},</span>}{' '}
 												{location && <span>{location},</span>} {year && <span>{year}</span>}
 											</li>
 										))}
@@ -167,8 +167,8 @@ export default function Artist({
 										<b>
 											<i>{title}</i>
 											<br />
-											{format(new Date(startDate), "dd.MM")}—
-											{format(new Date(endDate), "dd.MM.yyyy")}
+											{format(new Date(startDate), 'dd.MM')}—
+											{format(new Date(endDate), 'dd.MM.yyyy')}
 										</b>
 									</p>
 								</Link>
@@ -198,12 +198,12 @@ export async function getStaticPaths(context) {
 	const paths = artists.map(({ slug }) => ({ params: { slug: [slug] } }));
 	return {
 		paths,
-		fallback: "blocking",
+		fallback: 'blocking',
 	};
 }
 
 export const getStaticProps = withGlobalProps(
-	{ model: "artist" },
+	{ model: 'artist' },
 	async ({ props, context, revalidate }) => {
 		const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] }, context.preview);
 
@@ -214,8 +214,8 @@ export const getStaticProps = withGlobalProps(
 				...props,
 				artist: {
 					...artist,
-					exhibitions: props.exhibitions?.filter(
-						({ artists }) => artists.filter((a) => a.id === artist.id).length > 0
+					exhibitions: props.exhibitions?.filter(({ artists }) =>
+						artists.some((a) => a.id === artist.id)
 					),
 				},
 				image: artist.image || null,
