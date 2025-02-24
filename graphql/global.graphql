@@ -20,15 +20,15 @@ query GetGlobal {
 	artists: allArtists(
 		orderBy: [lastName_ASC]
 		filter: { hidden: { eq: false } }
-		first: 100
+		first: 500
 		skip: 0
 	) {
 		...ArtistFragment
 	}
-	exhibitions: allExhibitions(orderBy: [startDate_DESC], first: 100, skip: 0) {
+	exhibitions: allExhibitions(orderBy: [startDate_DESC], first: 500, skip: 0) {
 		...ExhibitionFragment
 	}
-	happenings: allHappenings(orderBy: [startDate_DESC], first: 100, skip: 0) {
+	happenings: allHappenings(orderBy: [startDate_DESC], first: 500, skip: 0) {
 		...HappeningFragment
 	}
 	about {
