@@ -1,9 +1,9 @@
-import "swiper/css";
-import cn from "classnames";
-import styles from "./Gallery.module.scss";
-import { Image } from "react-datocms";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useState, useRef, useEffect } from "react";
+import 'swiper/css';
+import cn from 'classnames';
+import s from './Gallery.module.scss';
+import { Image } from 'react-datocms';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Gallery({ show, images, onClose, index = 0 }) {
 	const swiperRef = useRef();
@@ -23,11 +23,11 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 	if (!images) return null;
 
 	return (
-		<div className={cn(styles.gallery, !show && styles.hide)}>
-			<div className={styles.back} onClick={() => swiperRef.current.slidePrev()}>
+		<div className={cn(s.gallery, !show && s.hide)}>
+			<div className={s.back} onClick={() => swiperRef.current.slidePrev()}>
 				❮
 			</div>
-			<div className={styles.images} onClick={() => swiperRef?.current?.slideNext()} key={index}>
+			<div className={s.images} onClick={() => swiperRef?.current?.slideNext()} key={index}>
 				<Swiper
 					loop={true}
 					spaceBetween={500}
@@ -37,12 +37,12 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 					onSwiper={(swiper) => (swiperRef.current = swiper)}
 				>
 					{images.map((image, idx) => (
-						<SwiperSlide key={idx} className={styles.slide}>
+						<SwiperSlide key={idx} className={s.slide}>
 							{
 								<Image
-									className={styles.image}
-									placeholderClassName={styles.placeholder}
-									pictureClassName={styles.picture}
+									className={s.image}
+									placeholderClassName={s.placeholder}
+									pictureClassName={s.picture}
 									data={image.responsiveImage}
 									fadeInDuration={100}
 									lazyLoad={index === idx}
@@ -52,14 +52,14 @@ export default function Gallery({ show, images, onClose, index = 0 }) {
 					))}
 				</Swiper>
 			</div>
-			<div className={styles.forward} onClick={() => swiperRef.current.slideNext()}>
+			<div className={s.forward} onClick={() => swiperRef.current.slideNext()}>
 				❯
 			</div>
-			<div className={styles.caption}>
+			<div className={s.caption}>
 				<span>{caption.title}</span>
-				{caption.alt && <span className={styles.subTitle}>{caption.alt}</span>}
+				{caption.alt && <span className={s.subTitle}>{caption.alt}</span>}
 			</div>
-			<div className={styles.close} onClick={onClose}>
+			<div className={s.close} onClick={onClose}>
 				×
 			</div>
 		</div>

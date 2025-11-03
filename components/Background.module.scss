@@ -38,10 +38,10 @@
 		}
 		@include mq($until: tablet) {
 			height: calc(100vh - var(--navbar-height)) !important;
-			@include safari {
-				height: 100%;
-				height: -webkit-fill-available !important;
-			}
+			//@include safari {
+			//height: 100%;
+			//height: -webkit-fill-available !important;
+			//}
 		}
 		@include mq($from: tablet) {
 			height: 100vh;

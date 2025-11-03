@@ -1,12 +1,17 @@
 query Menu {
 	start {
 		links {
+			__typename
 			... on HappeningRecord {
 				...HappeningFragmentLight
 				_modelApiKey
 			}
 			... on ExhibitionRecord {
 				...ExhibitionFragmentLight
+				_modelApiKey
+			}
+			... on ExternalLinkRecord {
+				...ExternalLinkFragment
 				_modelApiKey
 			}
 		}
@@ -18,7 +23,7 @@ query Menu {
 		count
 	}
 	allExhibitions(orderBy: [startDate_DESC], first: 500, skip: 0) {
-		...ExhibitionFragment
+		...ExhibitionFragmentLight
 	}
 	_allExhibitionsMeta {
 		count

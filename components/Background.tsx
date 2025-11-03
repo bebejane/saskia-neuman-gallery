@@ -1,8 +1,10 @@
-import styles from './Background.module.scss';
+'use client';
+
+import s from './Background.module.scss';
 import cn from 'classnames';
-import useStore from '/lib/store';
+import useStore from '@/lib/store';
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+//import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Router from 'next/router';
 
@@ -13,6 +15,7 @@ export default function Background({ image, color, href, fullHeight }) {
 	const backgroundImage = useStore((state) => state.backgroundImage);
 	const showMenu = useStore((state) => state.showMenu);
 
+	/*
 	useEffect(() => {
 		setBackgroundImage(null);
 		setBackgroundColor(color);
@@ -28,27 +31,24 @@ export default function Background({ image, color, href, fullHeight }) {
 			Router.events.off('routeChangeComplete', routeChangeComplete);
 		};
 	}, []);
-
+*/
 	if (!image) return null;
 
 	return (
 		<>
-			<div className={cn(styles.container, !showMenu && styles.hiddenMenu)}>
-				<img
-					className={cn(styles.backgroundImage, !fullHeight && styles.halfHeight)}
-					src={`${image.url}?fmt=jpg&w=1400`}
-				/>
-				{href && <Link href={href} className={styles.link}></Link>}
+			<div className={cn(s.container, !showMenu && s.hiddenMenu)}>
+				<img className={cn(s.backgroundImage, !fullHeight && s.halfHeight)} src={`${image.url}?fmt=jpg&w=1400`} />
+				{href && <Link href={href} className={s.link}></Link>}
 			</div>
 			{backgroundImage && (
-				<div className={styles.hoverContainer} key={backgroundImage.id}>
-					<motion.div
+				<div className={s.hoverContainer} key={backgroundImage.id}>
+					<div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1, transition: { duration: 0.35 } }}
-						className={styles.hoverImage}
+						className={s.hoverImage}
 					>
-						<img src={`${backgroundImage.url}?fmt=jpg&w=1400`} className={styles.image} />
-					</motion.div>
+						<img src={`${backgroundImage.url}?fmt=jpg&w=1400`} className={s.image} />
+					</div>
 				</div>
 			)}
 		</>

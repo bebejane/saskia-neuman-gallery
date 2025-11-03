@@ -3,15 +3,6 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
-		"dev:cache": "DEV_CACHE=true next dev",
-		"build": "next build && npm run postbuild",
-		"postbuild": "next-sitemap && node ./postbuild.js",
-		"start": "next start",
-		"lint": "next lint",
-		"preview": "npm run build && npm run start"
-	},
-	"scripts": {
 		"dev": "next dev --turbo & npm run codegen",
 		"start": "next start",
 		"preview": "npm run build && npm run start",
@@ -28,9 +19,11 @@
 		"@graphql-typed-document-node/core": "^3.2.0",
 		"change-case": "^5.4.4",
 		"classnames": "^2.5.1",
+		"date-fns": "^4.1.0",
 		"datocms-structured-text-utils": "^5.1.6",
 		"dotenv": "^17.2.3",
 		"graphql": "^16.11.0",
+		"hamburger-react": "^2.5.2",
 		"next": "15.5.6",
 		"next-auth": "^4.24.12",
 		"next-dato-utils": "github:bebejane/next-dato-utils#latest",
@@ -39,8 +32,10 @@
 		"react": "19.1.0",
 		"react-datocms": "8.0.0-1",
 		"react-dom": "19.1.0",
+		"react-tapper": "^0.1.23",
 		"react-wrap-balancer": "^1.1.1",
 		"sass": "1.93.2",
+		"usehooks-ts": "^3.1.1",
 		"zod": "^4.1.12",
 		"zustand": "^5.0.8"
 	},

@@ -3,7 +3,7 @@ import path from 'path';
 
 const nextConfig: NextConfig = {
 	sassOptions: {
-		includePaths: ['./components', './app'],
+		includePaths: ['.@/components', './app'],
 		prependData: `
 			@use "sass:math";
     	@use "@/styles/mediaqueries" as *;

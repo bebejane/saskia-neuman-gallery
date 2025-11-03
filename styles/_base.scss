@@ -3,11 +3,17 @@
 @use 'sass:list';
 @use 'sass:string';
 @use 'functions' as *;
+@use 'mediaqueries' as *;
 
 :root {
 	--black: #161616;
 	--white: #fafafa;
 	--gray: #bbb;
+
+	--body-font: 'Protokoll';
+	--body-font-italic: 'Helvetica';
+	--headline-font: 'Helvetica';
+	--mono-font: 'Helvetica';
 
 	--margim: 50px;
 	--margin-left: calc(#{var(--margin)} * 0.5);
@@ -38,7 +44,7 @@ body {
 	width: 100%;
 	color: var(--black);
 	background-color: var(--white);
-	font-family: $body-font;
+	font-family: var(--body-font);
 	-webkit-font-smoothing: antialiased;
 	font-feature-settings: 'liga', 'kern';
 	overflow-x: hidden;

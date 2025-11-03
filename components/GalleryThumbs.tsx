@@ -1,8 +1,8 @@
-import styles from "./GalleryThumbs.module.scss";
-import { Image } from "react-datocms";
-import { useState } from "react";
-import Gallery from "./Gallery";
-import { splitArray } from "/lib/utils";
+import s from './GalleryThumbs.module.scss';
+import { Image } from 'react-datocms';
+import { useState } from 'react';
+import Gallery from './Gallery';
+import { splitArray } from '@/lib/utils';
 
 export default function GalleryThumbs({ artwork, artworkThumbnails }) {
 	const maxRows = 4;
@@ -11,32 +11,21 @@ export default function GalleryThumbs({ artwork, artworkThumbnails }) {
 
 	return (
 		<>
-			<div className={styles.thumbs}>
+			<div className={s.thumbs}>
 				{artworkRows.map((a, ridx) => (
-					<div key={`thumb-${ridx}`} className={styles.row}>
+					<div key={`thumb-${ridx}`} className={s.row}>
 						{a.map((image, idx) => (
 							<figure
 								key={`thumb-image-${idx}`}
-								onClick={() =>
-									setGalleryIndex(artworkThumbnails.findIndex((a) => a.id === image.id))
-								}
+								onClick={() => setGalleryIndex(artworkThumbnails.findIndex((a) => a.id === image.id))}
 							>
-								<Image
-									data={image.responsiveImage}
-									objectFit="contain"
-									intersectionMargin="0px 0px 100% 0px"
-								/>
+								<Image data={image.responsiveImage} objectFit='contain' intersectionMargin='0px 0px 100% 0px' />
 							</figure>
 						))}
 					</div>
 				))}
 			</div>
-			<Gallery
-				show={galleryIndex > -1}
-				images={artwork}
-				index={galleryIndex}
-				onClose={() => setGalleryIndex(-1)}
-			/>
+			<Gallery show={galleryIndex > -1} images={artwork} index={galleryIndex} onClose={() => setGalleryIndex(-1)} />
 		</>
 	);
 }

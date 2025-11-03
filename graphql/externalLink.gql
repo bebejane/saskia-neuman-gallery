@@ -12,7 +12,7 @@ fragment ExternalLinkFragment on ExternalLinkRecord {
 	id
 	title
 	url
-	#image {
-	#	...ImageThumbnailFragment
-	#}
+	image {
+		...ImageThumbnailFragment
+	}
 }

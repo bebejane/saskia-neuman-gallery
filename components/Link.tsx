@@ -1,8 +1,9 @@
-import * as NextLink from "next/link";
-import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
-import useStore from "/lib/store";
-import Tappable from "react-tapper";
+'use client';
+import * as NextLink from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, useRef } from 'react';
+import useStore from '@/lib/store';
+import Tappable from 'react-tapper';
 
 export function Link({
 	id,
@@ -22,26 +23,25 @@ export function Link({
 	const [hover, setHover] = useState(false);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const linkRef = useRef();
-	const isWhite =
-		color?.reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0) >= 255 * 3 * 0.97;
+	const isWhite = color?.reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0) >= 255 * 3 * 0.97;
 
 	const linkStyle =
 		color && (hover || isSelected)
-			? { color: isWhite ? "rgb(0,0,0)" : `rgb(${color.join(",")})`, textShadow: "0 0 5px #fff05" }
+			? { color: isWhite ? 'rgb(0,0,0)' : `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' }
 			: {};
 
 	const handleMouse = (e) => {
-		if (e.type === "mouseleave") {
+		if (e.type === 'mouseleave') {
 			setHover(false);
 			onMouseLeave && onMouseLeave(e);
-		} else if (e.type === "mouseenter") {
+		} else if (e.type === 'mouseenter') {
 			setHover(true);
 			onMouseEnter && onMouseEnter(e);
 		}
 	};
 
 	const handleTouchEnd = (e) => {
-		if (e.type === "click") return;
+		if (e.type === 'click') return;
 		setBackgroundColor(color);
 		router.push(href);
 	};

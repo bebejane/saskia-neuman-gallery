@@ -44,14 +44,6 @@
 			pointer-events: none;
 			font-weight: bolder;
 
-			@include mq($until: tablet) {
-				//-webkit-text-fill-color: var(--black);
-			}
-
-			@include safari() {
-				//-webkit-text-fill-color: var(--black);
-			}
-
 			&.nomask {
 				-webkit-text-fill-color: var(--black);
 			}

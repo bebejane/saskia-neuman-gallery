@@ -3,11 +3,11 @@ query Start {
 		id
 		links {
 			... on HappeningRecord {
-				...HappeningFragment
+				...HappeningFragmentLight
 				_modelApiKey
 			}
 			... on ExhibitionRecord {
-				...ExhibitionFragment
+				...ExhibitionFragmentLight
 				_modelApiKey
 			}
 			... on ExternalLinkRecord {

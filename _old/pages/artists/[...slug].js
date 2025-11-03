@@ -1,17 +1,17 @@
-import styles from './Artists.module.scss';
+import s from './Artists.module.scss';
 import cn from 'classnames';
-import { apiQuery } from '/lib/dato/api';
-import { withGlobalProps } from '/lib/hoc';
-import { imageColor } from '/lib/utils';
+import { apiQuery } from '@/lib/dato/api';
+import { withGlobalProps } from '@/lib/hoc';
+import { imageColor } from '@/lib/utils';
 import { GetAllArtists, GetArtist } from '/graphql';
 import { Image } from 'react-datocms';
-import Markdown from '/lib/dato/components/Markdown';
-import Link from '/components/Link';
-import Gallery from '/components/Gallery';
+import Markdown from '@/lib/dato@/components/Markdown';
+import Link from '@/components/Link';
+import Gallery from '@/components/Gallery';
 import { useState } from 'react';
-import { Layout, Meta, Content } from '/components/Layout';
-import { HeaderBar } from '/components/HeaderBar';
-import GalleryThumbs from '/components/GalleryThumbs';
+import { Layout, Meta, Content } from '@/components/Layout';
+import { HeaderBar } from '@/components/HeaderBar';
+import GalleryThumbs from '@/components/GalleryThumbs';
 import { format } from 'date-fns';
 
 export default function Artist({
@@ -58,7 +58,7 @@ export default function Artist({
 					</HeaderBar>
 					<Markdown>{biography}</Markdown>
 					{haveExtendedBiography && (
-						<section className={cn(styles.cv, showBiography && styles.show)}>
+						<section className={cn(s.cv, showBiography && s.show)}>
 							<h3 onClick={() => setShowBiography(!showBiography)}>
 								Extended Bio <span>›</span>
 							</h3>
@@ -69,8 +69,8 @@ export default function Artist({
 										{soloExhibitions.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`ss-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{' '}
-												{location && <span>{location},</span>} {year && <span>{year}</span>}{' '}
+												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
+												{year && <span>{year}</span>}{' '}
 											</li>
 										))}
 									</ul>
@@ -83,8 +83,8 @@ export default function Artist({
 										{groupExhibitions.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`gs-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{' '}
-												{location && <span>{location},</span>} {year && <span>{year}</span>}
+												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
+												{year && <span>{year}</span>}
 											</li>
 										))}
 									</ul>
@@ -97,8 +97,8 @@ export default function Artist({
 										{represented.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`re-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{' '}
-												{location && <span>{location},</span>} {year && <span>{year}</span>}
+												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
+												{year && <span>{year}</span>}
 											</li>
 										))}
 									</ul>
@@ -111,8 +111,8 @@ export default function Artist({
 										{education.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`ed-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{' '}
-												{location && <span>{location},</span>} {year && <span>{year}</span>}
+												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
+												{year && <span>{year}</span>}
 											</li>
 										))}
 									</ul>
@@ -125,8 +125,8 @@ export default function Artist({
 										{performances.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`pub-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{' '}
-												{location && <span>{location},</span>} {year && <span>{year}</span>}
+												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
+												{year && <span>{year}</span>}
 											</li>
 										))}
 									</ul>
@@ -139,8 +139,8 @@ export default function Artist({
 										{publications.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`pub-${idx}`}>
 												{text}
-												<br /> {additionalText && <span>{additionalText},</span>}{' '}
-												{location && <span>{location},</span>} {year && <span>{year}</span>}
+												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
+												{year && <span>{year}</span>}
 											</li>
 										))}
 									</ul>
@@ -158,17 +158,16 @@ export default function Artist({
 									href={`/exhibitions/${slug}`}
 									color={imageColor(image)}
 									image={image}
-									className={styles.exhibition}
+									className={s.exhibition}
 								>
 									<figure>
-										<Image className={styles.image} data={image.responsiveImage} />
+										<Image className={s.image} data={image.responsiveImage} />
 									</figure>
 									<p>
 										<b>
 											<i>{title}</i>
 											<br />
-											{format(new Date(startDate), 'dd.MM')}—
-											{format(new Date(endDate), 'dd.MM.yyyy')}
+											{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
 										</b>
 									</p>
 								</Link>
@@ -202,26 +201,21 @@ export async function getStaticPaths(context) {
 	};
 }
 
-export const getStaticProps = withGlobalProps(
-	{ model: 'artist' },
-	async ({ props, context, revalidate }) => {
-		const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] }, context.preview);
+export const getStaticProps = withGlobalProps({ model: 'artist' }, async ({ props, context, revalidate }) => {
+	const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] }, context.preview);
 
-		if (!artist) return { notFound: true, revalidate };
+	if (!artist) return { notFound: true, revalidate };
 
-		return {
-			props: {
-				...props,
-				artist: {
-					...artist,
-					exhibitions: props.exhibitions?.filter(({ artists }) =>
-						artists.some((a) => a.id === artist.id)
-					),
-				},
-				image: artist.image || null,
-				color: imageColor(artist.image),
+	return {
+		props: {
+			...props,
+			artist: {
+				...artist,
+				exhibitions: props.exhibitions?.filter(({ artists }) => artists.some((a) => a.id === artist.id)),
 			},
-			revalidate,
-		};
-	}
-);
+			image: artist.image || null,
+			color: imageColor(artist.image),
+		},
+		revalidate,
+	};
+});
