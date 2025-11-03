@@ -1,34 +1,9 @@
-@import "partials/normalize";
+@use 'normalize';
 
-@import "partials/mediaqueries";
+@use 'mediaqueries';
 
-@import "partials/variables";
+@use 'fonts';
 
-@import "partials/fonts";
+@use 'typography';
 
-@import "partials/mixins";
-
-@import "base/base";
-
-@import "partials/typography";
-
-@import "partials/styles";
-
-@import "base/framework";
-
-@media print {
-	@import "partials/print";
-}
-
-#error-404,
-#error-505 {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 100vw;
-	height: 100vh;
-}
-#app{
-	position: relative;
-}
+@use 'base';

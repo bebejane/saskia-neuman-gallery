@@ -1,0 +1,26 @@
+query About {
+	about {
+		...AboutFragment
+	}
+}
+
+fragment AboutFragment on AboutRecord {
+	id
+	description(markdown: false)
+	address(markdown: false)
+	hours
+	email
+	phone
+	googleMapsUrl
+	image {
+		...ImageFragment
+	}
+	privacyPolicy(markdown: false)
+}
+
+fragment AboutFragmentLight on AboutRecord {
+	id
+	image {
+		...ImageFragment
+	}
+}

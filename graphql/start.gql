@@ -1,0 +1,19 @@
+query Start {
+	start {
+		id
+		links {
+			... on HappeningRecord {
+				...HappeningFragment
+				_modelApiKey
+			}
+			... on ExhibitionRecord {
+				...ExhibitionFragment
+				_modelApiKey
+			}
+			... on ExternalLinkRecord {
+				...ExternalLinkFragment
+				_modelApiKey
+			}
+		}
+	}
+}

@@ -1,8 +1,0 @@
-#import "./fragments/AboutFragmentFull.graphql"
-#import "./fragments/ExternalLinkFragment.graphql"
-
-query GetAbout {
-	aboutGallery: about {
-		...AboutFragmentFull
-	}
-}

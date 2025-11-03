@@ -1,0 +1,65 @@
+query AllExhibitions($first: IntType = 500, $skip: IntType = 0) {
+	allExhibitions(first: $first, skip: $skip, orderBy: [startDate_ASC]) {
+		...ExhibitionFragmentLight
+	}
+}
+query Exhibition($slug: String!) {
+	exhibition(filter: { slug: { eq: $slug } }) {
+		...ExhibitionFragment
+	}
+}
+query ExhibitionById($id: ItemId!) {
+	exhibition(filter: { id: { eq: $id } }) {
+		...ExhibitionFragment
+	}
+}
+
+fragment ExhibitionFragment on ExhibitionRecord {
+	id
+	title
+	description(markdown: false)
+	artists {
+		...ArtistFragment
+	}
+	image {
+		...ImageFragment
+	}
+	artwork {
+		...ImageFragment
+	}
+	artworkThumbnails: artwork {
+		...ImageThumbnailFragment
+	}
+	startDate
+	endDate
+	press {
+		...PressFragment
+	}
+	pressRelease {
+		filename
+		url
+	}
+	slug
+}
+
+fragment ExhibitionFragmentLight on ExhibitionRecord {
+	id
+	title
+	artists {
+		...ArtistFragment
+	}
+	image {
+		...ImageFragment
+	}
+	startDate
+	endDate
+	slug
+}
+
+fragment PressFragment on PressRecord {
+	id
+	source
+	author
+	date
+	url
+}
