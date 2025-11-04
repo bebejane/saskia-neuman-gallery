@@ -1,5 +1,6 @@
 package-lock.json
 yarn.lock
+.env
 .env.local
 /node_modules
 /.next
