@@ -6,16 +6,18 @@ import { useStore, useShallow } from '@/lib/store';
 import { useEffect } from 'react';
 //import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Router from 'next/router';
 
-export default function Background({ image, color, href, fullHeight }) {
-	const [setBackgroundImage, setBackgroundColor, setIsRouting, backgroundImage, showMenu] = useStore((s) => [
-		s.setBackgroundImage,
-		s.setBackgroundColor,
-		s.setIsRouting,
-		s.backgroundImage,
-		s.showMenu,
-	]);
+export type BackgroundProps = {
+	image: FileField | null;
+	color: number[];
+	href: string;
+	fullHeight?: boolean;
+};
+
+export default function Background({ image, color, href, fullHeight }: BackgroundProps) {
+	const [setBackgroundImage, setBackgroundColor, setIsRouting, backgroundImage, showMenu] = useStore(
+		useShallow((s) => [s.setBackgroundImage, s.setBackgroundColor, s.setIsRouting, s.backgroundImage, s.showMenu])
+	);
 
 	/*
 	useEffect(() => {
@@ -45,8 +47,8 @@ export default function Background({ image, color, href, fullHeight }) {
 			{backgroundImage && (
 				<div className={s.hoverContainer} key={backgroundImage.id}>
 					<div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1, transition: { duration: 0.35 } }}
+						//initial={{ opacity: 0 }}
+						//animate={{ opacity: 1, transition: { duration: 0.35 } }}
 						className={s.hoverImage}
 					>
 						<img src={`${backgroundImage.url}?fmt=jpg&w=1400`} className={s.image} />

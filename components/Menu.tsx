@@ -12,6 +12,7 @@ import { Twirl as Hamburger } from 'hamburger-react';
 import { imageColor, datePeriod } from '@/lib/utils';
 import { format } from 'date-fns';
 import { MenuItem, MenuItemSub } from '@/lib/menu';
+import React from 'react';
 
 export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) {
 	const pathname = usePathname();
@@ -152,10 +153,9 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 
 	const menuStyles = cn(s.menu, menuBackground && !isTransitioning && !isHoveringMenuItem && s.opaque);
 
-	console.log({ showMenu, subMenu, isHoveringMenuItem });
 	if (!menu || menu.length === 0) return null;
 
-	console.log(nav);
+	console.log(navItems);
 
 	return (
 		<>
@@ -165,7 +165,11 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 				</Link>
 			</div>
 			<div id='menu-wrapper' className={menuWrapperStyles}>
-				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu(null)}>
+				<div
+					id={'menu'}
+					className={menuStyles}
+					//onMouseLeave={() => setSubMenu(null)}
+				>
 					<ul>
 						{navItems.map((m, idx) => (
 							<li
@@ -182,7 +186,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 									<span
 										className={cn(
 											s.arrow,
-											(subMenu?.__typename === m.__typename || subMenuMobile?.__typename === m.__typename) && s.open,
+											subMenu?.__typename === m.__typename && s.open,
 											hoverSubMenu?.__typename !== m.__typename && s.hide
 										)}
 									>
@@ -194,79 +198,100 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 					</ul>
 					<div className={cn(s.subMenu, subMenuMargin > 0 && s.show)}>
 						{navItems.map(
-							({ __typename, sub, more }, idx) =>
-								sub && (
+							(item, idx) =>
+								item.sub && (
 									<ul
 										key={`submenu-${idx}`}
-										id={`sub-${__typename}`}
-										className={cn(subMenu?.__typename === __typename && s.open)}
+										id={`sub-${item.__typename}`}
+										className={cn(subMenu?.__typename === item.__typename && s.open)}
 										style={{ marginLeft: `${subMenuMargin}px` }}
 									>
-										{sub?.length > 0 ? (
-											sub.map((item, idx) => (
-												<>
+										{item.sub?.length > 0 ? (
+											item.sub.map((sub, idx) => (
+												<React.Fragment key={idx}>
 													<Link
 														key={`sub-${idx}`}
-														href={`/${item.slug}`}
-														color={item.color}
-														isSelected={item.isSelected}
+														href={sub.href}
+														color={sub.color}
+														selected={sub.selected}
 														image={item.image}
 													>
 														<li
-															onMouseEnter={() => handleMouseOver(item, true)}
-															onMouseLeave={() => handleMouseOver(item, false)}
+															onMouseEnter={() => handleMouseOver(sub, true)}
+															onMouseLeave={() => handleMouseOver(sub, false)}
+															data-type={sub.__typename}
 														>
-															{__typename === 'ArtistRecord' || __typename === 'AboutRecord' ? (
-																<span>
-																	{item.firstName ? `${item.firstName} ${item.lastName}` : (item.title ?? item.name)}
-																</span>
+															{sub.__typename === 'ArtistRecord' || sub.__typename === 'AboutRecord' ? (
+																<span>{sub.title}</span>
 															) : (
 																<>
-																	<h3>{datePeriod(item.startDate, item.endDate)}</h3>
-																	{item.artists &&
-																		item.artists?.map((a, idx) => `${a.firstName} ${a.lastName}`).join(', ')}
-																	{item.artists && <br />}
-																	<i>{item.title}</i>
+																	<h3>{sub.period}</h3>
+																	{sub.text}
 																	<br />
-																	{format(new Date(item.startDate), 'dd.MM')}—
-																	{format(new Date(item.endDate), 'dd.MM.yyyy')}
+																	<i>{sub.title}</i>
+																	<br />
+																	{sub.date}
 																</>
 															)}
 														</li>
 													</Link>
-													{__typename === 'AboutRecord' && sub && idx === sub.length - 1 ? (
+													{item.__typename === 'AboutRecord' && (
 														<li className={s.contact}>
 															<h3>Contact</h3>
 															Linnégatan 19
 															<p>Stockholm</p>
-															<p className={s.narrowHide}>{m.about.phone}</p>
+															<p className={s.narrowHide}>{sub.title}</p>
 															<p className={s.narrowHide}>
-																<a href={m.about.googleMapsUrl} target='new'>
+																<a href={sub.href} target='new'>
 																	Google Maps ↗
 																</a>
 															</p>
 														</li>
-													) : (
-														<>mada</>
 													)}
-												</>
+												</React.Fragment>
 											))
 										) : (
 											<li>To be announced...</li>
 										)}
 
-										{more && more?.length > 0 && (
+										{item.more && item.more.length > 0 && (
 											<li className={s.more}>
 												<div
 													onClick={() =>
-														setShowMore((prev) => ({ ...prev, [__typename]: !showMore[more[0].__typename] }))
+														setShowMore((prev) => {
+															const t = item.more?.[0].__typename as keyof typeof showMore;
+															return {
+																...prev,
+																[t]: !showMore[t],
+															};
+														})
 													}
 												>
 													<h3>
-														More <div className={cn(s.arrow, showMore[more[0].__typename] && s.opened)}>›</div>
+														More <div className={cn(s.arrow, showMore[item.more[0].__typename] && s.opened)}>›</div>
 													</h3>
 												</div>
-												{showMore[more[0].__typename] && more}
+												{showMore[item.more[0].__typename] &&
+													item.more.map(({ href, color, title, period, selected, text, date }, idx) => (
+														<Link
+															key={`more-${idx}`}
+															href={href}
+															color={color}
+															selected={selected}
+															image={image}
+															//onMouseEnter={() => handleMouseOver(sub, true)}
+															//onMouseLeave={() => handleMouseOver(sub, false)}
+														>
+															<p>
+																<h3>{period}</h3>
+																{text}
+																<br />
+																<i>{title}</i>
+																<br />
+																{date}
+															</p>
+														</Link>
+													))}
 											</li>
 										)}
 									</ul>

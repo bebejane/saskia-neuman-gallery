@@ -1,6 +1,6 @@
 import { isAfter, isBefore, isEqual } from 'date-fns';
 
-export const imageColor = (image: FileField | null): number[] => {
+export const imageColor = (image: FileField | null | undefined): number[] => {
 	let color = [255, 255, 255];
 	if (image?.customData?.color) color = image.customData?.color.split(',');
 	else if (image?.colors) color = [image.colors[0].red, image.colors[0].green, image.colors[0].blue];
@@ -8,7 +8,7 @@ export const imageColor = (image: FileField | null): number[] => {
 	return color;
 };
 
-export const splitArray = (items: any[], max: number) => {
+export const splitArray = (items: any[], max: number): number[] => {
 	const arr = new Array(max);
 	const itemsPerRow = Math.ceil(items.length / max);
 	for (let i = 0, a = 0; i < items.length; i++, a++) {
@@ -19,16 +19,17 @@ export const splitArray = (items: any[], max: number) => {
 	return arr;
 };
 
-export const datePeriod = (sDate: string, eDate: string) => {
+export type Period = 'current' | 'upcoming' | 'past';
+export const datePeriod = (sDate: string, eDate: string): Period => {
 	const startDate = new Date(sDate);
 	const endDate = new Date(eDate);
 
 	const now = new Date();
-	let type;
+	let type: Period;
 
 	if (isAfter(now, startDate) && isBefore(now, endDate)) type = 'current';
 	else if (isBefore(endDate, now)) type = 'past';
-	else if (isAfter(startDate, now)) type = 'upcoming';
+	else type = 'upcoming';
 
 	return type;
 };

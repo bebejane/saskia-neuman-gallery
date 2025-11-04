@@ -13,6 +13,7 @@ query Artist($slug: String!) {
 }
 
 fragment ArtistFragmentLight on ArtistRecord {
+	__typename
 	id
 	firstName
 	lastName
@@ -23,6 +24,7 @@ fragment ArtistFragmentLight on ArtistRecord {
 }
 
 fragment ArtistFragment on ArtistRecord {
+	__typename
 	id
 	firstName
 	lastName

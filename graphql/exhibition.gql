@@ -2,6 +2,9 @@ query AllExhibitions($first: IntType = 500, $skip: IntType = 0) {
 	allExhibitions(first: $first, skip: $skip, orderBy: [startDate_ASC]) {
 		...ExhibitionFragmentLight
 	}
+	_allExhibitionsMeta {
+		count
+	}
 }
 query Exhibition($slug: String!) {
 	exhibition(filter: { slug: { eq: $slug } }) {
@@ -15,6 +18,7 @@ query ExhibitionById($id: ItemId!) {
 }
 
 fragment ExhibitionFragment on ExhibitionRecord {
+	__typename
 	id
 	title
 	description(markdown: false)
@@ -43,6 +47,7 @@ fragment ExhibitionFragment on ExhibitionRecord {
 }
 
 fragment ExhibitionFragmentLight on ExhibitionRecord {
+	__typename
 	id
 	title
 	artists {

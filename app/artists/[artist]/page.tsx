@@ -27,7 +27,6 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 		biography,
 		artwork,
 		artworkThumbnails,
-
 		soloExhibitions,
 		groupExhibitions,
 		publications,
@@ -38,6 +37,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 
 	const exhibitions = allExhibitions?.filter(({ artists }) => artists.some((a) => a.id === artist.id));
 
+	const galleryIndex = null;
 	//const [galleryIndex, setGalleryIndex] = useState();
 	//const [showBiography, setShowBiography] = useState(false);
 	const showBiography = false;
@@ -60,12 +60,12 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 					</h1>
 				</Meta>
 				<Content>
-					<HeaderBar mobileHide='true'>
+					<HeaderBar mobileHide={true}>
 						<h1>
 							{firstName} {lastName}
 						</h1>
 					</HeaderBar>
-					<Markdown content={biography} />
+					{biography && <Markdown content={biography} />}
 					{haveExtendedBiography && (
 						<section className={cn(s.cv, showBiography && s.show)}>
 							<h3
@@ -163,16 +163,16 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 						<>
 							<h2>EXHIBITIONS</h2>
 
-							{exhibitions.map(({ title, description, image, startDate, endDate, slug }, idx) => (
+							{exhibitions.map(({ title, image, startDate, endDate, slug }, idx) => (
 								<Link
 									key={`exhibition-${idx}`}
 									href={`/exhibitions/${slug}`}
-									color={imageColor(image)}
-									image={image}
+									color={imageColor(image as FileField)}
+									image={image as FileField}
 									className={s.exhibition}
 								>
 									<figure>
-										<Image className={s.image} data={image.responsiveImage} />
+										{image?.responsiveImage && <Image className={s.image} data={image.responsiveImage} />}
 									</figure>
 									<p>
 										<b>
@@ -193,12 +193,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 					)}
 				</Content>
 			</Layout>
-			<Gallery
-				show={galleryIndex !== undefined}
-				images={artwork}
-				index={galleryIndex}
-				//onClose={() => setGalleryIndex(undefined)}
-			/>
+			<Gallery show={galleryIndex !== null} images={artwork as FileField[]} index={galleryIndex ?? 0} />
 		</>
 	);
 }

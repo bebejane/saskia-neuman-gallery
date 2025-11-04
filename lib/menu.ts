@@ -1,5 +1,5 @@
 import { MenuDocument } from '@/graphql';
-import { datePeriod, imageColor } from '@/lib/utils';
+import { datePeriod, imageColor, Period } from '@/lib/utils';
 import { format } from 'date-fns';
 import { apiQuery } from 'next-dato-utils/api';
 
@@ -12,28 +12,24 @@ export type MenuItem = {
 	current?: any;
 	upcoming?: any;
 	past?: any;
-	all?: any;
-	more?: MoreItem[];
-	about?: any;
+	more?: MenuItemMore[];
+	selected: boolean;
 };
 
 export type MenuItemSub = {
-	__typename: 'StartRecord' | 'ArtistRecord' | 'ExhibitionRecord' | 'HappeningRecord' | 'AboutRecord';
-	name: string;
+	__typename: 'ArtistRecord' | 'ExhibitionRecord' | 'HappeningRecord' | 'AboutRecord';
+	title: string;
+	period?: Period;
+	text?: string;
+	date?: string;
 	image?: any;
-	slug?: string;
+	href: string;
 	color?: number[];
-	[key: string]: any;
+	selected: boolean;
 };
 
-export type MoreItem = {
+export type MenuItemMore = Omit<MenuItemSub, '__typename'> & {
 	__typename: 'ExhibitionRecord' | 'HappeningRecord';
-	href: string;
-	color: number[];
-	isSelected: boolean;
-	image: FileField | null;
-	title: string;
-	date: string;
 };
 
 export async function buildMenu() {
@@ -58,8 +54,15 @@ export async function buildMenu() {
 				path: '/artists',
 				label: 'Artists',
 				sub: allArtists
-					.map((a) => ({ ...a, slug: `artists/${a.slug}`, color: imageColor(a.image as FileField) }))
-					.sort((a, b) => (a.lastName > b.lastName ? 1 : -1)),
+					.sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
+					.filter((i) => i)
+					.map((item) => ({
+						__typname: item.__typename,
+						href: `/artists/${item.slug}`,
+						title: `${item.firstName} ${item.lastName}`,
+						image: item.image,
+						color: imageColor(item.image as FileField),
+					})),
 			},
 			{
 				__typename: 'ExhibitionRecord',
@@ -72,18 +75,22 @@ export async function buildMenu() {
 						.sort((a, b) => (a.startDate > b.startDate ? 1 : -1))[0],
 					pastExhibition,
 				]
-					.filter((i) => i)
-					.map((s) => ({ ...s, slug: `exhibitions/${s?.slug}` })),
+					.filter((i) => i !== undefined)
+					.map((item) => ({
+						__typename: item.__typename,
+						href: `/exhibitions/${item?.slug}`,
+						title: item.title,
+						period: datePeriod(item.startDate, item.endDate),
+						text: item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(', '),
+						image: item.image,
+						color: imageColor(item.image as FileField),
+						date: `${format(new Date(item.startDate), 'dd.MM')}}—${format(new Date(item.endDate), 'dd.MM.yyyy')}`,
+					})),
 				current: allExhibitions.find(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'),
 				upcoming: allExhibitions
 					.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')
 					.sort((a, b) => (a.startDate > b.startDate ? -1 : 1))[0],
 				past: pastExhibition,
-				all: allExhibitions.map((s) => ({
-					...s,
-					slug: `exhibitions/${s.slug}`,
-					color: imageColor(s.image as FileField),
-				})),
 				more: allExhibitions
 					?.filter(
 						({ startDate, endDate, id }) => datePeriod(startDate, endDate) === 'past' && pastExhibition?.id !== id
@@ -91,10 +98,12 @@ export async function buildMenu() {
 					.map((item, idx) => ({
 						__typeName: 'ExhibitionRecord',
 						href: `/${item.slug}`,
-						color: imageColor(item.image as FileField),
-						isSelected: false,
-						image: item.image,
 						title: item.title,
+						period: datePeriod(item.startDate, item.endDate),
+						text: item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(', '),
+						color: imageColor(item.image as FileField),
+						selected: false,
+						image: item.image,
 						date: `${format(new Date(item.startDate), 'dd.MM')}}—${format(new Date(item.endDate), 'dd.MM.yyyy')}`,
 					})),
 			},
@@ -107,13 +116,16 @@ export async function buildMenu() {
 					allHappenings.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
 				]
 					.filter((i) => i)
-					.map((s) => ({ ...s, slug: `happenings/${s.slug}` })),
+					.map((item) => ({
+						__typename: item.__typename,
+						title: item.title,
+						image: item.image,
+						color: imageColor(item.image as FileField),
+						selected: false,
+						href: `/happenings/${item.slug}`,
+						date: `${format(new Date(item.startDate), 'dd.MM')}}—${format(new Date(item.endDate), 'dd.MM.yyyy')}`,
+					})),
 				past: pastHappening,
-				all: allHappenings.map((e) => ({
-					...e,
-					slug: `happenings/${e.slug}`,
-					color: imageColor(e.image as FileField),
-				})),
 				more: allHappenings
 					?.filter(
 						({ startDate, endDate, id }) => datePeriod(startDate, endDate) === 'past' && pastHappening?.id !== id
@@ -122,7 +134,7 @@ export async function buildMenu() {
 						__typeName: 'HappeningRecord',
 						href: `/${item.slug}`,
 						color: imageColor(item.image as FileField),
-						isSelected: false,
+						selected: false,
 						image: item.image,
 						title: item.title,
 						date: `${format(new Date(item.startDate), 'dd.MM')}}—${format(new Date(item.endDate), 'dd.MM.yyyy')}`,
@@ -135,10 +147,11 @@ export async function buildMenu() {
 				about: about,
 				sub: [
 					{
-						name: 'The Gallery',
+						__typename: 'AboutRecord',
+						title: 'The Gallery',
+						href: '/about',
 						image: about?.image,
 						color: imageColor(about?.image as FileField),
-						slug: 'about',
 					},
 				],
 			},
@@ -146,11 +159,11 @@ export async function buildMenu() {
 			...m,
 			image: m.sub ? m.sub[0]?.image : m.image,
 			color: imageColor((m.sub ? m.sub[0]?.image : m.image) as FileField),
-			isSelected: !m.sub && m.path === path,
-			sub: m.sub?.map((s) => ({
-				...s,
-				isSelected: `/${s.slug}` === path,
-				color: imageColor(s.image as FileField),
+			selected: !m.sub && m.path === path,
+			sub: m.sub?.map((item) => ({
+				...item,
+				selected: item.href === path,
+				color: imageColor(item.image as FileField),
 			})),
 		}));
 		console.log(menu);

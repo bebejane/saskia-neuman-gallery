@@ -9,10 +9,10 @@ import { useStore, useShallow } from '@/lib/store';
 import Tappable from 'react-tapper';
 
 export type LinkProperties = LinkProps &
-	HTMLProps<HTMLAnchorElement> & {
-		isSelected?: boolean;
-		color: number[];
-		image: FileField | null;
+	Omit<HTMLProps<HTMLAnchorElement>, 'color'> & {
+		selected?: boolean;
+		color?: number[];
+		image?: FileField | null;
 	};
 
 const Link: FC<LinkProperties> = ({
@@ -25,7 +25,7 @@ const Link: FC<LinkProperties> = ({
 	className,
 	target,
 	style = {},
-	isSelected,
+	selected,
 	onMouseEnter,
 	onMouseLeave,
 }) => {
@@ -37,7 +37,7 @@ const Link: FC<LinkProperties> = ({
 	const isWhite = color?.reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0) >= 255 * 3 * 0.97;
 
 	const linkStyle =
-		color && (hover || isSelected)
+		color && (hover || selected)
 			? { color: isWhite ? 'rgb(0,0,0)' : `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' }
 			: {};
 
@@ -52,7 +52,7 @@ const Link: FC<LinkProperties> = ({
 	};
 
 	const handleTouchEnd = (e: any) => {
-		if (e.type === 'click') return;
+		if (e.type === 'click' || !color) return;
 		setBackgroundColor(color);
 		router.push(href);
 	};
@@ -64,7 +64,7 @@ const Link: FC<LinkProperties> = ({
 	}, []);
 
 	useEffect(() => {
-		hover && setBackgroundColor(color);
+		hover && color && setBackgroundColor(color);
 	}, [hover, color]);
 
 	return (

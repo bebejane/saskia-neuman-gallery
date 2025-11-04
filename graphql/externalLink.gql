@@ -8,6 +8,7 @@ query AllExternalLinks($first: IntType = 100, $skip: IntType = 0) {
 }
 
 fragment ExternalLinkFragment on ExternalLinkRecord {
+	__typename
 	_createdAt
 	id
 	title

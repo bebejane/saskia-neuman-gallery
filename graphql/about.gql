@@ -5,6 +5,7 @@ query About {
 }
 
 fragment AboutFragment on AboutRecord {
+	__typename
 	id
 	description(markdown: false)
 	address(markdown: false)
@@ -19,6 +20,7 @@ fragment AboutFragment on AboutRecord {
 }
 
 fragment AboutFragmentLight on AboutRecord {
+	__typename
 	id
 	image {
 		...ImageFragment

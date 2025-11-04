@@ -13,6 +13,7 @@ query Happening($slug: String!) {
 }
 
 fragment HappeningFragment on HappeningRecord {
+	__typename
 	id
 	title
 	description(markdown: false)
@@ -31,6 +32,7 @@ fragment HappeningFragment on HappeningRecord {
 }
 
 fragment HappeningFragmentLight on HappeningRecord {
+	__typename
 	id
 	title
 	startDate
