@@ -10,7 +10,7 @@
 
 	@include mq($from: tablet) {
 		&:first-of-type {
-			margin-top: -var(--header-bar-height);
+			margin-top: var(--header-bar-height);
 		}
 	}
 	z-index: 1000;

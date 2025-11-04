@@ -1,7 +1,4 @@
-import s from './About.module.scss';
-import { withGlobalProps } from '@/lib/hoc';
-import { apiQueryAll } from 'dato-nextjs-utils/api';
-import { GetAbout } from '/graphql';
+import s from './page.module.scss';
 import { Image } from 'react-datocms';
 import { Markdown } from 'next-dato-utils/components';
 import { imageColor } from '@/lib/utils';
@@ -9,12 +6,17 @@ import { Layout, Meta, Content } from '@/components/Layout';
 import PrivacyPolicy from '@/components/PrivacyPolicy';
 import { HeaderBar } from '@/components/HeaderBar';
 import { format } from 'date-fns';
-import { useState } from 'react';
-import { GetAllExternalLinks } from '/graphql';
+//import { useState } from 'react';
+//import { AllExternalLinks } from '/graphql';
+import { AboutDocument, AllExternalLinksDocument } from '@/graphql';
+import { apiQuery } from 'next-dato-utils/api';
 
-export default function About({ aboutGallery, allExternalLinks }) {
-	const { description, address, hours, phone, email, googleMapsUrl, privacyPolicy } = aboutGallery || {};
-	const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+export default async function About() {
+	const { about } = await apiQuery(AboutDocument);
+	const { allExternalLinks } = await apiQuery(AllExternalLinksDocument, { all: true });
+	const { description, address, hours, phone, email, googleMapsUrl, privacyPolicy, image } = about || {};
+	//const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+	const showPrivacyPolicy = false;
 
 	return (
 		<>
@@ -25,7 +27,7 @@ export default function About({ aboutGallery, allExternalLinks }) {
 					</HeaderBar>
 
 					<b>
-						<Markdown>{address}</Markdown>
+						<Markdown content={address} />
 						<a href={googleMapsUrl} target='new'>
 							View in Google Maps ↗
 						</a>
@@ -36,7 +38,7 @@ export default function About({ aboutGallery, allExternalLinks }) {
 						<br />
 						Opening hours:
 						<br />
-						<Markdown>{hours}</Markdown>
+						<Markdown content={hours} />
 						<br />
 						<a href={`mailto:${email}`}>{email}</a>
 						<br />
@@ -79,7 +81,10 @@ export default function About({ aboutGallery, allExternalLinks }) {
 					<div className={s.text}>
 						<span>
 							Copyright ©2022 Saskia Neuman Gallery ·{' '}
-							<a href='#privacy' onClick={() => setShowPrivacyPolicy(true)}>
+							<a
+								href='#privacy'
+								//onClick={() => setShowPrivacyPolicy(true)}
+							>
 								Privacy policy
 							</a>
 						</span>
@@ -90,25 +95,12 @@ export default function About({ aboutGallery, allExternalLinks }) {
 				</section>
 			</Layout>
 
-			{showPrivacyPolicy && <PrivacyPolicy content={privacyPolicy} onClose={() => setShowPrivacyPolicy(false)} />}
+			{showPrivacyPolicy && (
+				<PrivacyPolicy
+					content={privacyPolicy}
+					//onClose={() => setShowPrivacyPolicy(false)}
+				/>
+			)}
 		</>
 	);
 }
-
-export const getStaticProps = withGlobalProps(
-	{ queries: [GetAbout], model: 'about' },
-	async ({ props, revalidate }) => {
-		const { image } = props.about;
-		const { allExternalLinks } = await apiQueryAll(GetAllExternalLinks);
-
-		return {
-			props: {
-				...props,
-				allExternalLinks,
-				image: image || null,
-				color: imageColor(image),
-			},
-			revalidate,
-		};
-	}
-);

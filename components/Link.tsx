@@ -55,7 +55,7 @@ export function Link({
 	useEffect(() => {
 		hover && setBackgroundColor(color);
 	}, [hover, color]);
-
+	console.log(children);
 	return (
 		<NextLink
 			href={href}

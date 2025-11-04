@@ -10,10 +10,11 @@ import Link from '@/components/Link';
 
 //import { Block } from '@/components';
 import { DraftMode } from 'next-dato-utils/components';
+import { Layout } from '@/components/Layout';
 
 export default async function Home() {
 	const { start, draftUrl } = await apiQuery(StartDocument);
-	const links = start?.links;
+	const links = start?.links.splice(0, 3);
 
 	const isHoveringMenuItem = false; //useStore((state) => state.isHoveringMenuItem);
 	//const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);

@@ -1,22 +1,24 @@
-import s from './Exhibitions.module.scss';
-import { apiQuery } from '@/lib/dato/api';
-import { withGlobalProps } from '@/lib/hoc';
+import s from './page.module.scss';
+import { apiQuery } from 'next-dato-utils/api';
 import { imageColor } from '@/lib/utils';
-import { GetAllExhibitions, GetExhibition } from '/graphql';
 import { Markdown } from 'next-dato-utils/components';
 import { format } from 'date-fns';
-import { useState } from 'react';
+//import { useState } from 'react';
 import Gallery from '@/components/Gallery';
 import { Layout, Meta, Content } from '@/components/Layout';
 import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
 import PressLinks from '@/components/PressLinks';
+import { AllExhibitionsDocument, ExhibitionDocument } from '@/graphql';
 
-export default function Exhibition({
-	exhibition: { title, description, startDate, endDate, artwork, artworkThumbnails, artists, press, pressRelease },
-}) {
-	const [showGallery, setShowGallery] = useState(false);
+export default async function Exhibition({ params }: PageProps<'/exhibitions/[exhibition]'>) {
+	const { exhibition: slug } = await params;
+	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
+	const { title, description, startDate, endDate, artwork, artworkThumbnails, artists, press, pressRelease } =
+		exhibition || {};
 
+	//const [showGallery, setShowGallery] = useState(false);
+	const showGallery = false;
 	return (
 		<>
 			<Layout>
@@ -64,33 +66,17 @@ export default function Exhibition({
 					)}
 				</Content>
 			</Layout>
-			<Gallery show={showGallery} images={artwork} onClose={() => setShowGallery(false)} />
+			<Gallery
+				show={showGallery}
+				images={artwork}
+				//onClose={() => setShowGallery(false)}
+				//
+			/>
 		</>
 	);
 }
 
 export async function generateStaticParams() {
-	const { exhibitions } = await apiQuery(GetAllExhibitions);
-
-	const paths = exhibitions.map(({ slug }) => ({ params: { slug: [slug] } }));
-	return {
-		paths,
-		fallback: 'blocking',
-	};
+	const { allExhibitions } = await apiQuery(AllExhibitionsDocument);
+	return allExhibitions.map(({ slug: exhibition }) => ({ exhibition }));
 }
-
-export const getStaticProps = withGlobalProps({ model: 'exhibition' }, async ({ props, context, revalidate }) => {
-	const { exhibition } = await apiQuery(GetExhibition, { slug: context.params.slug[0] }, context.preview);
-
-	if (!exhibition) return { notFound: true, revalidate };
-
-	return {
-		props: {
-			...props,
-			image: exhibition.image || null,
-			color: imageColor(exhibition.image),
-			exhibition,
-		},
-		revalidate,
-	};
-});

@@ -1,5 +1,5 @@
 import s from './PrivacyPolicy.module.scss';
-import Markdown from '@/lib/dato@/components/Markdown';
+import { Markdown } from 'next-dato-utils/components';
 
 export default function PrivacyPolicy({ onClose, content }) {
 	return (

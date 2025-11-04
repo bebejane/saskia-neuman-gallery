@@ -1,37 +1,46 @@
-import s from './Artists.module.scss';
+import s from './page.module.scss';
 import cn from 'classnames';
-import { apiQuery } from '@/lib/dato/api';
-import { withGlobalProps } from '@/lib/hoc';
 import { imageColor } from '@/lib/utils';
-import { GetAllArtists, GetArtist } from '/graphql';
+import { AllArtistsDocument, AllExhibitionsDocument, ArtistDocument } from '@/graphql';
 import { Image } from 'react-datocms';
 import { Markdown } from 'next-dato-utils/components';
 import Link from '@/components/Link';
 import Gallery from '@/components/Gallery';
-import { useState } from 'react';
+//import { useState } from 'react';
 import { Layout, Meta, Content } from '@/components/Layout';
 import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
 import { format } from 'date-fns';
+import { apiQuery } from 'next-dato-utils/api';
+import { notFound } from 'next/navigation';
 
-export default function Artist({
-	artist: {
+export default async function Artist({ params }: PageProps<'/artists/[artist]'>) {
+	const { artist: slug } = await params;
+	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
+	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
+
+	if (!artist) return notFound();
+
+	const {
 		firstName,
 		lastName,
 		biography,
 		artwork,
 		artworkThumbnails,
-		exhibitions,
+
 		soloExhibitions,
 		groupExhibitions,
 		publications,
 		education,
 		represented,
 		performances,
-	},
-}) {
-	const [galleryIndex, setGalleryIndex] = useState();
-	const [showBiography, setShowBiography] = useState(false);
+	} = artist;
+
+	const exhibitions = allExhibitions?.filter(({ artists }) => artists.some((a) => a.id === artist.id));
+
+	//const [galleryIndex, setGalleryIndex] = useState();
+	//const [showBiography, setShowBiography] = useState(false);
+	const showBiography = false;
 	const haveExtendedBiography =
 		(soloExhibitions.length ||
 			groupExhibitions.length ||
@@ -56,17 +65,19 @@ export default function Artist({
 							{firstName} {lastName}
 						</h1>
 					</HeaderBar>
-					<Markdown>{biography}</Markdown>
+					<Markdown content={biography} />
 					{haveExtendedBiography && (
 						<section className={cn(s.cv, showBiography && s.show)}>
-							<h3 onClick={() => setShowBiography(!showBiography)}>
+							<h3
+							//onClick={() => setShowBiography(!showBiography)}
+							>
 								Extended Bio <span>›</span>
 							</h3>
 							{soloExhibitions.length > 0 && (
 								<div>
 									<h3>Solo Exhibitions</h3>
 									<ul>
-										{soloExhibitions.map(({ year, text, additionalText, location }, idx) => (
+										{soloExhibitions?.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`ss-${idx}`}>
 												{text}
 												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
@@ -76,11 +87,11 @@ export default function Artist({
 									</ul>
 								</div>
 							)}
-							{groupExhibitions.length > 0 && (
+							{groupExhibitions?.length > 0 && (
 								<div>
 									<h3>Group Exhibitions</h3>
 									<ul>
-										{groupExhibitions.map(({ year, text, additionalText, location }, idx) => (
+										{groupExhibitions?.map(({ year, text, additionalText, location }, idx) => (
 											<li key={`gs-${idx}`}>
 												{text}
 												<br /> {additionalText && <span>{additionalText},</span>} {location && <span>{location},</span>}{' '}
@@ -186,36 +197,13 @@ export default function Artist({
 				show={galleryIndex !== undefined}
 				images={artwork}
 				index={galleryIndex}
-				onClose={() => setGalleryIndex(undefined)}
+				//onClose={() => setGalleryIndex(undefined)}
 			/>
 		</>
 	);
 }
 
 export async function generateStaticParams() {
-	const { artists } = await apiQuery(GetAllArtists);
-	const paths = artists.map(({ slug }) => ({ params: { slug: [slug] } }));
-	return {
-		paths,
-		fallback: 'blocking',
-	};
+	const { allArtists } = await apiQuery(AllArtistsDocument);
+	return allArtists.map(({ slug: artist }) => ({ artist }));
 }
-
-export const getStaticProps = withGlobalProps({ model: 'artist' }, async ({ props, context, revalidate }) => {
-	const { artist } = await apiQuery(GetArtist, { slug: context.params.slug[0] }, context.preview);
-
-	if (!artist) return { notFound: true, revalidate };
-
-	return {
-		props: {
-			...props,
-			artist: {
-				...artist,
-				exhibitions: props.exhibitions?.filter(({ artists }) => artists.some((a) => a.id === artist.id)),
-			},
-			image: artist.image || null,
-			color: imageColor(artist.image),
-		},
-		revalidate,
-	};
-});

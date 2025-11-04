@@ -1,3 +1,5 @@
+'use client';
+
 import s from './GalleryThumbs.module.scss';
 import { Image } from 'react-datocms';
 import { useState } from 'react';

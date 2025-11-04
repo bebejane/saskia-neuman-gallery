@@ -5,7 +5,7 @@ import Link from '@/components/Link';
 import cn from 'classnames';
 import useStore from '@/lib/store';
 import { useState, useEffect, Fragment } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
 import { useScrollInfo } from 'next-dato-utils/hooks';
 import { Twirl as Hamburger } from 'hamburger-react';
@@ -15,6 +15,7 @@ import { MenuItem } from '@/lib/menu';
 
 export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) {
 	//const router = useRouter();
+	const pathname = usePathname();
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
 	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
@@ -59,7 +60,6 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		setShowMenu((isScrolledUp && !isPageBottom) || isPageTop);
 	}, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 
-	/*
 	useEffect(() => {
 		// Set Background image on route start change
 		setIsHoveringMenuItem(false);
@@ -75,12 +75,12 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 
 			if (next) setBackgroundColor(next.color);
 		};
-		router.events.on('routeChangeStart', handleRouteChange);
+		//router.events.on('routeChangeStart', handleRouteChange);
 		return () => {
-			router.events.off('routeChangeStart', handleRouteChange);
+			//router.events.off('routeChangeStart', handleRouteChange);
 		};
-	}, []);
-*/
+	}, [pathname]);
+
 	useEffect(() => {
 		// Update separator and sub menu margin
 
@@ -124,6 +124,8 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		}
 	}, [isTransitioning, isExiting]);
 
+	console.log(menu);
+
 	menu.map((m) => ({
 		...m,
 		sub: m.sub?.map((item, idx) => (
@@ -137,7 +139,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 				>
 					<li onMouseEnter={() => handleMouseOver(item, true)} onMouseLeave={() => handleMouseOver(item, false)}>
 						{m.type === 'artist' || m.type === 'about' ? (
-							<>{item.firstName ? `${item.firstName} ${item.lastName}` : item.title || item.name}</>
+							<span>{item.firstName ? `${item.firstName} ${item.lastName}` : (item.title ?? item.name)}</span>
 						) : (
 							<>
 								<h3>{datePeriod(item.startDate, item.endDate)}</h3>
@@ -150,7 +152,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 						)}
 					</li>
 				</Link>
-				{m.type === 'about' && idx === m.sub?.length - 1 && (
+				{m.type === 'about' && idx === m.sub?.length - 1 ? (
 					<li className={s.contact}>
 						<h3>Contact</h3>
 						Linnégatan 19
@@ -162,7 +164,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 							</a>
 						</p>
 					</li>
-				)}
+				) : null}
 			</>
 		)),
 		more: m.all
@@ -210,7 +212,8 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 
 	if (!menu || menu.length === 0) return null;
 
-	//return null;
+	console.log(menu);
+
 	return (
 		<>
 			<div className={navbarStyles}>
@@ -229,7 +232,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 				</div>
 			</div>
 			<div id='menu-wrapper' className={menuWrapperStyles}>
-				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu()}>
+				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu(undefined)}>
 					<ul>
 						{menu.slice(1).map((m, idx) => (
 							<li
@@ -289,7 +292,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 										style={{ marginLeft: `${subMenuMargin}px` }}
 									>
 										{sub?.length > 0 ? (
-											sub.map((s, idx) => <Fragment key={`sub-desktop-${idx}`}>{s.name}</Fragment>)
+											sub.map((item, idx) => <Fragment key={`sub-desktop-${idx}`}>{item.name}</Fragment>)
 										) : (
 											<li>To be announced...</li>
 										)}

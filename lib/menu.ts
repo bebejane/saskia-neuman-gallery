@@ -7,6 +7,7 @@ export type MenuItemSub = {
 	image?: any;
 	slug?: string;
 	color?: string;
+	[key: string]: any;
 };
 export type MenuItem = {
 	type: string;

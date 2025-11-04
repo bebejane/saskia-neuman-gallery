@@ -1,3 +1,4 @@
+'use client';
 import 'swiper/css';
 import cn from 'classnames';
 import s from './Gallery.module.scss';

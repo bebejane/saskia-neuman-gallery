@@ -3,7 +3,7 @@ import { apiQuery } from '@/lib/dato/api';
 import { withGlobalProps } from '@/lib/hoc';
 import { imageColor } from '@/lib/utils';
 import { GetAllHappenings, GetHappening } from '/graphql';
-import Markdown from '@/lib/dato@/components/Markdown';
+import { Markdown } from 'next-dato-utils/components';
 import { Layout, Meta, Content } from '@/components/Layout';
 import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
@@ -40,7 +40,7 @@ export default function Happening({ happening }) {
 	);
 }
 
-export async function getStaticPaths(context) {
+export async function generateStaticParams() {
 	const { happenings } = await apiQuery(GetAllHappenings);
 	const paths = happenings.map(({ slug }) => ({ params: { slug: [slug] } }));
 	return {

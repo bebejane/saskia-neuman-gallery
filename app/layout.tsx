@@ -29,7 +29,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 			<html lang='en'>
 				<body id='root'>
 					<Menu menu={menu} image={null} />
-					<main className={s.main}>
+					<div id='app' className={s.app}>
 						<PageTransition image={image} />
 						<Background
 							image={image}
@@ -41,7 +41,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 						/>
 						{children}
 						<Footer />
-					</main>
+					</div>
 				</body>
 			</html>
 		</>
