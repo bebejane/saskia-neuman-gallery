@@ -1,8 +1,27 @@
 import { create } from 'zustand';
+import { useShallow } from 'zustand/shallow';
 
 const defaultColor = [255, 255, 255];
 
-const useStore = create((set) => ({
+export interface StoreState {
+	backgroundColor: number[];
+	backgroundImage: FileField | null;
+	isHoveringMenuItem: boolean;
+	isRouting: boolean;
+	showMenu: boolean;
+	isTransitioning: boolean;
+	isExiting: boolean;
+	showMobileMenu: boolean;
+	setBackgroundColor: (color: number[]) => void;
+	setBackgroundImage: (image: FileField | null) => void;
+	setIsHoveringMenuItem: (hovering: boolean) => void;
+	setIsRouting: (isRouting: boolean) => void;
+	setShowMenu: (showMenu: boolean) => void;
+	setIsTransitioning: (isTransitioning: boolean) => void;
+	setIsExiting: (isExiting: boolean) => void;
+}
+
+const useStore = create<StoreState>((set) => ({
 	backgroundColor: defaultColor,
 	backgroundImage: null,
 	isHoveringMenuItem: false,
@@ -11,41 +30,40 @@ const useStore = create((set) => ({
 	isTransitioning: false,
 	isExiting: false,
 	showMobileMenu: false,
-
-	setBackgroundColor: (color) =>
+	setBackgroundColor: (color: number[]) =>
 		set((state) => ({
 			backgroundColor: color,
 		})),
-	setBackgroundImage: (image) =>
+	setBackgroundImage: (image: FileField | null) =>
 		set((state) => ({
 			backgroundImage: !state.isRouting ? image : state.backgroundImage,
 			backgroundColor: (image || state.backgroundImage)?.customData?.color?.split(',') || defaultColor,
 		})),
-	setIsHoveringMenuItem: (hovering) =>
+	setIsHoveringMenuItem: (hovering: boolean) =>
 		set((state) => ({
 			isHoveringMenuItem: hovering,
 		})),
-	setIsRouting: (isRouting) =>
+	setIsRouting: (isRouting: boolean) =>
 		set((state) => ({
 			isRouting,
 			backgroundImage: state.isRouting && !isRouting ? undefined : state.backgroundImage,
 		})),
-	setShowMenu: (showMenu) =>
+	setShowMenu: (showMenu: boolean) =>
 		set((state) => ({
 			showMenu,
 		})),
-	setShowMobileMenu: (showMobileMenu) =>
+	setShowMobileMenu: (showMobileMenu: boolean) =>
 		set((state) => ({
 			showMobileMenu,
 		})),
-	setIsTransitioning: (isTransitioning) =>
+	setIsTransitioning: (isTransitioning: boolean) =>
 		set((state) => ({
 			isTransitioning,
 		})),
-	setIsExiting: (isExiting) =>
+	setIsExiting: (isExiting: boolean) =>
 		set((state) => ({
 			isExiting,
 		})),
 }));
 
-export default useStore;
+export { useShallow, useStore };

@@ -1,11 +1,21 @@
 'use client';
-import * as NextLink from 'next/link';
+
+import { default as NextLink, LinkProps } from 'next/link';
+import React, { HTMLProps, FC } from 'react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
-import useStore from '@/lib/store';
+import { useStore, useShallow } from '@/lib/store';
+//@ts-expect-error
 import Tappable from 'react-tapper';
 
-export function Link({
+export type LinkProperties = LinkProps &
+	HTMLProps<HTMLAnchorElement> & {
+		isSelected?: boolean;
+		color: number[];
+		image: FileField | null;
+	};
+
+const Link: FC<LinkProperties> = ({
 	id,
 	href,
 	color,
@@ -18,11 +28,12 @@ export function Link({
 	isSelected,
 	onMouseEnter,
 	onMouseLeave,
-}) {
+}) => {
 	const router = useRouter();
 	const [hover, setHover] = useState(false);
 	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
-	const linkRef = useRef();
+	const linkRef = useRef<HTMLAnchorElement | null>(null);
+	//@ts-ignore
 	const isWhite = color?.reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0) >= 255 * 3 * 0.97;
 
 	const linkStyle =
@@ -30,7 +41,7 @@ export function Link({
 			? { color: isWhite ? 'rgb(0,0,0)' : `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' }
 			: {};
 
-	const handleMouse = (e) => {
+	const handleMouse = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
 		if (e.type === 'mouseleave') {
 			setHover(false);
 			onMouseLeave && onMouseLeave(e);
@@ -40,7 +51,7 @@ export function Link({
 		}
 	};
 
-	const handleTouchEnd = (e) => {
+	const handleTouchEnd = (e: any) => {
 		if (e.type === 'click') return;
 		setBackgroundColor(color);
 		router.push(href);
@@ -55,7 +66,7 @@ export function Link({
 	useEffect(() => {
 		hover && setBackgroundColor(color);
 	}, [hover, color]);
-	console.log(children);
+
 	return (
 		<NextLink
 			href={href}
@@ -73,6 +84,6 @@ export function Link({
 			</Tappable>
 		</NextLink>
 	);
-}
+};
 
 export default Link;

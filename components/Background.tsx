@@ -2,18 +2,20 @@
 
 import s from './Background.module.scss';
 import cn from 'classnames';
-import useStore from '@/lib/store';
+import { useStore, useShallow } from '@/lib/store';
 import { useEffect } from 'react';
 //import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Router from 'next/router';
 
 export default function Background({ image, color, href, fullHeight }) {
-	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
-	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
-	const setIsRouting = useStore((state) => state.setIsRouting);
-	const backgroundImage = useStore((state) => state.backgroundImage);
-	const showMenu = useStore((state) => state.showMenu);
+	const [setBackgroundImage, setBackgroundColor, setIsRouting, backgroundImage, showMenu] = useStore((s) => [
+		s.setBackgroundImage,
+		s.setBackgroundColor,
+		s.setIsRouting,
+		s.backgroundImage,
+		s.showMenu,
+	]);
 
 	/*
 	useEffect(() => {

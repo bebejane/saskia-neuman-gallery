@@ -1,7 +1,7 @@
 'use client';
 
 import s from './Footer.module.scss';
-import useStore from '@/lib/store';
+import { useStore, useShallow } from '@/lib/store';
 import Link from '@/components/Link';
 import { HeaderBar } from '@/components/HeaderBar';
 import { imageColor } from '@/lib/utils';

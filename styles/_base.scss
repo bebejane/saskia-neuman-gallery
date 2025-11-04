@@ -15,9 +15,9 @@
 	--headline-font: 'Helvetica';
 	--mono-font: 'Helvetica';
 
-	--margim: 50px;
-	--margin-left: calc(#{var(--margin)} * 0.5);
-	--margin-right: calc(#{var(--margin)} * 0.5);
+	--margin: 50px;
+	--margin-left: calc(var(--margin) * 0.5);
+	--margin-right: calc(var(--margin) * 0.5);
 
 	--line: 3px solid var(--black);
 	--radius: 20px;
@@ -30,13 +30,13 @@
 	--navbar-height: 57px;
 
 	@include mq($from: desktop) {
-		--margin-left: calc(#{var(--margin)} * 1);
-		--margin-right: calc(#{var(--margin)} * 1);
+		--margin-left: calc(var(--margin) * 1);
+		--margin-right: calc(var(--margin) * 1);
 	}
 
 	@include mq($from: wide) {
-		--margin-left: calc(#{var(--margin)} * 2);
-		--margin-right: calc(#{var(--margin)} * 2);
+		--margin-left: calc(var(--margin) * 2);
+		--margin-right: calc(var(--margin) * 2);
 	}
 }
 

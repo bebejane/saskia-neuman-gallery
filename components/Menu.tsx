@@ -3,7 +3,7 @@
 import s from './Menu.module.scss';
 import Link from '@/components/Link';
 import cn from 'classnames';
-import useStore from '@/lib/store';
+import { useStore, useShallow } from '@/lib/store';
 import { useState, useEffect, Fragment } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
@@ -11,37 +11,50 @@ import { useScrollInfo } from 'next-dato-utils/hooks';
 import { Twirl as Hamburger } from 'hamburger-react';
 import { imageColor, datePeriod } from '@/lib/utils';
 import { format } from 'date-fns';
-import { MenuItem } from '@/lib/menu';
+import { MenuItem, MenuItemSub } from '@/lib/menu';
 
 export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) {
-	//const router = useRouter();
 	const pathname = usePathname();
-	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
-	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
-	const setIsHoveringMenuItem = useStore((state) => state.setIsHoveringMenuItem);
-	const isHoveringMenuItem = useStore((state) => state.isHoveringMenuItem);
-	const isTransitioning = useStore((state) => state.isTransitioning);
-	const isExiting = useStore((state) => state.isExiting);
-	const showMenu = useStore((state) => state.showMenu);
-	const setShowMenu = useStore((state) => state.setShowMenu);
-
-	const showMobileMenu = useStore((state) => state.showMobileMenu);
-	const setShowMobileMenu = useStore((state) => state.setShowMobileMenu);
+	const [
+		setBackgroundImage,
+		setBackgroundColor,
+		setIsHoveringMenuItem,
+		isHoveringMenuItem,
+		setIsTransitioning,
+		setIsExiting,
+		setShowMenu,
+		showMenu,
+		isExiting,
+		isTransitioning,
+	] = useStore(
+		useShallow((s) => [
+			s.setBackgroundImage,
+			s.setBackgroundColor,
+			s.setIsHoveringMenuItem,
+			s.isHoveringMenuItem,
+			s.setIsTransitioning,
+			s.setIsExiting,
+			s.setShowMenu,
+			s.showMenu,
+			s.isExiting,
+			s.isTransitioning,
+		])
+	);
 
 	const imageTheme = image?.customData.theme || 'light';
 	const [darkTheme, setDarkTheme] = useState(false);
-	const [hoverSubMenu, setHoverSubMenu] = useState();
-	const [subMenu, setSubMenu] = useState();
+	const [hoverSubMenu, setHoverSubMenu] = useState<MenuItem | null>(null);
+	const [subMenu, setSubMenu] = useState<MenuItem | null>(null);
 	const [subMenuMobile, setSubMenuMobile] = useState();
 	const [menuBackground, setMenuBackground] = useState(false);
 	const [subMenuMargin, setSubMenuMargin] = useState(0);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
-	const [showMore, setShowMore] = useState({ event: false, show: false, artist: false });
+	const [showMore, setShowMore] = useState({ ExhibitionRecord: false, HappeningRecord: false });
 	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop } = useScrollInfo();
 	const { width } = useWindowSize();
 	const isMobile = width <= 768;
 
-	const handleMouseOver = (item, hovering) => {
+	const handleMouseOver = (item: MenuItemSub, hovering: boolean) => {
 		setTimeout(
 			() => {
 				setIsHoveringMenuItem(hovering);
@@ -64,6 +77,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		// Set Background image on route start change
 		setIsHoveringMenuItem(false);
 
+		/*
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
@@ -79,18 +93,21 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		return () => {
 			//router.events.off('routeChangeStart', handleRouteChange);
 		};
+		*/
 	}, [pathname]);
 
 	useEffect(() => {
 		// Update separator and sub menu margin
-
-		const el = document.getElementById(`menu-${subMenu?.type}`);
+		if (!subMenu) return;
+		const el = document.getElementById(`menu-${subMenu.__typename}`) as HTMLDivElement;
 		const menuWrapper = document.getElementById('menu-wrapper');
-		if (!el || !menu) return;
+		if (!el || !menu || !menuWrapper) return;
 
 		const padding = getComputedStyle(menuWrapper, null).getPropertyValue('padding-left');
+		const parent = el.offsetParent as HTMLDivElement;
+
 		setSubMenuMargin(el.offsetLeft);
-		setSeparatorMargin(el.offsetParent?.offsetLeft + el.offsetLeft - parseInt(padding));
+		setSeparatorMargin(parent?.offsetLeft + el.offsetLeft - parseInt(padding));
 	}, [subMenu]);
 
 	useEffect(() => {
@@ -114,105 +131,31 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 	}, [scrolledPosition, darkTheme, imageTheme]);
 
 	useEffect(() => {
-		// Hide mobile menu after exiting
-		if (showMobileMenu && !isExiting) {
-			setSubMenu(undefined);
-			setShowMobileMenu(false);
-		}
 		if (showMenu && isExiting) {
-			setSubMenu(undefined);
+			setSubMenu(null);
 		}
 	}, [isTransitioning, isExiting]);
 
-	console.log(menu);
+	const startMenuItem = menu.find(({ __typename }) => __typename === 'StartRecord');
+	const navItems = menu.filter(({ __typename }) => __typename !== 'StartRecord');
 
-	menu.map((m) => ({
-		...m,
-		sub: m.sub?.map((item, idx) => (
-			<>
-				<Link
-					key={`sub-${idx}`}
-					href={`/${item.slug}`}
-					color={item.color}
-					isSelected={item.isSelected}
-					image={item.image}
-				>
-					<li onMouseEnter={() => handleMouseOver(item, true)} onMouseLeave={() => handleMouseOver(item, false)}>
-						{m.type === 'artist' || m.type === 'about' ? (
-							<span>{item.firstName ? `${item.firstName} ${item.lastName}` : (item.title ?? item.name)}</span>
-						) : (
-							<>
-								<h3>{datePeriod(item.startDate, item.endDate)}</h3>
-								{item.artists && item.artists?.map((a, idx) => `${a.firstName} ${a.lastName}`).join(', ')}
-								{item.artists && <br />}
-								<i>{item.title}</i>
-								<br />
-								{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
-							</>
-						)}
-					</li>
-				</Link>
-				{m.type === 'about' && idx === m.sub?.length - 1 ? (
-					<li className={s.contact}>
-						<h3>Contact</h3>
-						Linnégatan 19
-						<p>Stockholm</p>
-						<p className={s.narrowHide}>{m.about.phone}</p>
-						<p className={s.narrowHide}>
-							<a href={m.about.googleMapsUrl} target='new'>
-								Google Maps ↗
-							</a>
-						</p>
-					</li>
-				) : null}
-			</>
-		)),
-		more: m.all
-			?.filter(({ startDate, endDate, id }) => datePeriod(startDate, endDate) === 'past' && m.past?.id !== id)
-			.map((item, idx) => (
-				<Link
-					key={`more-${idx}`}
-					href={`/${item.slug}`}
-					color={item.color}
-					isSelected={item.isSelected}
-					image={item.image}
-					onMouseEnter={() => handleMouseOver(item, true)}
-					onMouseLeave={() => handleMouseOver(item, false)}
-				>
-					<p>
-						{item.artists && item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(', ')}
-						{item.artists && <br />}
-						<i>{item.title}</i>
-						<br />
-						{format(new Date(item.startDate), 'dd.MM')}—{format(new Date(item.endDate), 'dd.MM.yyyy')}
-					</p>
-				</Link>
-			)),
-	}));
-
-	const showSeparator = subMenu && showMenu && menu.filter(({ sub, type }) => type === subMenu?.type).length;
-	const navbarStyles = cn(
-		s.navbar,
-		!showMenu && !showMobileMenu && s.hide,
-		darkTheme && !(subMenu || showMobileMenu) && s.dark
-	);
+	const showSeparator =
+		subMenu && showMenu && menu.filter(({ sub, __typename }) => __typename === subMenu?.__typename).length;
+	const navbarStyles = cn(s.navbar, !showMenu && s.hide, darkTheme && !subMenu && s.dark);
 	const menuWrapperStyles = cn(
 		s.menuWrapper,
-		darkTheme && !(subMenu || showMobileMenu) ? s.dark : s.light,
-		(showMobileMenu || (subMenu && showMenu && subMenuMargin > 0)) && s.open,
-		((!showMenu && !showMobileMenu) || (isExiting && !showMobileMenu)) && s.hide,
+		darkTheme && !subMenu ? s.dark : s.light,
+		subMenu && showMenu && subMenuMargin > 0 && s.open,
+		(!showMenu || isExiting) && s.hide,
 		isHoveringMenuItem && s.transparent
 	);
 
-	const menuStyles = cn(
-		s.menu,
-		showMobileMenu && s.show,
-		menuBackground && !isTransitioning && !isHoveringMenuItem && s.opaque
-	);
+	const menuStyles = cn(s.menu, menuBackground && !isTransitioning && !isHoveringMenuItem && s.opaque);
 
+	console.log({ showMenu, subMenu, isHoveringMenuItem });
 	if (!menu || menu.length === 0) return null;
 
-	console.log(menu);
+	console.log(nav);
 
 	return (
 		<>
@@ -220,91 +163,110 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 				<Link href={'/'} className={s.logo}>
 					<div id='logo'>SASKIA NEUMAN GALLERY</div>
 				</Link>
-				<div className={s.hamburger}>
-					<Hamburger
-						toggled={showMobileMenu}
-						duration={0.5}
-						onToggle={setShowMobileMenu}
-						color={'#000'}
-						label={'Menu'}
-						size={17}
-					/>
-				</div>
 			</div>
 			<div id='menu-wrapper' className={menuWrapperStyles}>
-				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu(undefined)}>
+				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu(null)}>
 					<ul>
-						{menu.slice(1).map((m, idx) => (
+						{navItems.map((m, idx) => (
 							<li
-								id={`menu-${m.type}`}
+								id={`menu-${m.__typename}`}
 								key={`menu-${idx}`}
 								onClick={(e) => {
-									!isMobile && setSubMenu(subMenu?.type === m.type ? undefined : m);
+									!isMobile && setSubMenu(subMenu && subMenu?.__typename === m.__typename ? null : m);
 								}}
 								onMouseEnter={() => setHoverSubMenu(m)}
-								onMouseLeave={() => setHoverSubMenu(undefined)}
-								onTouchEnd={() => setSubMenuMobile(subMenuMobile && subMenuMobile.label === m.label ? undefined : m)}
+								onMouseLeave={() => setHoverSubMenu(null)}
 							>
 								<span>
 									{m.label}{' '}
 									<span
 										className={cn(
 											s.arrow,
-											(subMenu?.type === m.type || subMenuMobile?.type === m.type) && s.open,
-											hoverSubMenu?.type !== m.type && s.hide
+											(subMenu?.__typename === m.__typename || subMenuMobile?.__typename === m.__typename) && s.open,
+											hoverSubMenu?.__typename !== m.__typename && s.hide
 										)}
 									>
 										›
 									</span>
 								</span>
-								{showMobileMenu && m.type === subMenuMobile?.type && (
-									<ul
-										onTouchEnd={(e) => e.stopPropagation()}
-										key={`mobile-list-${idx}`}
-										id={`sub-${m.type}`}
-										className={cn(subMenuMobile?.type === m.type && s.open)}
-									>
-										{m.sub.length > 0 ? m.sub : 'To be announced...'}
-										{m.more && m.more?.length > 0 && (
-											<li className={s.more}>
-												<div onClick={() => setShowMore({ ...showMore, [m.type]: !showMore[m.type] })}>
-													<h3>
-														More <div className={cn(s.arrow, showMore[m.type] && s.opened)}>›</div>
-													</h3>
-												</div>
-												{showMore[m.type] && m.more}
-											</li>
-										)}
-									</ul>
-								)}
 							</li>
 						))}
 					</ul>
 					<div className={cn(s.subMenu, subMenuMargin > 0 && s.show)}>
-						{menu.slice(1).map(
-							({ type, sub, more }, idx) =>
-								sub &&
-								!showMobileMenu && (
+						{navItems.map(
+							({ __typename, sub, more }, idx) =>
+								sub && (
 									<ul
 										key={`submenu-${idx}`}
-										id={`sub-${type}`}
-										className={cn(subMenu?.type === type && s.open)}
+										id={`sub-${__typename}`}
+										className={cn(subMenu?.__typename === __typename && s.open)}
 										style={{ marginLeft: `${subMenuMargin}px` }}
 									>
 										{sub?.length > 0 ? (
-											sub.map((item, idx) => <Fragment key={`sub-desktop-${idx}`}>{item.name}</Fragment>)
+											sub.map((item, idx) => (
+												<>
+													<Link
+														key={`sub-${idx}`}
+														href={`/${item.slug}`}
+														color={item.color}
+														isSelected={item.isSelected}
+														image={item.image}
+													>
+														<li
+															onMouseEnter={() => handleMouseOver(item, true)}
+															onMouseLeave={() => handleMouseOver(item, false)}
+														>
+															{__typename === 'ArtistRecord' || __typename === 'AboutRecord' ? (
+																<span>
+																	{item.firstName ? `${item.firstName} ${item.lastName}` : (item.title ?? item.name)}
+																</span>
+															) : (
+																<>
+																	<h3>{datePeriod(item.startDate, item.endDate)}</h3>
+																	{item.artists &&
+																		item.artists?.map((a, idx) => `${a.firstName} ${a.lastName}`).join(', ')}
+																	{item.artists && <br />}
+																	<i>{item.title}</i>
+																	<br />
+																	{format(new Date(item.startDate), 'dd.MM')}—
+																	{format(new Date(item.endDate), 'dd.MM.yyyy')}
+																</>
+															)}
+														</li>
+													</Link>
+													{__typename === 'AboutRecord' && sub && idx === sub.length - 1 ? (
+														<li className={s.contact}>
+															<h3>Contact</h3>
+															Linnégatan 19
+															<p>Stockholm</p>
+															<p className={s.narrowHide}>{m.about.phone}</p>
+															<p className={s.narrowHide}>
+																<a href={m.about.googleMapsUrl} target='new'>
+																	Google Maps ↗
+																</a>
+															</p>
+														</li>
+													) : (
+														<>mada</>
+													)}
+												</>
+											))
 										) : (
 											<li>To be announced...</li>
 										)}
 
 										{more && more?.length > 0 && (
 											<li className={s.more}>
-												<div onClick={() => setShowMore({ ...showMore, [type]: !showMore[type] })}>
+												<div
+													onClick={() =>
+														setShowMore((prev) => ({ ...prev, [__typename]: !showMore[more[0].__typename] }))
+													}
+												>
 													<h3>
-														More <div className={cn(s.arrow, showMore[type] && s.opened)}>›</div>
+														More <div className={cn(s.arrow, showMore[more[0].__typename] && s.opened)}>›</div>
 													</h3>
 												</div>
-												{showMore[type] && more}
+												{showMore[more[0].__typename] && more}
 											</li>
 										)}
 									</ul>
