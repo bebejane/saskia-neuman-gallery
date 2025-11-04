@@ -1,5 +1,4 @@
 import s from './page.module.scss';
-import { imageColor } from '@/lib/utils';
 import { AllHappeningsDocument, HappeningDocument } from '@/graphql';
 import { Markdown } from 'next-dato-utils/components';
 import { Article, Meta, Content } from '@/components/Article';
@@ -39,7 +38,7 @@ export default async function Happening({ params }: PageProps<'/happenings/[happ
 				{gallery && gallery?.length > 0 && (
 					<section className={s.artworks}>
 						<h2>IMAGES</h2>
-						<GalleryThumbs artwork={gallery as FileField[]} artworkThumbnails={galleryThumbnails as FileField[]} />
+						<GalleryThumbs thumbnails={galleryThumbnails as FileField[]} base={`/happenings/${slug}`} />
 					</section>
 				)}
 			</Content>

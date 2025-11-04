@@ -4,6 +4,12 @@ query About {
 	}
 }
 
+query PrivacyPolicy {
+	about {
+		privacyPolicy(markdown: false)
+	}
+}
+
 fragment AboutFragment on AboutRecord {
 	__typename
 	id
@@ -16,7 +22,7 @@ fragment AboutFragment on AboutRecord {
 	image {
 		...ImageFragment
 	}
-	privacyPolicy(markdown: false)
+	#privacyPolicy(markdown: false)
 }
 
 fragment AboutFragmentLight on AboutRecord {

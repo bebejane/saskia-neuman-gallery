@@ -58,7 +58,7 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 					{artwork.length > 0 && (
 						<section className={s.artworks}>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs artwork={artwork as FileField[]} artworkThumbnails={artworkThumbnails as FileField[]} />
+							<GalleryThumbs thumbnails={artworkThumbnails as FileField[]} base={`/exhibitions/${slug}`} />
 						</section>
 					)}
 

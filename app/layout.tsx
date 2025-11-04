@@ -3,37 +3,25 @@ import s from './layout.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
 import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
-import { GlobalDocument, MenuDocument } from '@/graphql';
+import { GlobalDocument } from '@/graphql';
 import { buildMenu } from '@/lib/menu';
 import Menu from '@/components/Menu';
 import Footer from '@/components/Footer';
-import Background from '@/components/Background';
 import PageTransition from '@/components/PageTransition';
 
-export type ArticleProps = {
-	children: React.ReactNode;
-};
-
-export default async function RootArticle({ children }: ArticleProps) {
+export default async function RootArticle({ children, modals }: LayoutProps<'/'>) {
 	const menu = await buildMenu();
-	const image = null;
-	const color = '#000';
-	const title = 'Saskia Neuman Gallery';
-	const description = 'Saskia Neuman Gallery';
-	const isSingleLinkHome = false;
-	const isHome = false;
-	const pathname = '/';
-	//const { footer } = await apiQuery(FooterDocument);
+
 	return (
 		<>
 			<html lang='en'>
 				<body id='root'>
 					<Menu menu={menu} image={null} />
 					<div id='app' className={s.app}>
-						<PageTransition image={image} />
 						{children}
 						<Footer />
 					</div>
+					{modals}
 				</body>
 			</html>
 		</>

@@ -5,16 +5,20 @@
 	width: 100vw;
 	line-height: 0;
 	overflow: hidden;
+
 	@include mq($until: tablet) {
 		transition: margin-top ease 0.3s;
 		margin-top: var(--navbar-height);
+
 		&.hiddenMenu {
 			margin-top: 0rem;
 		}
 	}
+
 	@include mq($from: tablet) {
 		height: 100vh;
 	}
+
 	.link {
 		position: absolute;
 		top: 0;
@@ -63,6 +67,16 @@
 	.hoverImage {
 		width: 100vw;
 		height: 50vh;
+		opacity: 0;
+		animation: fade-in 0.5s ease-in-out forwards;
+		@keyframes fade-in {
+			0% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
 
 		&.hide {
 			display: none;

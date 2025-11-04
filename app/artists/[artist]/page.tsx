@@ -5,8 +5,6 @@ import { AllArtistsDocument, AllExhibitionsDocument, ArtistDocument } from '@/gr
 import { Image } from 'react-datocms';
 import { Markdown } from 'next-dato-utils/components';
 import Link from '@/components/Link';
-import Gallery from '@/components/Gallery';
-//import { useState } from 'react';
 import { Article, Meta, Content } from '@/components/Article';
 import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
@@ -17,6 +15,7 @@ import { notFound } from 'next/navigation';
 export default async function Artist({ params }: PageProps<'/artists/[artist]'>) {
 	const { artist: slug } = await params;
 	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
+	const { allArtists } = await apiQuery(AllArtistsDocument, { all: true });
 	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
 
 	if (!artist) return notFound();
@@ -50,7 +49,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 
 	return (
 		<>
-			<Article image={artist.image as FileField}>
+			<Article image={artist.image as FileField} footer={{ current: artist, items: allArtists }}>
 				<Meta>
 					<HeaderBar>
 						<h3>ARTIST</h3>
@@ -188,12 +187,11 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 					{artwork.length > 0 && (
 						<>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs artworkThumbnails={artworkThumbnails as FileField[]} artwork={artwork as FileField[]} />
+							<GalleryThumbs thumbnails={artworkThumbnails as FileField[]} base={`/artists/${artist.slug}`} />
 						</>
 					)}
 				</Content>
 			</Article>
-			<Gallery show={galleryIndex !== null} images={artwork as FileField[]} index={galleryIndex ?? 0} />
 		</>
 	);
 }

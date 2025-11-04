@@ -74,12 +74,12 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		setShowMenu((isScrolledUp && !isPageBottom) || isPageTop);
 	}, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 
+	/*
 	useEffect(() => {
 		// Set Background image on route start change
 		setIsHoveringMenuItem(false);
 		setSubMenu(null);
 
-		/*
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
@@ -91,12 +91,12 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 
 			if (next) setBackgroundColor(next.color);
 		};
-		//router.events.on('routeChangeStart', handleRouteChange);
 		return () => {
-			//router.events.off('routeChangeStart', handleRouteChange);
+			handleRouteChange();
 		};
-		*/
+		
 	}, [pathname]);
+*/
 
 	useEffect(() => {
 		// Update separator and sub menu margin
@@ -153,8 +153,6 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 	);
 
 	const menuStyles = cn(s.menu, menuBackground && !isTransitioning && !isHoveringMenuItem && s.opaque);
-
-	console.log(navItems);
 
 	return (
 		<>
@@ -215,7 +213,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 														onMouseLeave={() => handleMouseOver(sub, false)}
 														data-type={sub.__typename}
 													>
-														{sub.__typename === 'ArtistRecord' || sub.__typename === 'AboutRecord' ? (
+														{item.__typename === 'ArtistRecord' || item.__typename === 'AboutRecord' ? (
 															<span>{sub.title}</span>
 														) : (
 															<>
@@ -273,14 +271,14 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 															//onMouseEnter={() => handleMouseOver(sub, true)}
 															//onMouseLeave={() => handleMouseOver(sub, false)}
 														>
-															<p>
+															<div>
 																<h3>{period}</h3>
 																{text}
 																<br />
 																<i>{title}</i>
 																<br />
 																{date}
-															</p>
+															</div>
 														</Link>
 													))}
 											</li>

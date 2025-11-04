@@ -6,32 +6,62 @@ import s from './Gallery.module.scss';
 import { Image } from 'react-datocms';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
-import SwiperCore from 'swiper';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, use } from 'react';
+import Link from 'next/link';
+import React from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 export type GalleryProps = {
-	show: boolean;
 	images: FileField[];
 	index: number;
+	backHref: string;
 };
 
-export default function Gallery({ show, images, index = 0 }: GalleryProps) {
+export default function Gallery({ images, index: _index = 0, backHref }: GalleryProps) {
+	const router = useRouter();
+	const pathname = usePathname();
 	const swiperRef = useRef<SwiperType | null>(null);
-	const [realIndex, setRealIndex] = useState(0);
-	const [caption, setCaption] = useState<{ title: string; alt: string } | null>(null);
+	const [show, setShow] = useState(false);
+	const [realIndex, setRealIndex] = useState(_index);
+	const [caption, setCaption] = useState<{ title?: any; alt?: any } | null>(null);
+	const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
+
+	useEffect(() => {
+		setShow(true);
+	}, []);
 
 	useEffect(() => {
 		if (!images || !images[realIndex]) return;
 		const image = images[realIndex];
 		if (!image) return;
 		const { title, alt } = image;
-		if (!title || !alt) return;
 		setCaption({ title, alt });
 	}, [images, realIndex]);
 
 	useEffect(() => {
-		swiperRef.current?.slideTo(index + 1);
-	}, [index]);
+		function handleKeyDown(e: KeyboardEvent) {
+			switch (e.key) {
+				case 'ArrowLeft':
+					swiperRef.current?.slidePrev();
+					break;
+				case 'ArrowRight':
+					swiperRef.current?.slideNext();
+				case 'Escape':
+					router.back();
+					break;
+			}
+		}
+
+		window.addEventListener('keydown', handleKeyDown);
+
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [images]);
+
+	useEffect(() => {
+		window.history.replaceState(null, '', `${pathname.split('/').slice(0, -1).join('/')}/${realIndex}`);
+	}, [realIndex]);
 
 	if (!images) return null;
 
@@ -40,26 +70,35 @@ export default function Gallery({ show, images, index = 0 }: GalleryProps) {
 			<div className={s.back} onClick={() => swiperRef.current?.slidePrev()}>
 				❮
 			</div>
-			<div className={s.images} onClick={() => swiperRef?.current?.slideNext()} key={index}>
+			<div className={s.images} onClick={() => swiperRef?.current?.slideNext()} key={_index}>
 				<Swiper
 					loop={true}
 					spaceBetween={500}
 					slidesPerView={1}
-					initialSlide={index}
+					initialSlide={_index}
 					onSlideChange={({ realIndex }) => setRealIndex(realIndex)}
 					onSwiper={(swiper) => (swiperRef.current = swiper)}
 				>
 					{images.map((image, idx) => (
 						<SwiperSlide key={idx} className={s.slide}>
 							{image.responsiveImage && (
-								<Image
-									data={image.responsiveImage}
-									className={s.image}
-									placeholderClassName={s.placeholder}
-									pictureClassName={s.picture}
-									fadeInDuration={100}
-									//lazyLoad={index === idx}
-								/>
+								<React.Fragment key={idx}>
+									<Image
+										data={image.responsiveImage}
+										className={s.image}
+										placeholderClassName={s.placeholder}
+										imgClassName={s.picture}
+										fadeInDuration={0}
+										usePlaceholder={idx === _index}
+										priority={true}
+										onLoad={() => setLoaded((l) => ({ ...l, [image.id]: true }))}
+									/>
+									{!loaded[image.id] && (
+										<div className={s.loading}>
+											<div className={s.loader}></div>
+										</div>
+									)}
+								</React.Fragment>
 							)}
 						</SwiperSlide>
 					))}
@@ -72,12 +111,9 @@ export default function Gallery({ show, images, index = 0 }: GalleryProps) {
 				<span>{caption?.title}</span>
 				{caption?.alt && <span className={s.subTitle}>{caption.alt}</span>}
 			</div>
-			<div
-				className={s.close}
-				//onClick={onClose}
-			>
+			<Link className={s.close} href={backHref}>
 				×
-			</div>
+			</Link>
 		</div>
 	);
 }

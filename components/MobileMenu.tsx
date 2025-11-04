@@ -154,7 +154,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 
 	const menuStyles = cn(s.menu, menuBackground && !isTransitioning && !isHoveringMenuItem && s.opaque);
 
-	console.log(navItems);
+	//console.log(navItems);
 
 	return (
 		<>

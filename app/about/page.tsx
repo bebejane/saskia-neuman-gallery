@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { AboutDocument, AllExternalLinksDocument } from '@/graphql';
 import { apiQuery } from 'next-dato-utils/api';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
 export default async function About() {
 	const { about } = await apiQuery(AboutDocument);
@@ -17,15 +18,12 @@ export default async function About() {
 	if (!about) return notFound();
 
 	const { allExternalLinks } = await apiQuery(AllExternalLinksDocument, { all: true });
-	const { description, address, hours, phone, email, googleMapsUrl, privacyPolicy, image } = about || {};
-
-	//const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
-	const showPrivacyPolicy = false;
+	const { description, address, hours, phone, email, googleMapsUrl, image } = about || {};
 
 	return (
 		<>
 			<Article image={image as FileField} noMargin={true}>
-				<Meta border={true}>
+				<Meta border={true} sticky={false}>
 					<HeaderBar>
 						<h3>Contact</h3>
 					</HeaderBar>
@@ -57,6 +55,7 @@ export default async function About() {
 					</b>
 					<br />
 				</Meta>
+
 				<Content>
 					<HeaderBar>
 						<h1>About</h1>
@@ -83,25 +82,13 @@ export default async function About() {
 				<section className={s.colophon}>
 					<div className={s.text}>
 						<span>
-							Copyright ©2022 Saskia Neuman Gallery ·{' '}
-							<a
-								href='#privacy'
-								//onClick={() => setShowPrivacyPolicy(true)}
-							>
-								Privacy policy
-							</a>
+							Copyright ©2022 Saskia Neuman Gallery · <Link href={'/privacy'}>Privacy Policy</Link>
 						</span>
 						<a href='http://www.konst-teknik.se/' target='new'>
 							Designed and developed by Konst & Teknik
 						</a>
 					</div>
 				</section>
-				{showPrivacyPolicy && (
-					<PrivacyPolicy
-						content={privacyPolicy}
-						//onClose={() => setShowPrivacyPolicy(false)}
-					/>
-				)}
 			</Article>
 		</>
 	);

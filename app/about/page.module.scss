@@ -21,6 +21,7 @@ $grid-space-small: 1.2rem;
 }
 
 .colophon {
+	position: relative;
 	padding-top: 1.2rem;
 	border-top: 1px solid var(--black);
 	font-size: 0.8em;
@@ -34,6 +35,7 @@ $grid-space-small: 1.2rem;
 
 .archive {
 	width: 100%;
+	margin-top: 2rem;
 	ul {
 		display: flex;
 		flex-direction: row;

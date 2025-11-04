@@ -1,20 +1,22 @@
 .main {
+	padding-left: var(--margin-left);
+	padding-right: var(--margin-right);
+	background: var(--white);
+	z-index: 1000;
+	padding-bottom: 1rem;
+
 	@include mq($from: tablet) {
 		display: flex;
 		align-items: flex-start;
 		flex-wrap: wrap;
 	}
-	padding-left: var(--margin-left);
-	padding-right: var(--margin-right);
-	background: var(--white);
 
 	@include mq($from: tablet) {
 		&:first-of-type {
 			margin-top: var(--header-bar-height);
 		}
 	}
-	z-index: 1000;
-	padding-bottom: 1rem;
+
 	@include mq($from: tablet) {
 		padding-bottom: 7rem;
 	}
@@ -22,20 +24,25 @@
 	&.noMargin {
 		padding-bottom: 0;
 		@include mq($from: tablet) {
-			padding-bottom: 1rem;
+			padding-bottom: 1rem !important;
 		}
 	}
 }
 
 .meta {
+	position: relative;
 	@include mq($until: tablet) {
 		padding-bottom: 1em;
 	}
 
 	@include mq($from: tablet) {
-		position: sticky;
-		top: 3rem;
+		position: relative;
+
 		width: 50%;
+		&.sticky {
+			top: 3rem;
+			position: sticky;
+		}
 	}
 
 	p:first-of-type {

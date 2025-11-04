@@ -57,7 +57,7 @@ export async function buildMenu() {
 					.sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
 					.filter((i) => i)
 					.map((item) => ({
-						_typname: item.__typename,
+						__typname: item.__typename,
 						href: `/artists/${item.slug}`,
 						title: `${item.firstName} ${item.lastName}`,
 						image: item.image,
@@ -97,7 +97,7 @@ export async function buildMenu() {
 					)
 					.map((item, idx) => ({
 						__typeName: 'ExhibitionRecord',
-						href: `/${item.slug}`,
+						href: `/exhibitions/${item.slug}`,
 						title: item.title,
 						period: datePeriod(item.startDate, item.endDate),
 						text: item.artists?.map((a) => `${a.firstName} ${a.lastName}`).join(', '),
@@ -132,7 +132,7 @@ export async function buildMenu() {
 					)
 					.map((item, idx) => ({
 						__typeName: 'HappeningRecord',
-						href: `/${item.slug}`,
+						href: `/happenings/${item.slug}`,
 						color: imageColor(item.image as FileField),
 						selected: false,
 						image: item.image,
@@ -157,6 +157,7 @@ export async function buildMenu() {
 			},
 		].map((m) => ({
 			...m,
+			__typename: m.__typename,
 			image: m.sub ? m.sub[0]?.image : m.image,
 			color: imageColor((m.sub ? m.sub[0]?.image : m.image) as FileField),
 			selected: !m.sub && m.path === path,
@@ -166,7 +167,7 @@ export async function buildMenu() {
 				color: imageColor(item.image as FileField),
 			})),
 		}));
-		console.log(menu);
+
 		return menu as MenuItem[];
 	} catch (err) {
 		console.error(err);

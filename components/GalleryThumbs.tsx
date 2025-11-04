@@ -3,44 +3,43 @@
 import s from './GalleryThumbs.module.scss';
 import { Image } from 'react-datocms';
 import { useState } from 'react';
-import Gallery from './Gallery';
 import { splitArray } from '@/lib/utils';
+import Link from 'next/link';
 
 export type GalleryThumbsProps = {
-	artwork: FileField[];
-	artworkThumbnails: FileField[];
+	thumbnails: FileField[];
+	base: string;
 };
 
-export default function GalleryThumbs({ artwork, artworkThumbnails }: GalleryThumbsProps) {
+function getIndex(columns: FileField[][], currentIndex: number): number {
+	const maxRows = columns[0]?.length || 0;
+	const numColumns = columns.length;
+	const colIndex = Math.floor(currentIndex / maxRows);
+	const rowIndex = currentIndex % maxRows;
+	return rowIndex * numColumns + colIndex;
+}
+
+export default function GalleryThumbs({ thumbnails, base }: GalleryThumbsProps) {
 	const maxRows = 4;
-	const artworkRows = splitArray(artworkThumbnails, maxRows) as FileField[][];
-	const [galleryIndex, setGalleryIndex] = useState(-1);
+	const columns = splitArray(thumbnails, maxRows) as FileField[][];
+
+	let index = 0;
 
 	return (
-		<>
-			<div className={s.thumbs}>
-				{artworkRows.map((a, ridx) => (
-					<div key={`thumb-${ridx}`} className={s.row}>
-						{a?.map((image, idx) => (
-							<figure
-								key={`thumb-image-${idx}`}
-								onClick={() => setGalleryIndex(artworkThumbnails.findIndex((a) => a.id === image.id))}
-							>
+		<div className={s.thumbs}>
+			{columns.map((a, cidx) => (
+				<div key={`thumb-${cidx}`} className={s.row}>
+					{a?.map((image, ridx) => (
+						<Link href={`${base}/gallery/${getIndex(columns, index++)}`} key={`${cidx}-${ridx}`}>
+							<figure key={`thumb-image-${ridx}`}>
 								{image.responsiveImage && (
 									<Image data={image.responsiveImage} objectFit='contain' intersectionMargin='0px 0px 100% 0px' />
 								)}
 							</figure>
-						))}
-					</div>
-				))}
-			</div>
-			<Gallery
-				show={galleryIndex > -1}
-				images={artwork}
-				index={galleryIndex}
-				//onClose={() => setGalleryIndex(-1)}
-				//
-			/>
-		</>
+						</Link>
+					))}
+				</div>
+			))}
+		</div>
 	);
 }

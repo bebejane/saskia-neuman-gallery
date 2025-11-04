@@ -21,10 +21,11 @@ export default async function Home({}: PageProps<'/'>) {
 			: cover.__typename === 'ExhibitionRecord'
 				? `/exhibitions`
 				: null;
+
 	const href = cover?.__typename === 'ExternalLinkRecord' ? cover.url : `${path}/${cover.slug}`;
 
 	return (
-		<Article noMargin={true} image={image as FileField} href={href}>
+		<Article image={image as FileField} href={href} noMargin={true}>
 			<div className={s.container}>
 				{links?.map((link, idx) => {
 					const t = link.__typename;

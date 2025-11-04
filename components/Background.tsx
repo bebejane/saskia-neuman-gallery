@@ -6,6 +6,7 @@ import { useStore, useShallow } from '@/lib/store';
 import { useEffect } from 'react';
 //import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export type BackgroundProps = {
 	image?: FileField | null;
@@ -15,6 +16,7 @@ export type BackgroundProps = {
 };
 
 export default function Background({ image, color, href, fullHeight }: BackgroundProps) {
+	const pathname = usePathname();
 	const [setBackgroundImage, setBackgroundColor, setIsRouting, backgroundImage, showMenu] = useStore(
 		useShallow((s) => [s.setBackgroundImage, s.setBackgroundColor, s.setIsRouting, s.backgroundImage, s.showMenu])
 	);
@@ -27,23 +29,17 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 		};
 	}, []);
 
-	/*
 	useEffect(() => {
+		const routeChangeStart = () => setIsRouting(true);
+		const routeChangeComplete = () => setTimeout(() => setIsRouting(false), 1000);
 		setBackgroundImage(null);
 		setBackgroundColor(color);
-
-		const routeChangeStart = (url) => setIsRouting(true);
-		const routeChangeComplete = (url) => setTimeout(() => setIsRouting(false), 1000);
-
-		Router.events.on('routeChangeStart', routeChangeStart);
-		Router.events.on('routeChangeComplete', routeChangeComplete);
+		routeChangeComplete();
 
 		return () => {
-			Router.events.off('routeChangeStart', routeChangeStart);
-			Router.events.off('routeChangeComplete', routeChangeComplete);
+			routeChangeStart();
 		};
-	}, []);
-*/
+	}, [pathname]);
 
 	if (!image) return null;
 
@@ -55,12 +51,8 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 			</div>
 			{backgroundImage && (
 				<div className={s.hoverContainer} key={backgroundImage.id}>
-					<div
-						//initial={{ opacity: 0 }}
-						//animate={{ opacity: 1, transition: { duration: 0.35 } }}
-						className={s.hoverImage}
-					>
-						<img src={`${image.url}?fmt=jpg&w=1400`} className={s.image} />
+					<div className={s.hoverImage}>
+						<img src={`${backgroundImage.url}?fmt=jpg&w=1400`} className={s.image} />
 					</div>
 				</div>
 			)}

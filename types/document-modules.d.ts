@@ -3,6 +3,7 @@ declare module '*/about.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const About: DocumentNode;
+export const PrivacyPolicy: DocumentNode;
 export const AboutFragment: DocumentNode;
 export const AboutFragmentLight: DocumentNode;
 
