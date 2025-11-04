@@ -8,7 +8,7 @@ export const imageColor = (image: FileField | null | undefined): number[] => {
 	return color;
 };
 
-export const splitArray = (items: any[], max: number): number[] => {
+export const splitArray = (items: any[], max: number): any[][] => {
 	const arr = new Array(max);
 	const itemsPerRow = Math.ceil(items.length / max);
 	for (let i = 0, a = 0; i < items.length; i++, a++) {

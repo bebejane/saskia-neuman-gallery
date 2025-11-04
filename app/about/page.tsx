@@ -24,7 +24,7 @@ export default async function About() {
 
 	return (
 		<>
-			<Article image={image as FileField} noMargin={true} color={imageColor(image as FileField)}>
+			<Article image={image as FileField} noMargin={true}>
 				<Meta border={true}>
 					<HeaderBar>
 						<h3>Contact</h3>

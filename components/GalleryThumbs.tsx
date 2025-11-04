@@ -6,9 +6,14 @@ import { useState } from 'react';
 import Gallery from './Gallery';
 import { splitArray } from '@/lib/utils';
 
-export default function GalleryThumbs({ artwork, artworkThumbnails }) {
+export type GalleryThumbsProps = {
+	artwork: FileField[];
+	artworkThumbnails: FileField[];
+};
+
+export default function GalleryThumbs({ artwork, artworkThumbnails }: GalleryThumbsProps) {
 	const maxRows = 4;
-	const artworkRows = splitArray(artworkThumbnails, maxRows);
+	const artworkRows = splitArray(artworkThumbnails, maxRows) as FileField[][];
 	const [galleryIndex, setGalleryIndex] = useState(-1);
 
 	return (
@@ -16,18 +21,26 @@ export default function GalleryThumbs({ artwork, artworkThumbnails }) {
 			<div className={s.thumbs}>
 				{artworkRows.map((a, ridx) => (
 					<div key={`thumb-${ridx}`} className={s.row}>
-						{a.map((image, idx) => (
+						{a?.map((image, idx) => (
 							<figure
 								key={`thumb-image-${idx}`}
 								onClick={() => setGalleryIndex(artworkThumbnails.findIndex((a) => a.id === image.id))}
 							>
-								<Image data={image.responsiveImage} objectFit='contain' intersectionMargin='0px 0px 100% 0px' />
+								{image.responsiveImage && (
+									<Image data={image.responsiveImage} objectFit='contain' intersectionMargin='0px 0px 100% 0px' />
+								)}
 							</figure>
 						))}
 					</div>
 				))}
 			</div>
-			<Gallery show={galleryIndex > -1} images={artwork} index={galleryIndex} onClose={() => setGalleryIndex(-1)} />
+			<Gallery
+				show={galleryIndex > -1}
+				images={artwork}
+				index={galleryIndex}
+				//onClose={() => setGalleryIndex(-1)}
+				//
+			/>
 		</>
 	);
 }

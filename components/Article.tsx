@@ -1,5 +1,6 @@
 import s from './Article.module.scss';
 import Background from '@/components/Background';
+import { imageColor } from '@/lib/utils';
 import cn from 'classnames';
 
 export type ArticleProps = {
@@ -7,7 +8,7 @@ export type ArticleProps = {
 	noMargin?: boolean;
 	hide?: boolean;
 	image?: FileField;
-	color: number[];
+	color?: number[];
 	isHome?: boolean;
 	href?: string;
 	fullHeight?: boolean;
@@ -17,7 +18,7 @@ export function Article({ children, noMargin, hide, image, color, href, fullHeig
 	if (hide) return null;
 	return (
 		<>
-			<Background href={href} image={image} color={color} fullHeight={fullHeight} />
+			<Background href={href} image={image} color={color ? color : imageColor(image)} fullHeight={fullHeight} />
 			<main id='main' className={cn(s.main, noMargin && s.noMargin)}>
 				{children}
 			</main>

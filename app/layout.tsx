@@ -31,7 +31,6 @@ export default async function RootArticle({ children }: ArticleProps) {
 					<Menu menu={menu} image={null} />
 					<div id='app' className={s.app}>
 						<PageTransition image={image} />
-
 						{children}
 						<Footer />
 					</div>

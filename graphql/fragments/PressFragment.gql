@@ -1,7 +1,0 @@
-fragment PressFragment on PressRecord {
-  id
-  source
-  author
-  date
-  url
-}

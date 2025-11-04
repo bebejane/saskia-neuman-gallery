@@ -19,6 +19,14 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 		useShallow((s) => [s.setBackgroundImage, s.setBackgroundColor, s.setIsRouting, s.backgroundImage, s.showMenu])
 	);
 
+	useEffect(() => {
+		const originalColor = document.body.style.backgroundColor;
+		document.body.style.backgroundColor = `rgb(${color.join(',')})`;
+		return () => {
+			document.body.style.backgroundColor = originalColor;
+		};
+	}, []);
+
 	/*
 	useEffect(() => {
 		setBackgroundImage(null);

@@ -50,7 +50,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 
 	return (
 		<>
-			<Article image={artist.image as FileField} color={imageColor(artist.image as FileField)}>
+			<Article image={artist.image as FileField}>
 				<Meta>
 					<HeaderBar>
 						<h3>ARTIST</h3>
@@ -188,7 +188,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 					{artwork.length > 0 && (
 						<>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs artworkThumbnails={artworkThumbnails} artwork={artwork} />
+							<GalleryThumbs artworkThumbnails={artworkThumbnails as FileField[]} artwork={artwork as FileField[]} />
 						</>
 					)}
 				</Content>

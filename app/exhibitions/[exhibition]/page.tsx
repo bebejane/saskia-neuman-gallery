@@ -25,7 +25,7 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 	const showGallery = false;
 	return (
 		<>
-			<Article image={exhibition.image as FileField} color={imageColor(exhibition.image as FileField)}>
+			<Article image={exhibition.image as FileField}>
 				<Meta>
 					<HeaderBar>
 						<h3>Exhibition</h3>
@@ -58,14 +58,14 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 					{artwork.length > 0 && (
 						<section className={s.artworks}>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs artwork={artwork} artworkThumbnails={artworkThumbnails} />
+							<GalleryThumbs artwork={artwork as FileField[]} artworkThumbnails={artworkThumbnails as FileField[]} />
 						</section>
 					)}
 
 					{press.length > 0 && (
 						<section className={s.press}>
 							<h2>PRESS</h2>
-							<PressLinks press={press} />
+							<PressLinks press={press as PressRecord[]} />
 						</section>
 					)}
 				</Content>

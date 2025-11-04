@@ -18,7 +18,7 @@ export default async function Happening({ params }: PageProps<'/happenings/[happ
 	const { image, title, description, startDate, endDate, gallery, galleryThumbnails } = happening;
 
 	return (
-		<Article image={image as FileField} color={imageColor(image as FileField)}>
+		<Article image={image as FileField}>
 			<Meta>
 				<HeaderBar mobileHide={true}>
 					<h3>HAPPENING</h3>
@@ -39,7 +39,7 @@ export default async function Happening({ params }: PageProps<'/happenings/[happ
 				{gallery && gallery?.length > 0 && (
 					<section className={s.artworks}>
 						<h2>IMAGES</h2>
-						<GalleryThumbs artwork={gallery} artworkThumbnails={galleryThumbnails} />
+						<GalleryThumbs artwork={gallery as FileField[]} artworkThumbnails={galleryThumbnails as FileField[]} />
 					</section>
 				)}
 			</Content>
