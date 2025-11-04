@@ -5,8 +5,12 @@ import { GlobalDocument } from '@/graphql';
 
 export default {
 	routes: {
-		start: async (record) => [`/}`],
-		upload: async (record) => getUploadReferenceRoutes(record.id),
+		start: async (record) => [`/`],
+		about: async ({ slug }) => [`/${slug}`],
+		artist: async ({ slug }) => [`/artists/${slug}`],
+		exhibition: async ({ slug }) => [`/exhibitions/${slug}`],
+		happening: async ({ slug }) => [`/happenings/${slug}`],
+		upload: async ({ id }) => getUploadReferenceRoutes(id),
 	},
 	sitemap: async () => {
 		return [
