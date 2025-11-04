@@ -5,23 +5,27 @@ import { Markdown } from 'next-dato-utils/components';
 import { format } from 'date-fns';
 //import { useState } from 'react';
 import Gallery from '@/components/Gallery';
-import { Layout, Meta, Content } from '@/components/Layout';
+import { Article, Meta, Content } from '@/components/Article';
 import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
 import PressLinks from '@/components/PressLinks';
 import { AllExhibitionsDocument, ExhibitionDocument } from '@/graphql';
+import { notFound } from 'next/navigation';
 
 export default async function Exhibition({ params }: PageProps<'/exhibitions/[exhibition]'>) {
 	const { exhibition: slug } = await params;
 	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
+
+	if (!exhibition) return notFound();
+
 	const { title, description, startDate, endDate, artwork, artworkThumbnails, artists, press, pressRelease } =
-		exhibition || {};
+		exhibition;
 
 	//const [showGallery, setShowGallery] = useState(false);
 	const showGallery = false;
 	return (
 		<>
-			<Layout>
+			<Article image={exhibition.image as FileField} color={imageColor(exhibition.image as FileField)}>
 				<Meta>
 					<HeaderBar>
 						<h3>Exhibition</h3>
@@ -45,12 +49,12 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 				</Meta>
 
 				<Content>
-					<HeaderBar mobileHide='true'>
+					<HeaderBar mobileHide={true}>
 						<h1>
 							<i>{title}</i>
 						</h1>
 					</HeaderBar>
-					<Markdown>{description}</Markdown>
+					{description && <Markdown content={description} />}
 					{artwork.length > 0 && (
 						<section className={s.artworks}>
 							<h2>ARTWORK</h2>
@@ -65,13 +69,7 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 						</section>
 					)}
 				</Content>
-			</Layout>
-			<Gallery
-				show={showGallery}
-				images={artwork}
-				//onClose={() => setShowGallery(false)}
-				//
-			/>
+			</Article>
 		</>
 	);
 }

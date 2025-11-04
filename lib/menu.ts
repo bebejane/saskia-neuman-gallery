@@ -57,7 +57,7 @@ export async function buildMenu() {
 					.sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
 					.filter((i) => i)
 					.map((item) => ({
-						__typname: item.__typename,
+						_typname: item.__typename,
 						href: `/artists/${item.slug}`,
 						title: `${item.firstName} ${item.lastName}`,
 						image: item.image,

@@ -1,18 +1,27 @@
-import s from './Layout.module.scss';
+import s from './Article.module.scss';
+import Background from '@/components/Background';
 import cn from 'classnames';
 
-export type LayoutProps = {
+export type ArticleProps = {
 	children: React.ReactNode | React.ReactNode[];
 	noMargin?: boolean;
 	hide?: boolean;
+	image?: FileField;
+	color: number[];
+	isHome?: boolean;
+	href?: string;
+	fullHeight?: boolean;
 };
 
-export function Layout({ children, noMargin, hide }: LayoutProps) {
+export function Article({ children, noMargin, hide, image, color, href, fullHeight }: ArticleProps) {
 	if (hide) return null;
 	return (
-		<main id='main' className={cn(s.main, noMargin && s.noMargin)}>
-			{children}
-		</main>
+		<>
+			<Background href={href} image={image} color={color} fullHeight={fullHeight} />
+			<main id='main' className={cn(s.main, noMargin && s.noMargin)}>
+				{children}
+			</main>
+		</>
 	);
 }
 

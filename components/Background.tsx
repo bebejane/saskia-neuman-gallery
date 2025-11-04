@@ -8,9 +8,9 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 
 export type BackgroundProps = {
-	image: FileField | null;
+	image?: FileField | null;
 	color: number[];
-	href: string;
+	href?: string;
 	fullHeight?: boolean;
 };
 
@@ -36,6 +36,7 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 		};
 	}, []);
 */
+
 	if (!image) return null;
 
 	return (
@@ -51,7 +52,7 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 						//animate={{ opacity: 1, transition: { duration: 0.35 } }}
 						className={s.hoverImage}
 					>
-						<img src={`${backgroundImage.url}?fmt=jpg&w=1400`} className={s.image} />
+						<img src={`${image.url}?fmt=jpg&w=1400`} className={s.image} />
 					</div>
 				</div>
 			)}

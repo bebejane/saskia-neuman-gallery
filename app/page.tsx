@@ -10,7 +10,7 @@ import Link from '@/components/Link';
 
 //import { Block } from '@/components';
 import { DraftMode } from 'next-dato-utils/components';
-import { Layout } from '@/components/Layout';
+import { Article } from '@/components/Article';
 
 export default async function Home() {
 	const { start, draftUrl } = await apiQuery(StartDocument);

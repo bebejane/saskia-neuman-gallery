@@ -10,11 +10,11 @@ import Footer from '@/components/Footer';
 import Background from '@/components/Background';
 import PageTransition from '@/components/PageTransition';
 
-export type LayoutProps = {
+export type ArticleProps = {
 	children: React.ReactNode;
 };
 
-export default async function RootLayout({ children }: LayoutProps) {
+export default async function RootArticle({ children }: ArticleProps) {
 	const menu = await buildMenu();
 	const image = null;
 	const color = '#000';
@@ -31,14 +31,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 					<Menu menu={menu} image={null} />
 					<div id='app' className={s.app}>
 						<PageTransition image={image} />
-						<Background
-							image={image}
-							color={color}
-							key={pathname}
-							title={title}
-							href={isHome ? backgroundLink : undefined}
-							fullHeight={isSingleLinkHome}
-						/>
+
 						{children}
 						<Footer />
 					</div>
@@ -69,7 +62,7 @@ export async function buildMetadata({
 		site: { globalSeo, faviconMetaTags },
 	} = await apiQuery(GlobalDocument);
 
-	const siteName = 'KakaKonstpedagogik';
+	const siteName = globalSeo?.siteName as string;
 	const url = pathname ? `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}` : process.env.NEXT_PUBLIC_SITE_URL;
 	const title = t ? `${siteName} — ${t}` : siteName;
 	const description = !desc ? (globalSeo?.fallbackSeo?.description ?? '') : desc;

@@ -11,6 +11,10 @@
 	white-space: pre;
 	font-weight: bold;
 
+	@include mq($from: desktop) {
+		display: none;
+	}
+
 	.logo {
 		@include mq($until: desktop) {
 			padding-top: 1.2em;

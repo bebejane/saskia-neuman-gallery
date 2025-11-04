@@ -7,7 +7,7 @@ import { Markdown } from 'next-dato-utils/components';
 import Link from '@/components/Link';
 import Gallery from '@/components/Gallery';
 //import { useState } from 'react';
-import { Layout, Meta, Content } from '@/components/Layout';
+import { Article, Meta, Content } from '@/components/Article';
 import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
 import { format } from 'date-fns';
@@ -50,7 +50,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 
 	return (
 		<>
-			<Layout>
+			<Article image={artist.image as FileField} color={imageColor(artist.image as FileField)}>
 				<Meta>
 					<HeaderBar>
 						<h3>ARTIST</h3>
@@ -192,7 +192,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 						</>
 					)}
 				</Content>
-			</Layout>
+			</Article>
 			<Gallery show={galleryIndex !== null} images={artwork as FileField[]} index={galleryIndex ?? 0} />
 		</>
 	);

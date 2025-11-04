@@ -2,35 +2,41 @@ import s from './page.module.scss';
 import { Image } from 'react-datocms';
 import { Markdown } from 'next-dato-utils/components';
 import { imageColor } from '@/lib/utils';
-import { Layout, Meta, Content } from '@/components/Layout';
+import { Article, Meta, Content } from '@/components/Article';
 import PrivacyPolicy from '@/components/PrivacyPolicy';
 import { HeaderBar } from '@/components/HeaderBar';
 import { format } from 'date-fns';
 //import { useState } from 'react';
-//import { AllExternalLinks } from '/graphql';
 import { AboutDocument, AllExternalLinksDocument } from '@/graphql';
 import { apiQuery } from 'next-dato-utils/api';
+import { notFound } from 'next/navigation';
 
 export default async function About() {
 	const { about } = await apiQuery(AboutDocument);
+
+	if (!about) return notFound();
+
 	const { allExternalLinks } = await apiQuery(AllExternalLinksDocument, { all: true });
 	const { description, address, hours, phone, email, googleMapsUrl, privacyPolicy, image } = about || {};
+
 	//const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 	const showPrivacyPolicy = false;
 
 	return (
 		<>
-			<Layout noMargin='true'>
-				<Meta border='true'>
+			<Article image={image as FileField} noMargin={true} color={imageColor(image as FileField)}>
+				<Meta border={true}>
 					<HeaderBar>
 						<h3>Contact</h3>
 					</HeaderBar>
 
 					<b>
-						<Markdown content={address} />
-						<a href={googleMapsUrl} target='new'>
-							View in Google Maps ↗
-						</a>
+						{address && <Markdown content={address} />}
+						{googleMapsUrl && (
+							<a href={googleMapsUrl} target='new'>
+								View in Google Maps ↗
+							</a>
+						)}
 						<br />
 						<br />
 						Phone: {phone}
@@ -38,7 +44,7 @@ export default async function About() {
 						<br />
 						Opening hours:
 						<br />
-						<Markdown content={hours} />
+						{hours && <Markdown content={hours} />}
 						<br />
 						<a href={`mailto:${email}`}>{email}</a>
 						<br />
@@ -55,18 +61,18 @@ export default async function About() {
 					<HeaderBar>
 						<h1>About</h1>
 					</HeaderBar>
-					<Markdown>{description}</Markdown>
+					{description && <Markdown content={description} />}
 				</Content>
-			</Layout>
 
-			<Layout noMargin={true} hide={allExternalLinks?.length === 0}>
 				<section className={s.archive}>
 					<h2>Archive</h2>
 					<ul>
 						{allExternalLinks?.map(({ title, url, image, _createdAt }, idx) => (
 							<a key={idx} href={url} target='new'>
 								<li>
-									<Image data={image.responsiveImage} className={s.image} intersectionMargin='0px 0px 100% 0px' />
+									{image.responsiveImage && (
+										<Image data={image.responsiveImage} className={s.image} intersectionMargin='0px 0px 100% 0px' />
+									)}
 									<h4>{format(new Date(_createdAt), 'dd.MM.yy')}</h4>
 									<h1>{title} ↗</h1>
 								</li>
@@ -74,9 +80,6 @@ export default async function About() {
 						))}
 					</ul>
 				</section>
-			</Layout>
-
-			<Layout noMargin={true} hide={allExternalLinks?.length === 0}>
 				<section className={s.colophon}>
 					<div className={s.text}>
 						<span>
@@ -93,14 +96,13 @@ export default async function About() {
 						</a>
 					</div>
 				</section>
-			</Layout>
-
-			{showPrivacyPolicy && (
-				<PrivacyPolicy
-					content={privacyPolicy}
-					//onClose={() => setShowPrivacyPolicy(false)}
-				/>
-			)}
+				{showPrivacyPolicy && (
+					<PrivacyPolicy
+						content={privacyPolicy}
+						//onClose={() => setShowPrivacyPolicy(false)}
+					/>
+				)}
+			</Article>
 		</>
 	);
 }
