@@ -7,7 +7,6 @@ import { GlobalDocument } from '@/graphql';
 import { buildMenu } from '@/lib/menu';
 import Menu from '@/components/Menu';
 import Footer from '@/components/Footer';
-import PageTransition from '@/components/PageTransition';
 
 export default async function RootArticle({ children, modals }: LayoutProps<'/'>) {
 	const menu = await buildMenu();
@@ -17,10 +16,8 @@ export default async function RootArticle({ children, modals }: LayoutProps<'/'>
 			<html lang='en'>
 				<body id='root'>
 					<Menu menu={menu} image={null} />
-					<div id='app' className={s.app}>
-						{children}
-						<Footer />
-					</div>
+					{children}
+					<Footer />
 					{modals}
 				</body>
 			</html>

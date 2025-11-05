@@ -12,6 +12,8 @@ export interface StoreState {
 	isTransitioning: boolean;
 	isExiting: boolean;
 	showMobileMenu: boolean;
+	transition: 'enter' | 'exit' | null;
+	setTransition: (transition: 'enter' | 'exit' | null) => void;
 	setBackgroundColor: (color: number[]) => void;
 	setBackgroundImage: (image: FileField | null) => void;
 	setIsHoveringMenuItem: (hovering: boolean) => void;
@@ -30,6 +32,8 @@ const useStore = create<StoreState>((set) => ({
 	isTransitioning: false,
 	isExiting: false,
 	showMobileMenu: false,
+	transition: null,
+	setTransition: (transition) => set((state) => ({ transition })),
 	setBackgroundColor: (color: number[]) =>
 		set((state) => ({
 			backgroundColor: color,

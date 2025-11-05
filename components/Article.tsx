@@ -1,6 +1,7 @@
 import s from './Article.module.scss';
 import Background from '@/components/Background';
 import Footer from '@/components/Footer';
+import PageTransition from '@/components/PageTransition';
 import { imageColor } from '@/lib/utils';
 import cn from 'classnames';
 
@@ -24,6 +25,7 @@ export function Article({ children, noMargin, hide, image, color, href, fullHeig
 	if (hide) return null;
 	return (
 		<>
+			<PageTransition image={image as FileField} />
 			<Background href={href} image={image} color={color ? color : imageColor(image)} fullHeight={fullHeight} />
 			<main id='main' className={cn(s.main, noMargin && s.noMargin)}>
 				{children}

@@ -80,3 +80,107 @@
 .hideLogo {
 	display: none !important;
 }
+
+.enter {
+	height: 100vh;
+	top: 0%;
+	animation: enter 600ms ease-in-out forwards;
+	animation-delay: 100ms;
+
+	@keyframes enter {
+		0% {
+			height: 100vh;
+			top: 0%;
+		}
+
+		100% {
+			height: 0vh;
+			top: 100%;
+		}
+	}
+
+	&.end {
+		top: 0%;
+		height: 0vh;
+	}
+
+	&.instant {
+		top: 0% !important;
+		height: 0vh !important;
+		animation: none !important;
+		animation-delay: 0ms;
+	}
+}
+
+.exit {
+	height: 0vh;
+	top: 0%;
+	animation: exit 600ms ease-in-out forwards;
+	animation-delay: 100ms;
+
+	@keyframes exit {
+		0% {
+			height: 0vh;
+			top: 0%;
+		}
+
+		100% {
+			height: 100vh;
+			top: 0%;
+		}
+	}
+
+	&.end {
+		top: 0%;
+		height: 100vh;
+	}
+	&.instant {
+		top: 0%;
+		height: 100vh;
+		animation: none;
+	}
+}
+
+.home {
+	height: 0vh;
+	top: 0%;
+	animation: home 600ms ease-in-out forwards;
+	animation-delay: 0ms;
+
+	@keyframes home {
+		0% {
+			height: 0vh;
+			top: 0%;
+		}
+		50% {
+			height: 100vh;
+			top: 0%;
+		}
+		100% {
+			height: 0vh;
+			top: 100%;
+		}
+	}
+}
+
+.intro {
+	height: 0vh;
+	top: 0%;
+	animation: intro 600ms ease-in-out forwards;
+	animation-delay: 1000ms;
+
+	@keyframes intro {
+		0% {
+			height: 0vh;
+			top: 0%;
+		}
+		50% {
+			height: 100vh;
+			top: 0%;
+		}
+		100% {
+			height: 0vh;
+			top: 100%;
+		}
+	}
+}

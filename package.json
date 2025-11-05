@@ -21,6 +21,7 @@
 		"classnames": "^2.5.1",
 		"date-fns": "^4.1.0",
 		"datocms-structured-text-utils": "^5.1.6",
+		"detect-browser": "^5.3.0",
 		"dotenv": "^17.2.3",
 		"embla-carousel-react": "^8.6.0",
 		"graphql": "^16.11.0",

@@ -7,6 +7,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useStore, useShallow } from '@/lib/store';
 //@ts-expect-error
 import Tappable from 'react-tapper';
+import { sleep } from 'next-dato-utils/utils';
+import { useRouteChangeStart } from '@/lib/hooks/useRouteChangeStart';
 
 export type LinkProperties = LinkProps &
 	Omit<HTMLProps<HTMLAnchorElement>, 'color'> & {
@@ -31,17 +33,31 @@ const Link: FC<LinkProperties> = ({
 }) => {
 	const router = useRouter();
 	const [hover, setHover] = useState(false);
-	const setBackgroundColor = useStore((state) => state.setBackgroundColor);
+	const [setBackgroundColor, setIsExiting, setTransition] = useStore(
+		useShallow((state) => [state.setBackgroundColor, state.setIsExiting, state.setTransition])
+	);
 	const linkRef = useRef<HTMLAnchorElement | null>(null);
 	//@ts-ignore
 	const isWhite = color?.reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0) >= 255 * 3 * 0.97;
-
 	const linkStyle =
 		color && (hover || selected)
 			? { color: isWhite ? 'rgb(0,0,0)' : `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' }
 			: {};
 
-	const handleMouse = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+	async function handleClick(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+		return true;
+		e.preventDefault();
+		e.stopPropagation();
+
+		const duration = 600;
+		setTransition('exit');
+		router.prefetch(href);
+		await sleep(duration);
+		router.push(href);
+		//setTransition(null);
+	}
+
+	function handleMouse(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 		if (e.type === 'mouseleave') {
 			setHover(false);
 			onMouseLeave && onMouseLeave(e);
@@ -49,13 +65,13 @@ const Link: FC<LinkProperties> = ({
 			setHover(true);
 			onMouseEnter && onMouseEnter(e);
 		}
-	};
+	}
 
-	const handleTouchEnd = (e: any) => {
+	function handleTouchEnd(e: any) {
 		if (e.type === 'click' || !color) return;
 		setBackgroundColor(color);
 		router.push(href);
-	};
+	}
 
 	useEffect(() => {
 		if (!image) return;
@@ -77,6 +93,7 @@ const Link: FC<LinkProperties> = ({
 			target={target}
 			onMouseEnter={handleMouse}
 			onMouseLeave={handleMouse}
+			onClick={handleClick}
 			suppressHydrationWarning={true}
 		>
 			<Tappable onTap={handleTouchEnd} className={className}>
