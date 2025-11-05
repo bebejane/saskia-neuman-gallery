@@ -1,4 +1,4 @@
-query AllArtists($first: IntType = 500, $skip: IntType = 0) {
+query AllArtists($first: IntType = 100, $skip: IntType = 0) {
 	allArtists(first: $first, skip: $skip, orderBy: [lastName_ASC], filter: { hidden: { eq: false } }) {
 		...ArtistFragment
 	}

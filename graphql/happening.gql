@@ -1,4 +1,4 @@
-query AllHappenings($first: IntType = 500, $skip: IntType = 0) {
+query AllHappenings($first: IntType = 100, $skip: IntType = 0) {
 	allHappenings(first: $first, skip: $skip, orderBy: [startDate_ASC]) {
 		...HappeningFragmentLight
 	}

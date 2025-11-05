@@ -13,6 +13,7 @@ import { imageColor, datePeriod } from '@/lib/utils';
 import { format } from 'date-fns';
 import { MenuItem, MenuItemSub } from '@/lib/menu';
 import React from 'react';
+import { useRouteChangeStart } from '@/lib/hooks/useRouteChangeStart';
 
 export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) {
 	const pathname = usePathname();
@@ -74,12 +75,19 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		setShowMenu((isScrolledUp && !isPageBottom) || isPageTop);
 	}, [scrolledPosition, isPageBottom, isPageTop, isScrolledUp]);
 
-	/*
-	useEffect(() => {
-		// Set Background image on route start change
+	useRouteChangeStart(() => {
 		setIsHoveringMenuItem(false);
 		setSubMenu(null);
+	});
 
+	/*
+
+	useEffect(() => {
+		// Set Background image on route start change
+		//setIsHoveringMenuItem(false);
+		//setSubMenu(null);
+
+		
 		const handleRouteChange = (url, { shallow }) => {
 			const subs = [];
 			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
@@ -91,12 +99,14 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 
 			if (next) setBackgroundColor(next.color);
 		};
-		return () => {
-			handleRouteChange();
-		};
 		
+		return () => {
+			setIsHoveringMenuItem(false);
+			setSubMenu(null);
+		};
 	}, [pathname]);
-*/
+
+	*/
 
 	useEffect(() => {
 		// Update separator and sub menu margin

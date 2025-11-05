@@ -27,7 +27,7 @@ export default function Gallery({ images, index: _index = 0, backHref }: Gallery
 	const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
 
 	useEffect(() => {
-		setShow(true);
+		//setShow(true);
 	}, []);
 
 	useEffect(() => {
@@ -60,29 +60,31 @@ export default function Gallery({ images, index: _index = 0, backHref }: Gallery
 	}, [images]);
 
 	useEffect(() => {
-		window.history.replaceState(null, '', `${pathname.split('/').slice(0, -1).join('/')}/${realIndex}`);
+		const url = `${pathname.split('/').slice(0, -1).join('/')}/${realIndex}`;
+		window.history.replaceState({ ...window.history.state, as: url, url }, '', url);
 	}, [realIndex]);
 
 	if (!images) return null;
 
 	return (
-		<div className={cn(s.gallery, !show && s.hide)}>
+		<div className={cn(s.gallery)}>
 			<div className={s.back} onClick={() => swiperRef.current?.slidePrev()}>
 				❮
 			</div>
-			<div className={s.images} onClick={() => swiperRef?.current?.slideNext()} key={_index}>
+			<div className={s.images} onClick={() => swiperRef?.current?.slideNext()}>
 				<Swiper
 					loop={true}
 					spaceBetween={500}
 					slidesPerView={1}
 					initialSlide={_index}
+					virtual={typeof window !== 'undefined' ? false : true}
 					onSlideChange={({ realIndex }) => setRealIndex(realIndex)}
 					onSwiper={(swiper) => (swiperRef.current = swiper)}
 				>
 					{images.map((image, idx) => (
 						<SwiperSlide key={idx} className={s.slide}>
 							{image.responsiveImage && (
-								<React.Fragment key={idx}>
+								<React.Fragment key={image.id}>
 									<Image
 										data={image.responsiveImage}
 										className={s.image}

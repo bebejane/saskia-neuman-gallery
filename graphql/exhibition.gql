@@ -1,4 +1,4 @@
-query AllExhibitions($first: IntType = 500, $skip: IntType = 0) {
+query AllExhibitions($first: IntType = 100, $skip: IntType = 0) {
 	allExhibitions(first: $first, skip: $skip, orderBy: [startDate_ASC]) {
 		...ExhibitionFragmentLight
 	}
