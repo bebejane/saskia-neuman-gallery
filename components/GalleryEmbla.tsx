@@ -21,15 +21,11 @@ export default function GalleryEmbla({ images, index: _index = 0, backHref }: Ga
 	const [emblaRef, emblaApi] = useEmblaCarousel({
 		loop: true,
 		startIndex: _index,
+		duration: 20,
 	});
-	const [show, setShow] = useState(false);
 	const [realIndex, setRealIndex] = useState(_index);
 	const [caption, setCaption] = useState<{ title?: any; alt?: any } | null>(null);
 	const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
-
-	useEffect(() => {
-		//setShow(true);
-	}, []);
 
 	useEffect(() => {
 		if (!images || !images[realIndex]) return;

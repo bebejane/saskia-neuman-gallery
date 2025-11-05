@@ -9,7 +9,7 @@ export type PrivacyPolicyProps = {
 	content: string;
 };
 
-export default async function PrivacyPolicy({}: PageProps<'/privacy'>) {
+export default async function PrivacyPolicy({}: PageProps<'/about/privacy'>) {
 	const { about } = await apiQuery(PrivacyPolicyDocument);
 	if (!about) return notFound();
 	const { privacyPolicy } = about;

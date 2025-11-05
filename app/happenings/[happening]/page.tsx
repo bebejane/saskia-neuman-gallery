@@ -11,13 +11,14 @@ import { notFound } from 'next/navigation';
 export default async function Happening({ params }: PageProps<'/happenings/[happening]'>) {
 	const { happening: slug } = await params;
 	const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
+	const { allHappenings } = await apiQuery(AllHappeningsDocument, { all: true });
 
 	if (!happening) return notFound();
 
 	const { image, title, description, startDate, endDate, gallery, galleryThumbnails } = happening;
 
 	return (
-		<Article image={image as FileField}>
+		<Article image={image as FileField} footer={{ current: happening, items: allHappenings }}>
 			<Meta>
 				<HeaderBar mobileHide={true}>
 					<h3>HAPPENING</h3>

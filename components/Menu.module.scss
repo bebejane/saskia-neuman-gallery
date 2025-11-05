@@ -28,23 +28,6 @@
 		}
 	}
 
-	.hamburger {
-		display: none;
-		justify-content: flex-end;
-		flex: 1 1;
-		padding-top: 2px;
-	}
-	@include mq($until: desktop) {
-		width: 100%;
-		padding: 0;
-		padding-left: var(--margin-left);
-		padding-right: 10px;
-		background-color: var(--white);
-		.hamburger {
-			display: flex !important;
-		}
-	}
-
 	&.hide {
 		@include mq($until: desktop) {
 			top: -var(--navbar-height);
@@ -54,11 +37,6 @@
 	&.dark {
 		* {
 			color: var(--white);
-		}
-		@include mq($until: desktop) {
-			* {
-				color: var(--black);
-			}
 		}
 	}
 }
@@ -79,8 +57,11 @@
 	padding-top: 2rem;
 	opacity: 1;
 	background-color: transparent;
-	//transition: background-color ease .4s, height ease 0s;
+	//transition:
+	//background-color ease 0.4s,
+	//height ease 0s;
 	&.hide {
+		pointer-events: none;
 		opacity: 0;
 	}
 	&.open {

@@ -1,1 +1,3 @@
-export { default } from '@/app/about/page';
+export default function Default() {
+	return null;
+}

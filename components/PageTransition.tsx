@@ -7,7 +7,7 @@ import cn from 'classnames';
 import { useRouter } from 'next/router';
 import usePreviousRoute from '@/lib/hooks/usePreviousRoute';
 import { useEffect, useState } from 'react';
-//import { detect } from 'detect-browser';
+import { detect } from 'detect-browser';
 
 const duration = 0.6;
 const pageTransition = {
@@ -57,8 +57,12 @@ const pageTransition = {
 	},
 };
 
-export default function PageTransition({ image }) {
-	return null;
+export type PageTransitionProps = {
+	image: FileField;
+};
+
+export default function PageTransition({ image }: PageTransitionProps) {
+	//return null;
 	const backgroundColor = useStore((state) => state.backgroundColor);
 	const setIsTransitioning = useStore((state) => state.setIsTransitioning);
 	const setIsExiting = useStore((state) => state.setIsExiting);
@@ -99,15 +103,11 @@ export default function PageTransition({ image }) {
 	const exitAnimation = isHome ? 'exitInstant' : 'exit';
 
 	return (
-		<motion.div
+		<div
 			className={s.pageTransition}
-			initial='initial'
-			animate={enterAnimation}
-			exit={exitAnimation}
-			variants={pageTransition}
-			onAnimationComplete={(variant) => handleAnimationEvent('complete', variant)}
-			onAnimationStart={(variant) => handleAnimationEvent('start', variant)}
-			onUpdate={handleAnimationUpdate}
+			//onAnimationComplete={() => handleAnimationEvent('complete', variant)}
+			//onAnimationStart={(variant) => handleAnimationEvent('start', variant)}
+			//onUpdate={handleAnimationUpdate}
 		>
 			<div className={s.color} style={{ backgroundColor: color }}>
 				<div
@@ -118,6 +118,6 @@ export default function PageTransition({ image }) {
 				</div>
 			</div>
 			{isHome && <div className={s.white}></div>}
-		</motion.div>
+		</div>
 	);
 }

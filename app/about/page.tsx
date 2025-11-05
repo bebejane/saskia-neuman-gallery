@@ -82,7 +82,7 @@ export default async function About() {
 				<section className={s.colophon}>
 					<div className={s.text}>
 						<span>
-							Copyright ©2022 Saskia Neuman Gallery · <Link href={'/privacy'}>Privacy Policy</Link>
+							Copyright ©2022 Saskia Neuman Gallery · <Link href={'/about/privacy'}>Privacy Policy</Link>
 						</span>
 						<a href='http://www.konst-teknik.se/' target='new'>
 							Designed and developed by Konst & Teknik

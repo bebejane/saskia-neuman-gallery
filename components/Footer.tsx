@@ -34,7 +34,7 @@ export default function Footer({ current, items }: FooterProps) {
 			<div className={s.wrapper}>
 				<div className={s.next}>
 					<HeaderBar>
-						<Link href={href} scroll={false} color={imageColor(image)} image={image}>
+						<Link href={href} color={imageColor(image)} image={image}>
 							<h3 onMouseEnter={() => setBackgroundImage(image)} onMouseLeave={() => setBackgroundImage(null)}>
 								Next {type}
 							</h3>
@@ -44,7 +44,7 @@ export default function Footer({ current, items }: FooterProps) {
 				<div className={s.label}>
 					<HeaderBar>
 						<b>
-							<Link href={href} scroll={false} color={imageColor(image)} image={image}>
+							<Link href={href} color={imageColor(image)} image={image}>
 								<span onMouseEnter={() => setBackgroundImage(image)} onMouseLeave={() => setBackgroundImage(null)}>
 									{label}
 								</span>

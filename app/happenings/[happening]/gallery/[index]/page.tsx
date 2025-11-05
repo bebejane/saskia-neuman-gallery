@@ -3,7 +3,7 @@ import { HappeningDocument } from '@/graphql';
 import { notFound } from 'next/navigation';
 import Gallery from '@/components/Gallery';
 
-export default async function HappeningGalleryPage({ params }: PageProps<'/happenings/[happening]/gallery/[index]'>) {
+export default async function ExhibitionGalleryPage({ params }: PageProps<'/happenings/[happening]/gallery/[index]'>) {
 	const { happening: slug, index } = await params;
 	const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
 	if (!happening) return notFound();

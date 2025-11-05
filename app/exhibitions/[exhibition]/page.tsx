@@ -15,6 +15,7 @@ import { notFound } from 'next/navigation';
 export default async function Exhibition({ params }: PageProps<'/exhibitions/[exhibition]'>) {
 	const { exhibition: slug } = await params;
 	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
+	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
 
 	if (!exhibition) return notFound();
 
@@ -25,7 +26,7 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 	const showGallery = false;
 	return (
 		<>
-			<Article image={exhibition.image as FileField}>
+			<Article image={exhibition.image as FileField} footer={{ current: exhibition, items: allExhibitions }}>
 				<Meta>
 					<HeaderBar>
 						<h3>Exhibition</h3>

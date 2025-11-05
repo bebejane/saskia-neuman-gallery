@@ -10,6 +10,7 @@ import { useState, useRef, useEffect, use } from 'react';
 import Link from 'next/link';
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import GalleryEmbla from '@/components/GalleryEmbla';
 
 export type GalleryProps = {
 	images: FileField[];
@@ -21,14 +22,9 @@ export default function Gallery({ images, index: _index = 0, backHref }: Gallery
 	const router = useRouter();
 	const pathname = usePathname();
 	const swiperRef = useRef<SwiperType | null>(null);
-	const [show, setShow] = useState(false);
 	const [realIndex, setRealIndex] = useState(_index);
 	const [caption, setCaption] = useState<{ title?: any; alt?: any } | null>(null);
 	const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
-
-	useEffect(() => {
-		//setShow(true);
-	}, []);
 
 	useEffect(() => {
 		if (!images || !images[realIndex]) return;
@@ -77,7 +73,6 @@ export default function Gallery({ images, index: _index = 0, backHref }: Gallery
 					spaceBetween={500}
 					slidesPerView={1}
 					initialSlide={_index}
-					virtual={typeof window !== 'undefined' ? false : true}
 					onSlideChange={({ realIndex }) => setRealIndex(realIndex)}
 					onSwiper={(swiper) => (swiperRef.current = swiper)}
 				>
@@ -87,9 +82,10 @@ export default function Gallery({ images, index: _index = 0, backHref }: Gallery
 								<React.Fragment key={image.id}>
 									<Image
 										data={image.responsiveImage}
-										className={s.image}
+										className={s.imageWrap}
+										pictureClassName={s.picture}
+										imgClassName={s.image}
 										placeholderClassName={s.placeholder}
-										imgClassName={s.picture}
 										fadeInDuration={0}
 										usePlaceholder={idx === _index}
 										priority={true}
