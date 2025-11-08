@@ -9,13 +9,11 @@ import { detect } from 'detect-browser';
 import { usePathname } from 'next/navigation';
 import { useRouteChangeStart } from '@/lib/hooks/useRouteChangeStart';
 
-export const duration = 600;
 export type PageTransitionProps = {
 	image: FileField;
 };
 
 export default function PageTransition({ image }: PageTransitionProps) {
-	return null;
 	const [backgroundColor, transition, setTransition] = useStore(
 		useShallow((state) => [state.backgroundColor, state.transition, state.setTransition])
 	);
@@ -53,17 +51,28 @@ export default function PageTransition({ image }: PageTransitionProps) {
 		//if (didExit) window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
 	};
 
+	function generateTAnimation() {
+		if (!transition && isHome) return cn(s.intro);
+		if (!transition && !isHome) return cn(s.enter, s.instant);
+		if (transition === 'enter') return s.enter;
+		if (transition === 'exit') return s.exit;
+		return undefined;
+	}
+
 	//const enter = isHome ? (!prevRoute ? cn(s.home, s.intro) : s.home) : prevRoute ? s.enter : cn(s.enter, s.instant);
 	//const exit = isHome ? cn(s.exit, s.instant) : s.exit;
-	const animation = cn(!transition ? cn(s.enter, s.instant) : transition === 'enter' ? s.enter : s.exit);
+	const duration = 1000;
+	const animation = generateTAnimation();
 
 	console.log(transition, animation);
 	return (
 		<div
 			key={pathname}
-			className={cn(s.pageTransition, animation)}
-			onAnimationStart={() => handleAnimationEvent('start')}
-			onAnimationEnd={() => handleAnimationEvent('end')}
+			className={cn(s.pageTransition, s.animation, animation)}
+			//@ts-ignore
+			style={{ '--duration': `${duration}ms` }}
+			//onAnimationStart={() => handleAnimationEvent('start')}
+			//onAnimationEnd={() => handleAnimationEvent('end')}
 		>
 			<div className={s.color} style={{ backgroundColor: color }}>
 				<div
@@ -73,7 +82,7 @@ export default function PageTransition({ image }: PageTransitionProps) {
 					<h1>SASKIA NEUMAN GALLERY</h1>
 				</div>
 			</div>
-			{isHome && <div className={s.white}></div>}
+			{isHome && transition && <div className={s.white}></div>}
 		</div>
 	);
 }
