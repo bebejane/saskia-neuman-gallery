@@ -23,6 +23,7 @@ export type ArticleProps = {
 
 export function Article({ children, noMargin, hide, image, color, href, fullHeight, footer }: ArticleProps) {
 	if (hide) return null;
+
 	return (
 		<>
 			<Background href={href} image={image} color={color ? color : imageColor(image)} fullHeight={fullHeight} />

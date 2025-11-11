@@ -1,19 +1,17 @@
 import s from './page.module.scss';
 import { Image } from 'react-datocms';
 import { Markdown } from 'next-dato-utils/components';
-import { imageColor } from '@/lib/utils';
 import { Article, Meta, Content } from '@/components/Article';
-import PrivacyPolicy from '@/components/PrivacyPolicy';
 import { HeaderBar } from '@/components/HeaderBar';
 import { format } from 'date-fns';
-//import { useState } from 'react';
 import { AboutDocument, AllExternalLinksDocument } from '@/graphql';
 import { apiQuery } from 'next-dato-utils/api';
+import { DraftMode } from 'next-dato-utils/components';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 export default async function About() {
-	const { about } = await apiQuery(AboutDocument);
+	const { about, draftUrl } = await apiQuery(AboutDocument);
 
 	if (!about) return notFound();
 
@@ -90,6 +88,7 @@ export default async function About() {
 					</div>
 				</section>
 			</Article>
+			<DraftMode url={draftUrl} path='/about' />
 		</>
 	);
 }

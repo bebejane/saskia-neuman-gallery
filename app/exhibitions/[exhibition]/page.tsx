@@ -1,10 +1,8 @@
 import s from './page.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
-import { imageColor } from '@/lib/utils';
+import { DraftMode } from 'next-dato-utils/components';
 import { Markdown } from 'next-dato-utils/components';
 import { format } from 'date-fns';
-//import { useState } from 'react';
-import Gallery from '@/components/Gallery';
 import { Article, Meta, Content } from '@/components/Article';
 import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
@@ -14,7 +12,7 @@ import { notFound } from 'next/navigation';
 
 export default async function Exhibition({ params }: PageProps<'/exhibitions/[exhibition]'>) {
 	const { exhibition: slug } = await params;
-	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
+	const { exhibition, draftUrl } = await apiQuery(ExhibitionDocument, { variables: { slug } });
 	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
 
 	if (!exhibition) return notFound();
@@ -71,6 +69,7 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 					)}
 				</Content>
 			</Article>
+			<DraftMode url={draftUrl} path={`/exhibitions/${slug}`} />
 		</>
 	);
 }

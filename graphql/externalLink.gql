@@ -17,3 +17,14 @@ fragment ExternalLinkFragment on ExternalLinkRecord {
 		...ImageThumbnailFragment
 	}
 }
+
+fragment ExternalLinkFragmentLight on ExternalLinkRecord {
+	__typename
+	_createdAt
+	id
+	title
+	url
+	image {
+		...ImageFragmentLight
+	}
+}

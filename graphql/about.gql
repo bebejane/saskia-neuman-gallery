@@ -22,13 +22,12 @@ fragment AboutFragment on AboutRecord {
 	image {
 		...ImageFragment
 	}
-	#privacyPolicy(markdown: false)
 }
 
 fragment AboutFragmentLight on AboutRecord {
 	__typename
 	id
 	image {
-		...ImageFragment
+		...ImageFragmentLight
 	}
 }

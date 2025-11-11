@@ -3,67 +3,60 @@
 import s from './PageTransition.module.scss';
 import cn from 'classnames';
 import { useStore, useShallow } from '@/lib/store';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { detect } from 'detect-browser';
 import { usePathname } from 'next/navigation';
 
-export const duration = 1000;
+declare module 'react' {
+	interface CSSProperties {
+		[key: `--${string}`]: string | number;
+	}
+}
 
-export type PageTransitionProps = {
-	//image: FileField;
-};
+export const duration = 700;
 
-export default function PageTransition({}: PageTransitionProps) {
+export default function PageTransition() {
 	const backgroundColor = useStore(useShallow((state) => state.backgroundColor));
 	const backgroundImage = useStore(useShallow((state) => state.backgroundImage));
 	const transition = useStore(useShallow((state) => state.transition));
 	const setTransition = useStore(useShallow((state) => state.setTransition));
 	const pathname = usePathname();
-	//const prevRoute = usePreviousRoute();
 	const isHome = pathname === '/';
-	const [showLogo, setShowLogo] = useState(isHome);
-	const [textMaskSupported, setTextMaskSupported] = useState(true);
+	const colorRef = useRef<HTMLDivElement | null>(null);
+	const logoRef = useRef<HTMLDivElement | null>(null);
+	const whiteBackgroundRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
 		// Safari bug, Text clip mask supported from v. 15.5
 		const device = detect();
 		if (!device) return;
 
-		//if (device.name === 'safari' && parseInt(device.version.replace(/\./g, '')) < 1550) setTextMaskSupported(false);
-	}, [setTextMaskSupported]);
+		if (device.name === 'safari' && parseInt(device.version.replace(/\./g, '')) < 1550)
+			logoRef.current?.classList.add(s.nomask);
+	}, []);
 
 	useEffect(() => {
-		const color = backgroundColor ? `rgb(${backgroundColor.join(',')})` : undefined;
-		color && document.getElementById('color')?.style.setProperty('background-color', color);
-	}, [backgroundColor]);
-
-	/*
-	useRouteChangeStart(() => {
-		console.log('start');
-		//transition && setTransition('enter');
-	});
-
-	useRouteChangeEnd(() => {
-		console.log('end');
-		//transition && setTransition('exit');
-	});
-*/
+		console.log(backgroundImage);
+		const color = backgroundColor ? `rgb(${backgroundColor.join(',')})` : null;
+		color && colorRef.current?.style.setProperty('background-color', color);
+		backgroundImage && logoRef.current?.style.setProperty('background', `url(${backgroundImage.url}?w=1400)`);
+		whiteBackgroundRef.current?.classList.toggle(s.hide, !(isHome && transition));
+	}, [backgroundImage, isHome, backgroundColor, transition]);
 
 	const handleAnimationEvent = async (type: 'start' | 'end') => {
-		if (type === 'start') {
-			//setTimeout(() => setShowLogo(false), duration / 2);
+		if (type === 'start' && isHome) {
+			setTimeout(
+				() => {
+					logoRef.current?.classList.add(s.hide);
+					console.log('hide logo');
+				},
+				duration + 1000 / 2
+			);
 		} else if (type === 'end') {
 			window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
-			transition === 'enter' && console.log('set trans null');
+			transition === 'exit' && setTransition('enter');
 			transition === 'enter' && setTransition(null);
 		}
-		//const isComplete = ['home', 'home.intro', 'enter'].includes(variant) && type === 'end';
-		//const isStarting = type === 'start';ty
-		//const isExiting = variant.startsWith('exit') && type === 'start';
-		//const didExit = variant.startsWith('exit') && type === 'end';
-		//setTransition(isComplete ? null : isExiting ? 'exit' : 'enter');
-		//if (isStarting) setTimeout(() => setShowLogo(false), duration / 2);
-		//if (didExit) window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
 	};
 
 	function generateAnimation() {
@@ -74,37 +67,27 @@ export default function PageTransition({}: PageTransitionProps) {
 		return undefined;
 	}
 
-	const duration = 1000;
 	const animation = generateAnimation();
 
-	// /
-	//if (!backgroundColor) return null;
-	//console.log(backgroundColor, backgroundImage, transition, setTransition);
-	console.log(animation);
 	return (
 		<div
-			//key={pathname}
+			key={'page-transition'}
 			className={s.pageTransition}
 			onAnimationStart={() => handleAnimationEvent('start')}
 			onAnimationEnd={() => handleAnimationEvent('end')}
 		>
 			<div
 				id='color'
+				key={'color'}
 				className={cn(s.color, s.animation, animation)}
-				key={pathname}
-				style={{
-					//@ts-ignore
-					'--duration': `${duration}ms`,
-				}}
+				style={{ '--duration': `${duration}ms` }}
+				ref={colorRef}
 			>
-				<div
-					className={cn(s.logo, !showLogo && s.hide, !textMaskSupported && s.nomask)}
-					style={{ background: `url(${backgroundImage?.url}?w=1400)` }}
-				>
+				<div id='logo-background' key='logo-background' className={s.logo} ref={logoRef}>
 					<h1>SASKIA NEUMAN GALLERY</h1>
 				</div>
 			</div>
-			{isHome && transition && <div className={s.white}></div>}
+			<div id='white-background' className={cn(s.white)} ref={whiteBackgroundRef} />
 		</div>
 	);
 }

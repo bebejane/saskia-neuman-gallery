@@ -6,11 +6,12 @@ import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
 import { format } from 'date-fns';
 import { apiQuery } from 'next-dato-utils/api';
+import { DraftMode } from 'next-dato-utils/components';
 import { notFound } from 'next/navigation';
 
 export default async function Happening({ params }: PageProps<'/happenings/[happening]'>) {
 	const { happening: slug } = await params;
-	const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
+	const { happening, draftUrl } = await apiQuery(HappeningDocument, { variables: { slug } });
 	const { allHappenings } = await apiQuery(AllHappeningsDocument, { all: true });
 
 	if (!happening) return notFound();
@@ -18,32 +19,35 @@ export default async function Happening({ params }: PageProps<'/happenings/[happ
 	const { image, title, description, startDate, endDate, gallery, galleryThumbnails } = happening;
 
 	return (
-		<Article image={image as FileField} footer={{ current: happening, items: allHappenings }}>
-			<Meta>
-				<HeaderBar mobileHide={true}>
-					<h3>HAPPENING</h3>
-				</HeaderBar>
-				<p>
-					<b>
-						<i>{title}</i>
-						<br />
-						{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
-					</b>
-				</p>
-			</Meta>
-			<Content>
-				<HeaderBar mobileHide={true}>
-					<h1>{title}</h1>
-				</HeaderBar>
-				{description && <Markdown content={description} />}
-				{gallery && gallery?.length > 0 && (
-					<section className={s.artworks}>
-						<h2>IMAGES</h2>
-						<GalleryThumbs thumbnails={galleryThumbnails as FileField[]} base={`/happenings/${slug}`} />
-					</section>
-				)}
-			</Content>
-		</Article>
+		<>
+			<Article image={image as FileField} footer={{ current: happening, items: allHappenings }}>
+				<Meta>
+					<HeaderBar mobileHide={true}>
+						<h3>HAPPENING</h3>
+					</HeaderBar>
+					<p>
+						<b>
+							<i>{title}</i>
+							<br />
+							{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
+						</b>
+					</p>
+				</Meta>
+				<Content>
+					<HeaderBar mobileHide={true}>
+						<h1>{title}</h1>
+					</HeaderBar>
+					{description && <Markdown content={description} />}
+					{gallery && gallery?.length > 0 && (
+						<section className={s.artworks}>
+							<h2>IMAGES</h2>
+							<GalleryThumbs thumbnails={galleryThumbnails as FileField[]} base={`/happenings/${slug}`} />
+						</section>
+					)}
+				</Content>
+			</Article>
+			<DraftMode url={draftUrl} path={`/happenings/${slug}`} />
+		</>
 	);
 }
 

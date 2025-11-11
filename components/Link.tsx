@@ -51,10 +51,10 @@ const Link: FC<LinkProperties> = ({
 		e.stopPropagation();
 
 		setTransition('exit');
-		setTimeout(() => setTransition('enter'), duration + 100);
 		router.prefetch(href);
 		await sleep(duration);
 		router.push(href);
+		setTransition('enter');
 	}
 
 	function handleMouse(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {

@@ -51,10 +51,10 @@ fragment ExhibitionFragmentLight on ExhibitionRecord {
 	id
 	title
 	artists {
-		...ArtistFragment
+		...ArtistFragmentLight
 	}
 	image {
-		...ImageFragment
+		...ImageFragmentLight
 	}
 	startDate
 	endDate

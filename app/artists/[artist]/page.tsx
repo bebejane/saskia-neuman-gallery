@@ -10,11 +10,12 @@ import { HeaderBar } from '@/components/HeaderBar';
 import GalleryThumbs from '@/components/GalleryThumbs';
 import { format } from 'date-fns';
 import { apiQuery } from 'next-dato-utils/api';
+import { DraftMode } from 'next-dato-utils/components';
 import { notFound } from 'next/navigation';
 
 export default async function Artist({ params }: PageProps<'/artists/[artist]'>) {
 	const { artist: slug } = await params;
-	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
+	const { artist, draftUrl } = await apiQuery(ArtistDocument, { variables: { slug } });
 	const { allArtists } = await apiQuery(AllArtistsDocument, { all: true });
 	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
 
@@ -192,6 +193,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 					)}
 				</Content>
 			</Article>
+			<DraftMode url={draftUrl} path={`/artists/${artist.slug}`} />
 		</>
 	);
 }

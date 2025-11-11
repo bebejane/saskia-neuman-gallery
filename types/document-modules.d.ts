@@ -42,6 +42,7 @@ declare module '*/externalLink.gql' {
   const defaultDocument: DocumentNode;
   export const AllExternalLinks: DocumentNode;
 export const ExternalLinkFragment: DocumentNode;
+export const ExternalLinkFragmentLight: DocumentNode;
 
   export default defaultDocument;
 }
@@ -51,6 +52,15 @@ declare module '*/ImageFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ImageFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/ImageFragmentLight.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ImageFragmentLight: DocumentNode;
 
   export default defaultDocument;
 }
@@ -108,6 +118,15 @@ declare module '*/menu.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const Menu: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/sitemap.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const Sitemap: DocumentNode;
 
   export default defaultDocument;
 }

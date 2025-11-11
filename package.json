@@ -2,6 +2,7 @@
 	"name": "saskia-neuman-gallery",
 	"version": "0.1.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "next dev --turbo & npm run codegen",
 		"start": "next start",

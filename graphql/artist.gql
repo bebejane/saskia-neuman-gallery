@@ -18,7 +18,7 @@ fragment ArtistFragmentLight on ArtistRecord {
 	firstName
 	lastName
 	image {
-		...ImageFragment
+		...ImageFragmentLight
 	}
 	slug
 }

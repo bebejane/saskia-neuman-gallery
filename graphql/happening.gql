@@ -39,6 +39,6 @@ fragment HappeningFragmentLight on HappeningRecord {
 	endDate
 	slug
 	image {
-		...ImageFragment
+		...ImageFragmentLight
 	}
 }

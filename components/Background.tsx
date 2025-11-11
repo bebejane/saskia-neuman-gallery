@@ -4,7 +4,6 @@ import s from './Background.module.scss';
 import cn from 'classnames';
 import { useStore, useShallow } from '@/lib/store';
 import { useEffect } from 'react';
-//import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -30,9 +29,13 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 	}, []);
 
 	useEffect(() => {
+		setBackgroundImage(image ?? null);
+	}, [image]);
+
+	useEffect(() => {
 		const routeChangeStart = () => setIsRouting(true);
 		const routeChangeComplete = () => setTimeout(() => setIsRouting(false), 1000);
-		setBackgroundImage(null);
+		//setBackgroundImage(null);
 		setBackgroundColor(color);
 		routeChangeComplete();
 
