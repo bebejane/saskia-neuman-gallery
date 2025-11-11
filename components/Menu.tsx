@@ -13,7 +13,7 @@ import { imageColor, datePeriod } from '@/lib/utils';
 import { format } from 'date-fns';
 import { MenuItem, MenuItemSub } from '@/lib/menu';
 import React from 'react';
-import { useRouteChangeStart } from '@/lib/hooks/useRouteChangeStart';
+import { useRouteChangeStart } from '@/lib/hooks/useRouteChange';
 
 export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) {
 	const pathname = usePathname();

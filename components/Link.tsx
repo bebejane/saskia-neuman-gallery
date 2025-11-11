@@ -2,13 +2,13 @@
 
 import { default as NextLink, LinkProps } from 'next/link';
 import React, { HTMLProps, FC } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { useStore, useShallow } from '@/lib/store';
 //@ts-expect-error
 import Tappable from 'react-tapper';
 import { sleep } from 'next-dato-utils/utils';
-import { useRouteChangeStart } from '@/lib/hooks/useRouteChangeStart';
+import { duration } from '@/components/PageTransition';
 
 export type LinkProperties = LinkProps &
 	Omit<HTMLProps<HTMLAnchorElement>, 'color'> & {
@@ -32,6 +32,7 @@ const Link: FC<LinkProperties> = ({
 	onMouseLeave,
 }) => {
 	const router = useRouter();
+	const pathname = usePathname();
 	const [hover, setHover] = useState(false);
 	const [setBackgroundColor, setIsExiting, setTransition] = useStore(
 		useShallow((state) => [state.setBackgroundColor, state.setIsExiting, state.setTransition])
@@ -45,16 +46,15 @@ const Link: FC<LinkProperties> = ({
 			: {};
 
 	async function handleClick(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-		return true;
+		if (pathname === href) return;
 		e.preventDefault();
 		e.stopPropagation();
 
-		const duration = 600;
 		setTransition('exit');
+		setTimeout(() => setTransition('enter'), duration + 100);
 		router.prefetch(href);
 		await sleep(duration);
 		router.push(href);
-		//setTransition(null);
 	}
 
 	function handleMouse(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {

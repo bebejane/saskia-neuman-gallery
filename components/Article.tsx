@@ -25,7 +25,6 @@ export function Article({ children, noMargin, hide, image, color, href, fullHeig
 	if (hide) return null;
 	return (
 		<>
-			<PageTransition image={image as FileField} />
 			<Background href={href} image={image} color={color ? color : imageColor(image)} fullHeight={fullHeight} />
 			<main id='main' className={cn(s.main, noMargin && s.noMargin)}>
 				{children}

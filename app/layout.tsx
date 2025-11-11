@@ -1,5 +1,4 @@
 import '@/styles/index.scss';
-import s from './layout.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
 import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
@@ -7,14 +6,16 @@ import { GlobalDocument } from '@/graphql';
 import { buildMenu } from '@/lib/menu';
 import Menu from '@/components/Menu';
 import Footer from '@/components/Footer';
+import PageTransition from '@/components/PageTransition';
 
 export default async function RootArticle({ children, modals }: LayoutProps<'/'>) {
 	const menu = await buildMenu();
 
 	return (
 		<>
-			<html lang='en'>
+			<html lang='en-US'>
 				<body id='root'>
+					<PageTransition />
 					<Menu menu={menu} image={null} />
 					{children}
 					<Footer />

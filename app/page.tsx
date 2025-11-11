@@ -9,7 +9,7 @@ import { Article } from '@/components/Article';
 
 export default async function Home({}: PageProps<'/'>) {
 	const { start, draftUrl } = await apiQuery(StartDocument);
-	const links = start?.links.splice(0, 3);
+	const links = start?.links.splice(1, 5);
 
 	if (!links || !links.length) return null;
 

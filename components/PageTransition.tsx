@@ -1,46 +1,61 @@
 'use client';
 
 import s from './PageTransition.module.scss';
-import { useStore, useShallow } from '@/lib/store';
 import cn from 'classnames';
-import usePreviousRoute from '@/lib/hooks/usePreviousRoute';
-import { AnimationEventHandler, useEffect, useState } from 'react';
+import { useStore, useShallow } from '@/lib/store';
+import { useEffect, useState } from 'react';
 import { detect } from 'detect-browser';
 import { usePathname } from 'next/navigation';
-import { useRouteChangeStart } from '@/lib/hooks/useRouteChangeStart';
+
+export const duration = 1000;
 
 export type PageTransitionProps = {
-	image: FileField;
+	//image: FileField;
 };
 
-export default function PageTransition({ image }: PageTransitionProps) {
-	const [backgroundColor, transition, setTransition] = useStore(
-		useShallow((state) => [state.backgroundColor, state.transition, state.setTransition])
+export default function PageTransition({}: PageTransitionProps) {
+	const [backgroundColor, backgroundImage, transition, setTransition] = useStore(
+		useShallow((state) => [state.backgroundColor, state.backgroundImage, state.transition, state.setTransition])
 	);
 
 	const pathname = usePathname();
-	const prevRoute = usePreviousRoute();
+	//const prevRoute = usePreviousRoute();
 	const isHome = pathname === '/';
 	const [showLogo, setShowLogo] = useState(isHome);
 	const [textMaskSupported, setTextMaskSupported] = useState(true);
-	const color = `rgb(${backgroundColor?.join(',')})`;
 
 	useEffect(() => {
 		// Safari bug, Text clip mask supported from v. 15.5
 		const device = detect();
 		if (!device) return;
 
-		if (device.name === 'safari' && parseInt(device.version.replace(/\./g, '')) < 1550) setTextMaskSupported(false);
+		//if (device.name === 'safari' && parseInt(device.version.replace(/\./g, '')) < 1550) setTextMaskSupported(false);
 	}, [setTextMaskSupported]);
 
-	useRouteChangeStart(() => setTransition('exit'));
+	useEffect(() => {
+		const color = backgroundColor ? `rgb(${backgroundColor.join(',')})` : undefined;
+		color && document.getElementById('color')?.style.setProperty('background-color', color);
+	}, [backgroundColor]);
+
+	/*
+	useRouteChangeStart(() => {
+		console.log('start');
+		//transition && setTransition('enter');
+	});
+
+	useRouteChangeEnd(() => {
+		console.log('end');
+		//transition && setTransition('exit');
+	});
+*/
 
 	const handleAnimationEvent = async (type: 'start' | 'end') => {
 		if (type === 'start') {
-			setTimeout(() => setShowLogo(false), duration / 2);
+			//setTimeout(() => setShowLogo(false), duration / 2);
 		} else if (type === 'end') {
 			window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
-			transition && setTransition(null);
+			transition === 'enter' && console.log('set trans null');
+			//transition === 'enter' && setTransition(null);
 		}
 		//const isComplete = ['home', 'home.intro', 'enter'].includes(variant) && type === 'end';
 		//const isStarting = type === 'start';ty
@@ -51,7 +66,7 @@ export default function PageTransition({ image }: PageTransitionProps) {
 		//if (didExit) window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
 	};
 
-	function generateTAnimation() {
+	function generateAnimation() {
 		if (!transition && isHome) return cn(s.intro);
 		if (!transition && !isHome) return cn(s.enter, s.instant);
 		if (transition === 'enter') return s.enter;
@@ -59,25 +74,32 @@ export default function PageTransition({ image }: PageTransitionProps) {
 		return undefined;
 	}
 
-	//const enter = isHome ? (!prevRoute ? cn(s.home, s.intro) : s.home) : prevRoute ? s.enter : cn(s.enter, s.instant);
-	//const exit = isHome ? cn(s.exit, s.instant) : s.exit;
 	const duration = 1000;
-	const animation = generateTAnimation();
+	const animation = generateAnimation();
 
-	console.log(transition, animation);
+	// /
+	//if (!backgroundColor) return null;
+	//console.log(backgroundColor, backgroundImage, transition, setTransition);
+	console.log(animation);
 	return (
 		<div
-			key={pathname}
-			className={cn(s.pageTransition, s.animation, animation)}
-			//@ts-ignore
-			style={{ '--duration': `${duration}ms` }}
-			//onAnimationStart={() => handleAnimationEvent('start')}
-			//onAnimationEnd={() => handleAnimationEvent('end')}
+			//key={pathname}
+			className={s.pageTransition}
+			onAnimationStart={() => handleAnimationEvent('start')}
+			onAnimationEnd={() => handleAnimationEvent('end')}
 		>
-			<div className={s.color} style={{ backgroundColor: color }}>
+			<div
+				id='color'
+				className={cn(s.color, s.animation, animation)}
+				key={pathname}
+				style={{
+					//@ts-ignore
+					'--duration': `${duration}ms`,
+				}}
+			>
 				<div
-					className={cn(s.logo, !showLogo && s.hideLogo, !textMaskSupported && s.nomask)}
-					style={{ background: `url(${image?.url}?w=1400)` }}
+					className={cn(s.logo, !showLogo && s.hide, !textMaskSupported && s.nomask)}
+					style={{ background: `url(${backgroundImage?.url}?w=1400)` }}
 				>
 					<h1>SASKIA NEUMAN GALLERY</h1>
 				</div>

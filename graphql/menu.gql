@@ -35,7 +35,7 @@ query Menu {
 		count
 	}
 	about {
-		...AboutFragment
+		...AboutFragmentLight
 	}
 	_site {
 		...SiteFragment

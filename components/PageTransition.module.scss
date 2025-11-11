@@ -9,10 +9,10 @@
 	left: 0;
 	overflow: hidden;
 	z-index: 10000;
-	//pointer-events: none;
+	pointer-events: none;
 
 	.color {
-		position: relative;
+		position: absolute;
 		width: 100vw;
 		height: 100vh;
 		left: 0px;
@@ -20,6 +20,7 @@
 		z-index: 400;
 		overflow: hidden;
 		background-color: #000;
+		pointer-events: none;
 
 		.logo {
 			display: flex;
@@ -43,6 +44,10 @@
 			background-position: center !important;
 			pointer-events: none;
 			font-weight: bolder;
+
+			&.hide {
+				display: none;
+			}
 
 			&.nomask {
 				-webkit-text-fill-color: var(--black);
@@ -77,17 +82,14 @@
 	}
 }
 
-.hideLogo {
-	display: none !important;
-}
-
 .animation {
-	--duration: 600ms;
-	--easing: ease-in-out;
+	//--duration: 600ms;
+	--easing: cubic-bezier(0.4, 1.061, 0.637, 0.948);
 
 	&.enter {
 		height: 100vh;
-		top: 0%;
+		top: 0% !important;
+		bottom: unset !important;
 		animation: enter var(--duration) var(--easing) forwards;
 		animation-delay: 100ms;
 
@@ -99,7 +101,7 @@
 
 			100% {
 				height: 0vh;
-				//top: 100%;
+				top: 0%;
 			}
 		}
 
@@ -125,12 +127,10 @@
 		@keyframes exit {
 			0% {
 				height: 0vh;
-				top: 0%;
 			}
 
 			100% {
 				height: 100vh;
-				top: 0%;
 			}
 		}
 
@@ -138,6 +138,7 @@
 			top: 0%;
 			height: 100vh;
 		}
+
 		&.instant {
 			top: 0%;
 			height: 100vh;
@@ -165,17 +166,17 @@
 
 	&.intro {
 		animation: intro var(--duration) var(--easing) forwards;
-		animation-delay: var(--duration);
+		animation-delay: 1000ms;
+		height: 100vh;
+		top: unset;
+		bottom: 0%;
 
 		@keyframes intro {
 			0% {
 				height: 100vh;
-				bottom: 0%;
-				top: unset;
 			}
 			100% {
 				height: 0vh;
-				bottom: 0%;
 			}
 		}
 	}

@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { useShallow } from 'zustand/shallow';
 
-const defaultColor = [255, 255, 255];
+const defaultBackgroundColor = undefined;
 
 export interface StoreState {
-	backgroundColor: number[];
+	backgroundColor: number[] | null;
 	backgroundImage: FileField | null;
 	isHoveringMenuItem: boolean;
 	isRouting: boolean;
@@ -24,7 +24,7 @@ export interface StoreState {
 }
 
 const useStore = create<StoreState>((set) => ({
-	backgroundColor: defaultColor,
+	backgroundColor: null,
 	backgroundImage: null,
 	isHoveringMenuItem: false,
 	isRouting: false,
@@ -41,7 +41,7 @@ const useStore = create<StoreState>((set) => ({
 	setBackgroundImage: (image: FileField | null) =>
 		set((state) => ({
 			backgroundImage: !state.isRouting ? image : state.backgroundImage,
-			backgroundColor: (image || state.backgroundImage)?.customData?.color?.split(',') || defaultColor,
+			backgroundColor: (image || state.backgroundImage)?.customData?.color?.split(',') || defaultBackgroundColor,
 		})),
 	setIsHoveringMenuItem: (hovering: boolean) =>
 		set((state) => ({
