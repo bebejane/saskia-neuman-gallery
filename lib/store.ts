@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { useShallow } from 'zustand/shallow';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 const defaultBackgroundColor = undefined;
 

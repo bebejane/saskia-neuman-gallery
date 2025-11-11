@@ -3,7 +3,7 @@
 import s from './PageTransition.module.scss';
 import cn from 'classnames';
 import { useStore, useShallow } from '@/lib/store';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { detect } from 'detect-browser';
 import { usePathname } from 'next/navigation';
 
@@ -14,10 +14,10 @@ export type PageTransitionProps = {
 };
 
 export default function PageTransition({}: PageTransitionProps) {
-	const [backgroundColor, backgroundImage, transition, setTransition] = useStore(
-		useShallow((state) => [state.backgroundColor, state.backgroundImage, state.transition, state.setTransition])
-	);
-
+	const backgroundColor = useStore(useShallow((state) => state.backgroundColor));
+	const backgroundImage = useStore(useShallow((state) => state.backgroundImage));
+	const transition = useStore(useShallow((state) => state.transition));
+	const setTransition = useStore(useShallow((state) => state.setTransition));
 	const pathname = usePathname();
 	//const prevRoute = usePreviousRoute();
 	const isHome = pathname === '/';
@@ -55,7 +55,7 @@ export default function PageTransition({}: PageTransitionProps) {
 		} else if (type === 'end') {
 			window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
 			transition === 'enter' && console.log('set trans null');
-			//transition === 'enter' && setTransition(null);
+			transition === 'enter' && setTransition(null);
 		}
 		//const isComplete = ['home', 'home.intro', 'enter'].includes(variant) && type === 'end';
 		//const isStarting = type === 'start';ty
