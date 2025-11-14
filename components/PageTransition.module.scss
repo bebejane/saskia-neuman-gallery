@@ -111,13 +111,13 @@
 			top: 0%;
 			height: 0vh;
 		}
+	}
 
-		&.instant {
-			top: 0% !important;
-			height: 0vh !important;
-			animation: none !important;
-			animation-delay: 0ms;
-		}
+	&.instant {
+		top: 0%;
+		height: 0vh;
+		animation: none;
+		animation-delay: 0ms;
 	}
 
 	&.exit {
@@ -181,5 +181,11 @@
 				height: 0vh;
 			}
 		}
+	}
+	&.blank {
+		height: 0vh;
+		top: 0%;
+		animation: none;
+		animation-delay: 0ms;
 	}
 }

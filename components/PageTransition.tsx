@@ -6,6 +6,7 @@ import { useStore, useShallow } from '@/lib/store';
 import { useEffect, useRef } from 'react';
 import { detect } from 'detect-browser';
 import { usePathname } from 'next/navigation';
+import { usePrevious } from '@/lib/hooks/usePrevious';
 
 declare module 'react' {
 	interface CSSProperties {
@@ -21,10 +22,12 @@ export default function PageTransition() {
 	const transition = useStore(useShallow((state) => state.transition));
 	const setTransition = useStore(useShallow((state) => state.setTransition));
 	const pathname = usePathname();
+	const prevPathname = usePrevious(pathname);
 	const isHome = pathname === '/';
 	const colorRef = useRef<HTMLDivElement | null>(null);
 	const logoRef = useRef<HTMLDivElement | null>(null);
 	const whiteBackgroundRef = useRef<HTMLDivElement | null>(null);
+	const color = backgroundColor ? `rgb(${backgroundColor.join(',')})` : null;
 
 	useEffect(() => {
 		// Safari bug, Text clip mask supported from v. 15.5
@@ -36,19 +39,17 @@ export default function PageTransition() {
 	}, []);
 
 	useEffect(() => {
-		console.log(backgroundImage);
-		const color = backgroundColor ? `rgb(${backgroundColor.join(',')})` : null;
 		color && colorRef.current?.style.setProperty('background-color', color);
+		!isHome && logoRef.current?.classList.add(s.hide);
 		backgroundImage && logoRef.current?.style.setProperty('background', `url(${backgroundImage.url}?w=1400)`);
-		whiteBackgroundRef.current?.classList.toggle(s.hide, !(isHome && transition));
-	}, [backgroundImage, isHome, backgroundColor, transition]);
+		whiteBackgroundRef.current?.classList.toggle(s.hide, !(isHome && transition && !prevPathname));
+	}, [isHome, backgroundImage, color, transition]);
 
 	const handleAnimationEvent = async (type: 'start' | 'end') => {
 		if (type === 'start' && isHome) {
 			setTimeout(
 				() => {
 					logoRef.current?.classList.add(s.hide);
-					console.log('hide logo');
 				},
 				duration + 1000 / 2
 			);
@@ -60,11 +61,11 @@ export default function PageTransition() {
 	};
 
 	function generateAnimation() {
-		if (!transition && isHome) return cn(s.intro);
-		if (!transition && !isHome) return cn(s.enter, s.instant);
+		if (!transition && !isHome && !prevPathname) return cn(s.instant);
+		if (!transition && isHome && !prevPathname) return cn(s.intro);
 		if (transition === 'enter') return s.enter;
 		if (transition === 'exit') return s.exit;
-		return undefined;
+		return s.blank;
 	}
 
 	const animation = generateAnimation();
@@ -87,7 +88,7 @@ export default function PageTransition() {
 					<h1>SASKIA NEUMAN GALLERY</h1>
 				</div>
 			</div>
-			<div id='white-background' className={cn(s.white)} ref={whiteBackgroundRef} />
+			<div id='white-background' className={s.white} ref={whiteBackgroundRef} />
 		</div>
 	);
 }
