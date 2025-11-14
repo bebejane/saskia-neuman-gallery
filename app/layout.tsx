@@ -7,6 +7,7 @@ import { buildMenu } from '@/lib/menu';
 import Menu from '@/components/Menu';
 import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
+import MenuMobile from '@/components/MenuMobile';
 
 export default async function RootArticle({ children, modals }: LayoutProps<'/'>) {
 	const menu = await buildMenu();
@@ -17,6 +18,7 @@ export default async function RootArticle({ children, modals }: LayoutProps<'/'>
 				<body id='root'>
 					<PageTransition />
 					<Menu menu={menu} image={null} />
+					<MenuMobile menu={menu} image={null} />
 					{children}
 					<Footer />
 					{modals}

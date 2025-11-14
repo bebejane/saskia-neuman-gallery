@@ -6,7 +6,7 @@
 	height: 100%;
 	background-color: var(--black);
 	color: var(--white);
-	z-index: 4000;
+	z-index: var(--z-privacy-modal);
 
 	.wrap {
 		max-height: calc(100vh);
@@ -38,9 +38,9 @@
 		height: 48px;
 		width: 48px;
 		color: #000;
-		z-index: 500;
-		cursor: pointer;
+		z-index: 1;
 		color: var(--white);
 		font-size: 2rem;
+		cursor: pointer;
 	}
 }

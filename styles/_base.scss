@@ -15,19 +15,22 @@
 	--headline-font: 'Helvetica';
 	--mono-font: 'Helvetica';
 
+	--navbar-height: 57px;
 	--margin: 50px;
 	--margin-left: calc(var(--margin) * 0.5);
 	--margin-right: calc(var(--margin) * 0.5);
-
 	--line: 3px solid var(--black);
 	--radius: 20px;
-
 	--header-bar-height: 4.5rem;
 	--outer-margin: 22%;
 	--space: 80px;
 	--small-space: 20px;
 
-	--navbar-height: 57px;
+	--z-menu-wrapper: 100;
+	--z-navbar: 200;
+	--z-gallery: 400;
+	--z-privacy-modal: 500;
+	--z-page-transition: 1000;
 
 	@include mq($from: desktop) {
 		--margin-left: calc(var(--margin) * 1);

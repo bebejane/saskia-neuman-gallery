@@ -2,7 +2,6 @@
 	padding-left: var(--margin-left);
 	padding-right: var(--margin-right);
 	background: var(--white);
-	z-index: 1000;
 	padding-bottom: 1rem;
 
 	@include mq($from: tablet) {

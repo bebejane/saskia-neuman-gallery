@@ -20,6 +20,7 @@ export interface StoreState {
 	setIsHoveringMenuItem: (hovering: boolean) => void;
 	setIsRouting: (isRouting: boolean) => void;
 	setShowMenu: (showMenu: boolean) => void;
+	setShowMobileMenu: (showMobileMenu: boolean) => void;
 	setIsTransitioning: (isTransitioning: boolean) => void;
 	setIsExiting: (isExiting: boolean) => void;
 }

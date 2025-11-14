@@ -1,0 +1,271 @@
+.navbar {
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	z-index: var(--z-navbar);
+	top: 0px;
+	left: 0px;
+	height: var(--navbar-height);
+	padding-left: var(--margin-left);
+	white-space: pre;
+	font-weight: bold;
+	width: 100%;
+	padding: 0;
+	padding-left: var(--margin-left);
+	padding-right: 10px;
+	background-color: var(--white);
+
+	@include mq($from: desktop) {
+		display: none;
+	}
+
+	.logo {
+		padding-top: 1.2em;
+		padding-bottom: 1rem;
+		font-size: 1.1em;
+		letter-spacing: 0.02em;
+
+		div {
+			transition: color 0.3s;
+		}
+	}
+
+	.hamburger {
+		display: flex;
+		justify-content: flex-end;
+		flex: 1 1;
+		padding-top: 2px;
+	}
+
+	&.hide {
+		top: var(--navbar-height);
+	}
+
+	&.dark {
+		* {
+			color: var(--black);
+		}
+	}
+}
+
+.wrapper {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: var(--z-menu-wrapper);
+	font-weight: 700;
+	width: 100%;
+	height: 0vh;
+	padding: calc(var(--small-space) * 2);
+	padding-top: 2rem;
+	opacity: 1;
+	background-color: transparent;
+
+	@include mq($from: desktop) {
+		display: none;
+	}
+
+	&.hide {
+		opacity: 0;
+	}
+
+	&.open {
+		height: 100vh;
+		opacity: 1;
+		background-color: var(--white);
+		overflow: hidden;
+
+		.menu {
+			display: flex;
+			height: 100vh;
+
+			li {
+				display: block;
+			}
+		}
+	}
+
+	&.dark {
+		* {
+			color: var(--white);
+		}
+
+		.separator {
+			border-color: var(--white) !important;
+		}
+
+		.menu {
+			ul > li {
+				border-bottom: 2px solid var(--white);
+			}
+		}
+
+		&.open {
+			.menu {
+				background-color: var(--black);
+			}
+		}
+	}
+
+	&.transparent {
+		background-color: transparent !important;
+	}
+
+	.menu {
+		position: absolute;
+		top: 57px;
+		left: 0px;
+		display: none;
+		flex-direction: column;
+		box-sizing: border-box;
+		height: auto;
+		width: 100%;
+		margin: 0px;
+		margin-top: -10px;
+		padding: 10px;
+		padding-left: var(--margin-left);
+		padding-right: var(--margin-right);
+		max-height: calc(100vh - 3rem);
+		overflow: hidden;
+		overflow-y: scroll;
+
+		@include mq($from: tablet) {
+			margin: -10px;
+			margin-right: 10px;
+		}
+
+		> ul {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			width: 100%;
+
+			@include mq($until: tablet) {
+				border-top: 1px solid var(--black);
+			}
+
+			li {
+				display: block;
+				margin: 0;
+				padding: 0;
+				text-indent: 0;
+				cursor: pointer;
+
+				&.selected {
+					text-decoration: underline;
+				}
+
+				&:last-child {
+					margin-right: 0;
+				}
+				> div {
+					padding-bottom: 0.8em;
+					padding-top: 0.8em;
+					padding-bottom: 0.8em;
+
+					.label {
+						width: 100%;
+					}
+					.arrow {
+						display: inline-block;
+						transition: transform 0.2s ease;
+						transform: rotate(90deg);
+						margin-left: 0.2em;
+						&.open {
+							transform: rotate(-90deg);
+						}
+						&.hide {
+							visibility: hidden;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.sub {
+	display: flex;
+	flex-direction: column;
+	height: 0;
+	overflow: hidden;
+	border-bottom: 1px solid var(--black);
+	padding-left: 10px;
+
+	&.open {
+		height: auto;
+	}
+
+	a {
+		padding-bottom: 0.8em;
+		&:last-child {
+			padding-bottom: 1.8em;
+		}
+	}
+
+	li {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		margin-left: 0;
+		text-indent: 0;
+		list-style-type: none;
+		white-space: pre;
+		padding-top: 1.8em;
+		padding-bottom: 1rem;
+
+		&.contact {
+			padding-bottom: 1.8em !important;
+			br {
+				display: none;
+			}
+			p {
+				margin: 0;
+				&.narrowHide {
+					@include mq($until: nav-break) {
+						display: none;
+					}
+				}
+			}
+		}
+
+		&.selected {
+			text-decoration: underline;
+		}
+
+		&.more {
+			div {
+				margin-bottom: 0.2rem;
+				.arrow {
+					display: inline-block;
+					transition: transform 0.3s;
+					&.opened {
+						transform: rotate(90deg);
+					}
+				}
+			}
+			p {
+				margin-bottom: 0.6em;
+			}
+			a {
+				padding-bottom: 0.2em;
+				transition: color 0.5s;
+			}
+		}
+	}
+}
+
+.separator {
+	position: absolute;
+	display: none;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 100vh;
+	border: 0.5px solid var(--black);
+
+	&.show {
+		display: block;
+	}
+}

@@ -145,7 +145,6 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		}
 	}, [isTransitioning, isExiting]);
 
-	const startMenuItem = menu.find(({ __typename }) => __typename === 'StartRecord');
 	const navItems = menu.filter(({ __typename }) => __typename !== 'StartRecord');
 
 	const showSeparator =

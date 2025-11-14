@@ -9,7 +9,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: #fff;
-	z-index: 4000;
+	z-index: var(--z-gallery);
 
 	.images {
 		display: flex;
@@ -141,7 +141,7 @@
 		height: 48px;
 		width: 48px;
 		color: #000;
-		z-index: 500;
+		z-index: 1;
 		cursor: pointer;
 		font-size: 2rem;
 	}

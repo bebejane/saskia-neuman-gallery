@@ -8,8 +8,8 @@
 	top: 0;
 	left: 0;
 	overflow: hidden;
-	z-index: 10000;
 	pointer-events: none;
+	z-index: var(--z-page-transition);
 
 	.color {
 		position: absolute;
@@ -17,7 +17,7 @@
 		height: 100vh;
 		left: 0px;
 		top: 0px;
-		z-index: 400;
+		z-index: 1;
 		overflow: hidden;
 		background-color: transparent;
 		pointer-events: none;
@@ -34,7 +34,7 @@
 			justify-content: center;
 			overflow: hidden;
 			color: var(--black);
-			z-index: 500;
+			z-index: 2;
 			object-fit: cover;
 			background-size: cover !important;
 			background-repeat: no-repeat !important;
@@ -78,7 +78,7 @@
 		height: 100vh;
 		flex: 1 1 auto;
 		background-color: #fff;
-		z-index: 300;
+		z-index: calc(var(--z-page-transition) -1);
 		&.hide {
 			display: none;
 		}
