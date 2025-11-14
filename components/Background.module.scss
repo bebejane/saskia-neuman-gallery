@@ -36,6 +36,7 @@
 		z-index: -1;
 		object-fit: cover;
 		object-position: 50% 50%;
+
 		&.halfHeight {
 			@include mq($until: tablet) {
 				height: calc(50vh - var(--navbar-height));
@@ -69,7 +70,8 @@
 		width: 100vw;
 		height: 50vh;
 		opacity: 0;
-		animation: fade-in 0.5s ease-in-out forwards;
+		animation: fade-in 0.7s ease-out forwards;
+
 		@keyframes fade-in {
 			0% {
 				opacity: 0;

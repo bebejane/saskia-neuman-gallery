@@ -10,10 +10,6 @@ export default async function ExhibitionGalleryPage({
 	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
 	if (!exhibition) return notFound();
 	return (
-		<Gallery
-			images={exhibition.artwork as FileField[]}
-			index={parseInt(index) ?? 0}
-			backHref={`/exhibitions/${slug}`}
-		/>
+		<Gallery images={exhibition.artwork as FileField[]} index={parseInt(index)} backHref={`/exhibitions/${slug}`} />
 	);
 }

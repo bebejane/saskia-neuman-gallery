@@ -7,5 +7,5 @@ export default async function ArtistGalleryPage({ params }: PageProps<'/artists/
 	const { artist: slug, index } = await params;
 	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
 	if (!artist) return notFound();
-	return <Gallery images={artist.artwork as FileField[]} index={parseInt(index) ?? 0} backHref={`/artists/${slug}`} />;
+	return <Gallery images={artist.artwork as FileField[]} index={parseInt(index)} backHref={`/artists/${slug}`} />;
 }

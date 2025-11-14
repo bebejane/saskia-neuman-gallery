@@ -10,7 +10,6 @@ import { useState, useRef, useEffect, use } from 'react';
 import Link from 'next/link';
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import GalleryEmbla from '@/components/GalleryEmbla';
 
 export type GalleryProps = {
 	images: FileField[];
@@ -18,7 +17,9 @@ export type GalleryProps = {
 	backHref: string;
 };
 
-export default function Gallery({ images, index: _index = 0, backHref }: GalleryProps) {
+export default function Gallery({ images, index: _index, backHref }: GalleryProps) {
+	_index = isNaN(_index) ? 0 : _index;
+
 	const router = useRouter();
 	const pathname = usePathname();
 	const swiperRef = useRef<SwiperType | null>(null);
@@ -56,7 +57,9 @@ export default function Gallery({ images, index: _index = 0, backHref }: Gallery
 	}, [images]);
 
 	useEffect(() => {
-		const url = `${pathname.split('/').slice(0, -1).join('/')}/${realIndex}`;
+		const base = pathname.split('/').slice(0, -1).join('/');
+		const basePath = !base.includes('gallery') ? `${base}/gallery` : base;
+		const url = `${basePath}${realIndex ? `/${realIndex}` : ''}`;
 		window.history.replaceState({ ...window.history.state, as: url, url }, '', url);
 	}, [realIndex]);
 
