@@ -112,7 +112,7 @@ export default function Gallery({ images, index: _index, backHref }: GalleryProp
 				<span>{caption?.title}</span>
 				{caption?.alt && <span className={s.subTitle}>{caption.alt}</span>}
 			</div>
-			<Link className={s.close} href={backHref} scroll={false}>
+			<Link className={s.close} href={backHref} scroll={true} replace={true}>
 				×
 			</Link>
 		</div>

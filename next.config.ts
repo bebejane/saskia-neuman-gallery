@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
 		ignoreBuildErrors: true,
 	},
 	experimental: {
-		turbopackFileSystemCacheForDev: true,
-		inlineCss: true,
+		//turbopackFileSystemCacheForDev: true,
+		//inlineCss: true,
 	},
 	devIndicators: false,
 	webpack: (config) => {
@@ -29,7 +29,8 @@ const nextConfig: NextConfig = {
 	},
 	logging: {
 		fetches: {
-			fullUrl: true,
+			fullUrl: false,
+			hmrRefreshes: false,
 		},
 	},
 
