@@ -1,0 +1,41 @@
+.extendedBiography {
+	div {
+		display: none;
+		flex-wrap: wrap;
+		margin-top: 1rem;
+		ul {
+			li {
+				text-indent: -1em;
+				padding-left: 1em;
+				padding-bottom: 0.5em;
+			}
+		}
+	}
+	h3 {
+		cursor: pointer;
+		@include mq($from: tablet) {
+			width: 25%;
+		}
+		span {
+			transition: transform ease 0.3s;
+			display: inline-block;
+			transform: rotate(0deg);
+		}
+	}
+	ul {
+		list-style: none;
+		@include mq($from: tablet) {
+			width: 75%;
+		}
+	}
+	&.show {
+		div {
+			display: flex;
+		}
+		h3 {
+			span {
+				transform: rotate(90deg);
+			}
+		}
+	}
+}

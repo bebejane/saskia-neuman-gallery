@@ -8,12 +8,17 @@ export default {
 		start: async () => [`/`],
 		artist: async ({ slug }) => {
 			const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
-			return [`/artists/${slug}`, ...(artist?.artwork?.map((_, idx) => `/artists/${slug}/gallery/${idx}`) ?? [])];
+			return [
+				`/artists/${slug}`,
+				`/artists/${slug}/gallery`,
+				...(artist?.artwork?.map((_, idx) => `/artists/${slug}/gallery/${idx}`) ?? []),
+			];
 		},
 		exhibition: async ({ slug }) => {
 			const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
 			return [
 				`/exhibitions/${slug}`,
+				`/exhibitions/${slug}/gallery`,
 				'/',
 				...(exhibition?.artwork?.map((_, idx) => `/exhibitions/${slug}/gallery/${idx}`) ?? []),
 			];
@@ -22,12 +27,13 @@ export default {
 			const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
 			return [
 				`/happenings/${slug}`,
+				`/happenings/${slug}/gallery`,
 				...(happening?.gallery?.map((_, idx) => `/happenings/${slug}/gallery/${idx}`) ?? []),
 			];
 		},
-		about: async () => [`/about`],
+		about: async () => [`/about`, '/about/privacy-policy'],
 		press: async ({ id }) => [`/about`, ...(await getItemReferenceRoutes(id))],
-		external_link: async ({ id, slug }) => ['/about', '/'],
+		external_link: async () => ['/about', '/'],
 		upload: async ({ id }) => getUploadReferenceRoutes(id),
 	},
 	sitemap: async () => {
@@ -100,7 +106,6 @@ export default {
 	},
 	manifest: async () => {
 		const { site } = await apiQuery(GlobalDocument);
-
 		return {
 			name: site?.globalSeo?.siteName as string,
 			short_name: site?.globalSeo?.siteName as string,

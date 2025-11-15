@@ -41,7 +41,6 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [hoverSubMenu, setHoverSubMenu] = useState<MenuItem | null>(null);
 	const [subMenu, setSubMenu] = useState<MenuItem | null>(null);
-	const [subMenuMobile, setSubMenuMobile] = useState();
 	const [menuBackground, setMenuBackground] = useState(false);
 	const [subMenuStyles, setSubMenuStyles] = useState<React.CSSProperties | undefined>(undefined);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
@@ -171,11 +170,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 				</Link>
 			</div>
 			<div id='menu-wrapper' className={menuWrapperStyles}>
-				<div
-					id={'menu'}
-					className={menuStyles}
-					//onMouseLeave={() => setSubMenu(null)}
-				>
+				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu(null)}>
 					<ul>
 						{navItems.map((m, idx) => (
 							<li

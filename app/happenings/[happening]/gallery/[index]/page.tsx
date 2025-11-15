@@ -9,7 +9,7 @@ export default async function ExhibitionGalleryPage({ params }: PageProps<'/happ
 	const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
 	if (!happening) return notFound();
 	return (
-		<Gallery images={happening.gallery as FileField[]} index={parseInt(index) ?? 0} backHref={`/happenings/${slug}`} />
+		<Gallery images={happening.gallery as FileField[]} index={parseInt(index) ?? 1} backHref={`/happenings/${slug}`} />
 	);
 }
 

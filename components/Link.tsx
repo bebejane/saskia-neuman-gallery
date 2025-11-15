@@ -93,12 +93,12 @@ const Link: FC<LinkProperties> = ({
 			target={target}
 			onMouseEnter={handleMouse}
 			onMouseLeave={handleMouse}
+			onTouchEnd={handleTouchEnd}
 			onClick={handleClick}
 			suppressHydrationWarning={true}
+			className={className}
 		>
-			<Tappable onTap={handleTouchEnd} className={className}>
-				{children}
-			</Tappable>
+			{children}
 		</NextLink>
 	);
 };

@@ -8,9 +8,9 @@ import { AboutDocument, AllExternalLinksDocument } from '@/graphql';
 import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode } from 'next-dato-utils/components';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import { buildMetadata } from '@/app/layout';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export default async function About() {
 	const { about, draftUrl } = await apiQuery(AboutDocument);
@@ -86,7 +86,9 @@ export default async function About() {
 					<div className={s.text}>
 						<span>
 							Copyright ©{new Date().getFullYear()} Saskia Neuman Gallery ·{' '}
-							<Link href={'/about/privacy'}>Privacy Policy</Link>
+							<Link href={'/about/privacy-policy'} scroll={false}>
+								Privacy Policy
+							</Link>
 						</span>
 						<a href='http://www.konst-teknik.se' target='new'>
 							Designed and developed by Konst & Teknik

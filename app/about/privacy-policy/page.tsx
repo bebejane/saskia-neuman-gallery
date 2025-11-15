@@ -5,12 +5,13 @@ import { PrivacyPolicyDocument } from '@/graphql';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import { sleep } from 'next-dato-utils/utils';
 
 export type PrivacyPolicyProps = {
 	content: string;
 };
 
-export default async function PrivacyPolicy({}: PageProps<'/about/privacy'>) {
+export default async function PrivacyPolicy() {
 	const { about } = await apiQuery(PrivacyPolicyDocument);
 	if (!about) return notFound();
 	const { privacyPolicy } = about;
@@ -20,7 +21,7 @@ export default async function PrivacyPolicy({}: PageProps<'/about/privacy'>) {
 			<div className={s.wrap}>
 				<h1>Privacy policy</h1>
 				<Markdown className={s.content} content={privacyPolicy} />
-				<Link href={'/about'} className={s.close} scroll={false}>
+				<Link href={'/about'} className={s.close} scroll={false} replace={true}>
 					×
 				</Link>
 			</div>

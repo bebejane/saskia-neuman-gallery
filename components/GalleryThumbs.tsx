@@ -1,5 +1,3 @@
-'use client';
-
 import s from './GalleryThumbs.module.scss';
 import { Image } from 'react-datocms';
 import { splitArray } from '@/lib/utils';
@@ -13,7 +11,6 @@ export type GalleryThumbsProps = {
 export default function GalleryThumbs({ thumbnails, base }: GalleryThumbsProps) {
 	const maxRows = 4;
 	const columns = splitArray(thumbnails, maxRows) as FileField[][];
-
 	let index = 0;
 
 	return (

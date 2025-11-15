@@ -156,6 +156,7 @@
 				&:last-child {
 					margin-right: 0;
 				}
+
 				span {
 					.arrow {
 						display: inline-block;
@@ -215,14 +216,14 @@
 					margin-left: 0;
 					text-indent: 0;
 					list-style-type: none;
-					overflow: hidden;
-					white-space: pre;
-					text-overflow: ellipsis;
 
 					a {
 						display: block;
 						padding-bottom: 0.2em;
 						margin-bottom: 0.6em;
+						overflow: hidden;
+						white-space: pre;
+						text-overflow: ellipsis;
 					}
 
 					.arrow {
