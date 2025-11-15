@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "next dev --turbo & pnpm run codegen",
+		"dev:dev": "next dev --turbo & pnpm run codegen",
 		"start": "next start",
 		"preview": "pnpm run build && pnpm run start",
 		"build": "next build",

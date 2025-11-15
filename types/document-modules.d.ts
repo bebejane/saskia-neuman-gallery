@@ -16,8 +16,8 @@ declare module '*/artist.gql' {
   const defaultDocument: DocumentNode;
   export const AllArtists: DocumentNode;
 export const Artist: DocumentNode;
-export const ArtistFragmentLight: DocumentNode;
 export const ArtistFragment: DocumentNode;
+export const ArtistFragmentLight: DocumentNode;
 
   export default defaultDocument;
 }

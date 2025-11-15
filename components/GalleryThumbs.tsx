@@ -21,7 +21,7 @@ export default function GalleryThumbs({ thumbnails, base }: GalleryThumbsProps) 
 			{columns.map((a, cidx) => (
 				<div key={`thumb-${cidx}`} className={s.row}>
 					{a?.map((image, ridx) => (
-						<Link href={`${base}/gallery/${getIndex(columns, index++)}`} key={`${cidx}-${ridx}`}>
+						<Link href={`${base}/gallery/${getIndex(columns, index++)}`} key={`${cidx}-${ridx}`} scroll={false}>
 							<figure key={`thumb-image-${ridx}`}>
 								{image.responsiveImage && (
 									<Image data={image.responsiveImage} objectFit='contain' intersectionMargin='0px 0px 100% 0px' />

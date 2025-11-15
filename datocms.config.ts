@@ -1,16 +1,32 @@
 import { apiQuery } from 'next-dato-utils/api';
 import { DatoCmsConfig, getUploadReferenceRoutes, getItemReferenceRoutes } from 'next-dato-utils/config';
 import { MetadataRoute } from 'next';
-import { GlobalDocument, SitemapDocument } from '@/graphql';
+import { ArtistDocument, ExhibitionDocument, GlobalDocument, HappeningDocument, SitemapDocument } from '@/graphql';
 
 export default {
 	routes: {
 		start: async () => [`/`],
+		artist: async ({ slug }) => {
+			const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
+			return [`/artists/${slug}`, ...(artist?.artwork?.map((_, idx) => `/artists/${slug}/gallery/${idx}`) ?? [])];
+		},
+		exhibition: async ({ slug }) => {
+			const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
+			return [
+				`/exhibitions/${slug}`,
+				'/',
+				...(exhibition?.artwork?.map((_, idx) => `/exhibitions/${slug}/gallery/${idx}`) ?? []),
+			];
+		},
+		happening: async ({ slug }) => {
+			const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
+			return [
+				`/happenings/${slug}`,
+				...(happening?.gallery?.map((_, idx) => `/happenings/${slug}/gallery/${idx}`) ?? []),
+			];
+		},
 		about: async () => [`/about`],
-		artist: async ({ slug }) => [`/artists/${slug}`],
-		exhibition: async ({ slug }) => [`/exhibitions/${slug}`, '/'],
-		happening: async ({ slug }) => [`/happenings/${slug}`],
-		press: async ({ id, slug }) => [`/about`, ...(await getItemReferenceRoutes(id))],
+		press: async ({ id }) => [`/about`, ...(await getItemReferenceRoutes(id))],
 		external_link: async ({ id, slug }) => ['/about', '/'],
 		upload: async ({ id }) => getUploadReferenceRoutes(id),
 	},
@@ -29,27 +45,57 @@ export default {
 				changeFrequency: 'monthly',
 				priority: 0.8,
 			},
-			...allArtists.map(({ id, slug, _updatedAt }) => ({
-				url: `${process.env.NEXT_PUBLIC_SITE_URL}/artists/${slug}`,
-				lastModified: new Date(_updatedAt).toISOString(),
-				changeFrequency: 'monthly',
-				priority: 0.8,
-				id,
-			})),
-			...allHappenings.map(({ id, slug, _updatedAt }) => ({
-				url: `${process.env.NEXT_PUBLIC_SITE_URL}/happenings/${slug}`,
-				lastModified: new Date(_updatedAt).toISOString(),
-				changeFrequency: 'monthly',
-				priority: 0.8,
-				id,
-			})),
-			...allExhibitions.map(({ id, slug, _updatedAt }) => ({
-				url: `${process.env.NEXT_PUBLIC_SITE_URL}/exhibitions/${slug}`,
-				lastModified: new Date(_updatedAt).toISOString(),
-				changeFrequency: 'monthly',
-				priority: 0.8,
-				id,
-			})),
+			...allArtists
+				.map(({ id, slug, _updatedAt }) => [
+					{
+						url: `${process.env.NEXT_PUBLIC_SITE_URL}/artists/${slug}`,
+						lastModified: new Date(_updatedAt).toISOString(),
+						changeFrequency: 'monthly',
+						priority: 0.8,
+					},
+					{
+						url: `${process.env.NEXT_PUBLIC_SITE_URL}/artists/${slug}/gallery`,
+						lastModified: new Date(_updatedAt).toISOString(),
+						changeFrequency: 'monthly',
+						priority: 0.8,
+						id,
+					},
+				])
+				.flat(),
+			...allHappenings
+				.map(({ id, slug, _updatedAt }) => [
+					{
+						url: `${process.env.NEXT_PUBLIC_SITE_URL}/happenings/${slug}`,
+						lastModified: new Date(_updatedAt).toISOString(),
+						changeFrequency: 'monthly',
+						priority: 0.8,
+						id,
+					},
+					{
+						url: `${process.env.NEXT_PUBLIC_SITE_URL}/happenings/${slug}/gallery`,
+						lastModified: new Date(_updatedAt).toISOString(),
+						changeFrequency: 'monthly',
+						priority: 0.8,
+					},
+				])
+				.flat(),
+			...allExhibitions
+				.map(({ id, slug, _updatedAt }) => [
+					{
+						url: `${process.env.NEXT_PUBLIC_SITE_URL}/exhibitions/${slug}`,
+						lastModified: new Date(_updatedAt).toISOString(),
+						changeFrequency: 'monthly',
+						priority: 0.8,
+						id,
+					},
+					{
+						url: `${process.env.NEXT_PUBLIC_SITE_URL}/exhibitions/${slug}/gallery`,
+						lastModified: new Date(_updatedAt).toISOString(),
+						changeFrequency: 'monthly',
+						priority: 0.8,
+					},
+				])
+				.flat(),
 		] as MetadataRoute.Sitemap;
 	},
 	manifest: async () => {

@@ -4,6 +4,7 @@ import { apiQuery } from 'next-dato-utils/api';
 import { PrivacyPolicyDocument } from '@/graphql';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 export type PrivacyPolicyProps = {
 	content: string;
@@ -25,4 +26,10 @@ export default async function PrivacyPolicy({}: PageProps<'/about/privacy'>) {
 			</div>
 		</div>
 	);
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+	return {
+		title: 'Privacy policy',
+	};
 }

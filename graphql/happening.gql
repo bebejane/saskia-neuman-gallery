@@ -41,4 +41,7 @@ fragment HappeningFragmentLight on HappeningRecord {
 	image {
 		...ImageFragmentLight
 	}
+	gallery {
+		id
+	}
 }

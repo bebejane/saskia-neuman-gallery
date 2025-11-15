@@ -9,6 +9,8 @@ import GalleryThumbs from '@/components/GalleryThumbs';
 import PressLinks from '@/components/PressLinks';
 import { AllExhibitionsDocument, ExhibitionDocument } from '@/graphql';
 import { notFound } from 'next/navigation';
+import { buildMetadata } from '@/app/layout';
+import { Metadata } from 'next';
 
 export default async function Exhibition({ params }: PageProps<'/exhibitions/[exhibition]'>) {
 	const { exhibition: slug } = await params;
@@ -77,4 +79,17 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 export async function generateStaticParams() {
 	const { allExhibitions } = await apiQuery(AllExhibitionsDocument);
 	return allExhibitions.map(({ slug: exhibition }) => ({ exhibition }));
+}
+
+export async function generateMetadata({ params }: PageProps<'/exhibitions/[exhibition]'>): Promise<Metadata> {
+	const { exhibition: slug } = await params;
+	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
+
+	if (!exhibition) return notFound();
+
+	return buildMetadata({
+		title: exhibition.title,
+		description: exhibition.description,
+		pathname: `/exhibitions/${exhibition.slug}`,
+	});
 }

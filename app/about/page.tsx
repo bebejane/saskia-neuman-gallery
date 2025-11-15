@@ -9,6 +9,8 @@ import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode } from 'next-dato-utils/components';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { buildMetadata } from '@/app/layout';
+import { Metadata } from 'next';
 
 export default async function About() {
 	const { about, draftUrl } = await apiQuery(AboutDocument);
@@ -95,4 +97,16 @@ export default async function About() {
 			<DraftMode url={draftUrl} path='/about' />
 		</>
 	);
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+	const { about, draftUrl } = await apiQuery(AboutDocument);
+
+	if (!about) return notFound();
+
+	return buildMetadata({
+		title: 'About',
+		description: about.description,
+		pathname: '/about',
+	});
 }

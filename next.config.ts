@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
 	},
 	experimental: {
 		turbopackFileSystemCacheForDev: true,
-		//inlineCss: true,
+		inlineCss: true,
 	},
 	devIndicators: false,
 	webpack: (config) => {

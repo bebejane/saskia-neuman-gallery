@@ -19,9 +19,9 @@ export default async function RootArticle({ children, modals }: LayoutProps<'/'>
 					<PageTransition />
 					<Menu menu={menu} image={null} />
 					<MenuMobile menu={menu} image={null} />
+					{modals}
 					{children}
 					<Footer />
-					{modals}
 				</body>
 			</html>
 		</>
@@ -33,8 +33,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export type BuildMetadataProps = {
-	title?: string | any;
-	description?: string | null | undefined;
+	title?: string | null;
+	description?: string | null;
 	pathname?: string;
 	image?: FileField;
 };
@@ -51,7 +51,8 @@ export async function buildMetadata({
 
 	const siteName = globalSeo?.siteName as string;
 	const url = pathname ? `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}` : process.env.NEXT_PUBLIC_SITE_URL;
-	const title = t ? `${siteName} — ${t}` : siteName;
+	//const title = t ? `${siteName} — ${t}` : siteName;
+	const title = siteName;
 	const description = !desc ? (globalSeo?.fallbackSeo?.description ?? '') : desc;
 	const image = img ?? (globalSeo?.fallbackSeo?.image as FileField);
 
@@ -97,7 +98,7 @@ export async function buildMetadata({
 						},
 					]
 				: undefined,
-			locale: 'sv_SE',
+			locale: 'en_US',
 			type: 'website',
 		},
 	};

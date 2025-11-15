@@ -12,17 +12,6 @@ query Artist($slug: String!) {
 	}
 }
 
-fragment ArtistFragmentLight on ArtistRecord {
-	__typename
-	id
-	firstName
-	lastName
-	image {
-		...ImageFragmentLight
-	}
-	slug
-}
-
 fragment ArtistFragment on ArtistRecord {
 	__typename
 	id
@@ -81,4 +70,18 @@ fragment ArtistFragment on ArtistRecord {
 		year
 		location
 	}
+}
+
+fragment ArtistFragmentLight on ArtistRecord {
+	__typename
+	id
+	firstName
+	lastName
+	image {
+		...ImageFragmentLight
+	}
+	artwork {
+		id
+	}
+	slug
 }

@@ -12,6 +12,8 @@ import { format } from 'date-fns';
 import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode } from 'next-dato-utils/components';
 import { notFound } from 'next/navigation';
+import { buildMetadata } from '@/app/layout';
+import { Metadata } from 'next';
 
 export default async function Artist({ params }: PageProps<'/artists/[artist]'>) {
 	const { artist: slug } = await params;
@@ -37,9 +39,6 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 
 	const exhibitions = allExhibitions?.filter(({ artists }) => artists.some((a) => a.id === artist.id));
 
-	const galleryIndex = null;
-	//const [galleryIndex, setGalleryIndex] = useState();
-	//const [showBiography, setShowBiography] = useState(false);
 	const showBiography = false;
 	const haveExtendedBiography =
 		(soloExhibitions.length ||
@@ -201,4 +200,17 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 export async function generateStaticParams() {
 	const { allArtists } = await apiQuery(AllArtistsDocument);
 	return allArtists.map(({ slug: artist }) => ({ artist }));
+}
+
+export async function generateMetadata({ params }: PageProps<'/artists/[artist]'>): Promise<Metadata> {
+	const { artist: slug } = await params;
+	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
+
+	if (!artist) return notFound();
+
+	return buildMetadata({
+		title: artist.firstName + ' ' + artist.lastName,
+		description: artist.biography,
+		pathname: `/artists/${artist.slug}`,
+	});
 }

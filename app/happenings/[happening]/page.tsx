@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode } from 'next-dato-utils/components';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 export default async function Happening({ params }: PageProps<'/happenings/[happening]'>) {
 	const { happening: slug } = await params;
@@ -51,7 +52,19 @@ export default async function Happening({ params }: PageProps<'/happenings/[happ
 	);
 }
 
-export async function generateStaticParams() {
-	const { allHappenings } = await apiQuery(AllHappeningsDocument);
+export async function generateStaticParams({ params }: PageProps<'/happenings/[happening]'>) {
+	const { allHappenings } = await apiQuery(AllHappeningsDocument, { all: true });
 	return allHappenings.map(({ slug: happening }) => ({ happening }));
+}
+
+export async function generateMetadata({ params }: PageProps<'/happenings/[happening]'>): Promise<Metadata> {
+	const { happening: slug } = await params;
+	const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
+
+	if (!happening) return notFound();
+
+	return {
+		title: happening.title,
+		description: happening.description,
+	};
 }
