@@ -71,7 +71,7 @@
 	}
 
 	&.open {
-		height: 100vh;
+		height: 100dvh;
 		opacity: 1;
 		background-color: var(--white);
 		overflow: hidden;
@@ -114,7 +114,7 @@
 
 	.menu {
 		position: absolute;
-		top: 57px;
+		top: var(--navbar-height);
 		left: 0px;
 		display: none;
 		flex-direction: column;
@@ -126,7 +126,7 @@
 		padding: 10px;
 		padding-left: var(--margin-left);
 		padding-right: var(--margin-right);
-		max-height: calc(100vh - 3rem);
+		max-height: calc(100dvh - 3rem);
 		overflow: hidden;
 		overflow-y: scroll;
 
@@ -168,11 +168,12 @@
 						width: 100%;
 					}
 					.arrow {
-						display: inline-block;
+						display: none;
 						transition: transform 0.2s ease;
 						transform: rotate(90deg);
 						margin-left: 0.2em;
 						&.open {
+							//display: inline-block;
 							transform: rotate(-90deg);
 						}
 						&.hide {
@@ -195,13 +196,7 @@
 
 	&.open {
 		height: auto;
-	}
-
-	a {
 		padding-bottom: 0.8em;
-		&:last-child {
-			padding-bottom: 1.8em;
-		}
 	}
 
 	li {
@@ -215,18 +210,18 @@
 		padding-top: 1.8em;
 		padding-bottom: 1rem;
 
-		&.contact {
-			padding-bottom: 1.8em !important;
+		a {
+			display: inline-block;
+			padding-bottom: 0.8em;
+		}
+
+		&.about {
 			br {
 				display: none;
 			}
-			p {
-				margin: 0;
-				&.narrowHide {
-					@include mq($until: nav-break) {
-						display: none;
-					}
-				}
+			p,
+			a {
+				margin: 0 !important;
 			}
 		}
 
@@ -235,8 +230,15 @@
 		}
 
 		&.more {
-			div {
-				margin-bottom: 0.2rem;
+			display: flex;
+			flex-direction: column;
+			padding-top: 0;
+
+			button {
+				all: unset;
+				cursor: pointer;
+				background-color: transparent;
+
 				.arrow {
 					display: inline-block;
 					transition: transform 0.3s;
@@ -244,13 +246,6 @@
 						transform: rotate(90deg);
 					}
 				}
-			}
-			p {
-				margin-bottom: 0.6em;
-			}
-			a {
-				padding-bottom: 0.2em;
-				transition: color 0.5s;
 			}
 		}
 	}

@@ -3,7 +3,7 @@
 import s from './PageTransition.module.scss';
 import cn from 'classnames';
 import { useStore, useShallow } from '@/lib/store';
-import { useEffect, useRef } from 'react';
+import { use, useEffect, useRef } from 'react';
 import { detect } from 'detect-browser';
 import { usePathname } from 'next/navigation';
 import { usePrevious } from '@/lib/hooks/usePrevious';
@@ -19,6 +19,7 @@ export const duration = 700;
 export default function PageTransition() {
 	const backgroundColor = useStore(useShallow((state) => state.backgroundColor));
 	const backgroundImage = useStore(useShallow((state) => state.backgroundImage));
+	const setBackgroundImage = useStore(useShallow((state) => state.setBackgroundImage));
 	const transition = useStore(useShallow((state) => state.transition));
 	const setTransition = useStore(useShallow((state) => state.setTransition));
 	const pathname = usePathname();
@@ -45,15 +46,14 @@ export default function PageTransition() {
 		whiteBackgroundRef.current?.classList.toggle(s.hide, !(isHome && transition && !prevPathname));
 	}, [isHome, backgroundImage, color, transition]);
 
+	function handleIntroStart() {
+		logoRef.current?.classList.add(s.hide);
+		setBackgroundImage(null);
+	}
+
 	const handleAnimationEvent = async (type: 'start' | 'end') => {
-		if (type === 'start' && isHome) {
-			setTimeout(
-				() => {
-					logoRef.current?.classList.add(s.hide);
-				},
-				duration + 1000 / 2
-			);
-		} else if (type === 'end') {
+		if (type === 'start' && isHome && !prevPathname) setTimeout(handleIntroStart, duration + 1000 / 2);
+		else if (type === 'end') {
 			window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
 			transition === 'exit' && setTransition('enter');
 			transition === 'enter' && setTransition(null);

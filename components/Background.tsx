@@ -20,6 +20,7 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 		useShallow((s) => [s.setBackgroundImage, s.setBackgroundColor, s.setIsRouting, s.backgroundImage, s.showMenu])
 	);
 
+	/*
 	useEffect(() => {
 		const originalColor = document.body.style.backgroundColor;
 		document.body.style.backgroundColor = `rgb(${color.join(',')})`;
@@ -29,8 +30,9 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 	}, []);
 
 	useEffect(() => {
-		setBackgroundImage(image ?? null);
+		//setBackgroundImage(image ?? null);
 	}, [image]);
+	*/
 
 	useEffect(() => {
 		const routeChangeStart = () => setIsRouting(true);

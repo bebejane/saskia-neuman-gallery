@@ -1,4 +1,4 @@
-import { isAfter, isBefore, isEqual } from 'date-fns';
+import { format, isAfter, isBefore, isEqual } from 'date-fns';
 
 export const imageColor = (image: FileField | null | undefined): number[] => {
 	let color = [255, 255, 255];
@@ -32,4 +32,8 @@ export const datePeriod = (sDate: string, eDate: string): Period => {
 	else type = 'upcoming';
 
 	return type;
+};
+
+export const formatDatePeriod = (start: string, end: string): string => {
+	return `${format(new Date(start), 'dd.MM')}—${format(new Date(end), 'dd.MM.yyyy')}`;
 };

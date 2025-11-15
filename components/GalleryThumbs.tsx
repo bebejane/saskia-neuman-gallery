@@ -2,7 +2,6 @@
 
 import s from './GalleryThumbs.module.scss';
 import { Image } from 'react-datocms';
-import { useState } from 'react';
 import { splitArray } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -10,14 +9,6 @@ export type GalleryThumbsProps = {
 	thumbnails: FileField[];
 	base: string;
 };
-
-function getIndex(columns: FileField[][], currentIndex: number): number {
-	const maxRows = columns[0]?.length || 0;
-	const numColumns = columns.length;
-	const colIndex = Math.floor(currentIndex / maxRows);
-	const rowIndex = currentIndex % maxRows;
-	return rowIndex * numColumns + colIndex;
-}
 
 export default function GalleryThumbs({ thumbnails, base }: GalleryThumbsProps) {
 	const maxRows = 4;
@@ -42,4 +33,12 @@ export default function GalleryThumbs({ thumbnails, base }: GalleryThumbsProps) 
 			))}
 		</div>
 	);
+}
+
+function getIndex(columns: FileField[][], currentIndex: number): number {
+	const maxRows = columns[0]?.length || 0;
+	const numColumns = columns.length;
+	const colIndex = Math.floor(currentIndex / maxRows);
+	const rowIndex = currentIndex % maxRows;
+	return rowIndex * numColumns + colIndex;
 }

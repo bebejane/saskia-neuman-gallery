@@ -8,19 +8,17 @@ import { useState, useEffect, Fragment } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
 import { useScrollInfo } from 'next-dato-utils/hooks';
-import { MenuItem, MenuItemSub } from '@/lib/menu';
+import { findtMenuItem, MenuItem, MenuItemSub } from '@/lib/menu';
 import React from 'react';
 import { useRouteChangeStart } from '@/lib/hooks/useRouteChange';
+import { Markdown } from 'next-dato-utils/components';
 
 export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) {
-	const pathname = usePathname();
 	const [
 		setBackgroundImage,
 		setBackgroundColor,
 		setIsHoveringMenuItem,
 		isHoveringMenuItem,
-		setIsTransitioning,
-		setIsExiting,
 		setShowMenu,
 		showMenu,
 		isExiting,
@@ -31,8 +29,6 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 			s.setBackgroundColor,
 			s.setIsHoveringMenuItem,
 			s.isHoveringMenuItem,
-			s.setIsTransitioning,
-			s.setIsExiting,
 			s.setShowMenu,
 			s.showMenu,
 			s.isExiting,
@@ -40,18 +36,20 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		])
 	);
 
+	const pathname = usePathname();
 	const imageTheme = image?.customData.theme || 'light';
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [hoverSubMenu, setHoverSubMenu] = useState<MenuItem | null>(null);
 	const [subMenu, setSubMenu] = useState<MenuItem | null>(null);
 	const [subMenuMobile, setSubMenuMobile] = useState();
 	const [menuBackground, setMenuBackground] = useState(false);
-	const [subMenuMargin, setSubMenuMargin] = useState(0);
+	const [subMenuStyles, setSubMenuStyles] = useState<React.CSSProperties | undefined>(undefined);
 	const [separatorMargin, setSeparatorMargin] = useState(0);
 	const [showMore, setShowMore] = useState({ ExhibitionRecord: false, HappeningRecord: false });
 	const { isPageBottom, isScrolledUp, scrolledPosition, isPageTop } = useScrollInfo();
-	const { width } = useWindowSize();
+	const { width, height } = useWindowSize();
 	const isMobile = width <= 768;
+	const selected = findtMenuItem(menu, pathname);
 
 	const handleMouseOver = (item: MenuItemSub, hovering: boolean) => {
 		setTimeout(
@@ -77,47 +75,25 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		setSubMenu(null);
 	});
 
-	/*
-
 	useEffect(() => {
-		// Set Background image on route start change
-		//setIsHoveringMenuItem(false);
-		//setSubMenu(null);
-
-		
-		const handleRouteChange = (url, { shallow }) => {
-			const subs = [];
-			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
-
-			const next =
-				subs.filter(({ slug }) => `/${slug}` === url)[0] ||
-				menu.filter(({ path }) => path === url)[0] ||
-				menu.filter(({ path }) => path === url)[0];
-
-			if (next) setBackgroundColor(next.color);
-		};
-		
-		return () => {
-			setIsHoveringMenuItem(false);
-			setSubMenu(null);
-		};
-	}, [pathname]);
-
-	*/
-
-	useEffect(() => {
-		// Update separator and sub menu margin
 		if (!subMenu) return;
-		const el = document.getElementById(`menu-${subMenu.__typename}`) as HTMLDivElement;
+
+		const subMenuEl = document.getElementById(`menu-${subMenu.__typename}`) as HTMLDivElement;
 		const menuWrapper = document.getElementById('menu-wrapper');
-		if (!el || !menu || !menuWrapper) return;
+		const main = document.getElementById('main');
 
-		const padding = getComputedStyle(menuWrapper, null).getPropertyValue('padding-left');
-		const parent = el.offsetParent as HTMLDivElement;
+		if (!subMenuEl || !menu || !menuWrapper || !main) return;
 
-		setSubMenuMargin(el.offsetLeft);
-		setSeparatorMargin(parent?.offsetLeft + el.offsetLeft - parseInt(padding));
-	}, [subMenu]);
+		const parent = subMenuEl.offsetParent as HTMLDivElement;
+		const paddingLeft = getComputedStyle(menuWrapper, null).getPropertyValue('padding-left');
+		const menuWrapperPaddingLeft = getComputedStyle(menuWrapper, null).getPropertyValue('padding-left');
+		const mainPaddingLeft = getComputedStyle(main, null).getPropertyValue('padding-left');
+		const separatorMargin = parent?.offsetLeft + subMenuEl.offsetLeft - parseInt(paddingLeft);
+		const maxWidth = main.clientWidth - separatorMargin - parseInt(menuWrapperPaddingLeft) - parseInt(mainPaddingLeft);
+
+		setSubMenuStyles({ marginLeft: `${subMenuEl.offsetLeft}px`, maxWidth: `${maxWidth}px` });
+		setSeparatorMargin(separatorMargin);
+	}, [subMenu, width, height]);
 
 	useEffect(() => {
 		// Toggle dark/light logo on scroll after fold
@@ -145,6 +121,33 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		}
 	}, [isTransitioning, isExiting]);
 
+	/*
+	useEffect(() => {
+		// Set Background image on route start change
+		//setIsHoveringMenuItem(false);
+		//setSubMenu(null);
+
+		
+		const handleRouteChange = (url, { shallow }) => {
+			const subs = [];
+			menu.filter(({ sub }) => sub).forEach(({ sub }) => subs.push.apply(subs, sub));
+
+			const next =
+				subs.filter(({ slug }) => `/${slug}` === url)[0] ||
+				menu.filter(({ path }) => path === url)[0] ||
+				menu.filter(({ path }) => path === url)[0];
+
+			if (next) setBackgroundColor(next.color);
+		};
+		
+		return () => {
+			setIsHoveringMenuItem(false);
+			setSubMenu(null);
+		};
+	}, [pathname]);
+
+	*/
+
 	const navItems = menu.filter(({ __typename }) => __typename !== 'StartRecord');
 
 	const showSeparator =
@@ -153,7 +156,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 	const menuWrapperStyles = cn(
 		s.menuWrapper,
 		darkTheme && !subMenu ? s.dark : s.light,
-		subMenu && showMenu && subMenuMargin > 0 && s.open,
+		subMenu && showMenu && subMenuStyles?.marginLeft && s.open,
 		(!showMenu || isExiting) && s.hide,
 		isHoveringMenuItem && s.transparent
 	);
@@ -168,7 +171,11 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 				</Link>
 			</div>
 			<div id='menu-wrapper' className={menuWrapperStyles}>
-				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu(null)}>
+				<div
+					id={'menu'}
+					className={menuStyles}
+					//onMouseLeave={() => setSubMenu(null)}
+				>
 					<ul>
 						{navItems.map((m, idx) => (
 							<li
@@ -195,7 +202,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 							</li>
 						))}
 					</ul>
-					<div className={cn(s.subMenu, subMenuMargin > 0 && s.show)}>
+					<div className={cn(s.subMenu, subMenuStyles?.marginLeft && s.show)}>
 						{navItems.map(
 							(item, i) =>
 								item.sub && (
@@ -203,55 +210,57 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 										key={`submenu-${i}`}
 										id={`sub-${item.__typename}`}
 										className={cn(subMenu?.__typename === item.__typename && s.open)}
-										style={{ marginLeft: `${subMenuMargin}px` }}
+										style={subMenuStyles}
 									>
 										{item.sub?.map((sub, idx) => (
-											<React.Fragment key={idx}>
-												<Link
-													key={`sub-${idx}`}
-													href={sub.href}
-													color={sub.color}
-													selected={sub.selected}
-													image={item.image}
-												>
-													<li
+											<li key={`sub-${idx}`} className={cn(sub.__typename === 'AboutRecord' && s.about)}>
+												{item.__typename !== 'AboutRecord' ? (
+													<Link
+														href={sub.href}
+														color={sub.color}
+														selected={selected?.id === sub.id}
+														image={item.image}
 														onMouseEnter={() => handleMouseOver(sub, true)}
 														onMouseLeave={() => handleMouseOver(sub, false)}
-														data-type={sub.__typename}
 													>
-														{item.__typename === 'ArtistRecord' || item.__typename === 'AboutRecord' ? (
-															<span>{sub.title}</span>
-														) : (
+														{sub.period && <h3>{sub.period}</h3>}
+														{sub.text && (
 															<>
-																<h3>{sub.period}</h3>
 																{sub.text}
 																<br />
-																<i>{sub.title}</i>
+															</>
+														)}
+														{item.__typename === 'ArtistRecord' ? <span>{sub.title}</span> : <i>{sub.title}</i>}
+														{sub.date && (
+															<>
 																<br />
 																{sub.date}
 															</>
 														)}
-													</li>
-												</Link>
-												{item.__typename === 'AboutRecord' && (
-													<li className={s.contact}>
+													</Link>
+												) : (
+													<>
+														<Link
+															href={sub.href}
+															color={sub.color}
+															selected={selected?.id === sub.id}
+															image={item.image}
+															onMouseEnter={() => handleMouseOver(sub, true)}
+															onMouseLeave={() => handleMouseOver(sub, false)}
+														>
+															{sub.title}
+														</Link>
 														<h3>Contact</h3>
-														Linnégatan 19
-														<p>Stockholm</p>
-														<p className={s.narrowHide}>{sub.title}</p>
-														<p className={s.narrowHide}>
-															<a href={sub.href} target='new'>
-																Google Maps ↗
-															</a>
-														</p>
-													</li>
+														<Markdown className={s.text} content={sub.text} />
+													</>
 												)}
-											</React.Fragment>
+											</li>
 										))}
-
 										{item.more && item.more.length > 0 && (
 											<li className={s.more}>
-												<div
+												<button
+													role='switch'
+													aria-checked={showMore[item.more?.[0].__typename as keyof typeof showMore] ? 'true' : 'false'}
 													onClick={() =>
 														setShowMore((prev) => {
 															const t = item.more?.[0].__typename as keyof typeof showMore;
@@ -263,28 +272,29 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 													}
 												>
 													<h3>
-														More <div className={cn(s.arrow, showMore[item.more[0].__typename] && s.opened)}>›</div>
+														More <span className={cn(s.arrow, showMore[item.more[0].__typename] && s.opened)}>›</span>
 													</h3>
-												</div>
+												</button>
 												{showMore[item.more[0].__typename] &&
-													item.more.map(({ href, color, title, period, selected, text, date }, idx) => (
+													item.more.map((more, idx) => (
 														<Link
 															key={`more-${idx}`}
-															href={href}
-															color={color}
-															selected={selected}
+															href={more.href}
+															color={more.color}
+															selected={selected?.id === more.id}
 															image={image}
-															//onMouseEnter={() => handleMouseOver(sub, true)}
-															//onMouseLeave={() => handleMouseOver(sub, false)}
+															onMouseEnter={() => handleMouseOver(more, true)}
+															onMouseLeave={() => handleMouseOver(more, false)}
 														>
-															<div>
-																<h3>{period}</h3>
-																{text}
-																<br />
-																<i>{title}</i>
-																<br />
-																{date}
-															</div>
+															{more.text && (
+																<>
+																	{more.text}
+																	<br />
+																</>
+															)}
+															<i>{more.title}</i>
+															<br />
+															{more.date}
 														</Link>
 													))}
 											</li>

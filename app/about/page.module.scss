@@ -63,10 +63,17 @@ $grid-space-small: 1.2rem;
 				h4 {
 					padding-top: 0.5rem;
 				}
-				span {
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
+
+				h1 {
+					.arrow {
+						opacity: 0;
+						margin-left: 0.2em;
+					}
+					&:hover {
+						.arrow {
+							opacity: 1;
+						}
+					}
 				}
 				.image {
 					aspect-ratio: 4 / 3;

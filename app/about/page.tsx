@@ -16,7 +16,7 @@ export default async function About() {
 	if (!about) return notFound();
 
 	const { allExternalLinks } = await apiQuery(AllExternalLinksDocument, { all: true });
-	const { description, address, hours, phone, email, googleMapsUrl, image } = about || {};
+	const { description, address, hours, phoneNumbers, email, googleMapsUrl, image } = about || {};
 
 	return (
 		<>
@@ -35,7 +35,7 @@ export default async function About() {
 						)}
 						<br />
 						<br />
-						Phone: {phone}
+						Phone: {phoneNumbers.map(({ number, kind }) => `${number}`).join(' and ')}
 						<br />
 						<br />
 						Opening hours:
@@ -65,24 +65,28 @@ export default async function About() {
 					<h2>Archive</h2>
 					<ul>
 						{allExternalLinks?.map(({ title, url, image, _createdAt }, idx) => (
-							<a key={idx} href={url} target='new'>
+							<Link key={idx} href={url} target='new'>
 								<li>
 									{image.responsiveImage && (
 										<Image data={image.responsiveImage} className={s.image} intersectionMargin='0px 0px 100% 0px' />
 									)}
 									<h4>{format(new Date(_createdAt), 'dd.MM.yy')}</h4>
-									<h1>{title} ↗</h1>
+									<h1>
+										{title}
+										<span className={s.arrow}>↗</span>
+									</h1>
 								</li>
-							</a>
+							</Link>
 						))}
 					</ul>
 				</section>
 				<section className={s.colophon}>
 					<div className={s.text}>
 						<span>
-							Copyright ©2022 Saskia Neuman Gallery · <Link href={'/about/privacy'}>Privacy Policy</Link>
+							Copyright ©{new Date().getFullYear()} Saskia Neuman Gallery ·{' '}
+							<Link href={'/about/privacy'}>Privacy Policy</Link>
 						</span>
-						<a href='http://www.konst-teknik.se/' target='new'>
+						<a href='http://www.konst-teknik.se' target='new'>
 							Designed and developed by Konst & Teknik
 						</a>
 					</div>

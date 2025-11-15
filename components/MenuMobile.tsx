@@ -6,9 +6,10 @@ import cn from 'classnames';
 import { useStore, useShallow } from '@/lib/store';
 import { use, useEffect, useState } from 'react';
 import { Twirl as Hamburger } from 'hamburger-react';
-import { MenuItem } from '@/lib/menu';
+import { findtMenuItem, MenuItem } from '@/lib/menu';
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { Markdown } from 'next-dato-utils/components';
 
 export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: any }) {
 	const pathname = usePathname();
@@ -18,6 +19,8 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 	const imageTheme = image?.customData.theme || 'light';
 	const [darkTheme, setDarkTheme] = useState(false);
 	const [subMenu, setSubMenu] = useState<MenuItem | null>(null);
+	const [showMore, setShowMore] = useState({ ExhibitionRecord: false, HappeningRecord: false });
+	const selected = findtMenuItem(menu, pathname);
 	const navItems = menu.filter(({ __typename }) => __typename !== 'StartRecord');
 
 	useEffect(() => {
@@ -44,91 +47,97 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 			<div className={cn(s.wrapper, showMobileMenu && s.open)}>
 				<nav className={s.menu}>
 					<ul>
-						{navItems.map((m, idx) => (
-							<li id={`menu-${m.__typename}`} key={`menu-${idx}`}>
-								<div onClick={() => setSubMenu(subMenu?.__typename === m.__typename ? null : m)}>
-									<span>{m.label}</span>
-									<span className={cn(s.arrow, subMenu?.__typename === m.__typename && s.open)}>›</span>
+						{navItems.map((item, idx) => (
+							<li id={`menu-${item.__typename}`} key={`menu-${idx}`}>
+								<div onClick={() => setSubMenu(subMenu?.__typename === item.__typename ? null : item)}>
+									<span>{item.label}</span>
+									<span className={cn(s.arrow, subMenu?.__typename === item.__typename && s.open)}>›</span>
 								</div>
-								{m.sub && (
+								{item.sub && (
 									<ul
-										id={`sub-mobile-${m.__typename}`}
+										id={`sub-mobile-${item.__typename}`}
 										key={`submenu-${idx}`}
-										className={cn(s.sub, subMenu?.__typename === m.__typename && s.open)}
+										className={cn(s.sub, subMenu?.__typename === item.__typename && s.open)}
 									>
-										{m.sub?.map(({ color, href, selected, title, text, date, period, __typename }, idx) => (
-											<React.Fragment key={idx}>
-												<Link key={`sub-${idx}`} href={href} color={color} selected={selected} image={image}>
-													<li data-type={__typename}>
-														{m.__typename === 'ArtistRecord' || m.__typename === 'AboutRecord' ? (
-															<span>{title}</span>
-														) : (
+										{item.sub?.map((sub, idx) => (
+											<li key={`sub-${idx}`} className={cn(sub.__typename === 'AboutRecord' && s.about)}>
+												{item.__typename !== 'AboutRecord' ? (
+													<Link href={sub.href} color={sub.color} selected={selected?.id === sub.id} image={item.image}>
+														{sub.period && <h3>{sub.period}</h3>}
+														{sub.text && (
 															<>
-																<h3>{period}</h3>
-																{text}
-
-																<i>{title}</i>
+																{sub.text}
 																<br />
-																{date}
 															</>
 														)}
-													</li>
-												</Link>
-												{__typename === 'AboutRecord' && (
-													<li className={s.contact}>
+														{item.__typename === 'ArtistRecord' ? <span>{sub.title}</span> : <i>{sub.title}</i>}
+														{sub.date && (
+															<>
+																<br />
+																{sub.date}
+															</>
+														)}
+													</Link>
+												) : (
+													<>
+														<Link
+															href={sub.href}
+															color={sub.color}
+															selected={selected?.id === sub.id}
+															image={item.image}
+														>
+															{sub.title}
+														</Link>
 														<h3>Contact</h3>
-														Linnégatan 19
-														<p>Stockholm</p>
-														<p className={s.narrowHide}>{title}</p>
-														<p className={s.narrowHide}>
-															<a href={href} target='new'>
-																Google Maps ↗
-															</a>
-														</p>
-													</li>
+														<Markdown className={s.text} content={sub.text} />
+													</>
 												)}
-											</React.Fragment>
+											</li>
 										))}
-										{/*m.more && m.more.length > 0 && (
-												<li className={s.more}>
-													<div
-														onClick={() =>
-															setShowMore((prev) => {
-																const t = item.more?.[0].__typename as keyof typeof showMore;
-																return {
-																	...prev,
-																	[t]: !showMore[t],
-																};
-															})
-														}
-													>
-														<h3>
-															More <div className={cn(s.arrow, showMore[item.more[0].__typename] && s.opened)}>›</div>
-														</h3>
-													</div>
+										{item.more && item.more.length > 0 && (
+											<li className={s.more}>
+												<button
+													role='switch'
+													aria-checked={showMore[item.more?.[0].__typename as keyof typeof showMore] ? 'true' : 'false'}
+													onClick={() =>
+														setShowMore((prev) => {
+															const t = item.more?.[0].__typename as keyof typeof showMore;
+															return {
+																...prev,
+																[t]: !showMore[t],
+															};
+														})
+													}
+												>
+													<h3>
+														More <span className={cn(s.arrow, showMore[item.more[0].__typename] && s.opened)}>›</span>
+													</h3>
+												</button>
+												<ul>
 													{showMore[item.more[0].__typename] &&
-														item.more.map(({ href, color, title, period, selected, text, date }, idx) => (
-															<Link
-																key={`more-${idx}`}
-																href={href}
-																color={color}
-																selected={selected}
-																image={image}
-																//onMouseEnter={() => handleMouseOver(sub, true)}
-																//onMouseLeave={() => handleMouseOver(sub, false)}
-															>
-																<p>
-																	<h3>{period}</h3>
-																	{text}
+														item.more.map((more, idx) => (
+															<li key={`more-${idx}`}>
+																<Link
+																	href={more.href}
+																	color={more.color}
+																	selected={selected?.id === more.id}
+																	image={image}
+																>
+																	{more.text && (
+																		<>
+																			{more.text}
+																			<br />
+																		</>
+																	)}
+																	<i>{more.title}</i>
 																	<br />
-																	<i>{title}</i>
-																	<br />
-																	{date}
-																</p>
-															</Link>
+																	{more.date}
+																</Link>
+															</li>
 														))}
-												</li>
-											)*/}
+												</ul>
+											</li>
+										)}
 									</ul>
 								)}
 							</li>

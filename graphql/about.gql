@@ -18,6 +18,12 @@ fragment AboutFragment on AboutRecord {
 	hours
 	email
 	phone
+	phoneNumbers {
+		... on PhoneNumberRecord {
+			number
+			kind
+		}
+	}
 	googleMapsUrl
 	image {
 		...ImageFragment
@@ -30,4 +36,13 @@ fragment AboutFragmentLight on AboutRecord {
 	image {
 		...ImageFragmentLight
 	}
+	address(markdown: false)
+	email
+	phoneNumbers {
+		... on PhoneNumberRecord {
+			number
+			kind
+		}
+	}
+	googleMapsUrl
 }

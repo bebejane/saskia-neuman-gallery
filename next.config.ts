@@ -12,10 +12,11 @@ const nextConfig: NextConfig = {
 	typescript: {
 		ignoreBuildErrors: true,
 	},
-	eslint: {
-		ignoreDuringBuilds: true,
+	experimental: {
+		turbopackFileSystemCacheForDev: true,
+		//inlineCss: true,
 	},
-	//reactStrictMode: true,
+	devIndicators: false,
 	webpack: (config) => {
 		config.module.exprContextCritical = false;
 		config.resolve.alias['datocms.config'] = path.join(__dirname, 'datocms.config.ts');
@@ -31,6 +32,7 @@ const nextConfig: NextConfig = {
 			fullUrl: true,
 		},
 	},
+
 	async headers() {
 		return [
 			{
