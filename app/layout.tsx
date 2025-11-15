@@ -9,6 +9,8 @@ import Footer from '@/components/Footer';
 import PageTransition from '@/components/PageTransition';
 import MenuMobile from '@/components/MenuMobile';
 
+export const dynamic = 'force-static';
+
 export default async function RootArticle({ children, modals }: LayoutProps<'/'>) {
 	const menu = await buildMenu();
 
