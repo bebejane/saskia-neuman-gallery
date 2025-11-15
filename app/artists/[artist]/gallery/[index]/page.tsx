@@ -11,12 +11,14 @@ export default async function ArtistGalleryPage({ params }: PageProps<'/artists/
 	return <Gallery images={artist.artwork as FileField[]} index={parseInt(index)} backHref={`/artists/${slug}`} />;
 }
 
+/*
 export async function generateStaticParams() {
 	const { allArtists } = await apiQuery(AllArtistsDocument, { all: true });
 	return allArtists
 		.map(({ slug: artist, artwork }) => artwork.map((_, index) => ({ artist, index: String(index) })))
 		.flat();
 }
+*/
 
 export async function generateMetadata({ params }: PageProps<'/artists/[artist]/gallery/[index]'>): Promise<Metadata> {
 	const { artist: slug, index } = await params;

@@ -14,13 +14,14 @@ export default async function ExhibitionGalleryPage({
 		<Gallery images={exhibition.artwork as FileField[]} index={parseInt(index)} backHref={`/exhibitions/${slug}`} />
 	);
 }
+/*
 export async function generateStaticParams() {
 	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
 	return allExhibitions
 		.map(({ slug: exhibition, artwork }) => artwork.map((_, index) => ({ exhibition, index: String(index) })))
 		.flat();
 }
-
+*/
 export async function generateMetadata({
 	params,
 }: PageProps<'/exhibitions/[exhibition]/gallery/[index]'>): Promise<Metadata> {

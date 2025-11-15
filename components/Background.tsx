@@ -35,6 +35,10 @@ export default function Background({ image, color, href, fullHeight }: Backgroun
 	*/
 
 	useEffect(() => {
+		setBackgroundImage(image ?? null);
+	}, [image]);
+
+	useEffect(() => {
 		const routeChangeStart = () => setIsRouting(true);
 		const routeChangeComplete = () => setTimeout(() => setIsRouting(false), 1000);
 		//setBackgroundImage(null);

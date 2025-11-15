@@ -147,8 +147,6 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 
 	*/
 
-	const navItems = menu.filter(({ __typename }) => __typename !== 'StartRecord');
-
 	const showSeparator =
 		subMenu && showMenu && menu.filter(({ sub, __typename }) => __typename === subMenu?.__typename).length;
 	const navbarStyles = cn(s.navbar, !showMenu && s.hide, darkTheme && !subMenu && s.dark);
@@ -160,7 +158,7 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 		isHoveringMenuItem && s.transparent
 	);
 
-	const menuStyles = cn(s.menu, menuBackground && !isTransitioning && !isHoveringMenuItem && s.opaque);
+	const navItems = menu.filter(({ __typename }) => __typename !== 'StartRecord');
 
 	return (
 		<>
@@ -170,7 +168,15 @@ export default function Menu({ menu, image }: { menu: MenuItem[]; image: any }) 
 				</Link>
 			</div>
 			<div id='menu-wrapper' className={menuWrapperStyles}>
-				<div id={'menu'} className={menuStyles} onMouseLeave={() => setSubMenu(null)}>
+				<div
+					id={'menu'}
+					onMouseLeave={() => setSubMenu(null)}
+					className={cn(
+						s.menu,
+						menuBackground && !isTransitioning && !isHoveringMenuItem && s.opaque,
+						subMenu && s.open
+					)}
+				>
 					<ul>
 						{navItems.map((m, idx) => (
 							<li

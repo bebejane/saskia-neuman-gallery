@@ -12,6 +12,7 @@ export default async function ExhibitionGalleryPage({ params }: PageProps<'/happ
 		<Gallery images={happening.gallery as FileField[]} index={parseInt(index) ?? 1} backHref={`/happenings/${slug}`} />
 	);
 }
+/*
 
 export async function generateStaticParams() {
 	const { allHappenings } = await apiQuery(AllHappeningsDocument, { all: true });
@@ -19,6 +20,8 @@ export async function generateStaticParams() {
 		.map(({ slug: happening, gallery }) => gallery.map((_, index) => ({ happening, index: String(index) })))
 		.flat();
 }
+
+*/
 
 export async function generateMetadata({
 	params,

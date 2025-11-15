@@ -47,12 +47,17 @@ export default function PageTransition() {
 	}, [isHome, backgroundImage, color, transition]);
 
 	function handleIntroStart() {
-		logoRef.current?.classList.add(s.hide);
-		setBackgroundImage(null);
+		setTimeout(
+			() => {
+				setBackgroundImage(null);
+				logoRef.current?.classList.add(s.hide);
+			},
+			duration / 2 + 300
+		);
 	}
 
 	const handleAnimationEvent = async (type: 'start' | 'end') => {
-		if (type === 'start' && isHome && !prevPathname) setTimeout(handleIntroStart, duration + 1000 / 2);
+		if (type === 'start' && isHome && !prevPathname) handleIntroStart();
 		else if (type === 'end') {
 			window.scrollTo({ top: 0, behavior: 'instant' }); // Scroll top efter exit animation
 			transition === 'exit' && setTransition('enter');
@@ -88,7 +93,7 @@ export default function PageTransition() {
 					<h1>SASKIA NEUMAN GALLERY</h1>
 				</div>
 			</div>
-			<div id='white-background' className={s.white} ref={whiteBackgroundRef} />
+			{/*<div id='white-background' className={s.white} ref={whiteBackgroundRef} /> */}
 		</div>
 	);
 }

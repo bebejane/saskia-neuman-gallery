@@ -71,9 +71,11 @@
 		* {
 			color: var(--white);
 		}
+
 		.separator {
 			border-color: var(--white) !important;
 		}
+
 		&.open {
 			@include mq($until: desktop) {
 				.menu {
@@ -117,10 +119,15 @@
 		padding: 10px;
 		margin-top: -10px;
 
+		&.open {
+			height: calc(100vh - var(--navbar-height));
+		}
+
 		@include mq($from: tablet) {
 			margin: -10px;
 			margin-right: 10px;
 		}
+
 		&.opaque {
 			background-color: var(--white);
 			* {

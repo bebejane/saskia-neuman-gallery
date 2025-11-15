@@ -72,6 +72,16 @@
 		}
 	}
 
+	.introBackground {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		top: 0;
+		left: 0;
+		object-fit: cover;
+		z-index: calc(var(--z-page-transition) -1);
+	}
+
 	.white {
 		position: fixed;
 		width: 100vw;
@@ -90,7 +100,7 @@
 
 	&.intro {
 		animation: intro var(--duration) var(--easing) forwards;
-		animation-delay: 1000ms;
+		animation-delay: 1500ms;
 		height: 100vh;
 		top: unset;
 		bottom: 0%;
