@@ -33,18 +33,26 @@ const Link: FC<LinkProperties> = ({
 	const pathname = usePathname();
 	const [hover, setHover] = useState(false);
 	const [setBackgroundColor, setIsExiting, setTransition, transition] = useStore(
-		useShallow((state) => [state.setBackgroundColor, state.setIsExiting, state.setTransition, state.transition])
+		useShallow((state) => [
+			state.setBackgroundColor,
+			state.setIsExiting,
+			state.setTransition,
+			state.transition,
+		])
 	);
 	const linkRef = useRef<HTMLAnchorElement | null>(null);
 	//@ts-ignore
-	const isWhite = color?.reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0) >= 255 * 3 * 0.97;
+	const white = color?.reduce((prev, curr) => parseInt(prev) + parseInt(curr), 0) >= 255 * 3 * 0.97;
 	const linkStyle =
 		color && (hover || selected)
-			? { color: isWhite ? 'rgb(0,0,0)' : `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' }
+			? { color: white ? 'rgb(0,0,0)' : `rgb(${color.join(',')})`, textShadow: '0 0 5px #fff05' }
 			: {};
 
-	async function handleClick(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+	async function handleClick(
+		e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.TouchEvent<HTMLAnchorElement>
+	) {
 		if (pathname === href) return;
+
 		e.preventDefault();
 		e.stopPropagation();
 		color && setBackgroundColor(color);
@@ -80,6 +88,7 @@ const Link: FC<LinkProperties> = ({
 			target={target}
 			onMouseEnter={handleMouse}
 			onMouseLeave={handleMouse}
+			onTouchEnd={handleClick}
 			onClick={handleClick}
 			suppressHydrationWarning={true}
 			className={className}

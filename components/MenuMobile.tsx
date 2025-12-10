@@ -24,8 +24,8 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 	const navItems = menu.filter(({ __typename }) => __typename !== 'StartRecord');
 
 	useEffect(() => {
-		setShowMobileMenu(transition === 'exit' || false);
-	}, [transition, pathname]);
+		setShowMobileMenu(false);
+	}, [pathname]);
 
 	return (
 		<>
