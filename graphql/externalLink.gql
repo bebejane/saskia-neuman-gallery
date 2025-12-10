@@ -1,0 +1,30 @@
+query AllExternalLinks($first: IntType = 100, $skip: IntType = 0) {
+	allExternalLinks(orderBy: _createdAt_ASC, first: $first, skip: $skip) {
+		...ExternalLinkFragment
+	}
+	_allExternalLinksMeta {
+		count
+	}
+}
+
+fragment ExternalLinkFragment on ExternalLinkRecord {
+	__typename
+	_createdAt
+	id
+	title
+	url
+	image {
+		...ImageThumbnailFragment
+	}
+}
+
+fragment ExternalLinkFragmentLight on ExternalLinkRecord {
+	__typename
+	_createdAt
+	id
+	title
+	url
+	image {
+		...ImageFragmentLight
+	}
+}

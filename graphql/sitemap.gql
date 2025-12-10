@@ -1,0 +1,34 @@
+query Sitemap($first: IntType = 100, $skip: IntType = 0) {
+	allArtists(first: $first, skip: $skip) {
+		_updatedAt
+		id
+		slug
+	}
+	_allArtistsMeta {
+		count
+	}
+	allHappenings(first: $first, skip: $skip) {
+		_updatedAt
+		id
+		slug
+	}
+	_allHappeningsMeta {
+		count
+	}
+	allExhibitions(first: $first, skip: $skip) {
+		_updatedAt
+		id
+		slug
+	}
+	_allExhibitionsMeta {
+		count
+	}
+	allFairs(first: $first, skip: $skip) {
+		_updatedAt
+		id
+		slug
+	}
+	_allFairsMeta {
+		count
+	}
+}

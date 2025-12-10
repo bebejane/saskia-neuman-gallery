@@ -1,0 +1,20 @@
+query Start {
+	start {
+		__typename
+		id
+		links {
+			... on HappeningRecord {
+				...HappeningFragmentLight
+				_modelApiKey
+			}
+			... on ExhibitionRecord {
+				...ExhibitionFragmentLight
+				_modelApiKey
+			}
+			... on ExternalLinkRecord {
+				...ExternalLinkFragment
+				_modelApiKey
+			}
+		}
+	}
+}

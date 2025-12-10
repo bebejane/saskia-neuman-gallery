@@ -1,41 +1,42 @@
 .footer {
-  @include mq($from: tablet) {
-    position: absolute;
-    bottom: 0;
-  }
-  z-index: 3;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex: 1 1 100%;
-  text-overflow: hidden;
-  width: 100%;
+	@include mq($from: tablet) {
+		position: absolute;
+		bottom: 0;
+	}
+	z-index: 3;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex: 1 1 100%;
+	text-overflow: hidden;
+	width: 100%;
+	background-color: var(--white);
 
-  .wrapper {
-    padding-left: var(--margin-left);
-    padding-right: var(--margin-right);
-    width: 100%;
-    display: flex;
-  }
+	.wrapper {
+		padding-left: var(--margin-left);
+		padding-right: var(--margin-right);
+		width: 100%;
+		display: flex;
+	}
 
-  header {
-    border-top: 1px solid #000;
-  }
+	header {
+		border-top: 1px solid #000;
+	}
 
-  .next,
-  .label {
-    flex: 0 0 50%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .next {
-    text-transform: uppercase;
-  }
-  a,
-  b {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+	.next,
+	.label {
+		flex: 0 0 50%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.next {
+		text-transform: uppercase;
+	}
+	a,
+	b {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }

@@ -1,12 +1,10 @@
 package-lock.json
 yarn.lock
-.env
-.env.local
+.env*
 /node_modules
 /.next
 /.vscode
 **/.DS_Store
 TODO
 .swc
-/public/sitemap*
-/public/robot.txt
+/_old

@@ -1,0 +1,49 @@
+query Menu {
+	start {
+		links {
+			__typename
+			... on HappeningRecord {
+				...HappeningFragmentLight
+				_modelApiKey
+			}
+			... on ExhibitionRecord {
+				...ExhibitionFragmentLight
+				_modelApiKey
+			}
+			... on ExternalLinkRecord {
+				...ExternalLinkFragment
+				_modelApiKey
+			}
+		}
+	}
+	allArtists(orderBy: [lastName_ASC], filter: { hidden: { eq: false } }, first: 500, skip: 0) {
+		...ArtistFragmentLight
+	}
+	_allArtistsMeta {
+		count
+	}
+	allExhibitions(orderBy: [startDate_DESC], first: 500, skip: 0) {
+		...ExhibitionFragmentLight
+	}
+	_allExhibitionsMeta {
+		count
+	}
+	allFairs(orderBy: [startDate_DESC], first: 500, skip: 0) {
+		...FairFragmentLight
+	}
+	_allFairsMeta {
+		count
+	}
+	allHappenings(orderBy: [startDate_DESC], first: 500, skip: 0) {
+		...HappeningFragmentLight
+	}
+	_allHappeningsMeta {
+		count
+	}
+	about {
+		...AboutFragmentLight
+	}
+	_site {
+		...SiteFragment
+	}
+}

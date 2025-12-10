@@ -1,7 +1,0 @@
-#import "./fragments/SiteFragment.graphql"
-
-query GetSiteSEO {
-	site: _site {
-		...SiteFragment
-	}
-}

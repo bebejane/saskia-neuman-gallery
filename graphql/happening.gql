@@ -1,0 +1,47 @@
+query AllHappenings($first: IntType = 100, $skip: IntType = 0) {
+	allHappenings(first: $first, skip: $skip, orderBy: [startDate_ASC]) {
+		...HappeningFragmentLight
+	}
+	_allHappeningsMeta {
+		count
+	}
+}
+query Happening($slug: String!) {
+	happening(filter: { slug: { eq: $slug } }) {
+		...HappeningFragment
+	}
+}
+
+fragment HappeningFragment on HappeningRecord {
+	__typename
+	id
+	title
+	description(markdown: false)
+	startDate
+	endDate
+	slug
+	image {
+		...ImageFragment
+	}
+	gallery {
+		...ImageFragment
+	}
+	galleryThumbnails: gallery {
+		...ImageThumbnailFragment
+	}
+}
+
+fragment HappeningFragmentLight on HappeningRecord {
+	__typename
+	id
+	title
+	startDate
+	endDate
+	slug
+	image {
+		...ImageFragmentLight
+	}
+	gallery {
+		id
+	}
+}

@@ -1,16 +1,16 @@
 .bar {
-  display: flex;
-  align-items: center;
-  height: $header-bar-height;
-  &.mobileHide {
-    @include mq($until: tablet) {
-      display: none;
-    }
-  }
-  a div,
-  a span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+	display: flex;
+	align-items: center;
+	height: var(--header-bar-height);
+	&.mobileHide {
+		@include mq($until: tablet) {
+			display: none;
+		}
+	}
+	a div,
+	a span {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }

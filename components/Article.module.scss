@@ -1,0 +1,64 @@
+.main {
+	padding-bottom: 1rem;
+	padding-left: var(--margin-left);
+	padding-right: var(--margin-right);
+	background: var(--white);
+
+	@include mq($from: tablet) {
+		display: flex;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		margin-top: calc(-1 * var(--header-bar-height));
+		padding-bottom: 7rem;
+	}
+
+	&.noMargin {
+		padding-bottom: 0;
+
+		@include mq($from: tablet) {
+			padding-bottom: 0rem !important;
+			margin-top: 0;
+		}
+	}
+}
+
+.meta {
+	position: relative;
+	@include mq($until: tablet) {
+		padding-bottom: 1em;
+	}
+
+	@include mq($from: tablet) {
+		position: relative;
+		padding-right: 2rem;
+
+		width: 50%;
+		&.sticky {
+			top: 3rem;
+			position: sticky;
+		}
+	}
+
+	p:first-of-type {
+		margin-top: -0.2em;
+	}
+
+	p:last-of-type {
+		margin-bottom: 0;
+	}
+
+	&.border {
+		@include mq($until: tablet) {
+			border-bottom: 1px solid var(--black);
+		}
+	}
+}
+
+.content {
+	@include mq($from: tablet) {
+		width: 50%;
+	}
+	p:first-of-type {
+		margin-top: -0.2em;
+	}
+}

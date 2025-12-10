@@ -1,0 +1,94 @@
+query AllArtists($first: IntType = 100, $skip: IntType = 0) {
+	allArtists(
+		first: $first
+		skip: $skip
+		orderBy: [lastName_ASC]
+		filter: { hidden: { eq: false } }
+	) {
+		...ArtistFragment
+	}
+	_allArtistsMeta(filter: { hidden: { eq: false } }) {
+		count
+	}
+}
+query Artist($slug: String!) {
+	artist(filter: { slug: { eq: $slug } }) {
+		...ArtistFragment
+	}
+}
+
+fragment ArtistFragment on ArtistRecord {
+	__typename
+	id
+	firstName
+	lastName
+	biography(markdown: false)
+	exhibiting
+	image {
+		...ImageFragment
+	}
+	artwork {
+		...ImageFragment
+	}
+	artworkThumbnails: artwork {
+		...ImageThumbnailFragment
+	}
+	slug
+	soloExhibitions {
+		additionalText
+		text
+		updatedAt
+		year
+		location
+	}
+	groupExhibitions {
+		additionalText
+		text
+		updatedAt
+		year
+		location
+	}
+	education {
+		additionalText
+		text
+		updatedAt
+		year
+		location
+	}
+	represented {
+		additionalText
+		text
+		updatedAt
+		year
+		location
+	}
+	publications {
+		additionalText
+		text
+		updatedAt
+		year
+		location
+	}
+	performances {
+		additionalText
+		text
+		updatedAt
+		year
+		location
+	}
+}
+
+fragment ArtistFragmentLight on ArtistRecord {
+	__typename
+	id
+	firstName
+	lastName
+	exhibiting
+	image {
+		...ImageFragmentLight
+	}
+	artwork {
+		id
+	}
+	slug
+}

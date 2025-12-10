@@ -1,0 +1,73 @@
+query AllFairs($first: IntType = 100, $skip: IntType = 0) {
+	allFairs(first: $first, skip: $skip, orderBy: [startDate_ASC]) {
+		...FairFragmentLight
+	}
+	_allFairsMeta {
+		count
+	}
+}
+query Fair($slug: String!) {
+	fair(filter: { slug: { eq: $slug } }) {
+		...FairFragment
+	}
+}
+query FairById($id: ItemId!) {
+	fair(filter: { id: { eq: $id } }) {
+		...FairFragment
+	}
+}
+
+fragment FairFragment on FairRecord {
+	__typename
+	id
+	title
+	description(markdown: false)
+	artists {
+		...ArtistFragment
+	}
+	image {
+		...ImageFragment
+	}
+	artwork {
+		...ImageFragment
+	}
+	artworkThumbnails: artwork {
+		...ImageThumbnailFragment
+	}
+	startDate
+	endDate
+	press {
+		...PressFragment
+	}
+	pressRelease {
+		filename
+		url
+	}
+	slug
+}
+
+fragment FairFragmentLight on FairRecord {
+	__typename
+	id
+	title
+	artists {
+		...ArtistFragmentLight
+	}
+	image {
+		...ImageFragmentLight
+	}
+	artwork {
+		id
+	}
+	startDate
+	endDate
+	slug
+}
+
+fragment PressFragment on PressRecord {
+	id
+	source
+	author
+	date
+	url
+}
