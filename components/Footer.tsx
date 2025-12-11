@@ -8,15 +8,15 @@ import { imageColor } from '@/lib/utils';
 
 type FooterProps = {
 	current?:
-		| ArtistQuery['artist']
-		| ExhibitionQuery['exhibition']
-		| HappeningQuery['happening']
-		| FairQuery['fair'];
+	| ArtistQuery['artist']
+	| ExhibitionQuery['exhibition']
+	| HappeningQuery['happening']
+	| FairQuery['fair'];
 	items?:
-		| AllArtistsQuery['allArtists']
-		| AllExhibitionsQuery['allExhibitions']
-		| AllHappeningsQuery['allHappenings']
-		| AllFairsQuery['allFairs'];
+	| AllArtistsQuery['allArtists']
+	| AllExhibitionsQuery['allExhibitions']
+	| AllHappeningsQuery['allHappenings']
+	| AllFairsQuery['allFairs'];
 };
 
 export default function Footer({ current, items }: FooterProps) {
@@ -24,7 +24,7 @@ export default function Footer({ current, items }: FooterProps) {
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
 	const t = current?.__typename;
 	const index = items?.findIndex(({ slug }) => slug === current?.slug) ?? 0;
-	const next = items?.[index + 1] ?? items?.[0];
+	const next = items?.[index + 1] ?? items?.[index - 1];
 	const label =
 		next?.__typename === 'ArtistRecord' ? `${next.firstName} ${next.lastName}` : next?.title;
 	const href =
