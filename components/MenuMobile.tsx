@@ -61,7 +61,7 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 								</div>
 								{item.sub && item.__typename === 'ArtistRecord' ? (
 									<ul className={cn(s.sub, subMenu?.__typename === item.__typename && s.open)}>
-										<h3 className={s.margin}>Representing</h3>
+										<h3 className={s.margin}>Represented</h3>
 										{item.sub
 											.filter(({ data }) => data?.exhibiting === false)
 											.map((sub, idx) => (
@@ -76,7 +76,7 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 													</Link>
 												</li>
 											))}
-										<h3 className={s.margin}>Exhibiting</h3>
+										<h3 className={s.margin}>Exhibited</h3>
 										{item.sub
 											.filter(({ data }) => data?.exhibiting === true)
 											.map((sub, idx) => (

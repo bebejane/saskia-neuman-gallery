@@ -200,7 +200,7 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 									key={i}
 								>
 									<div>
-										<h3>Representing</h3>
+										<h3>Represented</h3>
 										<ul>
 											{item.sub
 												.filter(({ data }) => data?.exhibiting === false)
@@ -221,7 +221,7 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 										</ul>
 									</div>
 									<div>
-										<h3>Exhibiting</h3>
+										<h3>Exhibited</h3>
 										<ul>
 											{item.sub
 												.filter(({ data }) => data?.exhibiting === true)
