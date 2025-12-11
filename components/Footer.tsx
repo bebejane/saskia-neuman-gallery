@@ -8,23 +8,25 @@ import { imageColor } from '@/lib/utils';
 
 type FooterProps = {
 	current?:
-	| ArtistQuery['artist']
-	| ExhibitionQuery['exhibition']
-	| HappeningQuery['happening']
-	| FairQuery['fair'];
+		| ArtistQuery['artist']
+		| ExhibitionQuery['exhibition']
+		| HappeningQuery['happening']
+		| FairQuery['fair'];
 	items?:
-	| AllArtistsQuery['allArtists']
-	| AllExhibitionsQuery['allExhibitions']
-	| AllHappeningsQuery['allHappenings']
-	| AllFairsQuery['allFairs'];
+		| AllArtistsQuery['allArtists']
+		| AllExhibitionsQuery['allExhibitions']
+		| AllHappeningsQuery['allHappenings']
+		| AllFairsQuery['allFairs'];
 };
 
 export default function Footer({ current, items }: FooterProps) {
 	if (!current || !items) return null;
 	const setBackgroundImage = useStore((state) => state.setBackgroundImage);
-	const t = current?.__typename;
-	const index = items?.findIndex(({ slug }) => slug === current?.slug) ?? 0;
-	const next = items?.[index + 1] ?? items?.[index - 1];
+
+	items = items[0]?.__typename === 'ArtistRecord' ? items : items.slice().reverse();
+
+	const index = items?.findIndex(({ slug }) => current?.slug && slug === current?.slug) ?? 0;
+	const next = items?.[index + 1] ?? items?.[0];
 	const label =
 		next?.__typename === 'ArtistRecord' ? `${next.firstName} ${next.lastName}` : next?.title;
 	const href =
@@ -36,15 +38,7 @@ export default function Footer({ current, items }: FooterProps) {
 					? `/fairs/${next?.slug}`
 					: `/exhibitions/${next?.slug}`;
 
-	const type =
-		t === 'ArtistRecord'
-			? 'artist'
-			: t === 'ExhibitionRecord'
-				? 'exhibition'
-				: t === 'FairRecord'
-					? 'fair'
-					: 'happening';
-
+	const type = current?.__typename.replace('Record', '');
 	const image = (next?.image as FileField) ?? null;
 
 	return (
