@@ -204,6 +204,7 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 										<ul>
 											{item.sub
 												.filter(({ data }) => data?.exhibiting === false)
+												.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'sv'))
 												.map((sub, idx) => (
 													<li key={`sub-${idx}`} className={cn()}>
 														<Link
@@ -225,6 +226,7 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 										<ul>
 											{item.sub
 												.filter(({ data }) => data?.exhibiting === true)
+												.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'sv'))
 												.map((sub, idx) => (
 													<li key={`sub-${idx}`} className={cn()}>
 														<Link
