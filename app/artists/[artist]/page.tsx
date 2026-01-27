@@ -1,6 +1,6 @@
 import s from './page.module.scss';
 import { imageColor } from '@/lib/utils';
-import { AllArtistsDocument, AllExhibitionsDocument, ArtistDocument } from '@/graphql';
+import { AllArtistsDocument, AllExhibitionsDocument, AllFairsDocument, ArtistDocument } from '@/graphql';
 import { Image } from 'react-datocms';
 import { Markdown } from 'next-dato-utils/components';
 import Link from '@/components/Link';
@@ -20,6 +20,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 	const { artist, draftUrl } = await apiQuery(ArtistDocument, { variables: { slug } });
 	const { allArtists } = await apiQuery(AllArtistsDocument, { all: true });
 	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
+	const { allFairs } = await apiQuery(AllFairsDocument, { all: true });
 
 	if (!artist) return notFound();
 
@@ -38,6 +39,7 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 	} = artist;
 
 	const exhibitions = allExhibitions?.filter(({ artists }) => artists.some((a) => a.id === artist.id));
+	const fairs = allFairs?.filter(({ artists }) => artists.some((a) => a.id === artist.id));
 
 	const showBiography = false;
 	const haveExtendedBiography =
@@ -73,6 +75,33 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 								<Link
 									key={`exhibition-${idx}`}
 									href={`/exhibitions/${slug}`}
+									color={imageColor(image as FileField)}
+									image={image as FileField}
+									className={s.exhibition}
+								>
+									<figure>
+										{image?.responsiveImage && (
+											<Image className={s.image} data={image.responsiveImage} intersectionMargin='0px 0px 200% 0px' />
+										)}
+									</figure>
+									<p>
+										<b>
+											<i>{title}</i>
+											<br />
+											{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
+										</b>
+									</p>
+								</Link>
+							))}
+						</>
+					)}
+					{fairs.length > 0 && (
+						<>
+							<h2>FAIRS</h2>
+							{fairs.map(({ title, image, startDate, endDate, slug }, idx) => (
+								<Link
+									key={`fair-${idx}`}
+									href={`/fairs/${slug}`}
 									color={imageColor(image as FileField)}
 									image={image as FileField}
 									className={s.exhibition}
