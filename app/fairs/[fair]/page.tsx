@@ -61,7 +61,12 @@ export default async function Fair({ params }: PageProps<'/fairs/[fair]'>) {
 							<i>{title}</i>
 						</h1>
 					</HeaderBar>
-					{description && <Markdown content={description} />}
+					{description && (
+						<div data-datocms-content-link-group>
+							<Markdown content={description} />
+						</div>
+					)}
+
 					{artwork.length > 0 && (
 						<section className={s.artworks}>
 							<h2>ARTWORK</h2>

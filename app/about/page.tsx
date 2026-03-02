@@ -29,7 +29,11 @@ export default async function About() {
 					</HeaderBar>
 
 					<b>
-						{address && <Markdown content={address} />}
+						{address && (
+							<div data-datocms-content-link-group>
+								<Markdown content={address} />
+							</div>
+						)}
 						{googleMapsUrl && (
 							<a href={googleMapsUrl} target='new'>
 								View in Google Maps ↗
@@ -42,7 +46,11 @@ export default async function About() {
 						<br />
 						Opening hours:
 						<br />
-						{hours && <Markdown content={hours} />}
+						{hours && (
+							<div data-datocms-content-link-group>
+								<Markdown content={hours} />
+							</div>
+						)}
 						<br />
 						<a href={`mailto:${email}`}>{email}</a>
 						<br />
@@ -60,7 +68,11 @@ export default async function About() {
 					<HeaderBar>
 						<h1>About</h1>
 					</HeaderBar>
-					{description && <Markdown content={description} />}
+					{description && (
+						<div data-datocms-content-link-group>
+							<Markdown content={description} />
+						</div>
+					)}
 				</Content>
 
 				<section className={s.archive}>

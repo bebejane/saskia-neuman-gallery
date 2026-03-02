@@ -19,12 +19,24 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 
 	if (!exhibition) return notFound();
 
-	const { title, description, startDate, endDate, artwork, artworkThumbnails, artists, press, pressRelease } =
-		exhibition;
+	const {
+		title,
+		description,
+		startDate,
+		endDate,
+		artwork,
+		artworkThumbnails,
+		artists,
+		press,
+		pressRelease,
+	} = exhibition;
 
 	return (
 		<>
-			<Article image={exhibition.image as FileField} footer={{ current: exhibition, items: allExhibitions }}>
+			<Article
+				image={exhibition.image as FileField}
+				footer={{ current: exhibition, items: allExhibitions }}
+			>
 				<Meta>
 					<HeaderBar>
 						<h3>Exhibition</h3>
@@ -52,11 +64,18 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 							<i>{title}</i>
 						</h1>
 					</HeaderBar>
-					{description && <Markdown content={description} />}
+					{description && (
+						<div data-datocms-content-link-group>
+							<Markdown content={description} />
+						</div>
+					)}
 					{artwork.length > 0 && (
 						<section className={s.artworks}>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs thumbnails={artworkThumbnails as FileField[]} base={`/exhibitions/${slug}`} />
+							<GalleryThumbs
+								thumbnails={artworkThumbnails as FileField[]}
+								base={`/exhibitions/${slug}`}
+							/>
 						</section>
 					)}
 
@@ -78,7 +97,9 @@ export async function generateStaticParams() {
 	return allExhibitions.map(({ slug: exhibition }) => ({ exhibition }));
 }
 
-export async function generateMetadata({ params }: PageProps<'/exhibitions/[exhibition]'>): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: PageProps<'/exhibitions/[exhibition]'>): Promise<Metadata> {
 	const { exhibition: slug } = await params;
 	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
 
