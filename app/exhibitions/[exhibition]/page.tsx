@@ -15,7 +15,10 @@ import { Metadata } from 'next';
 export default async function Exhibition({ params }: PageProps<'/exhibitions/[exhibition]'>) {
 	const { exhibition: slug } = await params;
 	const { exhibition, draftUrl } = await apiQuery(ExhibitionDocument, { variables: { slug } });
-	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
+	const { allExhibitions, draftUrl: allExhibitionsDraftUrl } = await apiQuery(
+		AllExhibitionsDocument,
+		{ all: true },
+	);
 
 	if (!exhibition) return notFound();
 
@@ -87,7 +90,7 @@ export default async function Exhibition({ params }: PageProps<'/exhibitions/[ex
 					)}
 				</Content>
 			</Article>
-			<DraftMode url={draftUrl} path={`/exhibitions/${slug}`} />
+			<DraftMode url={[draftUrl, allExhibitionsDraftUrl]} path={`/exhibitions/${slug}`} />
 		</>
 	);
 }

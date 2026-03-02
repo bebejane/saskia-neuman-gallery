@@ -4,15 +4,29 @@ import { notFound } from 'next/navigation';
 import Gallery from '@/components/Gallery';
 import { Metadata } from 'next';
 import { buildMetadata } from '@/app/layout';
+import { DraftMode } from 'next-dato-utils/components';
 
-export default async function ArtistGalleryPage({ params }: PageProps<'/artists/[artist]/gallery/[index]'>) {
+export default async function ArtistGalleryPage({
+	params,
+}: PageProps<'/artists/[artist]/gallery/[index]'>) {
 	const { artist: slug, index } = await params;
-	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
+	const { artist, draftUrl } = await apiQuery(ArtistDocument, { variables: { slug } });
 	if (!artist) return notFound();
-	return <Gallery images={artist.artwork as FileField[]} index={parseInt(index)} backHref={`/artists/${slug}`} />;
+	return (
+		<>
+			<Gallery
+				images={artist.artwork as FileField[]}
+				index={parseInt(index)}
+				backHref={`/artists/${slug}`}
+			/>
+			<DraftMode url={draftUrl} path={`/artists/${slug}/gallery/${index}`} />
+		</>
+	);
 }
 
-export async function generateMetadata({ params }: PageProps<'/artists/[artist]/gallery/[index]'>): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: PageProps<'/artists/[artist]/gallery/[index]'>): Promise<Metadata> {
 	const { artist: slug } = await params;
 	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
 	if (!artist) return notFound();

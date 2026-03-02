@@ -1,6 +1,11 @@
 import s from './page.module.scss';
 import { imageColor } from '@/lib/utils';
-import { AllArtistsDocument, AllExhibitionsDocument, AllFairsDocument, ArtistDocument } from '@/graphql';
+import {
+	AllArtistsDocument,
+	AllExhibitionsDocument,
+	AllFairsDocument,
+	ArtistDocument,
+} from '@/graphql';
 import { Image } from 'react-datocms';
 import { Markdown } from 'next-dato-utils/components';
 import Link from '@/components/Link';
@@ -17,10 +22,17 @@ import ExtendedBiography from './ExtendedBiography';
 
 export default async function Artist({ params }: PageProps<'/artists/[artist]'>) {
 	const { artist: slug } = await params;
-	const { artist, draftUrl } = await apiQuery(ArtistDocument, { variables: { slug } });
-	const { allArtists } = await apiQuery(AllArtistsDocument, { all: true });
-	const { allExhibitions } = await apiQuery(AllExhibitionsDocument, { all: true });
-	const { allFairs } = await apiQuery(AllFairsDocument, { all: true });
+	const [
+		{ artist, draftUrl },
+		{ allArtists, draftUrl: allArtistsDraftUrl },
+		{ allExhibitions, draftUrl: allExhibitionsDraftUrl },
+		{ allFairs, draftUrl: allFairsDraftUrl },
+	] = await Promise.all([
+		apiQuery(ArtistDocument, { variables: { slug } }),
+		apiQuery(AllArtistsDocument, { all: true }),
+		apiQuery(AllExhibitionsDocument, { all: true }),
+		apiQuery(AllFairsDocument, { all: true }),
+	]);
 
 	if (!artist) return notFound();
 
@@ -38,7 +50,9 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 		performances,
 	} = artist;
 
-	const exhibitions = allExhibitions?.filter(({ artists }) => artists.some((a) => a.id === artist.id));
+	const exhibitions = allExhibitions?.filter(({ artists }) =>
+		artists.some((a) => a.id === artist.id),
+	);
 	const fairs = allFairs?.filter(({ artists }) => artists.some((a) => a.id === artist.id));
 
 	const showBiography = false;
@@ -66,7 +80,11 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 							{firstName} {lastName}
 						</h1>
 					</HeaderBar>
-					{biography && <Markdown content={biography} />}
+					{biography && (
+						<div data-datocms-content-link-group>
+							<Markdown content={biography} />
+						</div>
+					)}
 					{haveExtendedBiography && <ExtendedBiography artist={artist} />}
 					{exhibitions.length > 0 && (
 						<>
@@ -81,14 +99,19 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 								>
 									<figure>
 										{image?.responsiveImage && (
-											<Image className={s.image} data={image.responsiveImage} intersectionMargin='0px 0px 200% 0px' />
+											<Image
+												className={s.image}
+												data={image.responsiveImage}
+												intersectionMargin='0px 0px 200% 0px'
+											/>
 										)}
 									</figure>
 									<p>
 										<b>
 											<i>{title}</i>
 											<br />
-											{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
+											{format(new Date(startDate), 'dd.MM')}—
+											{format(new Date(endDate), 'dd.MM.yyyy')}
 										</b>
 									</p>
 								</Link>
@@ -108,14 +131,19 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 								>
 									<figure>
 										{image?.responsiveImage && (
-											<Image className={s.image} data={image.responsiveImage} intersectionMargin='0px 0px 200% 0px' />
+											<Image
+												className={s.image}
+												data={image.responsiveImage}
+												intersectionMargin='0px 0px 200% 0px'
+											/>
 										)}
 									</figure>
 									<p>
 										<b>
 											<i>{title}</i>
 											<br />
-											{format(new Date(startDate), 'dd.MM')}—{format(new Date(endDate), 'dd.MM.yyyy')}
+											{format(new Date(startDate), 'dd.MM')}—
+											{format(new Date(endDate), 'dd.MM.yyyy')}
 										</b>
 									</p>
 								</Link>
@@ -125,12 +153,18 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 					{artwork.length > 0 && (
 						<>
 							<h2>ARTWORK</h2>
-							<GalleryThumbs thumbnails={artworkThumbnails as FileField[]} base={`/artists/${artist.slug}`} />
+							<GalleryThumbs
+								thumbnails={artworkThumbnails as FileField[]}
+								base={`/artists/${artist.slug}`}
+							/>
 						</>
 					)}
 				</Content>
 			</Article>
-			<DraftMode url={draftUrl} path={`/artists/${artist.slug}`} />
+			<DraftMode
+				url={[draftUrl, allArtistsDraftUrl, allExhibitionsDraftUrl, allFairsDraftUrl]}
+				path={`/artists/${artist.slug}`}
+			/>
 		</>
 	);
 }
@@ -140,7 +174,9 @@ export async function generateStaticParams() {
 	return allArtists.map(({ slug: artist }) => ({ artist }));
 }
 
-export async function generateMetadata({ params }: PageProps<'/artists/[artist]'>): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: PageProps<'/artists/[artist]'>): Promise<Metadata> {
 	const { artist: slug } = await params;
 	const { artist } = await apiQuery(ArtistDocument, { variables: { slug } });
 

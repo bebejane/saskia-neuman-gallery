@@ -4,13 +4,23 @@ import { notFound } from 'next/navigation';
 import Gallery from '@/components/Gallery';
 import { Metadata } from 'next';
 import { buildMetadata } from '@/app/layout';
+import { DraftMode } from 'next-dato-utils/components';
 
-export default async function ExhibitionGalleryPage({ params }: PageProps<'/happenings/[happening]/gallery/[index]'>) {
+export default async function ExhibitionGalleryPage({
+	params,
+}: PageProps<'/happenings/[happening]/gallery/[index]'>) {
 	const { happening: slug, index } = await params;
-	const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
+	const { happening, draftUrl } = await apiQuery(HappeningDocument, { variables: { slug } });
 	if (!happening) return notFound();
 	return (
-		<Gallery images={happening.gallery as FileField[]} index={parseInt(index) ?? 1} backHref={`/happenings/${slug}`} />
+		<>
+			<Gallery
+				images={happening.gallery as FileField[]}
+				index={parseInt(index) ?? 1}
+				backHref={`/happenings/${slug}`}
+			/>
+			<DraftMode url={draftUrl} path={`/happenings/${slug}/gallery/${index}`} />
+		</>
 	);
 }
 /*

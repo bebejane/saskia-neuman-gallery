@@ -17,7 +17,10 @@ export default async function About() {
 
 	if (!about) return notFound();
 
-	const { allExternalLinks } = await apiQuery(AllExternalLinksDocument, { all: true });
+	const { allExternalLinks, draftUrl: allExternalLinksDraftUrl } = await apiQuery(
+		AllExternalLinksDocument,
+		{ all: true },
+	);
 	const { description, address, hours, phone, phoneAlt, email, googleMapsUrl, image } = about || {};
 
 	return (
@@ -116,7 +119,7 @@ export default async function About() {
 					</div>
 				</section>
 			</Article>
-			<DraftMode url={draftUrl} path='/about' />
+			<DraftMode url={[draftUrl, allExternalLinksDraftUrl]} path='/about' />
 		</>
 	);
 }

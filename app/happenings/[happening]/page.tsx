@@ -14,7 +14,9 @@ import { buildMetadata } from '@/app/layout';
 export default async function Happening({ params }: PageProps<'/happenings/[happening]'>) {
 	const { happening: slug } = await params;
 	const { happening, draftUrl } = await apiQuery(HappeningDocument, { variables: { slug } });
-	const { allHappenings } = await apiQuery(AllHappeningsDocument, { all: true });
+	const { allHappenings, draftUrl: allHappeningsDraftUrl } = await apiQuery(AllHappeningsDocument, {
+		all: true,
+	});
 
 	if (!happening) return notFound();
 
@@ -43,12 +45,15 @@ export default async function Happening({ params }: PageProps<'/happenings/[happ
 					{gallery && gallery?.length > 0 && (
 						<section className={s.artworks}>
 							<h2>IMAGES</h2>
-							<GalleryThumbs thumbnails={galleryThumbnails as FileField[]} base={`/happenings/${slug}`} />
+							<GalleryThumbs
+								thumbnails={galleryThumbnails as FileField[]}
+								base={`/happenings/${slug}`}
+							/>
 						</section>
 					)}
 				</Content>
 			</Article>
-			<DraftMode url={draftUrl} path={`/happenings/${slug}`} />
+			<DraftMode url={[draftUrl, allHappeningsDraftUrl]} path={`/happenings/${slug}`} />
 		</>
 	);
 }
@@ -58,7 +63,9 @@ export async function generateStaticParams({ params }: PageProps<'/happenings/[h
 	return allHappenings.map(({ slug: happening }) => ({ happening }));
 }
 
-export async function generateMetadata({ params }: PageProps<'/happenings/[happening]'>): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: PageProps<'/happenings/[happening]'>): Promise<Metadata> {
 	const { happening: slug } = await params;
 	const { happening } = await apiQuery(HappeningDocument, { variables: { slug } });
 

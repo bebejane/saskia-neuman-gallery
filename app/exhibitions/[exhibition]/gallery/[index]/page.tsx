@@ -1,17 +1,25 @@
 import { apiQuery } from 'next-dato-utils/api';
-import { AllExhibitionsDocument, ExhibitionDocument } from '@/graphql';
+import { ExhibitionDocument } from '@/graphql';
 import { notFound } from 'next/navigation';
 import Gallery from '@/components/Gallery';
 import { Metadata } from 'next';
+import { DraftMode } from 'next-dato-utils/components';
 
 export default async function ExhibitionGalleryPage({
 	params,
 }: PageProps<'/exhibitions/[exhibition]/gallery/[index]'>) {
 	const { exhibition: slug, index } = await params;
-	const { exhibition } = await apiQuery(ExhibitionDocument, { variables: { slug } });
+	const { exhibition, draftUrl } = await apiQuery(ExhibitionDocument, { variables: { slug } });
 	if (!exhibition) return notFound();
 	return (
-		<Gallery images={exhibition.artwork as FileField[]} index={parseInt(index)} backHref={`/exhibitions/${slug}`} />
+		<>
+			<Gallery
+				images={exhibition.artwork as FileField[]}
+				index={parseInt(index)}
+				backHref={`/exhibitions/${slug}`}
+			/>
+			<DraftMode url={draftUrl} path={`/exhibitions/${slug}/gallery/${index}`} />
+		</>
 	);
 }
 
