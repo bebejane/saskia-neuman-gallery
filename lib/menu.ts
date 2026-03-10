@@ -48,38 +48,42 @@ export type MenuItemMore = Omit<MenuItemSub, '__typename'> & {
 };
 
 export async function buildMenu() {
-	const { start, allArtists, allExhibitions, allHappenings, allFairs, about } =
-		await apiQuery(MenuDocument);
+	const { start, allArtists, allExhibitions, allHappenings, allFairs, about } = await apiQuery(
+		MenuDocument,
+		{ stripStega: true },
+	);
 
 	const pastHappening = allHappenings.filter(
-		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past'
+		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past',
 	)[0];
 
 	const moreHappenings = allHappenings?.filter(
 		({ startDate, endDate, id }) =>
-			datePeriod(startDate, endDate) === 'past' && pastHappening?.id !== id
+			datePeriod(startDate, endDate) === 'past' && pastHappening?.id !== id,
 	);
 
 	const pastExhibition = allExhibitions.filter(
-		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past'
+		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past',
 	)[0];
 
 	const moreExhibitions = allExhibitions?.filter(
 		({ startDate, endDate, id }) =>
-			datePeriod(startDate, endDate) === 'past' && pastExhibition?.id !== id
+			datePeriod(startDate, endDate) === 'past' && pastExhibition?.id !== id,
 	);
 
 	const pastFairs = allFairs.filter(
-		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past'
+		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past',
 	)[0];
 
 	const moreFairs = allFairs?.filter(
 		({ startDate, endDate, id }) =>
-			datePeriod(startDate, endDate) === 'past' && pastExhibition?.id !== id && pastFairs?.id !== id
+			datePeriod(startDate, endDate) === 'past' &&
+			pastExhibition?.id !== id &&
+			pastFairs?.id !== id,
 	);
 
 	const currentExhibition = allExhibitions.find(
-		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'
+		({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current',
 	);
 	const upcomingExhibition = allExhibitions
 		.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')
@@ -123,7 +127,7 @@ export async function buildMenu() {
 				label: 'Exhibitions',
 				sub: [
 					allExhibitions.find(
-						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current'
+						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'current',
 					),
 					allExhibitions
 						.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming')
@@ -165,7 +169,7 @@ export async function buildMenu() {
 				label: 'Fairs',
 				sub: [
 					allFairs.filter(
-						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming'
+						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming',
 					)[0],
 					allFairs.filter(({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past')[0],
 				]
@@ -203,10 +207,10 @@ export async function buildMenu() {
 				image: about?.image,
 				sub: [
 					allHappenings.filter(
-						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming'
+						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'upcoming',
 					)[0],
 					allHappenings.filter(
-						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past'
+						({ startDate, endDate }) => datePeriod(startDate, endDate) === 'past',
 					)[0],
 				]
 					.filter((i) => i)

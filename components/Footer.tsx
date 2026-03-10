@@ -5,6 +5,7 @@ import { useStore, useShallow } from '@/lib/store';
 import Link from '@/components/Link';
 import { HeaderBar } from '@/components/HeaderBar';
 import { imageColor } from '@/lib/utils';
+import { stripStega } from '@datocms/content-link';
 
 type FooterProps = {
 	current?:
@@ -27,8 +28,9 @@ export default function Footer({ current, items }: FooterProps) {
 
 	const index = items?.findIndex(({ slug }) => current?.slug && slug === current?.slug) ?? 0;
 	const next = items?.[index + 1] ?? items?.[0];
-	const label =
-		next?.__typename === 'ArtistRecord' ? `${next.firstName} ${next.lastName}` : next?.title;
+	const label = stripStega(
+		next?.__typename === 'ArtistRecord' ? `${next.firstName} ${next.lastName}` : next?.title,
+	);
 	const href =
 		next?.__typename === 'ArtistRecord'
 			? `/artists/${next.slug}`

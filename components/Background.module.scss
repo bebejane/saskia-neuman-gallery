@@ -5,6 +5,7 @@
 	width: 100vw;
 	line-height: 0;
 	overflow: hidden;
+	pointer-events: none;
 
 	@include mq($until: tablet) {
 		transition: margin-top ease 0.3s;

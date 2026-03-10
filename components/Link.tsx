@@ -15,7 +15,8 @@ export type LinkProperties = LinkProps &
 		image?: FileField | null;
 	};
 
-const Link: FC<LinkProperties> = ({
+const Link: FC<LinkProperties> = (props: LinkProperties) => {
+	const {
 	id,
 	href,
 	color,
@@ -28,7 +29,8 @@ const Link: FC<LinkProperties> = ({
 	selected,
 	onMouseEnter,
 	onMouseLeave,
-}) => {
+} = props;
+
 	const router = useRouter();
 	const pathname = usePathname();
 	const [hover, setHover] = useState(false);
@@ -80,10 +82,11 @@ const Link: FC<LinkProperties> = ({
 
 	return (
 		<NextLink
-			href={href}
-			scroll={scroll !== undefined ? scroll : false}
+			{...{...props, color: undefined, image: undefined}}
 			id={id}
 			ref={linkRef}
+			href={href}
+			scroll={scroll !== undefined ? scroll : false}
 			style={{ ...linkStyle, ...style }}
 			target={target}
 			onMouseEnter={handleMouse}

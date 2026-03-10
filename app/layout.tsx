@@ -7,6 +7,7 @@ import { buildMenu } from '@/lib/menu';
 import Menu from '@/components/Menu';
 import Footer from '@/components/Footer';
 import MenuMobile from '@/components/MenuMobile';
+import { DraftModeContentLink } from 'next-dato-utils/components';
 
 export const dynamic = 'force-static';
 
@@ -23,6 +24,7 @@ export default async function RootArticle({ children, modals }: LayoutProps<'/'>
 					{children}
 					<Footer />
 				</body>
+				<DraftModeContentLink/>
 			</html>
 		</>
 	);

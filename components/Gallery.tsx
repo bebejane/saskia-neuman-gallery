@@ -4,9 +4,10 @@ import 'swiper/css';
 import cn from 'classnames';
 import s from './Gallery.module.scss';
 import { Image } from 'react-datocms';
+import { stripStega } from '@datocms/content-link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
-import { useState, useRef, useEffect, use } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -109,7 +110,7 @@ export default function Gallery({ images, index: _index, backHref }: GalleryProp
 				</div>
 				<div className={s.caption}>
 					<span>{caption?.title}</span>
-					{caption?.alt && <span className={s.subTitle}>{caption.alt}</span>}
+					{stripStega(caption?.alt) && <span className={s.subTitle}>{caption?.alt}</span>}
 				</div>
 				<Link className={s.close} href={backHref} scroll={true} replace={true}>
 					×

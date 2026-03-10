@@ -4,16 +4,19 @@ query Start {
 		id
 		links {
 			... on HappeningRecord {
-				...HappeningFragmentLight
 				_modelApiKey
+				_editingUrl
+				...HappeningFragmentLight
 			}
 			... on ExhibitionRecord {
-				...ExhibitionFragmentLight
 				_modelApiKey
+				_editingUrl
+				...ExhibitionFragmentLight
 			}
 			... on ExternalLinkRecord {
-				...ExternalLinkFragment
 				_modelApiKey
+				_editingUrl
+				...ExternalLinkFragment
 			}
 		}
 	}

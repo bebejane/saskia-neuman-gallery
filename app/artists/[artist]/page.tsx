@@ -47,7 +47,6 @@ export default async function Artist({ params }: PageProps<'/artists/[artist]'>)
 		publications,
 		education,
 		represented,
-		performances,
 	} = artist;
 
 	const exhibitions = allExhibitions?.filter(({ artists }) =>

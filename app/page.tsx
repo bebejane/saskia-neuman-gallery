@@ -62,6 +62,8 @@ export default async function Home({}: PageProps<'/'>) {
 								color={imageColor(image as FileField)}
 								className={s.card}
 								target={target}
+								data-datocms-content-link-url={link._editingUrl}
+								data-datocms-content-link-boundary
 							>
 								{idx > 0 && image?.responsiveImage && (
 									<Image
