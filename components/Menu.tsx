@@ -283,6 +283,8 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 												</Link>
 											) : (
 												<>
+													<h3>Info</h3>
+
 													<Link
 														href={'/about'}
 														color={item.color}
@@ -291,12 +293,14 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 														onMouseEnter={() => handleMouseOver(item, true)}
 														onMouseLeave={() => handleMouseOver(item, false)}
 													>
-														About
+														About the gallery
 													</Link>
 													<h3>Contact</h3>
-													<Markdown content={item.data.address} />
-													<a href={`mailto:${item.data.email}`}>{item.data.email}</a>
-													<a href={item.data.phone}>{item.data.phone}</a>
+													<div className={s.contact}>
+														<Markdown content={item.data.address} />
+														<a href={`mailto:${item.data.email}`}>{item.data.email}</a>
+														<a href={item.data.phone}>{item.data.phone}</a>
+													</div>
 													<h3>Happenings</h3>
 													<Link
 														href={sub.href}
