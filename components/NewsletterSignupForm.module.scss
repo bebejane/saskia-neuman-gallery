@@ -1,0 +1,20 @@
+.newsletter {
+	display: flex;
+	flex-direction: row;
+	input {
+	}
+	button {
+		&[disabled] {
+			opacity: 0.5;
+		}
+	}
+}
+
+.status {
+	margin-top: 0.3rem;
+	.error {
+		color: red;
+	}
+	.success {
+	}
+}

@@ -11,6 +11,7 @@ import { notFound } from 'next/navigation';
 import { buildMetadata } from '@/app/layout';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { NewsletterSignupForm } from '@/components/NewsletterSignupForm';
 
 export default async function About() {
 	const { about, draftUrl } = await apiQuery(AboutDocument);
@@ -63,6 +64,9 @@ export default async function About() {
 								@saskianeumangallerystockholm
 							</a>
 						</span>
+						<br />
+						<h3>Newsletter</h3>
+						<NewsletterSignupForm />
 					</b>
 					<br />
 				</Meta>
