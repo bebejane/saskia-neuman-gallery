@@ -20,12 +20,16 @@ $grid-space-small: 1.2rem;
 	}
 }
 
+h3.newsletter {
+	margin-top: 0.5em;
+}
+
 .colophon {
 	position: relative;
 	padding-top: 1.2rem;
 	border-top: 1px solid var(--black);
 	font-size: 0.8em;
-	margin-bottom: 1em;
+	margin-bottom: 1.3em;
 	width: 100%;
 	.text {
 		display: flex;

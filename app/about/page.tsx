@@ -65,7 +65,7 @@ export default async function About() {
 							</a>
 						</span>
 						<br />
-						<h3>Newsletter</h3>
+						<h3 className={s.newsletter}>Newsletter</h3>
 						<NewsletterSignupForm />
 					</b>
 					<br />

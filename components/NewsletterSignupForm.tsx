@@ -15,7 +15,7 @@ export function NewsletterSignupForm() {
 	return (
 		<>
 			<form className={s.newsletter} action={formAction}>
-				<input type='email' name='email' placeholder='' required />
+				<input type='email' name='email' placeholder='Your email' required />
 				<button type='submit' disabled={pending}>
 					Subscribe
 				</button>
