@@ -19,9 +19,7 @@ export async function signupToNewsletter(initialState: any, formData: FormData) 
 			email,
 		};
 
-		Object.entries(params).forEach(([k, v]) =>
-			endpoint.searchParams.append(k, encodeURIComponent(v)),
-		);
+		Object.entries(params).forEach(([k, v]) => endpoint.searchParams.append(k, v));
 
 		const res = await fetch(endpoint, {
 			method: 'POST',
@@ -32,10 +30,11 @@ export async function signupToNewsletter(initialState: any, formData: FormData) 
 		if (!res.ok) throw new Error(`Failed to subscribe: ${res.status} ${res.statusText}`);
 
 		const body = await res.json();
+		console.log('newsletter res', email, body);
 		if (!body?.success) throw new Error(body.msg);
 		return { success: true };
 	} catch (e) {
-		console.log(e);
+		console.log('newsletter error', e);
 		return {
 			error: typeof e === 'string' ? e : (e as Error).message,
 		};
