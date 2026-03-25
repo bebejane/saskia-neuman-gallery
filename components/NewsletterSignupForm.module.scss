@@ -20,8 +20,9 @@
 
 .status {
 	margin-top: 0.3rem;
+
 	.error {
-		color: red;
+		color: rgb(185, 0, 0);
 	}
 	.success {
 		animation: fadeout 0.3s forwards;

@@ -10,12 +10,6 @@ import usePreviousRoute from '@/lib/hooks/usePreviousRoute';
 
 export const duration = 800;
 
-declare module 'react' {
-	interface CSSProperties {
-		[key: `--${string}`]: string | number;
-	}
-}
-
 type PageTransitionProps = {
 	defaultColor?: number[];
 	defaultImage?: FileField;
@@ -50,7 +44,7 @@ export default function PageTransition({
 		(backgroundImage || defaultImage) &&
 			logoRef.current?.style.setProperty(
 				'background',
-				`url(${(backgroundImage ?? defaultImage)?.url}?w=1400)`
+				`url(${(backgroundImage ?? defaultImage)?.url}?w=1400)`,
 			);
 	}, [isHome, transition, color, defaultImage, backgroundImage]);
 
@@ -59,7 +53,7 @@ export default function PageTransition({
 			() => {
 				logoRef.current?.classList.remove(s.show);
 			},
-			duration / 2 + 300
+			duration / 2 + 300,
 		);
 	}
 
