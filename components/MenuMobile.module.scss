@@ -229,6 +229,10 @@
 			p,
 			a {
 				margin: 0 !important;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				display: block;
 			}
 			a.mail {
 				padding: 0;
@@ -243,6 +247,14 @@
 			display: flex;
 			flex-direction: column;
 			padding-top: 0;
+
+			a {
+				margin: 0 !important;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				display: block;
+			}
 
 			button {
 				all: unset;
