@@ -26,7 +26,7 @@ export default async function Happening({ params }: PageProps<'/happenings/[happ
 		<>
 			<Article image={image as FileField} footer={{ current: happening, items: allHappenings }}>
 				<Meta>
-					<HeaderBar mobileHide={true}>
+					<HeaderBar>
 						<h3>HAPPENING</h3>
 					</HeaderBar>
 					<p>

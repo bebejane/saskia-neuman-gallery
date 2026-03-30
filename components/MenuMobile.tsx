@@ -131,6 +131,8 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 													</Link>
 												) : (
 													<>
+														<h3>About</h3>
+
 														<Link
 															href={'/about'}
 															color={sub.color}
@@ -140,11 +142,14 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 																e.stopPropagation();
 															}}
 														>
-															About
+															Read more about the Gallery
 														</Link>
 
 														<h3>Contact</h3>
-														<Markdown content={item.data.address} disableBreaks={true} />
+														Linnégatan 19<br />
+														Tuesday by appointment<br />
+														Wednesday–Friday: 11–17<br />
+														Saturday: 12–16<br />
 														<a className={s.mail} href={`mailto:${item.data.email}`}>
 															{item.data.email}
 														</a>
