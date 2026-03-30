@@ -1,19 +1,19 @@
-@use 'sass:math';
-@use 'sass:meta';
-@use 'sass:list';
-@use 'sass:string';
-@use 'functions' as *;
-@use 'mediaqueries' as *;
+@use "sass:math";
+@use "sass:meta";
+@use "sass:list";
+@use "sass:string";
+@use "functions" as *;
+@use "mediaqueries" as *;
 
 :root {
 	--black: #161616;
 	--white: #fafafa;
 	--gray: #bbb;
 
-	--body-font: 'Protokoll';
-	--body-font-italic: 'Helvetica';
-	--headline-font: 'Helvetica';
-	--mono-font: 'Helvetica';
+	--body-font: "Protokoll";
+	--body-font-italic: "Helvetica";
+	--headline-font: "Helvetica";
+	--mono-font: "Helvetica";
 
 	--navbar-height: 57px;
 	--margin: 50px;
@@ -50,10 +50,10 @@ body {
 	background-color: var(--white);
 	font-family: var(--body-font);
 	-webkit-font-smoothing: antialiased;
-	font-feature-settings: 'liga', 'kern';
+	font-feature-settings: "liga", "kern";
 	overflow-x: hidden;
 	overscroll-behavior-y: none;
-	font-family: 'Protokoll';
+	font-family: "Protokoll";
 	text-rendering: optimizeLegibility;
 	position: relative;
 }
@@ -117,4 +117,9 @@ a {
 	&:visited {
 		color: var(--black);
 	}
+}
+
+input,
+button {
+	font-family: var(--body-font);
 }

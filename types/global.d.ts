@@ -8,3 +8,9 @@ declare module 'react' {
 		'data-datocms-content-link-url'?: string | null;
 	}
 }
+
+declare module 'react' {
+	interface CSSProperties {
+		[key: `--${string}`]: string | number;
+	}
+}

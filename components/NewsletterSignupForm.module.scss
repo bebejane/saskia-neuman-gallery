@@ -1,0 +1,38 @@
+.newsletter {
+	display: flex;
+	flex-direction: row;
+	margin-top: 1rem;
+	input {
+		border: 0px;
+		margin-right: 0.5rem;
+		padding: 0.4em;
+	}
+	button {
+		border: 0px;
+		padding-left: 0.6em;
+		padding-right: 0.6em;
+		//font-weight: bold;
+		&[disabled] {
+			opacity: 0.5;
+		}
+	}
+}
+
+.status {
+	margin-top: 0.3rem;
+
+	.error {
+		color: rgb(185, 0, 0);
+	}
+	.success {
+		animation: fadeout 0.3s forwards;
+		animation-delay: 3s;
+		opacity: 1;
+
+		@keyframes fadeout {
+			to {
+				opacity: 0;
+			}
+		}
+	}
+}
