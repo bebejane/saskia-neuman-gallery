@@ -297,7 +297,10 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 													</Link>
 													<h3>Contact</h3>
 													<div className={s.contact}>
-														<Markdown content={item.data.address} />
+														Linnégatan 19<br />
+														Tue by appointment<br />
+														Wed–Fri: 11–17<br />
+														Saturday: 12–16<br />
 														<a href={`mailto:${item.data.email}`}>{item.data.email}</a>
 														<a href={item.data.phone}>{item.data.phone}</a>
 													</div>
