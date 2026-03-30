@@ -153,9 +153,7 @@ export default function MenuMobile({ menu, image }: { menu: MenuItem[]; image: a
 														<a className={s.mail} href={`mailto:${item.data.email}`}>
 															{item.data.email}
 														</a>
-														<br />
 														<a href={item.data.phone}>{item.data.phone}</a>
-														<br />
 														<h3>Happenings</h3>
 														<Link
 															href={sub.href}
