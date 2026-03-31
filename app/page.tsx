@@ -1,15 +1,13 @@
 import s from './page.module.scss';
-import { StartDocument } from '@/graphql';
+import { AllExhibitionsDocument, StartDocument } from '@/graphql';
 import { apiQuery } from 'next-dato-utils/api';
-import { DraftMode } from 'next-dato-utils/components';
-import { imageColor, datePeriod } from '@/lib/utils';
-import { Image } from 'react-datocms';
-import cn from 'classnames';
-import Link from '@/components/Link';
+import { DraftMode, InfiniteScrollClient } from 'next-dato-utils/components';
 import { Article } from '@/components/Article';
+import { StartLink } from '@/components/StartLink';
 
 export default async function Home({}: PageProps<'/'>) {
 	const { start, draftUrl } = await apiQuery(StartDocument);
+
 	const links = start?.links;
 
 	if (!links || !links.length) return null;
@@ -25,6 +23,11 @@ export default async function Home({}: PageProps<'/'>) {
 
 	const href = cover?.__typename === 'ExternalLinkRecord' ? cover.url : `${path}/${cover.slug}`;
 
+	const variables = { first: 5 };
+	const { allExhibitions, draftUrl: draftUrlExhibitions } = await apiQuery(AllExhibitionsDocument, {
+		variables,
+	});
+
 	return (
 		<>
 			<Article
@@ -35,59 +38,20 @@ export default async function Home({}: PageProps<'/'>) {
 				color={[255, 255, 255]}
 			>
 				<div className={s.container}>
-					{links?.map((link, idx) => {
-						const t = link.__typename;
-						const image = link.image;
-						const target = t === 'ExternalLinkRecord' ? '_blank' : '_self';
-						const theme = t !== 'ExternalLinkRecord' ? link.image.customData?.theme : '';
-						const type =
-							t === 'ExternalLinkRecord' ? 'news' : datePeriod(link.startDate, link.endDate);
-						const path =
-							t === 'HappeningRecord'
-								? `/happenings`
-								: t === 'ExhibitionRecord'
-									? `/exhibitions`
-									: null;
-						const href = t === 'ExternalLinkRecord' ? link.url : `${path}/${link.slug}`;
-						const subtitle =
-							t === 'ExhibitionRecord'
-								? ` — ${link.artists.map(({ firstName, lastName }) => `${firstName} ${lastName}`).join(', ')}`
-								: null;
-
-						return (
-							<Link
-								key={idx}
-								href={href}
-								image={image as FileField}
-								color={imageColor(image as FileField)}
-								className={s.card}
-								target={target}
-								data-datocms-content-link-url={link._editingUrl}
-								data-datocms-content-link-boundary
-							>
-								{idx > 0 && image?.responsiveImage && (
-									<Image
-										className={s.linkImage}
-										data={image.responsiveImage}
-										intersectionMargin='0px 0px 100% 0px'
-									/>
-								)}
-								<div className={cn(s.headline, s[theme])}>
-									<div className={s.bubble}>
-										<h3>{type}</h3>
-										<h1>
-											{link.title}
-											{subtitle && <span>{subtitle}</span>}
-										</h1>
-										{t === 'ExternalLinkRecord' && <span className={s.link}>↗</span>}
-									</div>
-								</div>
-							</Link>
-						);
-					})}
+					<InfiniteScrollClient
+						id={'exhibitions'}
+						query={AllExhibitionsDocument}
+						variables={variables}
+						initial={allExhibitions.map((exhibition, idx) => ({
+							...exhibition,
+							image: idx === 0 ? undefined : exhibition.image,
+						}))}
+					>
+						{StartLink}
+					</InfiniteScrollClient>
 				</div>
 			</Article>
-			<DraftMode url={draftUrl} path='/' />
+			<DraftMode url={[draftUrl, draftUrlExhibitions]} path='/' />
 		</>
 	);
 }

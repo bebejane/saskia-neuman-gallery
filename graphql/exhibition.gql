@@ -19,6 +19,7 @@ query ExhibitionById($id: ItemId!) {
 
 fragment ExhibitionFragment on ExhibitionRecord {
 	__typename
+	_editingUrl
 	id
 	title
 	description(markdown: false)
@@ -48,6 +49,7 @@ fragment ExhibitionFragment on ExhibitionRecord {
 
 fragment ExhibitionFragmentLight on ExhibitionRecord {
 	__typename
+	_editingUrl
 	id
 	title
 	artists {
