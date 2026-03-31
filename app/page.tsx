@@ -29,17 +29,16 @@ export default async function Home({}: PageProps<'/'>) {
 						id={'exhibitions'}
 						query={AllExhibitionsStartDocument}
 						variables={variables}
-						sleep={100000}
-						loader={
-							<div className={s.loading}>
-								<Loader />
-							</div>
-						}
 						initial={allExhibitions.map((exhibition, idx) => ({
 							...exhibition,
 							image:
 								idx === 0 ? { ...exhibition.image, responsiveImage: undefined } : exhibition.image,
 						}))}
+						loader={
+							<div className={s.loading}>
+								<Loader />
+							</div>
+						}
 					>
 						{StartLink}
 					</InfiniteScrollClient>
