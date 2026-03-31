@@ -27,6 +27,7 @@ declare module '*/exhibition.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const AllExhibitions: DocumentNode;
+export const AllExhibitionsStart: DocumentNode;
 export const Exhibition: DocumentNode;
 export const ExhibitionById: DocumentNode;
 export const ExhibitionFragment: DocumentNode;

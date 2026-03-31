@@ -3837,6 +3837,14 @@ type AllExhibitionsQueryVariables = Exact<{
 
 type AllExhibitionsQuery = { __typename?: 'Query', allExhibitions: Array<{ __typename: 'ExhibitionRecord', _editingUrl?: string | null, id: any, title: string, startDate?: any | null, endDate?: any | null, slug: string, artists: Array<{ __typename: 'ArtistRecord', id: any, firstName: string, lastName: string, exhibiting?: any | null, slug: string, image: { __typename?: 'FileField', url: string, title?: string | null, customData: any, colors: Array<{ __typename?: 'ColorField', blue: any, green: any, red: any }>, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, alt?: string | null, width: any, height: any, base64?: string | null, sizes: string, title?: string | null } | null }, artwork: Array<{ __typename?: 'FileField', id: any }> }>, image: { __typename?: 'FileField', url: string, title?: string | null, customData: any, colors: Array<{ __typename?: 'ColorField', blue: any, green: any, red: any }>, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, alt?: string | null, width: any, height: any, base64?: string | null, sizes: string, title?: string | null } | null }, artwork: Array<{ __typename?: 'FileField', id: any }> }>, _allExhibitionsMeta: { __typename?: 'CollectionMetadata', count: any } };
 
+type AllExhibitionsStartQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+}>;
+
+
+type AllExhibitionsStartQuery = { __typename?: 'Query', allExhibitions: Array<{ __typename: 'ExhibitionRecord', _editingUrl?: string | null, id: any, title: string, startDate?: any | null, endDate?: any | null, slug: string, artists: Array<{ __typename: 'ArtistRecord', id: any, firstName: string, lastName: string, exhibiting?: any | null, slug: string, image: { __typename?: 'FileField', url: string, title?: string | null, customData: any, colors: Array<{ __typename?: 'ColorField', blue: any, green: any, red: any }>, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, alt?: string | null, width: any, height: any, base64?: string | null, sizes: string, title?: string | null } | null }, artwork: Array<{ __typename?: 'FileField', id: any }> }>, image: { __typename?: 'FileField', url: string, title?: string | null, customData: any, colors: Array<{ __typename?: 'ColorField', blue: any, green: any, red: any }>, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, alt?: string | null, width: any, height: any, base64?: string | null, sizes: string, title?: string | null } | null }, artwork: Array<{ __typename?: 'FileField', id: any }> }>, _allExhibitionsMeta: { __typename?: 'CollectionMetadata', count: any } };
+
 type ExhibitionQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;

@@ -1,0 +1,26 @@
+.loader {
+	--size: 24px;
+	--color: var(--black);
+	--animation-timing-function: linear;
+	--animation-duration: 1s;
+
+	position: relative;
+	width: var(--size);
+	height: var(--size);
+	//margin-top: calc(-1 * var(--size));
+	border-radius: 50%;
+	background-color: var(--color);
+	opacity: 1;
+	transform: scale(0);
+	animation: var(--animation-timing-function) var(--animation-duration) infinite alternate grow;
+
+	@keyframes grow {
+		0% {
+			transform: scale(0);
+		}
+
+		100% {
+			transform: scale(1);
+		}
+	}
+}

@@ -6,6 +6,16 @@ query AllExhibitions($first: IntType = 100, $skip: IntType = 0) {
 		count
 	}
 }
+
+query AllExhibitionsStart($first: IntType = 5, $skip: IntType = 0) {
+	allExhibitions(first: $first, skip: $skip, orderBy: [startDate_DESC]) {
+		...ExhibitionFragmentLight
+	}
+	_allExhibitionsMeta {
+		count
+	}
+}
+
 query Exhibition($slug: String!) {
 	exhibition(filter: { slug: { eq: $slug } }) {
 		...ExhibitionFragment

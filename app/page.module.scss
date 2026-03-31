@@ -4,3 +4,11 @@
 	margin-right: calc(-1 * var(--margin-left));
 	margin-left: calc(-1 * var(--margin-right));
 }
+
+.loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding: 2rem;
+}
