@@ -24,7 +24,7 @@ export default async function RootArticle({ children, modals }: LayoutProps<'/'>
 					{children}
 					<Footer />
 				</body>
-				<DraftModeContentLink/>
+				<DraftModeContentLink />
 			</html>
 		</>
 	);
@@ -52,9 +52,10 @@ export async function buildMetadata({
 	} = await apiQuery(GlobalDocument);
 
 	const siteName = globalSeo?.siteName as string;
-	const url = pathname ? `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}` : process.env.NEXT_PUBLIC_SITE_URL;
+	const url = pathname
+		? `${process.env.NEXT_PUBLIC_SITE_URL}${pathname}`
+		: process.env.NEXT_PUBLIC_SITE_URL;
 	const title = t ? `${siteName} — ${t}` : siteName;
-	//const title = siteName;
 	const description = !desc ? (globalSeo?.fallbackSeo?.description ?? '') : desc;
 	const image = img ?? (globalSeo?.fallbackSeo?.image as FileField);
 

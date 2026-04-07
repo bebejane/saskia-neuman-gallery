@@ -165,4 +165,9 @@ export default {
 			},
 		};
 	},
+	assets: {
+		maxHeight: 3500,
+		maxWidth: 3500,
+		quality: 85,
+	},
 } satisfies DatoCmsConfig;
