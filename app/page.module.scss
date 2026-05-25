@@ -1,16 +1,25 @@
 .container {
 	position: relative;
 	width: 100vw;
-	//margin-top: calc(-1 * var(--header-bar-height));
 	margin-right: calc(-1 * var(--margin-left));
 	margin-left: calc(-1 * var(--margin-right));
 
 	.card {
 		position: relative;
 		top: 0px;
+		left: 0px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+
+		&:first-child {
+			top: -100vh;
+			height: 100vh;
+		}
+
+		&:nth-child(2) {
+			margin-top: -100vh;
+		}
 
 		.linkImage {
 			display: block;
